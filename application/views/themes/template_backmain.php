@@ -1,3 +1,9 @@
+<?
+$loginid 	= $this->encryption->decrypt($this->input->cookie('sysi'));
+$loginname	= $this->encryption->decrypt($this->input->cookie('sysn'));
+$position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -35,6 +41,7 @@
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
 </head>
+
 <body class="pace-done">
 
 	<div id="wrapper">
@@ -53,15 +60,32 @@
 					<li>
 						<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
 					</li>
-					<? if ($this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ' || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ฉุกเฉิน') { ?>
 					<li>
-						<a href="<?= site_url('setting/index'); ?>"><i class="fa fa-tasks"></i> <span class="nav-label">ตั้งค่าระบบ</span></a>
+						<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
 					</li>
 					<li>
-						<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-user"></i> <span class="nav-label">จัดการข้อมูลผู้ใช้</span></a>
+						<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 					</li>
+					<? if ($position == 'ผู้ดูแลระบบ' || $position == 'ฉุกเฉิน' || $position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
+						<li>
+							<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-align-left"></i> <span class="nav-label">จัดการรายวิชา</span></a>
+						</li>
+						<li>
+							<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-graduation-cap"></i> <span class="nav-label">ข้อมูลนักศึกษา</span></a>
+						</li>
+						<li>
+							<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
+						</li>
 					<? } ?>
-					
+					<? if ($position == 'ผู้ดูแลระบบ' || $position == 'ฉุกเฉิน') { ?>
+						<li>
+							<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-group"></i> <span class="nav-label">จัดการข้อมูลผู้ใช้</span></a>
+						</li>
+						<li>
+							<a href="<?= site_url('setting/index'); ?>"><i class="fa fa-tasks"></i> <span class="nav-label">ตั้งค่าระบบ</span></a>
+						</li>
+					<? } ?>
+
 				</ul>
 			</div>
 		</nav>
@@ -73,7 +97,7 @@
 					</div>
 					<ul class="nav navbar-top-links navbar-right">
 						<li>
-							<span class="m-r-sm text-muted welcome-message"><?= $this->encryption->decrypt($this->input->cookie('sysn')); ?></span>
+							<span class="m-r-sm text-muted welcome-message"><?= $loginname; ?></span>
 						</li>
 						<li>
 							<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
@@ -81,7 +105,11 @@
 					</ul>
 				</nav>
 			</div>
+
+			<!-- contents -->
 			<?= $contents ?>
+			<!-- contents end -->
+
 			<div class="footer"><strong>Copyright</strong> Napassorn | Preedarat &copy; 2019 </div>
 		</div>
 

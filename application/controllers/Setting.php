@@ -226,6 +226,7 @@ class Setting extends CI_Controller
         foreach ($holiday as $key => $value) {
             array_push($arrholiday, $value['hol_date']);
         }
+        
         $date = array();
         //ตัดวันเสาร์อาทิตย์
         if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 0) {
