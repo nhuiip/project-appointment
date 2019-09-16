@@ -69,7 +69,7 @@
 														<li><a href="<?= site_url('setting/form/2/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 1) { ?>
-														<li><a href="<?= site_url('setting/form/1/' . $value['set_id']); ?>"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
+														<li><a href="<?= site_url('setting/opensection/' . $value['set_id']); ?>"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 2) { ?>
 														<li><a href="<?= site_url('setting/form/1/' . $value['set_id']); ?>"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดระบบ</a></li>
