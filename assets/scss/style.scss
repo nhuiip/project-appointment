@@ -1,0 +1,58 @@
+/*
+ *
+ *   INSPINIA - Responsive Admin Theme
+ *   version 2.4
+ *
+*/
+// Google Fonts
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+// Variables, Mixins
+@import "configs/variables";
+@import "configs/mixins";
+
+// INSPINIA Theme Elements
+@import "frameworks/typography";
+@import "frameworks/navigation";
+@import "frameworks/top_navigation";
+@import "frameworks/buttons";
+@import "frameworks/badgets_labels";
+@import "frameworks/elements";
+@import "frameworks/sidebar";
+@import "frameworks/base";
+@import "frameworks/pages";
+@import "frameworks/chat";
+@import "frameworks/metismenu";
+@import "frameworks/spinners";
+
+// Landing page styles
+@import "frameworks/landing";
+
+// RTL Support
+@import "frameworks/rtl";
+
+// For demo only - config box style
+@import "frameworks/theme-config";
+
+// INSPINIA Skins
+@import "frameworks/skins";
+@import "frameworks/md-skin";
+
+// Media query style
+@import "frameworks/media";
+
+// Custom style
+// Your custom style to override base style
+@import "themes/custom";
+
+
+// Clear layout on print mode
+@media print {
+  nav.navbar-static-side {
+    display: none;
+  }
+
+  #page-wrapper {
+    margin: 0;
+  }
+}

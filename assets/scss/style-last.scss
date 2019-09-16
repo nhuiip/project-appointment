@@ -1,0 +1,108 @@
+/*
+@import "configs/colors";
+.btn-primary{
+  background-color: $main-color;
+}
+.logo-element img{
+  width: 60px;
+  height: auto;
+}
+
+ 1. การใส่ตัวแปร
+  $textcolor: #ffffff;
+  p {
+    color: $textcolor;
+  }
+  #################
+
+  2. การใส่ SELECTOR ซ้อน SELECTOR
+  in css
+  p { font-size: 10pt; }
+  p a { font-size: 12pt; }
+
+  in scss
+  p {
+    font-size: 10pt;
+    a {
+      font-size: 12pt;
+    }
+  }
+  #################
+
+  3. การสร้างฟังก์ชั่น (MIXIN)
+  in css
+  .heading {
+    font-size: 20pt;
+    font-weight: bold;
+    font-family: Georgia, serif;
+  }
+  .title {
+    font-size: 20pt;
+    font-weight: bold;
+    font-family: Georgia, serif;
+  }
+
+  in scss
+  @mixin title-text {
+    font-size: 20pt;
+    font-weight: bold;
+    font-family: Georgia, serif;
+  }
+  .heading { @include title-text; }
+  .title { @include title-text; }
+  #################
+
+  4. การดึง PROPERTY จาก SELECTOR อื่น
+  .button { width: 100px; height: 50px; }
+  .button-blue {
+    @extend .button;
+    background: blue;
+  }
+  #################
+
+  ################# COMPASS ส่วนเสริมของ SASS #################
+  1. ดึงขนาดรูปได้อัตโนมัติ
+  in css
+  a.button {
+    background: url(button.png) no-repeat;
+    width: 200px;
+    height: 50px;
+    display: block;
+    text-indent: -9999px;
+  }
+
+  in scss
+  a.button {
+    replace-text-with-dimensions('button.png');
+  }
+  #################
+
+  2. ใส่ RESET CSS, CLEARFIX ในบรรทัดเดียว
+
+  @import 'compass/reset'
+
+  in css
+  .clearfix:after {
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+
+  in scss
+  @include pie-clearfix;
+  #################
+
+  3. เขียน CSS3 โดยใส่ PREFIX ให้อัตโนมัติ
+  in css
+  a {
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+  }
+
+  in scss
+  a {
+    @include transition(0.5s);
+  }
+*/

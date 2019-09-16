@@ -1,0 +1,146 @@
+.imp-wrap {
+  max-width: none !important;
+}
+
+.main-panel,
+.imp-wrap {
+  width: 100% !important;
+}
+
+.tim-row {
+  margin-bottom: 20px;
+}
+
+.tim-white-buttons {
+  background-color: #777777;
+}
+
+.typography-line {
+  padding-left: 25%;
+  margin-bottom: 35px;
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.typography-line span {
+  bottom: 10px;
+  color: #c0c1c2;
+  display: block;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 13px;
+  left: 0;
+  position: absolute;
+  width: 260px;
+  text-transform: none;
+}
+
+.tim-row {
+  padding-top: 60px;
+}
+
+.tim-row h3 {
+  margin-top: 0;
+}
+
+.offline-doc .page-header {
+  display: flex;
+  align-items: center;
+}
+
+.offline-doc .footer {
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  bottom: 0;
+  color: #fff;
+  z-index: 1;
+}
+
+#map {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.form-control {
+  height: 45px;
+}
+
+.card-wizard .card-header {
+  padding-bottom: 15px;
+}
+
+.bootstrap-select .dropdown-menu.inner li a,
+.dropdown-menu .dropdown-item {
+  line-height: 20px;
+}
+
+.login-page .card-login .logo-container {
+  width: 200px;
+}
+
+#exFullscreen:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#exFullscreen:-moz-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#exFullscreen:-webkit-full-screen > #mapplic {
+  width: 100%;
+  height: 100% !important;
+}
+
+.filter-option-inner-inner {
+  line-height: 25px;
+}
+
+.card-tasks .card-body .table > tbody > tr > td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+  min-width: 250px;
+  height: 40px;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+  height: 40px;
+}
+
+.form-check-radio .form-check-sign::before,
+.form-check-radio .form-check-sign::after {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #afaeae;
+}
+
+.form-check-radio input[type=radio]:checked + .form-check-sign::after {
+  width: 10px;
+  height: 10px;
+  background-color: #d54e21;
+  border-color: #d54e21;
+  top: 9px;
+  left: 9px;
+  opacity: 1;
+}
+
+.form-check .form-check-sign:after,
+.form-check .form-check-sign:before {
+  border: 3px solid #e3e3e3;
+}
+
+.form-check .form-check-sign:after {
+  font-weight: bold;
+  color: #d54e21;
+}
+.login-page .card-login .logo-container img {
+  margin-top: 90% !important;
+}
+
