@@ -8,6 +8,8 @@ class Administrator extends MX_Controller
 		parent::__construct();
 		$this->load->model("administrator_model", "administrator");
 		$this->load->model("setting_model", "setting");
+		$this->load->model("section_model", "section");
+		$this->load->model("holiday_model", "holiday");
 	}
 
 	public function index($status = "")
@@ -94,13 +96,113 @@ class Administrator extends MX_Controller
 				'use_lastedit_date' => date('Y-m-d H:i:s'),
 				'use_delete_status' => 1,
 			);
-			$this->administrator->insertData($data);
+			$id = $this->administrator->insertData($data);
+
+			if($this->input->post('position_id') == 2 || $this->input->post('position_id') == 3){
+				// เพิ่มเวลา
+				$condition = array();
+				$condition['fide'] = "*";
+				$condition['where'] = array('set_status' => 2);
+				$setting = $this->setting->listData($condition);
+	
+				$condition = array();
+				$condition['fide'] = "*";
+				$condition['where'] = array('use_id' => $id, 'set_id' => $setting[0]['set_id']);
+				$section = $this->section->listData($condition);
+	
+				if (count($setting) != 0 && count($section) == 0) {
+					$this->insertsection($id);
+				}
+			}
+
 			$result = array(
 				'error' => false,
 				'msg' => 'เพิ่มข้อมูลสำเร็จ',
 				'url' => site_url('administrator/main')
 			);
 			echo json_encode($result);
+		}
+	}
+
+	private function insertsection($id = "")
+	{
+		if (!empty($id)) {
+			$condition = array();
+			$condition['fide'] = "*";
+			$condition['where'] = array('set_status' => 2);
+			$setting = $this->setting->listData($condition);
+
+			$condition = array();
+			$condition['fide'] = "hol_date";
+			$condition['where'] = array('set_id' => $id, 'hol_delete_status' => 1);
+			$holiday = $this->holiday->listData($condition);
+
+			// หาช่วงวันที่
+			$perday = new DatePeriod(
+				new DateTime($setting[0]['set_open']),
+				new DateInterval('P1D'),
+				new DateTime($setting[0]['set_close'])
+			);
+			//วันหยุด
+			$arrholiday = array();
+			foreach ($holiday as $key => $value) {
+				array_push($arrholiday, $value['hol_date']);
+			}
+
+			$date = array();
+			//ตัดวันเสาร์อาทิตย์
+			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 0) {
+				foreach ($perday as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					if ((date('w', strtotime($thisdate)) != 6 && date('w', strtotime($thisdate)) != 0) && !in_array($thisdate, $arrholiday)) {
+						array_push($date, $thisdate);
+					}
+				}
+			}
+			//ตัดวันอาทิตย์
+			if ($setting[0]['set_option_sat'] == 1 && $setting[0]['set_option_sun'] == 0) {
+				foreach ($perday as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					if (date('w', strtotime($thisdate)) != 0 && !in_array($thisdate, $arrholiday)) {
+						array_push($date, $thisdate);
+					}
+				}
+			}
+			//ตัดวันเสาร์
+			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
+				foreach ($perday as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					if (date('w', strtotime($thisdate)) != 6 && !in_array($thisdate, $arrholiday)) {
+						array_push($date, $thisdate);
+					}
+				}
+			}
+			//เปิดนัดทุกวัน
+			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
+				foreach ($perday as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					array_push($date, $thisdate);
+				}
+			}
+
+			foreach ($date as $key => $value) {
+				$data = array(
+					'sec_date'          => $value,
+					'sec_one'           => '9.00, 9.00, 1, sec_one',
+					'sec_two'           => '10.00, 10.30, 1, sec_two',
+					'sec_three'         => '11.00, 12.00, 1, sec_three',
+					'sec_four'          => '13.00, 13.00, 1, sec_four',
+					'sec_five'          => '14.00, 14.30, 1, sec_five',
+					'sec_six'           => '15.00, 16.00, 1, sec_six',
+					'use_id'            => $id,
+					'set_id'            => $setting[0]['set_id'],
+					'sec_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+					'sec_create_date'   => date('Y-m-d H:i:s'),
+					'sec_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+					'sec_lastedit_date' => date('Y-m-d H:i:s'),
+				);
+				$this->section->insertData($data);
+			}
 		}
 	}
 
@@ -119,7 +221,7 @@ class Administrator extends MX_Controller
 			$this->administrator->updateData($data);
 			$result = array(
 				'error' => false,
- 				'msg' => 'แก้ไขข้อมูลสำเร็จ',
+				'msg' => 'แก้ไขข้อมูลสำเร็จ',
 				'url' => site_url('administrator/main')
 			);
 			echo json_encode($result);
@@ -159,6 +261,7 @@ class Administrator extends MX_Controller
 	public function changepassword()
 	{
 		$this->permission->admin();
+		
 
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
@@ -168,6 +271,7 @@ class Administrator extends MX_Controller
 			$this->administrator->updateData($data);
 			$result = array(
 				'error' => false,
+				'msg' => 'เปลี่ยนรหัสผ่านสำเร็จ',
 				'url' => site_url('administrator/main')
 			);
 			echo json_encode($result);
@@ -181,7 +285,7 @@ class Administrator extends MX_Controller
 			$password = $this->input->post('password');
 			if ($username != "" && $password != "") {
 				$condition = array();
-				
+
 				// login อาจารย์
 				$condition = array();
 				$condition['fide'] = "use_id,use_name,position_name";
@@ -232,7 +336,7 @@ class Administrator extends MX_Controller
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
 					header("location:" . site_url('dashboard/index'));
-				} elseif (count($liststd) == 1) { 
+				} elseif (count($liststd) == 1) {
 					$data = array(
 						'std_id' => $liststd[0]['std_id'],
 						'std_lastlogin' => date('Y-m-d H:i:s')
@@ -271,7 +375,7 @@ class Administrator extends MX_Controller
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
 					header("location:" . site_url('dashboard/index'));
-				} elseif ($username == 'support@itrmutr.com' && $password == 'supp0rt@it;;') { 
+				} elseif ($username == 'support@itrmutr.com' && $password == 'supp0rt@it;;') {
 					// pass ' supp0rt@it;; ';
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt(0);
