@@ -23,8 +23,7 @@ class Administrator extends MX_Controller
 			$data['msg'] = '<div class="alert alert-danger" style="margin-bottom: 0;">
 			<button type="button" aria-hidden="true" class="close">
 			</button>
-			<span>
-			  <b> Error! - </b> Your username and password are incorrect.</span>
+			<span>ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</span>
 		  </div>';
 		}
 		$this->load->view('administrator/login', $data);
@@ -283,17 +282,22 @@ class Administrator extends MX_Controller
 		if ($this->tokens->verify('formcrf')) {
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
+
 			if ($username != "" && $password != "") {
+
 				$condition = array();
 
 				// login อาจารย์
 				$condition = array();
-				$condition['fide'] = "use_id,use_name,position_name";
+				$condition['fide'] = "use_id,use_name,position_name,use_email,use_pass";
 				$condition['where'] = array('use_email' => $username, 'use_pass' => md5($password));
 				$listdata = $this->administrator->listjoinData($condition);
+
+				// print_r($listdata);
+
 				// login นักศึกษา
 				$condition = array();
-				$condition['fide'] = "std_id,std_number,position_name";
+				$condition['fide'] = "std_id,std_number,position_name,std_email,std_pass";
 				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password));
 				$liststd = $this->student->listjoinData($condition);
 
@@ -341,7 +345,7 @@ class Administrator extends MX_Controller
 						'std_id' => $liststd[0]['std_id'],
 						'std_lastlogin' => date('Y-m-d H:i:s')
 					);
-					$this->administrator->updateStd($data);
+					$this->student->updateStd($data);
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
 					$f = $this->encryption->encrypt($liststd[0]['std_number']);
