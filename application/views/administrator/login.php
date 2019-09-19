@@ -53,7 +53,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navigation">
         <ul class="navbar-nav">
           <li class="nav-item ">
-            <a href="<?= site_url('page/register'); ?>" class="nav-link">
+            <a href="<?= site_url('student/register'); ?>" class="nav-link">
               <i class="now-ui-icons users_circle-08"></i> สมัครสมาชิก
             </a>
           </li>

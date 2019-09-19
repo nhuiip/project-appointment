@@ -1,64 +1,42 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-<meta charset="utf-8">
-<title>404 Page Not Found</title>
-<style type="text/css">
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
+	<title>404 Error</title>
+	<link rel="icon" href="<?= base_url('assets/images/logo/logo.png'); ?>" type="image/x-icon">
+	<link rel="shortcut icon" href="<?= base_url('assets/images/logo/logo.png'); ?>" type="image/x-icon">
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
+	<link href="<?= base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
+	<link href="<?= base_url('assets/css/animate.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/style.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet">
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
-
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
-
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
 </head>
-<body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+
+<body class="gray-bg">
+
+	<div class="wrapper wrapper-content" style="padding: 100px 10px 40px;"></div>
+	<div class="middle-box text-center animated fadeInRightBig">
+		<h1 class="font-bold">404</h1>
+		<h3 class="font-bold">ไม่พบหน้านี้</h3>
+
+		<div class="error-desc">
+			<hr>
+			<a href="<?= site_url('dashboard/index'); ?>"><button type="button" class="btn btn-outline btn-info btn-block btn-lg">กลับหน้าแรก</button></a>
+		</div>
+	</div>
+
+	<!-- Mainly scripts -->
+	<link href="<?= base_url('assets/js/jquery-2.1.1.js'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/js/bootstrap.min.js'); ?>" rel="stylesheet">
+
+
 	</div>
 </body>
+
 </html>

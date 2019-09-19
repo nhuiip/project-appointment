@@ -5,9 +5,7 @@ class Administrator_model extends CI_Model {
 	public function listData($data = array()){
 		$this->db->select($data['fide']);
 		if(!empty($data['where'])){$this->db->where($data['where']);}
-		if(!empty($data['where_in'])){
-			$this->db->where_in($data['where_in']['filde'],$data['where_in']['value']);
-		}
+		if(!empty($data['where_in'])){$this->db->where_in($data['where_in']['filde'],$data['where_in']['value']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
 		$query = $this->db->get('tb_user');
@@ -15,21 +13,10 @@ class Administrator_model extends CI_Model {
 	}
 
 	// Get full join table
-	public function listDataFull($data = array()){
+	public function listjoinData($data = array()){
 		$this->db->select($data['fide']);
 		$this->db->from('tb_user');
 		$this->db->join('tb_position', 'tb_user.position_id = tb_position.position_id');
-		if(!empty($data['where'])){$this->db->where($data['where']);}
-		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
-		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
-	public function liststdFull($data = array()){
-		$this->db->select($data['fide']);
-		$this->db->from('tb_student');
-		$this->db->join('tb_position', 'tb_student.position_id = tb_position.position_id');
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
@@ -61,10 +48,8 @@ class Administrator_model extends CI_Model {
 		return $data['use_id'];
 	}
 
-	public function updateStd($data = array()){
-		$this->db->where(array('std_id' => $data['std_id']));
-		$this->db->update("tb_student",$data);
-		return $data['std_id'];
+	public function deleteData($data = array()){
+		$this->db->delete('tb_user', array('use_id' => $data['use_id']));
 	}
 
 }

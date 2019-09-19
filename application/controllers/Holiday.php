@@ -14,7 +14,6 @@ class Holiday extends CI_Controller
         $data = array();
         $condition = array();
         $condition['fide'] = "*";
-        $condition['where'] = array('hol_delete_status' => 1);
         $condition['orderby'] = "set_id DESC  ";
         $data['listdata'] = $this->holiday->listData($condition);
 

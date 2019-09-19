@@ -85,3 +85,29 @@ body {
 .modal-body {
     padding: 20px 30px 10px !important;
 }
+
+label.error {
+    display: none !important;
+}
+.form-control.error {
+    border: 1px solid #e5e6e7 !important;
+}
+
+/* .select2-container { */
+    /* border: 1px #cc5965 solid !important; */
+    /* height: 34px !important; */
+/* } */
+.select2-container .select2-selection--single {
+    height: 38px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #2f4050 !important;
+    line-height: 35px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 6px !important;
+    right: 3px !important;
+}
+.select2-selection__clear {
+    display: none !important;
+}

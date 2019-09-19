@@ -17,22 +17,22 @@
       <div class="ibox float-e-margins">
         <div class="ibox-content">
 
-<!-- contents ----------------------------------------------------------------------------------------------------->             
-<form action="<?=site_url('administrator/changepassword');?>" method="post" enctype="multipart/form-data" name="formAdministrators" id="formAdministrators" class="form-horizontal" novalidate>
+<!-- contents ----------------------------------------------------------------------------------------------------->  
+<div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333"></div>            
+<form action="<?=site_url('administrator/changepassword');?>" method="post" enctype="multipart/form-data" name="formRepass" id="formRepass" class="form-horizontal" novalidate>
 	<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
 	<input type="hidden" name="Id" id="Id" value="<?=$Id?>">
-	<div class="hr-line-dashed"></div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label">รหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
 		<div class="col-sm-10">
-			<input type="password" name="ad_password" id="ad_password" class="form-control">
+			<input type="password" name="use_pass" id="use_pass" class="form-control">
 		</div>
 	</div><!--*/form-group-->
 	<div class="hr-line-dashed"></div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label">ยืนยัน รหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
 		<div class="col-sm-10">
-			<input type="password" name="text_confirmPassword" id="text_confirmPassword" class="form-control">
+			<input type="password" name="use_confirmPassword" id="use_confirmPassword" class="form-control">
 		</div>
 	</div><!--*/form-group-->
 	<div class="hr-line-dashed"></div>

@@ -15,46 +15,54 @@ class Setting extends CI_Controller
 
     public function index()
     {
-        $data = array();
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('set_delete_status' => 1);
-        $condition['orderby'] = "set_status DESC  ";
-        $data['listdata'] = $this->setting->listData($condition);
-
-        $condition = array();
-        $condition['fide'] = "set_status";
-        $condition['where'] = array('set_delete_status' => 1, 'set_status !=' => 0);
-        $checkinsert = $this->setting->listData($condition);
-
-        if (count($checkinsert) != 0) {
-            $data['checkinsert'] = 'no';
-        } else {
-            $data['checkinsert'] = 'yes';
-        }
-        $this->template->backend('setting/main', $data);
-    }
-    public function form($type, $id = "")
-    {
-        if (!empty($id)) {
+        $permission = array("ผู้ดูแลระบบ");
+        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+            $data = array();
             $condition = array();
             $condition['fide'] = "*";
-            $condition['where'] = array('set_id' => $id, 'set_delete_status' => 1);
+            $condition['orderby'] = "set_status DESC  ";
             $data['listdata'] = $this->setting->listData($condition);
 
             $condition = array();
-            $condition['fide'] = "*";
-            $condition['where'] = array('hol_delete_status' => 1);
-            $condition['orderby'] = "hol_date ASC  ";
-            $data['listholiday'] = $this->holiday->listData($condition);
+            $condition['fide'] = "set_status";
+            $condition['where'] = array('set_status !=' => 0);
+            $checkinsert = $this->setting->listData($condition);
 
-            if (count($data['listdata']) == 0) {
-                show_404();
+            if (count($checkinsert) != 0) {
+                $data['checkinsert'] = 'no';
+            } else {
+                $data['checkinsert'] = 'yes';
             }
+            $this->template->backend('setting/main', $data);
+        } else {
+            $this->load->view('errors/html/error_403');
         }
-        $data['formcrf'] = $this->tokens->token('formcrf');
-        $data['type'] = $type;
-        $this->template->backend('setting/form', $data);
+    }
+    public function form($type, $id = "")
+    {
+        $permission = array("ผู้ดูแลระบบ");
+        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+            if (!empty($id)) {
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('set_id' => $id);
+                $data['listdata'] = $this->setting->listData($condition);
+
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['orderby'] = "hol_date ASC  ";
+                $data['listholiday'] = $this->holiday->listData($condition);
+
+                if (count($data['listdata']) == 0) {
+                    show_404();
+                }
+            }
+            $data['formcrf'] = $this->tokens->token('formcrf');
+            $data['type'] = $type;
+            $this->template->backend('setting/form', $data);
+        } else {
+            $this->load->view('errors/html/error_403');
+        }
     }
     public function create()
     {
@@ -81,7 +89,6 @@ class Setting extends CI_Controller
                 'set_create_date'   => date('Y-m-d H:i:s'),
                 'set_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
                 'set_lastedit_date' => date('Y-m-d H:i:s'),
-                'set_delete_status' => 1,
             );
             $this->setting->insertData($data);
             $result = array(
@@ -125,17 +132,16 @@ class Setting extends CI_Controller
             echo json_encode($result);
         }
     }
-    public function delete($id = '')
-    {
-        $data = array(
-            'set_id'            => $id,
-            'set_delete_status' => 0,
-            'set_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-            'set_lastedit_date' => date('Y-m-d H:i:s'),
-        );
-        $this->setting->updateData($data);
-        header("location:" . site_url('setting/index'));
-    }
+    // public function delete($id = '')
+    // {
+    //     $data = array(
+    //         'set_id'            => $id,
+    //         'set_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+    //         'set_lastedit_date' => date('Y-m-d H:i:s'),
+    //     );
+    //     $this->setting->updateData($data);
+    //     header("location:" . site_url('setting/index'));
+    // }
     public function createHol()
     {
         if ($this->tokens->verify('formcrf')) {
@@ -147,7 +153,6 @@ class Setting extends CI_Controller
                 'hol_create_date'   => date('Y-m-d H:i:s'),
                 'hol_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
                 'hol_lastedit_date' => date('Y-m-d H:i:s'),
-                'hol_delete_status' => 1,
             );
             $this->holiday->insertData($data);
             $result = array(
@@ -178,30 +183,27 @@ class Setting extends CI_Controller
             echo json_encode($result);
         }
     }
-    public function deleteHol($set_id, $id = '')
-    {
-        $data = array(
-            'hol_id'            => $id,
-            'hol_delete_status' => 0,
-            'hol_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-            'hol_lastedit_date' => date('Y-m-d H:i:s'),
-        );
-        $this->holiday->updateData($data);
-        header("location:" . site_url('setting/form/2/' . $set_id));
-    }
-
-
+    // public function deleteHol($set_id, $id = '')
+    // {
+    //     $data = array(
+    //         'hol_id'            => $id,
+    //         'hol_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+    //         'hol_lastedit_date' => date('Y-m-d H:i:s'),
+    //     );
+    //     $this->holiday->updateData($data);
+    //     header("location:" . site_url('setting/form/2/' . $set_id));
+    // }
     public function opensection($id = '')
     {
         if (!empty($id)) {
             $condition = array();
             $condition['fide'] = "*";
-            $condition['where'] = array('set_id' => $id, 'set_delete_status' => 1);
+            $condition['where'] = array('set_id' => $id);
             $setting = $this->setting->listData($condition);
 
             $condition = array();
             $condition['fide'] = "hol_date";
-            $condition['where'] = array('set_id' => $id, 'hol_delete_status' => 1);
+            $condition['where'] = array('set_id' => $id);
             $holiday = $this->holiday->listData($condition);
 
             $arrposition = array(2, 3);
@@ -226,7 +228,7 @@ class Setting extends CI_Controller
         foreach ($holiday as $key => $value) {
             array_push($arrholiday, $value['hol_date']);
         }
-        
+
         $date = array();
         //ตัดวันเสาร์อาทิตย์
         if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 0) {
@@ -290,33 +292,5 @@ class Setting extends CI_Controller
             'set_status'        => 2,
         );
         $this->setting->updateData($data);
-        header("location:" . site_url('setting/index'));
-        die;
     }
-    // public function test()
-    // {
-    //     $condition['fide'] = "set_status";
-    //     $condition['where'] = array('set_delete_status' => 1);
-    //     $setting = $this->setting->listData($condition);
-    //     if (in_array(1, $setting) || in_array(2, $setting)) {
-    //         echo 'have';
-    //     }
-    //     // $period = new DatePeriod(
-    //     //     new DateTime('2019-09-10'),
-    //     //     new DateInterval('P1D'),
-    //     //     new DateTime('2019-10-25')
-    //     // );
-    //     // $holiday = array("2019-09-20", '2019-09-26');
-    //     // $date = array();
-    //     // foreach ($period as $key => $value) {
-    //     //     $thisdate = $value->format('Y-m-d');
-    //     //     if ((date('w', strtotime($thisdate)) != 6 && date('w', strtotime($thisdate)) != 0) && !in_array($thisdate, $holiday)) {
-    //     //         array_push($date, $thisdate);
-    //     //     }
-    //     // }
-    //     echo '<pre>';
-    //     // print_r($setting);
-    //     echo '</pre>';
-    //     die;
-    // }
 }

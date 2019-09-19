@@ -4,6 +4,8 @@ define([
   "bootstrap_colorpicker",
   "datepicker",
   "daterange",
+  "select2",
+  "TouchSpin",
 ], function($) {
   var methods = {};
 
@@ -34,6 +36,20 @@ define([
       forceParse: false,
       autoclose: true,
       format: "dd-mm-yyyy"
+    });
+  };
+
+  methods.select2 = function() {
+    $(".select2").select2({
+      placeholder: "กรุณาเลือก",
+      allowClear: true
+    });
+  };
+
+  methods.TouchSpin = function() {
+    $(".touchspin").TouchSpin({
+      buttondown_class: "btn btn-white",
+      buttonup_class: "btn btn-white",
     });
   };
 

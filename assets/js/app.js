@@ -17,6 +17,8 @@ requirejs.config({
     moment: "plugins/fullcalendar/moment.min",
     datepicker: "plugins/datapicker/bootstrap-datepicker",
     daterange: "plugins/daterangepicker/daterangepicker",
+    select2: "plugins/select2/select2.full.min",
+    TouchSpin: "plugins/touchspin/jquery.bootstrap-touchspin.min",
     inspinia: "../methods/inspinia.min",
     function: "../methods/app/function",
     callvalidate: "../methods/callvalidate.min",
@@ -42,6 +44,12 @@ requirejs.config({
       deps: ["jquery", "bootstrap"]
     },
     daterange: {
+      deps: ["jquery"]
+    },
+    select2: {
+      deps: ["jquery"]
+    },
+    TouchSpin: {
       deps: ["jquery"]
     },
     jqueryForm: {
@@ -82,6 +90,8 @@ requirejs(
       new Clipboard(".clipboard");
       vali.validate();
       plug.datepicker();
+      plug.select2();
+      plug.TouchSpin();
       // reload
       $(".btn-reload").click(function() {
         location.reload();
@@ -89,6 +99,62 @@ requirejs(
     });
   }
 );
+
+// sweetalert none
+$(".btn-alert").click(function() {
+  var url = $(this).attr("data-url");
+  var title = $(this).attr("data-text");
+  swal(
+    {
+      title: title,
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c0392b",
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ยกเลิก",
+      closeOnConfirm: false
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        location.href = url;
+      }
+    }
+  );
+});
+
+// sweetalert ckeck
+$(".btn-check").click(function() {
+  var url = $(this).attr("data-url");
+  var urlCheck = $(e).attr("data-urlCheck");
+  var title = $(this).attr("data-text");
+  swal(
+    {
+      title: title,
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c0392b",
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ยกเลิก",
+      closeOnConfirm: false
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        $.ajax({
+          method: "POST",
+          dataType: "json",
+          url: urlCheck,
+          success: function(result) {
+            if (result.error === true) {
+              swal(result.title, result.msg, "error");
+            } else {
+              location.href = url;
+            }
+          }
+        });
+      }
+    }
+  );
+});
 
 // datatable-export
 $(".dataTables-export tfoot th").each(function() {

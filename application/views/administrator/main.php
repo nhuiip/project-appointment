@@ -15,15 +15,15 @@
       <div class="ibox float-e-margins">
         <div class="ibox-title">
           <div class="ibox-tools">
-            <a href="<?= site_url('administrator/form'); ?>" style="color:#27ae60">
-              <i class="fa fa-plus"></i> เพิ่มข้อมูล
+            <a href="<?= site_url('administrator/form'); ?>">
+                <button type="button" class="btn btn-outline btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
             </a>
           </div>
         </div>
         <div class="ibox-content">
           <!-- table ------------------------------------------------------------------------------------------------------->
           <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover dataTables-export" data-colexport="0,1,2,3,4,6" data-filename="export-user" width="100%">
+            <table class="table table-striped table-bordered table-hover dataTables" width="100%">
               <thead>
                 <tr>
                   <th>#</th>
@@ -57,15 +57,9 @@
                           <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" style="width:100%">
-                          <? if ($this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ') { ?>
                             <li><a href="<?= site_url('administrator/form/' . $value['use_id']); ?>"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
-                          <? } ?>
-                          <? if($value['use_id'] != 1){ ?>
-                          <li><a href="#" class="btn-alert" data-url="<?= site_url('administrator/delete/' . $value['use_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
-                          <? } ?>
-                          <? if ($this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ') { ?>
                             <li><a href="<?= site_url('administrator/formpassword/' . $value['use_id']); ?>"><i class="fa fa-repeat"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
-                          <? } ?>
+                            <li><a href="#" class="btn-alert" data-url="<?= site_url('administrator/delete/' . $value['use_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                         </ul>
                       </div>
                     </td>

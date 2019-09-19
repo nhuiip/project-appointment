@@ -7,10 +7,12 @@
       $use_email   = $value['use_email'];
     }
     $title          = "แก้ไขข้อมูลผู้ดูแลระบบ";
-    $actionUrl      = site_url('administrator/update');
+	$actionUrl      = site_url('administrator/update');
+	$form 			= 'Up';
   } else {
     $title          = "เพิ่มข้อมูลผู้ดูแลระบบ";
-    $actionUrl      = site_url('administrator/create');
+	$actionUrl      = site_url('administrator/create');
+	$form 			= 'C';
   }
 ?>
 <!-- Breadcrumb for page -->
@@ -31,8 +33,9 @@
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
         <div class="ibox-content">
-<!-- contents ----------------------------------------------------------------------------------------------------->             
-<form action="<?=$actionUrl?>" method="post" enctype="multipart/form-data" name="formAdministrators" id="formAdministrators" class="form-horizontal" novalidate>
+<!-- contents ----------------------------------------------------------------------------------------------------->      
+<div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333"></div>       
+<form action="<?=$actionUrl?>" method="post" enctype="multipart/form-data" name="formAdministrators_<?=$form?>" id="formAdministrators_<?=$form?>" class="form-horizontal" novalidate>
 	<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
 	<input type="hidden" name="Id" id="Id" value="<?PHP if (isset($id)) {echo $id;}?>">
 	<div class="form-group">

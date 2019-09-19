@@ -1,5 +1,5 @@
 <?php
-class Section_model extends CI_Model {
+class Student_model extends CI_Model {
 
 	// Get data
 	public function listData($data = array()){
@@ -7,21 +7,21 @@ class Section_model extends CI_Model {
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
-		$query = $this->db->get('tb_section');
+		$query = $this->db->get('tb_student');
 		return $query->result_array();
 	}
 	
-	// public function listjoinData($data = array()){
-	// 	$this->db->select($data['fide']);
-	// 	$this->db->from('tb_subject');
-	// 	$this->db->join('tb_user', 'tb_user.use_id = tb_subject.use_id');
-	// 	$this->db->join('tb_settings', 'tb_settings.set_id = tb_subject.set_id');
-	// 	if(!empty($data['where'])){$this->db->where($data['where']);}
-	// 	if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
-	// 	if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
-	// 	$query = $this->db->get();
-	// 	return $query->result_array();
-	// }
+	public function listjoinData($data = array()){
+        $this->db->select($data['fide']);
+        $this->db->from('tb_student');
+		$this->db->join('tb_position', 'tb_position.position_id = tb_student.position_id');
+		$this->db->join('tb_position', 'tb_position.position_id = tb_student.position_id');
+		if(!empty($data['where'])){$this->db->where($data['where']);}
+		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
+		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
     // Insert data
 	public function insertData($data = array()){

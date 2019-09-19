@@ -9,6 +9,7 @@ class Administrator extends MX_Controller
 		$this->load->model("administrator_model", "administrator");
 		$this->load->model("setting_model", "setting");
 		$this->load->model("section_model", "section");
+		$this->load->model("student_model", "student");
 		$this->load->model("holiday_model", "holiday");
 	}
 
@@ -31,42 +32,45 @@ class Administrator extends MX_Controller
 
 	public function main()
 	{
-		$this->permission->admin();
-		$data = array();
+		$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
+		if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+			$data = array();
+			$condition = array();
+			$condition['fide'] = "*";
+			$condition['where'] = array('tb_position.position_id !=' => 4);
+			$data['listdata'] = $this->administrator->listjoinData($condition);
 
-		//List data administrator
-		$condition = array();
-		$condition['fide'] = "*";
-		$condition['where'] = array('use_delete_status' => 1, 'tb_position.position_id !=' => 4);
-		$data['listdata'] = $this->administrator->listDataFull($condition);
-
-		$this->template->backend('administrator/main', $data);
+			$this->template->backend('administrator/main', $data);
+		} else {
+			$this->load->view('errors/html/error_403');
+		}
 	}
 
 	public function form($id = "")
 	{
-		$this->permission->admin();
-		$data = array();
-
-		// List data position
-		$condition = array();
-		$condition['fide'] = "position_id,position_name";
-		$condition['where'] = array('position_id !=' => 4);
-		$data['listposition'] = $this->administrator->listDataPosition($condition);
-
-		//Data in case update
-		if (!empty($id)) {
+		$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
+		if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+			$data = array();
 			$condition = array();
-			$condition['fide'] = "*";
-			$condition['where'] = array('use_id' => $id, 'use_delete_status' => 1);
-			$data['listdata'] = $this->administrator->listData($condition);
-			if (count($data['listdata']) == 0) {
-				show_404();
-			}
-		}
+			$condition['fide'] = "position_id,position_name";
+			$condition['where'] = array('position_id !=' => 4);
+			$data['listposition'] = $this->administrator->listDataPosition($condition);
 
-		$data['formcrf'] = $this->tokens->token('formcrf');
-		$this->template->backend('administrator/form', $data);
+			//Data in case update
+			if (!empty($id)) {
+				$condition = array();
+				$condition['fide'] = "*";
+				$condition['where'] = array('use_id' => $id);
+				$data['listdata'] = $this->administrator->listData($condition);
+				if (count($data['listdata']) == 0) {
+					show_404();
+				} 
+			}
+			$data['formcrf'] = $this->tokens->token('formcrf');
+			$this->template->backend('administrator/form', $data);
+		} else {
+			$this->load->view('errors/html/error_403');
+		}
 	}
 
 	public function formpassword($Id = "")
@@ -94,7 +98,6 @@ class Administrator extends MX_Controller
 				'use_create_date' 	=> date('Y-m-d H:i:s'),
 				'use_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
 				'use_lastedit_date' => date('Y-m-d H:i:s'),
-				'use_delete_status' => 1,
 			);
 			$id = $this->administrator->insertData($data);
 
@@ -134,7 +137,7 @@ class Administrator extends MX_Controller
 
 			$condition = array();
 			$condition['fide'] = "hol_date";
-			$condition['where'] = array('set_id' => $id, 'hol_delete_status' => 1);
+			$condition['where'] = array('set_id' => $id);
 			$holiday = $this->holiday->listData($condition);
 
 			// หาช่วงวันที่
@@ -228,15 +231,12 @@ class Administrator extends MX_Controller
 		}
 	}
 
-	public function delete($Id)
+	public function delete($id)
 	{
-		$this->permission->admin();
 		$data = array(
-			'use_id' => $Id,
-			'use_delete_status' => 0,
-			'use_lastedit_date' => date('Y-m-d H:i:s')
-		);
-		$this->administrator->updateData($data);
+            'use_id'            => $id,
+        );
+		$this->administrator->deleteData($data);
 		header("location:" . site_url('administrator/main'));
 	}
 
@@ -248,7 +248,7 @@ class Administrator extends MX_Controller
 		if (!empty($use_email)) {
 			$condition = array();
 			$condition['fide'] = "use_id";
-			$condition['where'] = array('use_email' => $use_email, 'use_delete_status' => 1);
+			$condition['where'] = array('use_email' => $use_email);
 			$listemail = $this->administrator->listData($condition);
 			if (count($listemail) == 0) {
 				echo "true";
@@ -290,12 +290,12 @@ class Administrator extends MX_Controller
 				$condition = array();
 				$condition['fide'] = "use_id,use_name,position_name";
 				$condition['where'] = array('use_email' => $username, 'use_pass' => md5($password));
-				$listdata = $this->administrator->listDataFull($condition);
+				$listdata = $this->administrator->listjoinData($condition);
 				// login นักศึกษา
 				$condition = array();
 				$condition['fide'] = "std_id,std_number,position_name";
 				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password));
-				$liststd = $this->administrator->liststdFull($condition);
+				$liststd = $this->student->listjoinData($condition);
 
 				if (count($listdata) == 1) {
 					$data = array(
