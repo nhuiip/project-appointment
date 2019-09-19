@@ -58,14 +58,14 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
 </head>
 
-<? if ($position == 'นักศึกษา') { ?>
+<? if ($position != 'นักศึกษา') { ?>
 
 	<body class="pace-done">
 	<? } else { ?>
 
 		<body class="top-navigation"><? } ?>
 
-		<? if ($position == 'นักศึกษา') { ?>
+		<? if ($position != 'นักศึกษา') { ?>
 			<div id="wrapper">
 				<nav class="navbar-default navbar-static-side" role="navigation">
 					<div class="sidebar-collapse">
