@@ -129,3 +129,14 @@ label.error {
     grid-template-columns: auto;
     grid-gap: 10px;
 }
+.btn-lw100{
+    width: 100%;
+}
+.form-group-mgTB{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.mgBottom{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}

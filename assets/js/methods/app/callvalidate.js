@@ -386,6 +386,40 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     //     }
     //   });
     // }
+
+    //################################################################## yui
+    if ($("#formStudentProfile").length) {
+      $("#formStudentProfile").validate({
+        rules: {
+          text_name: {
+            required: true
+          },
+          text_lastname: {
+            required: true
+          },
+          text_email: {
+            required: true,email: true
+          },
+          text_tel: {
+            required: true
+          },
+        },
+        messages: {
+          text_email: {
+            required: "กรุณากรอกข้อมูล.",
+            email: "รูปแบบ E-mail ผิดพลาด."
+          }
+        },
+        errorPlacement: function() {
+          $("#formError").slideDown();
+          $("#formError").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
   };
   return methods;
 });

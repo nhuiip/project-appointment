@@ -351,9 +351,6 @@ class Administrator extends MX_Controller
 					$f = $this->encryption->encrypt($liststd[0]['std_number']);
 					$p = $this->encryption->encrypt($liststd[0]['position_name']);
 
-					
-
-
 					$cookie = array(
 						'name'   => 'syslev',
 						'value'  => $l,
