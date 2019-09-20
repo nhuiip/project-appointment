@@ -157,6 +157,9 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 										<a href="<?=site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
+										<a href="<?=site_url('project/index'); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
+									</li>
+									<li>
 										<a href="<?=site_url('profile/index/'.$loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
 									</li>
 

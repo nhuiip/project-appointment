@@ -141,7 +141,7 @@ label.error {
 }
 .mgBottom{
     margin-top: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 /* select images type="file" */
 #std_imgprefile {
@@ -167,3 +167,14 @@ label.error {
     margin-top: 10px !important;
 }
 /* end select images type="file" */
+
+.grid-two-show-subject{
+    display: grid;
+    grid-template-columns: 30% auto;
+    grid-gap: 10px;
+}
+.grid-three-show-subject{
+    display: grid;
+    grid-template-columns: 30% auto 10%;
+    grid-gap: 10px;
+}

@@ -80,8 +80,7 @@ class Student extends MX_Controller
     
 
     // ===============================================
-    public function profile()
-    {
+    
 
-    }
+
 }

@@ -30,6 +30,10 @@ class Profile extends MX_Controller
                 $condition['fide'] = "*";
                 $data['liststudent'] = $this->student->listjoinData($condition);
 
+                $condition = array();
+                $condition['fide'] = "*";
+                $data['listsubject'] = $this->subject->listData($condition);
+
                 $data['position'] =   $this->encryption->decrypt($this->input->cookie('sysp'));
     
                 $data['formcrf'] = $this->tokens->token('formcrf');
@@ -186,6 +190,8 @@ class Profile extends MX_Controller
 		}else{
 			return $fileold;
 		}
-	}
+    }
+
+    
 
 }

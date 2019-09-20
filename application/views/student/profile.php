@@ -31,7 +31,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
             
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>ข้อมูลส่วนตัว</h5>
+                    <h5><i class="fa fa-user"></i> ข้อมูลส่วนตัว</h5>
                     <div class="ibox-tools" >
                         <a class="" style="color: #f8ac59;">
                             <i class="fa fa-pencil-square"></i>  แก้ไขข้อมูลส่วนตัว
@@ -108,13 +108,13 @@ if (isset($liststudent) && count($liststudent) != 0) {
                                     <?PHP if(!empty($Text_emailchang)){?>
                                         <p>
                                         <div class="form-group-mgTB">
-                                            <b style="color:#c0392b">รอยืนยันผ่านทางอีเมล์ : <span class="underline"><?=$Text_emailchang;?></span></b>
+                                            <b style="color:#c0392b">เปลี่ยนที่อยู่อีเมล์ รอยืนยันผ่านทางอีเมล์ : <span class="underline"><?=$Text_emailchang;?></span></b>
                                         </div>
                                         </p>
                                     <?PHP } ?>
                                 </div>
                                 <div class="col-lg-3">
-                                    <a data-toggle="modal" class="btn btn-lw100 btn-primary" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</a>
+                                    <button data-toggle="modal"  type="button" class="btn btn-outline btn-primary btn-lw100" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</button>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +135,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
                             </div>
                         </div>
                         <div class="mgBottom">
-                            <button class="btn btn-primary btn-lw100" type="submit"><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
+                            <button class="btn btn-primary btn-lw100" type="button" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
                         </div>
                     </form>
                 </div>
@@ -144,23 +144,9 @@ if (isset($liststudent) && count($liststudent) != 0) {
         <div class="col-lg-5">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Horizontal form</h5>
+                    <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#">Config option 1</a>
-                            </li>
-                            <li><a href="#">Config option 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+                        <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal-addsubject"><i class="fa fa-plus-square-o"></i> เพิ่มข้อมูล</button>
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -263,13 +249,42 @@ if (isset($liststudent) && count($liststudent) != 0) {
                     <div class="mgBottom">
                         <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนที่อยู่อีเมล์</strong></button>
                     </div>
-                <div style="margin-bottom: 80px;"></div>
+                <div style="margin-bottom: 20px;"></div>
             </div>
         </div>
     </div>
 </div>
 </form>
 
+
+<form action="<?=base_url('profile/addsubject/'.$Id);?>" method="post" enctype="multipart/form-data" name="formAddsubject" id="formAddsubject" class="form-horizontal" novalidate>                   
+<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+<input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
+
+<div id="modal-addsubject" class="modal fade" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="m-t-none m-b">ข้อมูลปริญญานิพนธ์</h3>
+                <!-- <p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนแล้วต้องกดยืนยันที่อยู่อีเมล์ก่อน จึงจะสามารถใช้งานที่อยู่อีเมล์ใหม่ที่เปลี่ยนได้.</p> -->
+                <hr/>
+                <div class="alert alert-warning alert-dismissable hide" id="formErroraddsubject" style="color:#333">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    กรุณากรอกข้อมูลโปรเจค
+                </div>
+                <div class="form-group-mgTB">
+                    <label>ชื่อโปรเจค</label>
+                    <input placeholder="ชื่อโปรเจค" class="form-control" name="txt_showcode" id="txt_showcode" value="" disabled>
+                </div>
+                <div class="mgBottom">
+                    <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันข้อมูลรายวิชาที่ลงทะเบียน</strong></button>
+                </div>
+                <div style="margin-bottom: 20px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
 
 <script>
     function readURL(input) {
@@ -287,5 +302,9 @@ if (isset($liststudent) && count($liststudent) != 0) {
         readURL(this);
         console.log(this);
     });
+
+   
 </script>
+
+
 <?PHP } ?>

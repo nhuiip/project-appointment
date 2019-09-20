@@ -448,5 +448,23 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       });
     }
   };
+  if ($("#formAddsubject").length) {
+    $("#formAddsubject").validate({
+      rules: {
+        txt_projectname: {required: true},
+        select_subject: {required: true},
+      },
+      errorPlacement: function() {
+        $("#formErroraddsubject").slideDown();
+        $("#formErroraddsubject").removeClass("hide");
+      },
+      submitHandler: function(form) {
+        fun.dataSubmit(form);
+        return false;
+      }
+    });
+  }
+
+
   return methods;
 });
