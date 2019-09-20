@@ -403,6 +403,9 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           text_tel: {
             required: true
           },
+          text_password: {
+            required: true
+          },
         },
         messages: {
           text_email: {
@@ -413,6 +416,30 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         errorPlacement: function() {
           $("#formError").slideDown();
           $("#formError").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+
+    if ($("#formChangemail").length) {
+      $("#formChangemail").validate({
+        rules: {
+          text_email: {
+            required: true,email: true
+          },
+        },
+        messages: {
+          text_email: {
+            required: "กรุณากรอกข้อมูล.",
+            email: "รูปแบบ E-mail ผิดพลาด."
+          }
+        },
+        errorPlacement: function() {
+          $("#formErrorchangemail").slideDown();
+          $("#formErrorchangemail").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

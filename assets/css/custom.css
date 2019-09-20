@@ -119,6 +119,9 @@ label.error {
 .center{
     text-align: center;
 }
+.underline{
+    text-decoration: underline ;
+}
 #grid-two-form{
     display: grid;
     grid-template-columns: 50% 50%;
@@ -140,3 +143,27 @@ label.error {
     margin-top: 20px;
     margin-bottom: 50px;
 }
+/* select images type="file" */
+#std_imgprefile {
+    width: 200px;
+    height: 200px;
+    background-size: cover !important;
+    display: inline-block;
+    border-radius: 100px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border: 1px solid #000;
+}
+.picture_std input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-top: 10px !important;
+}
+/* end select images type="file" */

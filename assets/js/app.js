@@ -247,3 +247,13 @@ tables.columns().every(function() {
     }
   });
 });
+
+
+function ShowHidePassword() {
+  var x = document.getElementById("text_password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
