@@ -23,7 +23,8 @@ class Administrator extends MX_Controller
 			$data['msg'] = '<div class="alert alert-danger" style="margin-bottom: 0;">
 			<button type="button" aria-hidden="true" class="close">
 			</button>
-			<span>ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</span>
+			<span>
+			  <b> Error! - </b> Your username and password are incorrect.</span>
 		  </div>';
 		}
 		$this->load->view('administrator/login', $data);
@@ -282,22 +283,17 @@ class Administrator extends MX_Controller
 		if ($this->tokens->verify('formcrf')) {
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-
 			if ($username != "" && $password != "") {
-
 				$condition = array();
 
 				// login อาจารย์
 				$condition = array();
-				$condition['fide'] = "use_id,use_name,position_name,use_email,use_pass";
+				$condition['fide'] = "use_id,use_name,position_name";
 				$condition['where'] = array('use_email' => $username, 'use_pass' => md5($password));
 				$listdata = $this->administrator->listjoinData($condition);
-
-				// print_r($listdata);
-
 				// login นักศึกษา
 				$condition = array();
-				$condition['fide'] = "std_id,std_number,position_name,std_email,std_pass";
+				$condition['fide'] = "std_id,std_number,position_name";
 				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password));
 				$liststd = $this->student->listjoinData($condition);
 
@@ -350,7 +346,6 @@ class Administrator extends MX_Controller
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
 					$f = $this->encryption->encrypt($liststd[0]['std_number']);
 					$p = $this->encryption->encrypt($liststd[0]['position_name']);
-
 					$cookie = array(
 						'name'   => 'syslev',
 						'value'  => $l,
@@ -375,7 +370,6 @@ class Administrator extends MX_Controller
 						'expire' => '86500',
 						'path'   => '/'
 					);
-
 					$this->input->set_cookie($cookie);
 					$this->input->set_cookie($cookie_id);
 					$this->input->set_cookie($cookie_fullname);
