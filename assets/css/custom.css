@@ -111,3 +111,21 @@ label.error {
 .select2-selection__clear {
     display: none !important;
 }
+
+
+
+
+/* ==================================================================== std  */
+.center{
+    text-align: center;
+}
+#grid-two-form{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 10px;
+}
+#grid-one-form{
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+}

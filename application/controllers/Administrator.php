@@ -350,6 +350,10 @@ class Administrator extends MX_Controller
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
 					$f = $this->encryption->encrypt($liststd[0]['std_number']);
 					$p = $this->encryption->encrypt($liststd[0]['position_name']);
+
+					
+
+
 					$cookie = array(
 						'name'   => 'syslev',
 						'value'  => $l,
@@ -374,6 +378,7 @@ class Administrator extends MX_Controller
 						'expire' => '86500',
 						'path'   => '/'
 					);
+
 					$this->input->set_cookie($cookie);
 					$this->input->set_cookie($cookie_id);
 					$this->input->set_cookie($cookie_fullname);

@@ -76,5 +76,12 @@ class Student extends MX_Controller
 				return $img['file_name'];
             }
 		}
-	}
+    }
+    
+
+    // ===============================================
+    public function profile()
+    {
+
+    }
 }
