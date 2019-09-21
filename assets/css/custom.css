@@ -168,13 +168,17 @@ label.error {
 }
 /* end select images type="file" */
 
+.grid-three-show-subject{
+    display: grid;
+    grid-template-columns: auto 10%;
+    grid-gap: 10px;
+}
+@media only screen and (min-width: 768px) {
+    
 .grid-two-show-subject{
     display: grid;
     grid-template-columns: 30% auto;
     grid-gap: 10px;
 }
-.grid-three-show-subject{
-    display: grid;
-    grid-template-columns: 30% auto 10%;
-    grid-gap: 10px;
+
 }

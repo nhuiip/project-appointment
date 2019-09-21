@@ -21,7 +21,7 @@ class Project_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
+
     // Insert data
 	public function insertData($data = array()){
 		$this->db->insert("tb_project",$data);

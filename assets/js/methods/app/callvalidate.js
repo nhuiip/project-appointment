@@ -464,6 +464,33 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       }
     });
   }
+  if ($("#formaddfile").length) {
+    $("#formaddfile").validate({
+      rules: {
+        // txt_01_cov: {required: true},
+        // txt_02_cer: {required: true},
+        // txt_03_abs: {required: true},
+        // txt_04_ack: {required: true},
+        // txt_05_tcb: {required: true},
+        // txt_06_ch01: {required: true},
+        // txt_06_ch02: {required: true},
+        // txt_06_ch03: {required: true},
+        // txt_06_ch04: {required: true},
+        // txt_06_ch05: {required: true},
+        // txt_07_ref: {required: true},
+        // txt_08_app: {required: true},
+        // txt_09_bio: {required: true},
+      },
+      errorPlacement: function() {
+        $("#formError_addfile").slideDown();
+        $("#formError_addfile").removeClass("hide");
+      },
+      submitHandler: function(form) {
+        fun.dataSubmit(form);
+        return false;
+      }
+    });
+  }
 
 
   return methods;
