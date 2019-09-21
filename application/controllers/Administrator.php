@@ -341,7 +341,7 @@ class Administrator extends MX_Controller
 						'std_id' => $liststd[0]['std_id'],
 						'std_lastlogin' => date('Y-m-d H:i:s')
 					);
-					$this->administrator->updateStd($data);
+					$this->student->updateStd($data);
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
 					$f = $this->encryption->encrypt($liststd[0]['std_number']);

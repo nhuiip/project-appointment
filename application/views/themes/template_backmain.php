@@ -1,5 +1,5 @@
 <?
-$loginid 	= $this->encryption->decrypt($this->input->cookie('sysi'));
+$loginid 	= $this->encryption->decrypt($this->input->cookie('sysli'));
 $loginname	= $this->encryption->decrypt($this->input->cookie('sysn'));
 $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 
@@ -154,15 +154,18 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 										<a aria-expanded="false" role="button" href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a>
 									</li>
 									<li>
-										<a href="<?= site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+										<a href="<?=site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
-										<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
+										<a href="<?=site_url('project/index'); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
+									</li>
+									<li>
+										<a href="<?=site_url('profile/index/'.$loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
 									</li>
 
 								</ul>
 								<ul class="nav navbar-top-links navbar-right">
-									<li><a href=""><?= $loginname; ?></a></li>
+									<li><a href=""><?=$loginname; ?></a></li>
 									<div class="img-circular" style=""></div>
 									<li>
 										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>

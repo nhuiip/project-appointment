@@ -1,5 +1,5 @@
 <?php
-class Student_model extends CI_Model {
+class Project_model extends CI_Model {
 
 	// Get data
 	public function listData($data = array()){
@@ -7,15 +7,14 @@ class Student_model extends CI_Model {
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
-		$query = $this->db->get('tb_student');
+		$query = $this->db->get('tb_project');
 		return $query->result_array();
 	}
 	
 	public function listjoinData($data = array()){
         $this->db->select($data['fide']);
-        $this->db->from('tb_student');
-		$this->db->join('tb_position', 'tb_position.position_id = tb_student.position_id');
-		$this->db->join('tb_subject', 'tb_subject.sub_id = tb_student.sub_id', 'left');
+        $this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
@@ -25,19 +24,15 @@ class Student_model extends CI_Model {
 	
     // Insert data
 	public function insertData($data = array()){
-		$this->db->insert("tb_section",$data);
+		$this->db->insert("tb_project",$data);
 		return $this->db->insert_id();
 	}
 	public function updateData($data = array()){
-		$this->db->where(array('sec_id' => $data['sec_id']));
-		$this->db->update("tb_section",$data);
-		return $data['sec_id'];
+		$this->db->where(array('project_id' => $data['project_id']));
+		$this->db->update("tb_project",$data);
+		return $data['project_id'];
 	}
-
-	public function updateStd($data = array()){
-		$this->db->where(array('std_id' => $data['std_id']));
-		$this->db->update("tb_student",$data);
-		return $data['std_id'];
+	public function deleteData($data = array()){
+		$this->db->delete('tb_project', array('project_id' => $data['project_id']));
 	}
-
 }

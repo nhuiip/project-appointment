@@ -247,3 +247,37 @@ tables.columns().every(function() {
     }
   });
 });
+
+
+function ShowHidePassword() {
+  var x = document.getElementById("text_password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
+function ShowdataSubject(e){
+
+  var subjectId = e.value;
+
+  $.ajax({
+      method: 'POST',
+      dataType: 'json',
+      url: 'http://localhost:9900/project/showsubject',
+      data: {
+          subjectId: subjectId,
+      },
+      beforeSend: function() {}, 
+      success: function(result) {
+
+          $('#txt_showcode').val(result.sub_code);
+          $('#use_id').val(result.use_id);
+          $('#txt_use_name').val(result.use_name);
+          $('#txt_sub_setuse').val(result.sub_setuse);
+
+      },
+
+  })
+}
