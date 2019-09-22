@@ -35,13 +35,6 @@ class Subject_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function searchstdProject($Id){
-		$this->db->select('*');
-		$this->db->like('std_id',$Id);
-		$query = $this->db->get('tb_project');
-		return $query->result_array();
-	}
-
     // Insert data
 	public function insertData($data = array()){
 		$this->db->insert("tb_subject",$data);
