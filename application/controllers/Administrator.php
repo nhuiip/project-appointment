@@ -293,7 +293,7 @@ class Administrator extends MX_Controller
 				$listdata = $this->administrator->listjoinData($condition);
 				// login นักศึกษา
 				$condition = array();
-				$condition['fide'] = "std_id,std_number,position_name";
+				$condition['fide'] = "std_id,std_number,position_name,std_fname,std_lname";
 				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password));
 				$liststd = $this->student->listjoinData($condition);
 
@@ -344,7 +344,7 @@ class Administrator extends MX_Controller
 					$this->student->updateStd($data);
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
-					$f = $this->encryption->encrypt($liststd[0]['std_number']);
+					$f = $this->encryption->encrypt($liststd[0]['std_fname'].' '.$liststd[0]['std_lname']);
 					$p = $this->encryption->encrypt($liststd[0]['position_name']);
 					$cookie = array(
 						'name'   => 'syslev',

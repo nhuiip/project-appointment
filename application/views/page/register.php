@@ -64,14 +64,23 @@
 		.form-check .form-check-sign:before {
 			border: 3px solid #afaeae !important;
 		}
+
 		.input-group-prepend .input-group-text {
 			border: 1px solid #afaeae !important;
 			border-right: none !important;
 		}
+
 		.form-control {
 			border: 1px solid #afaeae !important;
 			border-left: none !important;
 		}
+
+		#sub_id.form-control {
+			border: 1px solid #afaeae !important;
+			border-left: none !important;
+			border-radius: 30px !important;
+		}
+
 		#std_imgpre {
 			width: 200px;
 			height: 200px;
@@ -134,7 +143,8 @@
 										<div class="picture-container">
 											<div class="picture">
 												<div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
-												<input type="file" id="std_img" name="" class="valid" aria-invalid="false" accept="image/*">
+												<input type="file" id="std_img" aria-invalid="false" accept="image/*">
+												<input type="hidden" id="std_img2" name="std_img" aria-invalid="false" accept="image/*">
 											</div>
 											<h6 class="description">Choose Picture</h6>
 										</div>
@@ -210,6 +220,29 @@
 													<i class="now-ui-icons ui-1_email-85"></i>
 												</div>
 											</div>
+											<input type="text" class="form-control" name="std_tel" id="std_tel" placeholder="เบอร์โทร">
+										</div>
+										<div class="input-group col-md-6">
+											<div class="input-group-prepend">
+												<div class="input-group-text">
+													<i class="now-ui-icons files_single-copy-04"></i>
+												</div>
+											</div>
+											<select name="sub_id" id="sub_id" class="form-control" placeholder="เลือกวิชาลงทะเบียน">
+												<option value="">เลือกวิชาลงทะเบียน</option>
+												<? foreach ($subject as $key => $value) { ?>
+													<option value="<?= $value['sub_id']; ?>"><?= $value['sub_name']; ?></option>
+												<? } ?>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="input-group col-md-6">
+											<div class="input-group-prepend">
+												<div class="input-group-text">
+													<i class="now-ui-icons ui-1_email-85"></i>
+												</div>
+											</div>
 											<input type="email" class="form-control" name="std_email" id="std_email" placeholder="อีเมล">
 										</div>
 										<div class="input-group col-md-6">
@@ -218,17 +251,9 @@
 													<i class="now-ui-icons tech_mobile"></i>
 												</div>
 											</div>
-											<input type="text" class="form-control" name="std_tel" id="std_tel" placeholder="เบอร์โทร">
-										</div>
-									</div>
-									<div class="input-group">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons business_badge"></i>
-												</div>
-											</div>
 											<input type="text" class="form-control" name="std_pass" id="std_pass" placeholder="รหัสผ่าน">
 										</div>
+									</div>
 									<div class="form-check text-left">
 										<label class="form-check-label">
 											<input class="form-check-input" type="checkbox" name="check-sign" id="check-sign" value="1">
@@ -286,21 +311,22 @@
 			$('#othertitle').slideUp();
 		});
 
-
 		function readURL(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
 
 				reader.onload = function(e) {
 					$('#std_imgpre').css('background', 'url(' + e.target.result + ') no-repeat center');
+					var img = e.target.result;
+					$("#std_img2").val(img);
 				}
 
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-		$("#std_img").change(function() {
+		$("#std_img").change(function(e) {
 			readURL(this);
-			console.log(this);
+			console.log(e.target.result);
 		});
 	</script>
 	<!-- <script>
