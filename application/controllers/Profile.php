@@ -69,7 +69,7 @@ class Profile extends MX_Controller
                         'std_lname'             => $this->input->post('text_lastname'),
                         // 'std_email'             => $this->input->post('text_email'),
                         'std_tel'               => $this->input->post('text_tel'),
-                        'std_pass'               => md5($this->input->post('text_password')),
+                        // 'std_pass'               => md5($this->input->post('text_password')),
                         'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
                         'std_lastedit_date'     => date('Y-m-d H:i:s'),
                     );

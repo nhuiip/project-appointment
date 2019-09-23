@@ -423,7 +423,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
-
     if ($("#formChangemail").length) {
       $("#formChangemail").validate({
         rules: {
@@ -447,24 +446,226 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
-  };
-  if ($("#formAddsubject").length) {
-    $("#formAddsubject").validate({
-      rules: {
-        txt_projectname: {required: true},
-        select_subject: {required: true},
-      },
-      errorPlacement: function() {
-        $("#formErroraddsubject").slideDown();
-        $("#formErroraddsubject").removeClass("hide");
-      },
-      submitHandler: function(form) {
-        fun.dataSubmit(form);
-        return false;
-      }
-    });
-  }
-
-
+    if ($("#formAddproject").length) {
+      $("#formAddproject").validate({
+        rules: {
+          txt_projectname: {
+            required: true,
+            remote: {
+              url: $("#txt_projectname").attr("data-url"),
+              type: "post",
+              data: {
+                use_email: function() {
+                  return $("#txt_projectname").val();
+                }
+              }
+            }},
+        }, 
+        errorPlacement: function() {
+          $("#formErroraddproject").slideDown();
+          $("#formErroraddproject").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add01_cov").length) {
+      $("#add01_cov").validate({
+        rules: {
+          txt_01_cov: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_addfile_01").slideDown();
+          $("#formError_addfile_01").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add02_cer").length) {
+      $("#add02_cer").validate({
+        rules: {
+          txt_02_cer: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_addfile_02").slideDown();
+          $("#formError_addfile_02").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add03_abs").length) {
+      $("#add03_abs").validate({
+        rules: {
+          txt_03_abs: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_addfile_03_abs").slideDown();
+          $("#formError_addfile_03_abs").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add04_ack").length) {
+      $("#add04_ack").validate({
+        rules: {
+          txt_04_ack: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add04_ack").slideDown();
+          $("#formError_add04_ack").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add05_tcb").length) {
+      $("#add05_tcb").validate({
+        rules: {
+          txt_05_tcb: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add05_tcb").slideDown();
+          $("#formError_add05_tcb").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add06_ch01").length) {
+      $("#add06_ch01").validate({
+        rules: {
+          txt_06_ch01: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add06_ch01").slideDown();
+          $("#formError_add06_ch01").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add06_ch02").length) {
+      $("#add06_ch02").validate({
+        rules: {
+          txt_06_ch02: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add06_ch02").slideDown();
+          $("#formError_add06_ch02").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add06_ch03").length) {
+      $("#add06_ch03").validate({
+        rules: {
+          txt_06_ch03: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add06_ch03").slideDown();
+          $("#formError_add06_ch03").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add06_ch04").length) {
+      $("#add06_ch04").validate({
+        rules: {
+          txt_06_ch04: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_addfile_06_ch04").slideDown();
+          $("#formError_addfile_06_ch04").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add06_ch05").length) {
+      $("#add06_ch05").validate({
+        rules: {
+          txt_06_ch05: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_addfile_06_ch05").slideDown();
+          $("#formError_addfile_06_ch05").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add07_ref").length) {
+      $("#add07_ref").validate({
+        rules: {
+          txt_07_ref: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add07_ref").slideDown();
+          $("#formError_add07_ref").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add08_app").length) {
+      $("#add08_app").validate({
+        rules: {
+          txt_08_app: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_add08_app").slideDown();
+          $("#formError_add08_app").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#add09_bio").length) {
+      $("#add09_bio").validate({
+        rules: {
+          txt_09_bio: {required: true},
+        },
+        errorPlacement: function() {
+          $("#formError_addfile_09_bio").slideDown();
+          $("#formError_addfile_09_bio").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+};
   return methods;
 });

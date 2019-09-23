@@ -135,7 +135,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
                             </div>
                         </div>
                         <div class="mgBottom">
-                            <button class="btn btn-primary btn-lw100" type="button" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
+                            <button class="btn btn-primary btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
                         </div>
                     </form>
                 </div>

@@ -21,7 +21,21 @@ class Project_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
+
+	public function searchstdProject($Id){
+		$this->db->select('*');
+		$this->db->like('std_id',$Id);
+		$query = $this->db->get('tb_project');
+		return $query->result_array();
+	}
+
+	public function searchnameProject($Nameproject){
+		$this->db->select('*');
+		$this->db->like('project_name',$Nameproject);
+		$query = $this->db->get('tb_project');
+		return $query->result_array();
+	}
+
     // Insert data
 	public function insertData($data = array()){
 		$this->db->insert("tb_project",$data);
