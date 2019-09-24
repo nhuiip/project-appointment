@@ -48,10 +48,12 @@ class Student extends MX_Controller
     public function create()
     {
     
+        echo $this->input->post('std_img');
+        die;
         if ($this->tokens->verify('formcrf')) {
             $data = array(
                 'sub_id'            => $this->input->post('sub_id'),
-                'std_img'           => $this->input->post('std_number') . '.jpeg',
+                'std_img'           => $this->input->post('std_number') . '.png',
                 'std_number'        => $this->input->post('std_number'),
                 'std_title'         => $this->input->post('std_title'),
                 'std_fname'         => $this->input->post('std_fname'),
@@ -71,9 +73,11 @@ class Student extends MX_Controller
             define('UPLOAD_DIR', './uploads/student/');
             $img = $this->input->post('std_img');
             $img = str_replace('data:image/jpeg;base64,', '', $img);
+            $img = str_replace('data:image/jpg;base64,', '', $img);
+            $img = str_replace('data:image/png;base64,', '', $img);
             $img = str_replace(' ', '+', $img);
             $data = base64_decode($img);
-            $file = UPLOAD_DIR  . $this->input->post('std_number') .'.jpeg';
+            $file = UPLOAD_DIR  . $this->input->post('std_number') .'.png';
             file_put_contents($file, $data);
 
             $result = array(

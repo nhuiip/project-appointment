@@ -313,7 +313,8 @@
 
 		function readURL(input) {
 			if (input.files && input.files[0]) {
-				var reader = new FileReader();
+				const reader = new FileReader({type:'image/png'});
+				// const newreader = new Blob(['foo'], {type:'image/png'});
 
 				reader.onload = function(e) {
 					$('#std_imgpre').css('background', 'url(' + e.target.result + ') no-repeat center');
