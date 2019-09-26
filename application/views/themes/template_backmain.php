@@ -2,6 +2,11 @@
 $loginid 	= $this->encryption->decrypt($this->input->cookie('sysli'));
 $loginname	= $this->encryption->decrypt($this->input->cookie('sysn'));
 $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
+if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->encryption->decrypt($this->input->cookie('sysimg')) != ''){
+	$loginimg = $this->encryption->decrypt($this->input->cookie('sysimg'));
+} else {
+	$loginimg = 'noimage.png';
+}
 
 ?>
 <!DOCTYPE html>
@@ -153,21 +158,22 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 								<ul class="nav navbar-top-links navbar-right">
 									<style>
 										.img-circular {
-											position: relative;
-											width: 30px;
-											height: 30px;
-											background: url("<?=base_url('uploads/student/'.$loginname.'.jpeg');?>") no-repeat center;
-											background-size: cover;
-											display: inline-block;
-											margin: 0;
-											top: 10px;
-											border-radius: 100px;
-											-webkit-border-radius: 100px;
-											-moz-border-radius: 100px;
+											position: relative !important;
+											width: 30px !important;
+											height: 30px !important;
+											background-repeat: no-repeat !important;
+											background-position: center center !important;
+											background-size: cover !important;
+											display: inline-block !important;
+											margin: 0 !important;
+											top: 10px !important;
+											border-radius: 50% !important;
+											-webkit-border-radius: 100px !important;
+											-moz-border-radius: 100px !important;
 										}
 									</style>
 									<li><a href=""><?= $loginname; ?></a></li>
-									<div class="img-circular" style=""></div>
+									<div class="img-circular" style="background: url('<?=base_url("uploads/student/".$loginimg);?>');"></div>
 									<li>
 										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
 									</li>

@@ -18,17 +18,36 @@
 	<!-- CSS Files -->
 	<link href="<?= base_url('assets/css/app.css'); ?>" rel="stylesheet" />
 	<link href="<?= base_url('assets/css/now-ui-dashboard.min.css'); ?>" rel="stylesheet" />
+	<link href="<?= base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/theme.css'); ?>" rel="stylesheet" />
 	<style>
-		label.error {
+		.card-signup .card-footer {
+			margin-top: 0 !important;
+		}
+
+		#std_title-error,
+		#check_sign-error {
 			display: none !important;
 		}
 
+		label.error {
+			width: 100% !important;
+			display: block !important;
+			text-align: end !important;
+			color: #c0392b !important;
+			margin-top: 5px !important;
+			margin-bottom: 0 !important;
+		}
+
 		input.error {
-			border: 1px #c0392b solid !important;
+			border: 1px #c0392b solid !;
 			border-left: none !important;
 			border-right: 1px solid #afaeae !important;
 			border-top: 1px solid #afaeae !important;
+		}
+
+		.input-group .input-group-prepend .input-group-text {
+			display: table !important;
 		}
 
 		.navbar .navbar-brand,
@@ -75,12 +94,6 @@
 			border-left: none !important;
 		}
 
-		#sub_id.form-control {
-			border: 1px solid #afaeae !important;
-			border-left: none !important;
-			border-radius: 30px !important;
-		}
-
 		#std_imgpre {
 			width: 200px;
 			height: 200px;
@@ -91,10 +104,138 @@
 			-webkit-border-radius: 100px;
 			-moz-border-radius: 100px;
 		}
+
+		/* Absolute Center Spinner */
+		.loading {
+			position: fixed;
+			z-index: 999;
+			height: 2em;
+			width: 2em;
+			overflow: visible;
+			margin: auto;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+
+		/* Transparent Overlay */
+		.loading:before {
+			content: '';
+			display: block;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(236, 240, 241, 0.8);
+		}
+
+		/* :not(:required) hides these rules from IE9 and below */
+		.loading:not(:required) {
+			/* hide "loading..." text */
+			font: 0/0 a;
+			color: transparent;
+			text-shadow: none;
+			background-color: transparent;
+			border: 0;
+		}
+
+		.loading:not(:required):after {
+			content: '';
+			display: block;
+			font-size: 10px;
+			width: 1em;
+			height: 1em;
+			margin-top: -0.5em;
+			-webkit-animation: spinner 1500ms infinite linear;
+			-moz-animation: spinner 1500ms infinite linear;
+			-ms-animation: spinner 1500ms infinite linear;
+			-o-animation: spinner 1500ms infinite linear;
+			animation: spinner 1500ms infinite linear;
+			border-radius: 0.5em;
+			-webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+			box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+		}
+
+		/* Animation */
+
+		@-webkit-keyframes spinner {
+			0% {
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-ms-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@-moz-keyframes spinner {
+			0% {
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-ms-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@-o-keyframes spinner {
+			0% {
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-ms-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes spinner {
+			0% {
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-ms-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
 	</style>
 </head>
 
 <body class=" sidebar-mini">
+	<div class="loading">Loading&#8230;</div>
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute bg-primary ">
 		<div class="container-fluid">
@@ -127,9 +268,8 @@
 	<!-- End Navbar -->
 	<div class="wrapper wrapper-full-page ">
 		<div class="full-page register-page section-image" filter-color="black">
-			<div class="container" style="padding-top:100px">
+			<div class="container" style="padding-top:80px">
 				<div class="row">
-
 					<div class="col-md-8 mr-auto">
 						<div class="card card-signup text-center">
 							<div class="card-header ">
@@ -137,7 +277,7 @@
 							</div>
 							<div class="card-body ">
 								<!-- form ---------------------------------------------------------------------------------------------------------------------->
-								<form action="<?= site_url('student/create') ?>" method="post" enctype="multipart/form-data" name="formRegister" id="formRegister" class="form-horizontal" novalidate>
+								<form action="<?= site_url('student/create') ?>" method="post" enctype="multipart/form-data" name="formRegister" id="formRegister" class="form-horizontal" novalidate">
 									<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
 									<div class="col-md-4 ml-auto mr-auto">
 										<div class="picture-container">
@@ -173,7 +313,7 @@
 										</div>
 										<div class="form-check form-check-radio form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input" type="radio" name="std_title" id="other" value="">
+												<input class="form-check-input" type="radio" name="std_title" id="other" value="อื่นๆ">
 												<span class="form-check-sign"></span>
 												อื่นๆ
 											</label>
@@ -211,13 +351,13 @@
 												<i class="now-ui-icons business_badge"></i>
 											</div>
 										</div>
-										<input type="text" class="form-control" name="std_number" id="std_number" placeholder="รหัสนักศึกษา">
+										<input type="text" class="form-control" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" data-url="<?= site_url('student/checknumber') ?>">
 									</div>
 									<div class="row">
 										<div class="input-group col-md-6">
 											<div class="input-group-prepend">
 												<div class="input-group-text">
-													<i class="now-ui-icons ui-1_email-85"></i>
+													<i class="now-ui-icons tech_mobile"></i>
 												</div>
 											</div>
 											<input type="text" class="form-control" name="std_tel" id="std_tel" placeholder="เบอร์โทร">
@@ -228,7 +368,7 @@
 													<i class="now-ui-icons files_single-copy-04"></i>
 												</div>
 											</div>
-											<select name="sub_id" id="sub_id" class="form-control" placeholder="เลือกวิชาลงทะเบียน">
+											<select name="sub_id" id="sub_id" class="form-control custom-select" placeholder="เลือกวิชาลงทะเบียน">
 												<option value="">เลือกวิชาลงทะเบียน</option>
 												<? foreach ($subject as $key => $value) { ?>
 													<option value="<?= $value['sub_id']; ?>"><?= $value['sub_name']; ?></option>
@@ -243,24 +383,16 @@
 													<i class="now-ui-icons ui-1_email-85"></i>
 												</div>
 											</div>
-											<input type="email" class="form-control" name="std_email" id="std_email" placeholder="อีเมล">
+											<input type="email" class="form-control" name="std_email" id="std_email" placeholder="อีเมล" data-url="<?= site_url('student/checkemail') ?>">
 										</div>
 										<div class="input-group col-md-6">
 											<div class="input-group-prepend">
 												<div class="input-group-text">
-													<i class="now-ui-icons tech_mobile"></i>
+													<i class="now-ui-icons ui-1_lock-circle-open"></i>
 												</div>
 											</div>
-											<input type="text" class="form-control" name="std_pass" id="std_pass" placeholder="รหัสผ่าน">
+											<input type="password" class="form-control" name="std_pass" id="std_pass" placeholder="รหัสผ่าน">
 										</div>
-									</div>
-									<div class="form-check text-left">
-										<label class="form-check-label">
-											<input class="form-check-input" type="checkbox" name="check-sign" id="check-sign" value="1">
-											<span class="form-check-sign"></span>
-											I agree to the
-											<a href="#something">terms and conditions</a>.
-										</label>
 									</div>
 							</div>
 							<div class="card-footer ">
@@ -302,7 +434,9 @@
 	<script src="<?= base_url('assets/js/now-ui-dashboard.min.js'); ?>" type="text/javascript"></script>
 	<script src="<?= base_url('assets/js/themes.js'); ?>" type="text/javascript"></script>
 	<script type="text/javascript" src="<?= base_url('assets/js/lib/plugins/validate/jquery.validate.min.js') ?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/js/lib/plugins/toastr/toastr.min.js') ?>"></script>
 	<script>
+		$('.loading').hide();
 		$('#othertitle').hide();
 		$("#other").click(function() {
 			$('#othertitle').slideDown();
@@ -313,15 +447,14 @@
 
 		function readURL(input) {
 			if (input.files && input.files[0]) {
-				const reader = new FileReader({type:'image/png'});
-				// const newreader = new Blob(['foo'], {type:'image/png'});
-
+				const reader = new FileReader({
+					type: 'image/png'
+				});
 				reader.onload = function(e) {
 					$('#std_imgpre').css('background', 'url(' + e.target.result + ') no-repeat center');
 					var img = e.target.result;
 					$("#std_img2").val(img);
 				}
-
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
@@ -330,28 +463,116 @@
 			console.log(e.target.result);
 		});
 	</script>
-	<!-- <script>
+	<script>
 		$("#formRegister").validate({
 			rules: {
 				std_title: {
 					required: true
 				},
-				password: {
+				std_fname: {
 					required: true
 				},
+				std_lname: {
+					required: true
+				},
+				std_number: {
+					required: true,
+					remote: {
+						url: $("#std_number").attr("data-url"),
+						type: "post",
+						data: {
+							std_number: function() {
+								return $("#std_number").val();
+							}
+						}
+					}
+				},
+				std_tel: {
+					required: true
+				},
+				sub_id: {
+					required: true
+				},
+				std_email: {
+					required: true,
+					email: true,
+					remote: {
+						url: $("#std_email").attr("data-url"),
+						type: "post",
+						data: {
+							std_email: function() {
+								return $("#std_email").val();
+							}
+						}
+					}
+				},
+				std_pass: {
+					required: true,
+					minlength: 6
+				},
 			},
-			submitHandler: function(form) {
-				form.submit();
+			messages: {
+				std_title: {
+					required: "กรุณาเลือกคำนำหน้า."
+				},
+				std_fname: {
+					required: "กรุณากรอกชื่อ."
+				},
+				std_lname: {
+					required: "กรุณากรอกนามสกุล."
+				},
+				std_lname: {
+					required: "กรุณากรอกนามสกุล."
+				},
+				std_number: {
+					required: "กรุณากรอกนามสกุล.",
+					remote: "รหัสนักศึกษานี้มีในระบบอยุ่แล้ว"
+				},
+				std_tel: {
+					required: "กรุณากรอกเบอร์โทร."
+				},
+				sub_id: {
+					required: "กรุณาเลือกวิชาลงทะเบียน."
+				},
+				std_email: {
+					required: "กรุณากรอกอีเมล.",
+					email: "รูปแบบอีเมลผิดพลาด.",
+					remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
+				},
+				std_pass: {
+					required: "กรุณากรอกรหัสผ่าน.",
+					minlength: "กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัวอักษร."
+				},
+			},
+			submitHandler: function() {
+				$('.loading').show();
+				$.ajax({
+					url: $("#formRegister").attr("action"),
+					data: $("#formRegister").serialize(),
+					type: 'POST',
+					dataType: "json",
+					success: function(result) {
+						toastr.options = {
+							closeButton: true,
+							progressBar: true,
+							positionClass: "toast-top-center",
+							showMethod: "slideDown",
+							timeOut: 1000
+						};
+						if (result.error === true) {
+							toastr.warning(result.title, result.msg);
+							console.log(result.msg);
+						} else {
+							toastr.success(result.title, result.msg);
+							setTimeout(function() {
+								location.href = result.url;
+							}, 1000);
+						}
+					}
+				});
 			}
 		});
-	</script> -->
-	<script>
-		$(document).ready(function() {
-			themejs.checkFullPageBackgroundImage();
-		});
 	</script>
-
-
 </body>
 
 </html>
