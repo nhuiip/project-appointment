@@ -21,7 +21,7 @@ class Project_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-
+	
 	public function searchstdProject($Id){
 		$this->db->select('*');
 		$this->db->like('std_id',$Id);

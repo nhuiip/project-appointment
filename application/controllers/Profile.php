@@ -33,8 +33,6 @@ class Profile extends MX_Controller
                 $condition = array();
                 $condition['fide'] = "*";
                 $data['listsubject'] = $this->subject->listData($condition);
-
-                $data['position'] =   $this->encryption->decrypt($this->input->cookie('sysp'));
     
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('student/profile', $data);

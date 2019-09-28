@@ -23,6 +23,36 @@ class Student_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function getrecordCount($search="") {
+
+		$this->db->select('count(*) as allcount');
+		$this->db->from('tb_student');
+	
+		if($search != ''){
+			$this->db->like('std_number', $search);
+		}
+
+		$query = $this->db->get();
+		$result = $query->result_array();
+	
+		return $result[0]['allcount'];
+	}
+
+	public function getData($rowno,$rowperpage,$search="") {
+ 
+		$this->db->select('*');
+		$this->db->from('tb_student');
+	
+		if($search != ''){
+		  $this->db->like('std_number', $search);
+		}
+	
+		$this->db->limit($rowperpage, $rowno); 
+		$query = $this->db->get();
+	 
+		return $query->result_array();
+	  }
+
     // Insert data
 	public function insertData($data = array()){
 		$this->db->insert("tb_section",$data);

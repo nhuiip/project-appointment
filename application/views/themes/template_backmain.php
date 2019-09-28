@@ -29,6 +29,7 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 	<link href="<?= base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/animate.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet">
+	
 	<?PHP
 	if (!empty($css)) {
 		echo $css;

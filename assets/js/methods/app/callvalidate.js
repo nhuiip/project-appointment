@@ -449,21 +449,26 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#formAddproject").length) {
       $("#formAddproject").validate({
         rules: {
-          txt_projectname: {
-            required: true,
-            remote: {
-              url: $("#txt_projectname").attr("data-url"),
-              type: "post",
-              data: {
-                use_email: function() {
-                  return $("#txt_projectname").val();
-                }
-              }
-            }},
+          txt_projectname: { required: true }
         }, 
         errorPlacement: function() {
           $("#formErroraddproject").slideDown();
           $("#formErroraddproject").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formsearchStudent").length) {
+      $("#formsearchStudent").validate({
+        rules: {
+          txt_search: { required: true }
+        }, 
+        errorPlacement: function() {
+          $("#formError_studentsearch").slideDown();
+          $("#formError_studentsearch").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

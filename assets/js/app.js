@@ -22,7 +22,7 @@ requirejs.config({
     inspinia: "../methods/inspinia.min",
     function: "../methods/app/function",
     callvalidate: "../methods/callvalidate.min",
-    callplugins: "../methods/callplugins.min"
+    callplugins: "../methods/callplugins.min",
   },
   shim: {
     bootstrap: {
@@ -103,10 +103,12 @@ requirejs(
 // sweetalert none
 $(".btn-alert").click(function() {
   var url = $(this).attr("data-url");
-  var title = $(this).attr("data-text");
+  var title = $(this).attr("data-title");
+  var text = $(this).attr("data-text");
   swal(
     {
       title: title,
+      text: text,
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#c0392b",
