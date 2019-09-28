@@ -49,8 +49,8 @@ class Profile extends MX_Controller
                 $data['listdata'] = $this->administrator->listjoinData($condition);
 
                 $condition = array();
-                $condition['fide'] = "'tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1, 'tb_settings.set_status' => 2";
-                $condition['orderby'] = "set_id DESC  ";
+                $condition['fide'] = "*";
+                $condition['where'] = array('tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1, 'tb_settings.set_status' => 2);
                 $data['listsubject'] = $this->subject->listjoinData($condition);
 
                 $data['formcrf'] = $this->tokens->token('formcrf');
