@@ -53,7 +53,6 @@ class Profile extends MX_Controller
                 $condition['orderby'] = "set_id DESC  ";
                 $data['listsubject'] = $this->subject->listjoinData($condition);
 
-
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('administrator/profile', $data);
             } else {
