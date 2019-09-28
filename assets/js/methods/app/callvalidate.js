@@ -360,16 +360,16 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           text_tel: {
             required: true
-          },
-          text_password: {
-            required: true
           }
         },
         messages: {
+          text_name: { required: "กรุณากรอกข้อมูล."},
+          text_lastname: { required: "กรุณากรอกข้อมูล."},
           text_email: {
             required: "กรุณากรอกข้อมูล.",
             email: "รูปแบบ E-mail ผิดพลาด."
-          }
+          },
+          text_tel: {required: "กรุณากรอกข้อมูล."}
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

@@ -13,7 +13,7 @@ class Profile extends MX_Controller
 
     public function index($id = "")
     {
-        $poslogin   = $this->input->cookie('sysp');
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
@@ -30,6 +30,7 @@ class Profile extends MX_Controller
                     $data = array();
                     $condition = array();
                     $condition['fide'] = "*";
+                    $condition['where'] = array('std_id' => $id);
                     $data['liststudent'] = $this->student->listjoinData($condition);
 
                     $condition = array();

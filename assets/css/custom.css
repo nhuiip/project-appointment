@@ -194,3 +194,8 @@ label.error {
 .modal {
     padding-top: 100px !important;
 }
+
+/* button */
+.btn-update-profile{
+    padding:10px;
+}

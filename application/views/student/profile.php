@@ -131,13 +131,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <label class="col-lg-12">รหัสผ่าน<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                <div class="col-lg-9">
-                                    <input placeholder="รหัสผ่าน" type="password" class="form-control" name="text_password" id="text_password" value="<?=$Text_password;?>">
-                                </div>
-                                <div class="col-lg-3">
-                                    <input type="checkbox" onclick="ShowHidePassword()">&nbsp;&nbsp;<label>แสดงรหัสผ่าน</label>
-                                </div>
+                                <div class="col-lg-12"></div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -145,8 +139,12 @@ if (isset($liststudent) && count($liststudent) != 0) {
                                 <div class="col-lg-12">เข้าสู่ระบบล่าสุด : <?=$lastlogin;?></div>
                             </div>
                         </div>
-                        <div class="mgBottom">
-                            <button class="btn btn-primary btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <div class="mgBottom">
+                                    <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
