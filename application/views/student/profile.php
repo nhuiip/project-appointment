@@ -21,6 +21,25 @@ if (isset($liststudent) && count($liststudent) != 0) {
         $lastedit_date    = $student['std_lastedit_date'];
     }
 } 
+
+$this->db->select('*');
+$this->db->from('tb_subject');
+$this->db->join('tb_user', 'tb_user.use_id = tb_subject.use_id');
+$this->db->where(array('tb_subject.sub_id' => $IdSub));
+$query_subject = $this->db->get();
+$listsubject = $query_subject->result_array();
+
+if (isset($listsubject) && count($listsubject) != 0) {
+    foreach ($listsubject as $key => $subject) {
+        $subjectcode      = $subject['sub_code'];
+        $subjectname      = $subject['sub_name'];
+        $subjectsetuse    = $subject['sub_setuse'];
+        $usefullname      = $subject['use_name'];
+        $subjectstatus    = $subject['sub_status'];
+    }
+} 
+
+
 ?>
 <style>
     .picture input[type="file"] {
@@ -113,8 +132,8 @@ if (isset($liststudent) && count($liststudent) != 0) {
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <label class="col-lg-12">อีเมล์</label>
-                                <div class="col-lg-9">
+                                <label class="col-md-12 col-lg-12">อีเมล์</label>
+                                <div class="col-md-9 col-lg-9">
                                     <input placeholder="อีเมล์" class="form-control" name="text_email" id="text_email" value="<?=$Text_email;?>" disabled>
                                     <?PHP if(!empty($Text_emailchang)){?>
                                         <p>
@@ -124,8 +143,15 @@ if (isset($liststudent) && count($liststudent) != 0) {
                                         </p>
                                     <?PHP } ?>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-md-3 col-lg-3">
                                     <button data-toggle="modal"  type="button" class="btn btn-outline btn-primary btn-lw100" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-outline btn-warning" data-toggle="modal" href="#modal-chengpassword">เปลี่ยนรหัสผ่าน</button>
                                 </div>
                             </div>
                         </div>
@@ -154,31 +180,24 @@ if (isset($liststudent) && count($liststudent) != 0) {
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
-                    <div class="ibox-tools">
-                        <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal-addsubject"><i class="fa fa-plus-square-o"></i> เพิ่มข้อมูล</button>
-                    </div>
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal">
-                        <p>Sign in today for more expirience.</p>
-                        <div class="form-group"><label class="col-lg-2 control-label">Email</label>
-
-                            <div class="col-lg-10"><input type="email" placeholder="Email" class="form-control"> <span class="help-block m-b-none">Example block-level help text here.</span>
-                            </div>
-                        </div>
-                        <div class="form-group"><label class="col-lg-2 control-label">Password</label>
-
-                            <div class="col-lg-10"><input type="password" placeholder="Password" class="form-control"></div>
+                        <div class="form-group">
+                            <label class="col-lg-3">รหัสวิชา :</label>
+                            <label class="col-lg-9"><?=$subjectcode;?></label>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <div class="i-checks"><label> <div class="icheckbox_square-green" style="position: relative;"><input type="checkbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div><i></i> Remember me </label></div>
-                            </div>
+                            <label class="col-lg-3">ชื่อวิชา :</label>
+                            <label class="col-lg-9"><?=$subjectname;?></label>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <button class="btn btn-sm btn-white" type="submit">Sign in</button>
-                            </div>
+                            <label class="col-lg-3">อาจารย์ประจำวิชา :</label>
+                            <label class="col-lg-9"><?=$usefullname;?></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3">อาจารย์ขึ้นสอบจำนวน :</label>
+                            <label class="col-lg-9"><?=$subjectsetuse;?> คน</label>
                         </div>
                     </form>
                 </div>
@@ -187,106 +206,45 @@ if (isset($liststudent) && count($liststudent) != 0) {
     </div>
 </div>
 
-<!-- <form action="<?=base_url('profile/update/'.$Id);?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
-<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-<input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
+<form action="<?=base_url('profile/changemail/'.$Id);?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
+    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
 
-<div id="modal-student" class="modal fade " aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-lg" >
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6 b-r"><h3 class="m-t-none m-b"><i class="fa fa-user"></i><span class="nav-label">  ข้อมูลส่วนตัว</span></h3>
-                        <hr/>
-                        <div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            กรุณากรอกข้อมูลที่มีเครื่องหมาย <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> ให้ครบถ้วน.
-                        </div>
-                        <div class="form-group-mgTB">
-                            <label>รหัสนักศึกษา : <?=$Tetx_number;?></label>
-                        </div>
-                        <div class="form-group-mgTB">
-                            <label>ชื่อ<a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a></label> 
-                            <input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?=$Text_name;?>"class="form-control">
-                        </div>
-                        <div class="form-group-mgTB">
-                            <label>นามสกุล<a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a></label> 
-                            <input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?=$Text_lastname;?>">
-                        </div>
-                        <div class="form-group-mgTB">
-                            <label>อีเมล์<a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a></label> 
-                            <input placeholder="อีเมล์" class="form-control" name="text_email" id="text_email" value="<?=$Text_email;?>">
-                        </div>
-                        <div class="form-group-mgTB">
-                            <label>เบอร์โทรศัพท์<a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a></label> 
-                            <input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?=$Tetx_tel;?>">
-                        </div>
-                        <div class="mgBottom">
-                            <button class="btn btn-primary btn-lw100 pull-right m-t-n-xs" type="submit"><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
-                        </div>
-                    </div>
-                    <div class="col-sm-6"><h4>Not a member?</h4>
-                        <p>You can create an account:</p>
-                        <p class="text-center">
-                            <a href=""><i class="fa fa-sign-in big-icon"></i></a>
-                        </p>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
-</form> -->
-<form action="<?=base_url('profile/changemail/'.$Id);?>" method="post" enctype="multipart/form-data" name="formChangemail" id="formChangemail" class="form-horizontal" novalidate>                   
-<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-<input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
-
-<div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h3 class="m-t-none m-b">เปลี่ยนที่อยู่อีเมล์</h3>
-                <p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนแล้วต้องกดยืนยันที่อยู่อีเมล์ก่อน จึงจะสามารถใช้งานที่อยู่อีเมล์ใหม่ที่เปลี่ยนได้.</p>
-                <hr/>
-                <div class="alert alert-warning alert-dismissable hide" id="formErrorchangemail" style="color:#333">
-                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                    กรุณากรอกข้อมูลอีเมล์ให้ถูกต้อง.
-                </div>
-                <div class="form-group-mgTB">
-                        <input type="email" name="text_email" id="text_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control">
+    <div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3 class="m-t-none m-b">เปลี่ยนที่อยู่อีเมล์</h3>
+                    <p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนอีเมล์แล้วต้องเข้าสู่ระบบใหม่อีกครั้ง.</p>
+                    <hr/>
+                    <div class="form-group-mgTB">
+                        <input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control"  data-url="<?=site_url('profile/checkemail');?>" >
                     </div>
                     <div class="mgBottom">
                         <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนที่อยู่อีเมล์</strong></button>
                     </div>
-                <div style="margin-bottom: 20px;"></div>
+                    <div style="margin-bottom: 20px;"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </form>
 
-
-<form action="<?=base_url('profile/addsubject/'.$Id);?>" method="post" enctype="multipart/form-data" name="formAddsubject" id="formAddsubject" class="form-horizontal" novalidate>                   
+<form action="<?=base_url('profile/changepassword');?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>                   
 <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-<input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
+<input type="hidden" name="Id2" id="Id2" value="<?=$Id;?>">
 
-<div id="modal-addsubject" class="modal fade" aria-hidden="true" style="display: none;">
+<div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h3 class="m-t-none m-b">ข้อมูลปริญญานิพนธ์</h3>
-                <!-- <p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนแล้วต้องกดยืนยันที่อยู่อีเมล์ก่อน จึงจะสามารถใช้งานที่อยู่อีเมล์ใหม่ที่เปลี่ยนได้.</p> -->
+                <h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
                 <hr/>
-                <div class="alert alert-warning alert-dismissable hide" id="formErroraddsubject" style="color:#333">
-                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                    กรุณากรอกข้อมูลโปรเจค
-                </div>
                 <div class="form-group-mgTB">
-                    <label>ชื่อโปรเจค</label>
-                    <input placeholder="ชื่อโปรเจค" class="form-control" name="txt_showcode" id="txt_showcode" value="" disabled>
+                    <input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
                 </div>
                 <div class="mgBottom">
-                    <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันข้อมูลรายวิชาที่ลงทะเบียน</strong></button>
+                    <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
                 </div>
                 <div style="margin-bottom: 20px;"></div>
             </div>
@@ -295,6 +253,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
 </div>
 </form>
 
+<!-- แสดงภาพก่อนอัพโหลด -->
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -311,6 +270,4 @@ if (isset($liststudent) && count($liststudent) != 0) {
         readURL(this);
         console.log(this);
     });
-
-   
 </script>

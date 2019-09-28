@@ -161,6 +161,50 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formChangemailstd").length) {
+      $("#formChangemailstd").validate({
+        rules: {
+          std_email: {
+            required: true,
+            email: true,
+            remote: {
+              url: $("#std_email").attr("data-url"),
+              type: "post",
+              data: {
+                std_email: function() {
+                  return $("#std_email").val();
+                }
+              }
+            }
+          },
+        },
+        messages: {
+          std_email: {
+            required: "กรุณากรอกอีเมล.",
+            email: "รูปแบบอีเมลผิดพลาด.",
+            remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formChangepasswordstd").length) {
+      $("#formChangepasswordstd").validate({
+        rules: {
+          std_password: { required: true },
+        },
+        messages: {
+          std_password: { required: "กรุณากรอกรหัสผ่าน." },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
     if ($("#formSetting").length) {
       $("#formSetting").validate({
         rules: {

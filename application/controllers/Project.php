@@ -11,33 +11,38 @@ class Project extends MX_Controller
         $this->load->model("subject_model", "subject");
     }
 
-    public function index()
+    public function index($id = "")
     {
-        if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) != 'นักศึกษา'){
-            $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+            if ($id == "") {
+                show_404();
+            } elseif ($poslogin == 'นักศึกษา' && $idlogin == $id) {
             
-            $data = array();
-            //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
-            $condition = array();
-            $condition['fide'] = "*";
-            $data['listsubject'] = $this->subject->listjoinData2($condition);
-        
-            //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
-            $data['searchProject'] = $this->project->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
+                $data = array();
+                //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
+                $condition = array();
+                $condition['fide'] = "*";
+                $data['listsubject'] = $this->subject->listjoinData2($condition);
+            
+                //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
+                $data['searchProject'] = $this->project->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
 
-            $data['Id']         =   $this->encryption->decrypt($this->input->cookie('sysli'));   
-            $data['position']   =   $this->encryption->decrypt($this->input->cookie('sysp'));   
+                $data['Id']         =   $this->encryption->decrypt($this->input->cookie('sysli'));   
+                $data['position']   =   $this->encryption->decrypt($this->input->cookie('sysp'));   
 
-            $search_text = $this->input->post('txt_search');
+                $search_text = $this->input->post('txt_search');
 
-            $condition = array();
-            $condition['fide'] = "*";
-            $condition['where'] = array('std_number' => $search_text);
-            $data['liststudent'] = $this->student->listData($condition);
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('std_number' => $search_text);
+                $data['liststudent'] = $this->student->listData($condition);
 
-            $data['formcrf'] = $this->tokens->token('formcrf');
-            $this->template->backend('student/project', $data);
+                $data['formcrf'] = $this->tokens->token('formcrf');
+                $this->template->backend('student/project', $data);
+            }
 
         }
 

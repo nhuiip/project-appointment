@@ -33,10 +33,6 @@ class Profile extends MX_Controller
                     $condition['where'] = array('std_id' => $id);
                     $data['liststudent'] = $this->student->listjoinData($condition);
 
-                    $condition = array();
-                    $condition['fide'] = "*";
-                    $data['listsubject'] = $this->subject->listData($condition);
-
                     // $data['position'] = $poslogin;
                     $data['formcrf'] = $this->tokens->token('formcrf');
                     $this->template->backend('student/profile', $data);
@@ -136,7 +132,7 @@ class Profile extends MX_Controller
                 if ($this->tokens->verify('formcrf')) {
                     $data = array(
                         'std_id'                => $this->input->post('Id'),
-                        'std_emailchang'             => $this->input->post('text_email'),
+                        'std_email'             => $this->input->post('std_email'),
                         'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
                         'std_lastedit_date'     => date('Y-m-d H:i:s'),
                     );
@@ -146,8 +142,8 @@ class Profile extends MX_Controller
                     if (!empty($Id)) {
                         $result = array(
                             'error' => false,
-                            'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้ว รอการยืนยันผ่านทางอีเมล์',
-                            'url' => site_url('profile/index/' . $Id)
+                            'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้ว กรุณาเข้าสู่ระบบใหม่อีกครั้ง',
+                            'url' => site_url('administrator/logout')
                         );
                         echo json_encode($result);
                     } else {
@@ -174,7 +170,7 @@ class Profile extends MX_Controller
     private function upfileimages($Fild_Name,$Nember)
     {
 
-		$fileold = $this->input->post($Fild_Name.'_old');
+		$fileold = base64_decode($this->input->post($Fild_Name.'_old'));
 		if(!empty($_FILES[$Fild_Name])){
 			$new_name = $Nember;
 			$config['upload_path'] = './uploads/student/';
@@ -203,4 +199,64 @@ class Profile extends MX_Controller
 			return $fileold;
 		}
     }
+
+    public function checkemail()
+	{
+		// check email count 0 = true or than 0 = false
+		$std_email = $this->input->post('std_email');
+		if (!empty($std_email)) {
+			$condition = array();
+			$condition['fide'] = "std_email";
+			$condition['where'] = array('std_email' => $std_email);
+			$listemail = $this->student->listData($condition);
+			if (count($listemail) == 0) {
+				echo "true";
+			} else {
+				echo "false";
+			}
+		}
+    }
+    
+    public function changepassword()
+	{
+
+        // print($this->input->post('Id'));
+        // print('<br/>');
+        // print($this->input->post('std_password'));
+        // die;
+
+		if ($this->tokens->verify('formcrf')) {
+			$data = array(
+				'std_id' 		=> $this->input->post('Id2'),
+				'std_pass' 		=> md5($this->input->post('std_password'))
+            );
+            
+            $Id = $this->student->updateStd($data);
+            
+            if (!empty($Id)) {
+                $result = array(
+                    'error' => false,
+                    'msg' => 'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว',
+                    'url' => site_url('profile/index/' .$this->input->post('Id2'))
+                );
+                echo json_encode($result);
+            } else {
+                $result = array(
+                    'error' => true,
+                    'title' => "ล้มเหลว",
+                    'msg' => 'อัพเดตข้อมูลไม่สำเร็จ',
+                );
+                echo json_encode($result);
+            }
+            die;
+        } else {
+            $result = array(
+                'error' => true,
+                'title' => "ล้มเหลว",
+                'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
+            );
+            echo json_encode($result);
+        }
+
+	}
 }

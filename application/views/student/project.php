@@ -42,13 +42,6 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
-                        <div class="ibox-tools" >
-                                <!-- <?PHP if(isset($project_id) == 0){ ?>
-                                    <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal_addnameproject"><i class="fa fa-plus-square-o"></i> เพิ่มหัวข้อปริญญานิพนธ์</button>
-                                <?PHP }else{ ?>
-                                    เปลี่ยนโปรเจค
-                                <?PHP } ?> -->
-                        </div>
                     </div>
                     <div class="ibox-content">
                         <?PHP if(!empty($project_name)){ ?>
@@ -81,65 +74,6 @@
 
                     </div>
                 </div>
-
-                <!-- <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
-                        <div class="ibox-tools" >
-                            <?PHP if(!empty($project_name)){ ?>
-                                <?PHP if(count($project_name) == 0){ ?>
-                                    <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal_addnameproject"><i class="fa fa-plus-square-o"></i> เพิ่มหัวข้อปริญญานิพนธ์</button>
-                                <?PHP }else{ ?>
-                                    เปลี่ยนโปรเจค
-                                <?PHP } ?>
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-
-                            <br/>
-                            <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                กรุณากรอกรหัสนักศึกษา
-                            </div>
-                            <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
-                                <br/>
-                                <div class="input-group" >
-                                    <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
-                                    <span class="input-group-btn"> 
-                                        <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
-                                    </span>
-                                </div>
-                                <br/>
-                            </form>
-                            <div class="hr-line-dashed"></div>
-                            <?PHP if (count($liststudent) != 0) { ?>
-                                <?PHP foreach ($liststudent as $key => $value) { 
-                                    $std_number = $value['std_number'];
-                                    $std_title = $value['std_title'];
-                                    $std_fname = $value['std_fname'];
-                                    $std_lname = $value['std_lname'];  
-                                    
-                                    $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
-                                    $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
-                                ?>
-                                    <div class="alert alert-success">
-                                        <div class="checkbox checkbox-primary">
-                                            <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
-                                            <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
-                                        </div>
-                                    </div>
-                                <?PHP } ?>
-                            <?PHP } else { ?>
-                                <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
-                            <?PHP } ?>
-                            <?PHP if(!empty($pagination)){?>
-                                <div class="hr-line-dashed"></div>
-                                <div style="text-align: right;"> <?=$pagination;?> </div>
-                            <?PHP } ?>
-                    </div>
-                </div> -->
-
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
@@ -153,101 +87,7 @@
                             <?PHP } ?>
                         </div>
                     </div>
-                    <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                    <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณากรอกรหัสนักศึกษา
-                                </div>
-                                <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
-                                    <br/>
-                                    <div class="input-group" >
-                                        <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
-                                        <span class="input-group-btn"> 
-                                            <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
-                                        </span>
-                                    </div>
-                                    <br/>
-                                </form>
-                                <div class="hr-line-dashed"></div>
-                                <?PHP if (count($liststudent) != 0) { ?>
-                                    <?PHP foreach ($liststudent as $key => $value) { 
-                                        $std_number = $value['std_number'];
-                                        $std_title = $value['std_title'];
-                                        $std_fname = $value['std_fname'];
-                                        $std_lname = $value['std_lname'];  
-                                        
-                                        $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
-                                        $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
-                                    ?>
-                                        <div class="alert alert-success">
-                                            <div class="checkbox checkbox-primary">
-                                                <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject2/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
-                                                <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
-                                            </div>
-                                        </div>
-                                    <?PHP } ?>
-                                <?PHP } else { ?>
-                                    <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
-                                <?PHP } ?>
-                                <?PHP if(!empty($pagination)){?>
-                                    <div class="hr-line-dashed"></div>
-                                    <div style="text-align: right;"> <?=$pagination;?> </div>
-                                <?PHP } ?>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="well">
-                                    <div class="form-group-mgTB grid-two-show-subject">
-                                        <label>ชื่อโปรเจค<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                        <div>
-                                            <input type="text" class="form-control" name="txt_projectname" id="txt_projectname" data-url="<?=site_url('project/checkprojectname');?>" accept=".pdf">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                            <!-- <br/>
-                            <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                กรุณากรอกรหัสนักศึกษา
-                            </div>
-                            <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
-                                <br/>
-                                <div class="input-group" >
-                                    <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
-                                    <span class="input-group-btn"> 
-                                        <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
-                                    </span>
-                                </div>
-                                <br/>
-                            </form>
-                            <div class="hr-line-dashed"></div>
-                            <?PHP if (count($liststudent) != 0) { ?>
-                                <?PHP foreach ($liststudent as $key => $value) { 
-                                    $std_number = $value['std_number'];
-                                    $std_title = $value['std_title'];
-                                    $std_fname = $value['std_fname'];
-                                    $std_lname = $value['std_lname'];  
-                                    
-                                    $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
-                                    $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
-                                ?>
-                                    <div class="alert alert-success">
-                                        <div class="checkbox checkbox-primary">
-                                            <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
-                                            <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
-                                        </div>
-                                    </div>
-                                <?PHP } ?>
-                            <?PHP } else { ?>
-                                <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
-                            <?PHP } ?>
-                            <?PHP if(!empty($pagination)){?>
-                                <div class="hr-line-dashed"></div>
-                                <div style="text-align: right;"> <?=$pagination;?> </div>
-                            <?PHP } ?> -->
+                    <div class="ibox-content">   
 
                     </div>
                 </div>
@@ -462,596 +302,519 @@
         </div>
     </div>
 
-    <form action="<?=base_url('project/addproject/'.$Id);?>" method="post" enctype="multipart/form-data" name="formAddproject" id="formAddproject" class="form-horizontal" novalidate>  
+<!-- =======================================  upload file project  =======================================   -->
+    <?PHP if(count($searchProject) != 0){ ?>
+        <!-- modal update file -->
+        <form action="<?=base_url('project/add01_cov/'.$Id);?>" method="post" enctype="multipart/form-data" name="add01_cov" id="add01_cov" class="form-horizontal" novalidate>  
+            <input type="hidden" class="form-control" name="txt_01_cov_old" id="txt_01_cov_old" value="<?=$project_filecov;?>">
 
-        <div id="modal_addnameproject" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div id="modal_01_cov" class="modal fade" role="dialog">
+                <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  หัวข้อปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="use_id" id="use_id" value="<?=$teacher_id;?>">    
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formErroraddproject" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                   ข้อมูลอาจไม่ครบถ้วน กรุณากรอกข้อมูลอีกครั้ง
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">ชื่อโปรเจค<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="txt_projectname" id="txt_projectname" data-url="<?=site_url('project/checkprojectname');?>" accept=".pdf">
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            กรุณากรอกรหัสนักศึกษา
-                        </div>
-                        <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
                             <br/>
-                            <div class="input-group" >
-                                <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
-                                <span class="input-group-btn"> 
-                                    <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
-                                </span>
-                            </div>
-                            <br/>
-                        </form>
-                        <div class="hr-line-dashed"></div>
-                        <?PHP if (count($liststudent) != 0) { ?>
-                            <?PHP foreach ($liststudent as $key => $value) { 
-                                $std_number = $value['std_number'];
-                                $std_title = $value['std_title'];
-                                $std_fname = $value['std_fname'];
-                                $std_lname = $value['std_lname'];  
-                                
-                                $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
-                                $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
-                            ?>
-                                <div class="alert alert-success">
-                                    <div class="checkbox checkbox-primary">
-                                        <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
-                                        <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_01" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
                                     </div>
                                 </div>
-                            <?PHP } ?>
-                        <?PHP } else { ?>
-                            <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
-                        <?PHP } ?>
-                        <?PHP if(!empty($pagination)){?>
-                            <div class="hr-line-dashed"></div>
-                            <div style="text-align: right;"> <?=$pagination;?> </div>
-                        <?PHP } ?>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มหัวข้อปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
-
-            </div>
-        </div>
-    </form>
-    <?PHP if(count($searchProject) != 0){ ?>
-    <!-- modal update file -->
-    <form action="<?=base_url('project/add01_cov/'.$Id);?>" method="post" enctype="multipart/form-data" name="add01_cov" id="add01_cov" class="form-horizontal" novalidate>  
-        <input type="hidden" class="form-control" name="txt_01_cov_old" id="txt_01_cov_old" value="<?=$project_filecov;?>">
-
-        <div id="modal_01_cov" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_01" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-12">หน้าปกภาษาไทยและภาษาอังกฤษ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" name="txt_01_cov" id="txt_01_cov" accept=".pdf">
+                                    <input type="hidden" class="form-control" name="txt_01_cov_old" id="txt_01_cov_old">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">หน้าปกภาษาไทยและภาษาอังกฤษ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control" name="txt_01_cov" id="txt_01_cov" accept=".pdf">
-                                <input type="hidden" class="form-control" name="txt_01_cov_old" id="txt_01_cov_old">
-                            </div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
-    <form action="<?=base_url('project/add02_cer/'.$Id);?>" method="post" enctype="multipart/form-data" name="add02_cer" id="add02_cer" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_02_cer" id="txt_02_cer" value="<?=$project_filecer;?>">
-        <div id="modal_02_cer" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        </form>
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_02" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+        <form action="<?=base_url('project/add02_cer/'.$Id);?>" method="post" enctype="multipart/form-data" name="add02_cer" id="add02_cer" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_02_cer" id="txt_02_cer" value="<?=$project_filecer;?>">
+            <div id="modal_02_cer" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_02" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">ใบรับรองปริญญานิพนธ์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_02_cer" id="txt_02_cer" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">ใบรับรองปริญญานิพนธ์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_02_cer" id="txt_02_cer" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add03_abs/'.$Id);?>" method="post" enctype="multipart/form-data" name="add03_abs" id="add03_abs" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_03_abs" id="txt_03_abs" value="<?=$project_fileabs;?>">
-        <div id="modal_03_abs" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add03_abs/'.$Id);?>" method="post" enctype="multipart/form-data" name="add03_abs" id="add03_abs" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_03_abs" id="txt_03_abs" value="<?=$project_fileabs;?>">
+            <div id="modal_03_abs" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_03_abs" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_03_abs" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">บทคัดย่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_03_abs" id="txt_03_abs" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">บทคัดย่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_03_abs" id="txt_03_abs" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add04_ack/'.$Id);?>" method="post" enctype="multipart/form-data" name="add04_ack" id="add04_ack" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_04_ack" id="txt_04_ack" value="<?=$project_fileack;?>">
-        <div id="modal_04_ack" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add04_ack/'.$Id);?>" method="post" enctype="multipart/form-data" name="add04_ack" id="add04_ack" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_04_ack" id="txt_04_ack" value="<?=$project_fileack;?>">
+            <div id="modal_04_ack" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add04_ack" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add04_ack" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">กิตติกรรมประกาศ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_04_ack" id="txt_04_ack" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">กิตติกรรมประกาศ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_04_ack" id="txt_04_ack" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add05_tcb/'.$Id);?>" method="post" enctype="multipart/form-data" name="add05_tcb" id="add05_tcb" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_05_tcb" id="txt_05_tcb" value="<?=$project_filetbc;?>">
-        <div id="modal_05_tcb" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add05_tcb/'.$Id);?>" method="post" enctype="multipart/form-data" name="add05_tcb" id="add05_tcb" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_05_tcb" id="txt_05_tcb" value="<?=$project_filetbc;?>">
+            <div id="modal_05_tcb" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add05_tcb" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add05_tcb" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">สารบัญ, สารบัญตาราง, สารบัญภาพ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_05_tcb" id="txt_05_tcb" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">สารบัญ, สารบัญตาราง, สารบัญภาพ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_05_tcb" id="txt_05_tcb" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add06_ch01/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch01" id="add06_ch01" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_06_ch01" id="txt_06_ch01" value="<?=$project_filechone;?>">
-        <div id="modal_06_ch01" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add06_ch01/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch01" id="add06_ch01" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_06_ch01" id="txt_06_ch01" value="<?=$project_filechone;?>">
+            <div id="modal_06_ch01" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add06_ch01" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add06_ch01" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">บทที่ 1<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch01" id="txt_06_ch01" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">บทที่ 1<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch01" id="txt_06_ch01" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add06_ch02/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch02" id="add06_ch02" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_06_ch02" id="txt_06_ch02" value="<?=$project_filechtwo;?>">
-        <div id="modal_06_ch02" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add06_ch02/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch02" id="add06_ch02" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_06_ch02" id="txt_06_ch02" value="<?=$project_filechtwo;?>">
+            <div id="modal_06_ch02" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add06_ch02" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add06_ch02" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">บทที่ 2<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch02" id="txt_06_ch02" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">บทที่ 2<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch02" id="txt_06_ch02" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add06_ch03/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch03" id="add06_ch03" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_06_ch03" id="txt_06_ch03" value="<?=$project_filechthree;?>">
-        <div id="modal_06_ch03" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add06_ch03/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch03" id="add06_ch03" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_06_ch03" id="txt_06_ch03" value="<?=$project_filechthree;?>">
+            <div id="modal_06_ch03" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add06_ch03" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add06_ch03" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">บทที่ 3<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch03" id="txt_06_ch03" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">บทที่ 3<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch03" id="txt_06_ch03" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add06_ch04/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch04" id="add06_ch04" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_06_ch04" id="txt_06_ch04" value="<?=$project_filechfour;?>">
-        <div id="modal_06_ch04" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add06_ch04/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch04" id="add06_ch04" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_06_ch04" id="txt_06_ch04" value="<?=$project_filechfour;?>">
+            <div id="modal_06_ch04" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_06_ch04" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_06_ch04" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">บทที่ 4<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch04" id="txt_06_ch04" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">บทที่ 4<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch04" id="txt_06_ch04" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add06_ch05/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch05" id="add06_ch05" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_06_ch05" id="txt_06_ch05" value="<?=$project_filechfive;?>">
-        <div id="modal_06_ch05" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add06_ch05/'.$Id);?>" method="post" enctype="multipart/form-data" name="add06_ch05" id="add06_ch05" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_06_ch05" id="txt_06_ch05" value="<?=$project_filechfive;?>">
+            <div id="modal_06_ch05" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_06_ch05" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_06_ch05" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">บทที่ 5<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch05" id="txt_06_ch05" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">บทที่ 5<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_06_ch05" id="txt_06_ch05" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add07_ref/'.$Id);?>" method="post" enctype="multipart/form-data" name="add07_ref" id="add07_ref" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_07_ref" id="txt_07_ref" value="<?=$project_fileref;?>">
-        <div id="modal_07_ref" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add07_ref/'.$Id);?>" method="post" enctype="multipart/form-data" name="add07_ref" id="add07_ref" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_07_ref" id="txt_07_ref" value="<?=$project_fileref;?>">
+            <div id="modal_07_ref" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add07_ref" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add07_ref" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">เอกสารอ้างอิงหรือบรรณานุกรม<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_07_ref" id="txt_07_ref" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">เอกสารอ้างอิงหรือบรรณานุกรม<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_07_ref" id="txt_07_ref" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add08_app/'.$Id);?>" method="post" enctype="multipart/form-data" name="add08_app" id="add08_app" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_08_app" id="txt_08_app" value="<?=$project_fileappone;?>">
-        <div id="modal_08_app" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add08_app/'.$Id);?>" method="post" enctype="multipart/form-data" name="add08_app" id="add08_app" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_08_app" id="txt_08_app" value="<?=$project_fileappone;?>">
+            <div id="modal_08_app" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_add08_app" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_add08_app" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">ภาคผนวก<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_08_app" id="txt_08_app" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">ภาคผนวก<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_08_app" id="txt_08_app" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <form action="<?=base_url('project/add09_bio/'.$Id);?>" method="post" enctype="multipart/form-data" name="add09_bio" id="add09_bio" class="form-horizontal" novalidate> 
-        <input type="hidden" class="form-control" name="txt_09_bio" id="txt_09_bio" value="<?=$project_filebio;?>">
-        <div id="modal_09_bio" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
-                    <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+        <form action="<?=base_url('project/add09_bio/'.$Id);?>" method="post" enctype="multipart/form-data" name="add09_bio" id="add09_bio" class="form-horizontal" novalidate> 
+            <input type="hidden" class="form-control" name="txt_09_bio" id="txt_09_bio" value="<?=$project_filebio;?>">
+            <div id="modal_09_bio" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">    
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
 
-                        <br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_09_bio" style="color:#333">
-                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    กรุณาเลือกไฟล์เอกสาร .pdf
+                            <br/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_addfile_09_bio" style="color:#333">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        กรุณาเลือกไฟล์เอกสาร .pdf
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-12">ประวัติผู้จัดทำ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <div class="col-sm-12"><br/></div>
-                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_09_bio" id="txt_09_bio" accept=".pdf"></div>
-                        </div>
-                        <br/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
-                </div>
-                </div>
+                            <div class="row">
+                                <label class="col-sm-12">ประวัติผู้จัดทำ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                <div class="col-sm-12"><br/></div>
+                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_09_bio" id="txt_09_bio" accept=".pdf"></div>
+                            </div>
+                            <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </form>
-<?PHP } ?>
+        </form>
+    <?PHP } ?>
+<!-- =======================================  upload file project  =======================================   -->

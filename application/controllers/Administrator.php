@@ -23,8 +23,7 @@ class Administrator extends MX_Controller
 			$data['msg'] = '<div class="alert alert-danger" style="margin-bottom: 0;">
 			<button type="button" aria-hidden="true" class="close">
 			</button>
-			<span>
-			  <b> Error! - </b> Your username and password are incorrect.</span>
+			<span>ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง .</span>
 		  </div>';
 		}
 		$this->load->view('administrator/login', $data);
