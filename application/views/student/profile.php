@@ -1,4 +1,3 @@
-<?PHP if($position == 'นักศึกษา') { ?>
 
 <?
 if (isset($liststudent) && count($liststudent) != 0) {
@@ -24,7 +23,29 @@ if (isset($liststudent) && count($liststudent) != 0) {
     }
 } 
 ?>
-
+<style>
+    .picture input[type="file"] {
+        cursor: pointer;
+        display: block;
+        height: 100%;
+        left: 0;
+        opacity: 0 !important;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        margin-top: 10px !important;
+    }
+    #std_imgpre {
+        width: 200px;
+        height: 200px;
+        background-size: cover !important;
+        display: inline-block;
+        border-radius: 100px;
+        margin-bottom: 10px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+    }
+</style>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-7">
@@ -46,26 +67,16 @@ if (isset($liststudent) && count($liststudent) != 0) {
                             <div class="col-lg-12">
                                 <div class="col-lg-12 center">
                                     <div class="picture-container">
-                                        <div class="picture_std">
+                                        <div class="picture">
                                             <?PHP if($Img_std == ""){ ?>
-                                                <div style="background: url('<?=base_url();?>/assets/images/noimage.jpg');" id="std_imgprefile"></div>
+                                                <div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgprefile"></div>
                                             <?PHP }else{?>
-                                                <div style="background: url('<?=base_url();?>/uploads/student/<?=$Img_std;?>');" id="std_imgprefile"></div>
+                                                <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgprefile"></div>
                                             <?PHP } ?>
-                                            <input type="file" id="std_img" name="std_img" class="valid" aria-invalid="false" accept="image/*">
-                                            <input type="hidden" name="std_img_old" id="std_img_old" value="<?PHP if(isset($Img_std)){echo $Img_std;}?>">
+                                            <input type="file" id="std_img" name="std_img" aria-invalid="false" accept="image/*">
+                                            <input type="hidden" id="std_img_old" name="std_img_old" value="<?=$Img_std;?>">
                                         </div>
-                                        <h6 class="description">Choose Picture</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <div class="col-lg-12">
-                                    <div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333">
-                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                        กรุณากรอกข้อมูลที่มีเครื่องหมาย <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> ให้ครบถ้วน.
+                                        <h6 class="description">เปลี่ยนรูปภาพ</h6>
                                     </div>
                                 </div>
                             </div>
@@ -75,6 +86,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
                                 <div class="col-lg-12">รหัสนักศึกษา</div>
                                 <div class="col-lg-12">
                                     <input placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>" disabled>
+                                    <input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>">
                                 </div>
                             </div>
                         </div>
@@ -305,6 +317,3 @@ if (isset($liststudent) && count($liststudent) != 0) {
 
    
 </script>
-
-
-<?PHP } ?>

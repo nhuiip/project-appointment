@@ -412,10 +412,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             email: "รูปแบบ E-mail ผิดพลาด."
           }
         },
-        errorPlacement: function() {
-          $("#formError").slideDown();
-          $("#formError").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;

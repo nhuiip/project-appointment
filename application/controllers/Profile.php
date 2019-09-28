@@ -28,6 +28,7 @@ class Profile extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "*";
+                $condition['where'] = array('std_id' => $loginid);
                 $data['liststudent'] = $this->student->listjoinData($condition);
 
                 $condition = array();
@@ -62,17 +63,28 @@ class Profile extends MX_Controller
                 if ($this->tokens->verify('formcrf')) {
                     $data = array(
                         'std_id'                => $this->input->post('Id'),
-                        'std_img'               => $this->upfileimages('std_img'),
+                        'std_img'               => $this->upfileimages('std_img', 'std_number'),
                         'std_fname'             => $this->input->post('text_name'),
                         'std_lname'             => $this->input->post('text_lastname'),
-                        // 'std_email'             => $this->input->post('text_email'),
                         'std_tel'               => $this->input->post('text_tel'),
-                        // 'std_pass'               => md5($this->input->post('text_password')),
                         'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
                         'std_lastedit_date'     => date('Y-m-d H:i:s'),
                     );
 
                     $this->student->updateStd($data);
+
+                    // if ($this->input->post('std_img') != '') {
+                    //     define('UPLOAD_DIR', './uploads/student/');
+                    //     $img = $this->input->post('std_img');
+                    //     $img = str_replace('data:image/jpeg;base64,', '', $img);
+                    //     $img = str_replace('data:image/jpg;base64,', '', $img);
+                    //     $img = str_replace('data:image/png;base64,', '', $img);
+                    //     $img = str_replace('data:image/gif;base64,', '', $img);
+                    //     $img = str_replace(' ', '+', $img);
+                    //     $data = base64_decode($img);
+                    //     $file = UPLOAD_DIR  . $this->input->post('std_number') . '.png';
+                    //     file_put_contents($file, $data);
+                    // }
 
                     if(!empty($Id)){
                         $result = array(
@@ -159,10 +171,11 @@ class Profile extends MX_Controller
 
     }
 
-    private function upfileimages($Fild_Name){
+    private function upfileimages($Fild_Name,$Nember){
+
 		$fileold = $this->input->post($Fild_Name.'_old');
 		if(!empty($_FILES[$Fild_Name])){
-			$new_name = time();
+			$new_name = $Nember;
 			$config['upload_path'] = './uploads/student/';
 			$config['allowed_types'] = '*';
 			$config['file_name'] = $new_name;
