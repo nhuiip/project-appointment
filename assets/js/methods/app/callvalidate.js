@@ -15,7 +15,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     ""
   );
   methods.validate = function(e) {
-    // formAdministrators
+    //################################################################## NHUII
     if ($("#formAdministrators_C").length) {
       $("#formAdministrators_C").validate({
         rules: {
@@ -66,29 +66,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             equalTo: "รหัสผ่านไม่ถูกต้อง"
           }
         },
-        errorPlacement: function(error, element) {
-          if (element.is(":radio") || element.is(":checkbox")) {
-            error.appendTo(element.parent());
-          } else {
-            error.insertAfter(element);
-          }
-        },
-        showErrors: function(errorMap, errorList) {
-          submitted = true;
-          if (submitted) {
-            var summary =
-              '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>';
-            $.each(errorList, function() {
-              summary +=
-                ' <font color="#FF0000">*</font> ' + this.message + "<br/>";
-            });
-            $("#formError").html(summary);
-            $("#formError").slideDown();
-            $("#formError").removeClass("hide");
-            submitted = false;
-          }
-          this.defaultShowErrors();
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -116,30 +93,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: "กรุณากรอกข้อมูล.",
             email: "รูปแบบ E-mail ผิดพลาด."
           }
-        },
-        errorPlacement: function(error, element) {
-          if (element.is(":radio") || element.is(":checkbox")) {
-            error.appendTo(element.parent());
-          } else {
-            error.insertAfter(element);
-          }
-        },
-        showErrors: function(errorMap, errorList) {
-          submitted = true;
-          if (submitted) {
-            var summary =
-              '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>';
-            $.each(errorList, function() {
-              summary +=
-                ' <font color="#FF0000">*</font> ' + this.message + "<br/>";
-            });
-            $("#formError").html(summary);
-            $("#formError").slideDown();
-            $("#formError").removeClass("hide");
-            submitted = false;
-          }
-
-          this.defaultShowErrors();
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -171,29 +124,36 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             minlength: "กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัวอักษร.",
             equalTo: "รหัสผ่านไม่ถูกต้อง"
           }
-        }, 
-        errorPlacement: function(error, element) {
-          if (element.is(":radio") || element.is(":checkbox")) {
-            error.appendTo(element.parent());
-          } else {
-            error.insertAfter(element);
-          }
         },
-        showErrors: function(errorMap, errorList) {
-          submitted = true;
-          if (submitted) {
-            var summary =
-              '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>';
-            $.each(errorList, function() {
-              summary +=
-                ' <font color="#FF0000">*</font> ' + this.message + "<br/>";
-            });
-            $("#formError").html(summary);
-            $("#formError").slideDown();
-            $("#formError").removeClass("hide");
-            submitted = false;
-          }
-          this.defaultShowErrors();
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formChangemail").length) {
+      $("#formChangemail").validate({
+        rules: {
+          use_email: {
+            required: true,
+            email: true,
+            remote: {
+              url: $("#use_email").attr("data-url"),
+              type: "post",
+              data: {
+                use_email: function() {
+                  return $("#use_email").val();
+                }
+              }
+            }
+          },
+        },
+        messages: {
+          use_email: {
+            required: "กรุณากรอกอีเมล.",
+            email: "รูปแบบอีเมลผิดพลาด.",
+            remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
+          },
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -309,9 +269,25 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: true
           }
         },
-        errorPlacement: function() {
-          $("#formError").slideDown();
-          $("#formError").removeClass("hide");
+        messages: {
+          sub_name: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          sub_code: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          use_id: {
+            required: "กรุณาเลือกอาจารย์ผู้สอน."
+          },
+          sub_setuse: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          sub_setless: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          sub_type: {
+            required: "กรุณาเลือกประเภทวิชา."
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -319,72 +295,54 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
-    // if ($("#formSubject").length) {
-    //   $("#formSubject").validate({
-    //     rules: {
-    //       sub_name: {
-    //         required: true
-    //       },
-    //       sub_code: {
-    //         required: true
-    //       },
-    //       use_id: {
-    //         required: true
-    //       },
-    //       sub_setuse: {
-    //         required: true
-    //       },
-    //       sub_setless: {
-    //         required: true
-    //       },
-    //       sub_type: {
-    //         required: true
-    //       }
-    //     },
-    //     messages: {
-    //       sub_name: {
-    //         required: "กรุณากรอกชื่อวิชา."
-    //       },
-    //       sub_code: {
-    //         required: "กรุณากรอกรหัสวิชา."
-    //       },
-    //       use_id: {
-    //         required: "กรุณาเลือกรอาจารย์ผู้สอน."
-    //       },
-    //       sub_setuse: {
-    //         required: "กรุณากรอกจำนวนอาจารย์ขึ้นสอบ."
-    //       },
-    //       sub_setless: {
-    //         required: "กรุณากรอกอาจารย์ขึ้นสอบอย่างน้อย."
-    //       },
-    //       sub_type: {
-    //         required: "กรุณาเลือกประเภทวิชา."
-    //       }
-    //     },
-    //     errorPlacement: function(error, element) {
-    //       if( element.is(':radio') || element.is(':checkbox')) {
-    //           error.appendTo(element.parent());
-    //       } else {
-    //           error.insertAfter(element);
-    //       }
-    //   },//end errorPlacement
-    //   showErrors: function(errorMap, errorList) {
-    //     submitted = true;
-    //     if (submitted) {
-    //           var summary = '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>';
-    //           $.each(errorList, function() { summary += " * " + this.message + "<br/>"; });
-    //           $("#formAlert").html(summary);
-    //           submitted = false;
-    //       }
-
-    //       this.defaultShowErrors();
-    //   },
-    //     submitHandler: function(form) {
-    //       fun.dataSubmit(form);
-    //       return false;
-    //     }
-    //   });
-    // }
+    if ($("#formSubject_Up").length) {
+      $("#formSubject_Up").validate({
+        rules: {
+          sub_name: {
+            required: true
+          },
+          sub_code: {
+            required: true
+          },
+          use_id: {
+            required: true
+          },
+          sub_setuse: {
+            required: true
+          },
+          sub_setless: {
+            required: true
+          },
+          sub_type: {
+            required: true
+          }
+        },
+        messages: {
+          sub_name: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          sub_code: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          use_id: {
+            required: "กรุณาเลือกอาจารย์ผู้สอน."
+          },
+          sub_setuse: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          sub_setless: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          sub_type: {
+            required: "กรุณาเลือกประเภทวิชา."
+          }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
 
     //################################################################## yui
     if ($("#formStudentProfile").length) {
@@ -397,14 +355,15 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: true
           },
           text_email: {
-            required: true,email: true
+            required: true,
+            email: true
           },
           text_tel: {
             required: true
           },
           text_password: {
             required: true
-          },
+          }
         },
         messages: {
           text_email: {
@@ -426,8 +385,9 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#formChangemail").validate({
         rules: {
           text_email: {
-            required: true,email: true
-          },
+            required: true,
+            email: true
+          }
         },
         messages: {
           text_email: {
@@ -458,8 +418,9 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
                   return $("#txt_projectname").val();
                 }
               }
-            }},
-        }, 
+            }
+          }
+        },
         errorPlacement: function() {
           $("#formErroraddproject").slideDown();
           $("#formErroraddproject").removeClass("hide");
@@ -473,7 +434,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add01_cov").length) {
       $("#add01_cov").validate({
         rules: {
-          txt_01_cov: {required: true},
+          txt_01_cov: { required: true }
         },
         errorPlacement: function() {
           $("#formError_addfile_01").slideDown();
@@ -488,7 +449,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add02_cer").length) {
       $("#add02_cer").validate({
         rules: {
-          txt_02_cer: {required: true},
+          txt_02_cer: { required: true }
         },
         errorPlacement: function() {
           $("#formError_addfile_02").slideDown();
@@ -503,7 +464,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add03_abs").length) {
       $("#add03_abs").validate({
         rules: {
-          txt_03_abs: {required: true},
+          txt_03_abs: { required: true }
         },
         errorPlacement: function() {
           $("#formError_addfile_03_abs").slideDown();
@@ -518,7 +479,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add04_ack").length) {
       $("#add04_ack").validate({
         rules: {
-          txt_04_ack: {required: true},
+          txt_04_ack: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add04_ack").slideDown();
@@ -533,7 +494,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add05_tcb").length) {
       $("#add05_tcb").validate({
         rules: {
-          txt_05_tcb: {required: true},
+          txt_05_tcb: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add05_tcb").slideDown();
@@ -548,7 +509,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add06_ch01").length) {
       $("#add06_ch01").validate({
         rules: {
-          txt_06_ch01: {required: true},
+          txt_06_ch01: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add06_ch01").slideDown();
@@ -563,7 +524,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add06_ch02").length) {
       $("#add06_ch02").validate({
         rules: {
-          txt_06_ch02: {required: true},
+          txt_06_ch02: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add06_ch02").slideDown();
@@ -578,7 +539,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add06_ch03").length) {
       $("#add06_ch03").validate({
         rules: {
-          txt_06_ch03: {required: true},
+          txt_06_ch03: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add06_ch03").slideDown();
@@ -593,7 +554,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add06_ch04").length) {
       $("#add06_ch04").validate({
         rules: {
-          txt_06_ch04: {required: true},
+          txt_06_ch04: { required: true }
         },
         errorPlacement: function() {
           $("#formError_addfile_06_ch04").slideDown();
@@ -608,7 +569,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add06_ch05").length) {
       $("#add06_ch05").validate({
         rules: {
-          txt_06_ch05: {required: true},
+          txt_06_ch05: { required: true }
         },
         errorPlacement: function() {
           $("#formError_addfile_06_ch05").slideDown();
@@ -623,7 +584,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add07_ref").length) {
       $("#add07_ref").validate({
         rules: {
-          txt_07_ref: {required: true},
+          txt_07_ref: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add07_ref").slideDown();
@@ -638,7 +599,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add08_app").length) {
       $("#add08_app").validate({
         rules: {
-          txt_08_app: {required: true},
+          txt_08_app: { required: true }
         },
         errorPlacement: function() {
           $("#formError_add08_app").slideDown();
@@ -653,7 +614,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#add09_bio").length) {
       $("#add09_bio").validate({
         rules: {
-          txt_09_bio: {required: true},
+          txt_09_bio: { required: true }
         },
         errorPlacement: function() {
           $("#formError_addfile_09_bio").slideDown();
@@ -665,6 +626,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
-};
+  };
   return methods;
 });

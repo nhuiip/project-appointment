@@ -86,12 +86,8 @@ body {
     padding: 20px 30px 10px !important;
 }
 
-label.error {
-    display: none !important;
-}
-.form-control.error {
-    border: 1px solid #e5e6e7 !important;
-}
+
+
 
 /* .select2-container { */
     /* border: 1px #cc5965 solid !important; */
@@ -181,4 +177,20 @@ label.error {
     grid-gap: 10px;
 }
 
+}
+
+label.error {
+    /* display: none !important; */
+    margin-top: 5px !important;
+}
+
+.form-control.error {
+    border: 1px solid #cc5965 !important;
+}
+
+.modal-open .modal {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+.modal {
+    padding-top: 100px !important;
 }

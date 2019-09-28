@@ -14,7 +14,7 @@ class Subject extends MX_Controller
     public function index()
     {
         $permission = array("ผู้ดูแลระบบ", "หัวหน้าสาขา", "อาจารย์ผู้สอน");
-        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+        if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
             $data = array();
             $condition = array();
             $condition['fide'] = "*";
@@ -28,6 +28,14 @@ class Subject extends MX_Controller
 
             if (count($checkinsert) == 1) {
                 $data['checkinsert'] = 'yes';
+                $data['set_id'] = $checkinsert[0]['set_id'];
+                
+                $arrposition = array(2, 3);
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where_in']['filde'] = 'position_id';
+                $condition['where_in']['value'] = $arrposition;
+                $data['user'] = $this->administrator->listData($condition);
             } else {
                 $data['checkinsert'] = 'no';
             }
@@ -42,7 +50,7 @@ class Subject extends MX_Controller
     public function form($id = "")
     {
         $permission = array("ผู้ดูแลระบบ", "หัวหน้าสาขา", "อาจารย์ผู้สอน");
-        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+        if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
             $arrposition = array(2, 3);
             $condition = array();
             $condition['fide'] = "*";
@@ -68,14 +76,14 @@ class Subject extends MX_Controller
                 // show_404
                 if (count($data['listdata']) == 0) {
                     show_404();
-                // show_404
-                } elseif($data['listdata'][0]['use_id'] != $this->encryption->decrypt($this->input->cookie('sysi')) && $this->encryption->decrypt($this->input->cookie('sysp')) != 'ผู้ดูแลระบบ'){
+                    // show_404
+                } elseif ($data['listdata'][0]['use_id'] != $this->encryption->decrypt($this->input->cookie('sysi')) && $this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) != 'ผู้ดูแลระบบ') {
                     $this->load->view('errors/html/error_403');
-                // show edit form
+                    // show edit form
                 } else {
                     $this->template->backend('subject/form', $data);
                 }
-            // insert form
+                // insert form
             } else {
                 $this->template->backend('subject/form', $data);
             }

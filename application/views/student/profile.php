@@ -1,4 +1,4 @@
-<?PHP if($position == 'นักศึกษา') { ?>
+
 
 <?
 if (isset($liststudent) && count($liststudent) != 0) {
@@ -305,6 +305,3 @@ if (isset($liststudent) && count($liststudent) != 0) {
 
    
 </script>
-
-
-<?PHP } ?>

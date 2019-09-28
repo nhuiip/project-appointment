@@ -33,56 +33,62 @@ class Administrator extends MX_Controller
 	public function main()
 	{
 		$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
-		if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+		if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
 			$data = array();
 			$condition = array();
 			$condition['fide'] = "*";
 			$condition['where'] = array('tb_position.position_id !=' => 4);
 			$data['listdata'] = $this->administrator->listjoinData($condition);
 
+			$condition = array();
+			$condition['fide'] = "position_id,position_name";
+			$condition['where'] = array('position_id !=' => 4);
+			$data['listposition'] = $this->administrator->listDataPosition($condition);
+
+			$data['formcrf'] = $this->tokens->token('formcrf');
 			$this->template->backend('administrator/main', $data);
 		} else {
 			$this->load->view('errors/html/error_403');
 		}
 	}
 
-	public function form($id = "")
-	{
-		$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
-		if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
-			$data = array();
-			$condition = array();
-			$condition['fide'] = "position_id,position_name";
-			$condition['where'] = array('position_id !=' => 4);
-			$data['listposition'] = $this->administrator->listDataPosition($condition);
+	// public function form($id = "")
+	// {
+	// 	$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
+	// 	if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
+	// 		$data = array();
+	// 		$condition = array();
+	// 		$condition['fide'] = "position_id,position_name";
+	// 		$condition['where'] = array('position_id !=' => 4);
+	// 		$data['listposition'] = $this->administrator->listDataPosition($condition);
 
-			//Data in case update
-			if (!empty($id)) {
-				$condition = array();
-				$condition['fide'] = "*";
-				$condition['where'] = array('use_id' => $id);
-				$data['listdata'] = $this->administrator->listData($condition);
-				if (count($data['listdata']) == 0) {
-					show_404();
-				} 
-			}
-			$data['formcrf'] = $this->tokens->token('formcrf');
-			$this->template->backend('administrator/form', $data);
-		} else {
-			$this->load->view('errors/html/error_403');
-		}
-	}
+	// 		//Data in case update
+	// 		if (!empty($id)) {
+	// 			$condition = array();
+	// 			$condition['fide'] = "*";
+	// 			$condition['where'] = array('use_id' => $id);
+	// 			$data['listdata'] = $this->administrator->listData($condition);
+	// 			if (count($data['listdata']) == 0) {
+	// 				show_404();
+	// 			}
+	// 		}
+	// 		$data['formcrf'] = $this->tokens->token('formcrf');
+	// 		$this->template->backend('administrator/form', $data);
+	// 	} else {
+	// 		$this->load->view('errors/html/error_403');
+	// 	}
+	// }
 
-	public function formpassword($Id = "")
-	{
-		$this->permission->admin();
-		if ($Id == "") {
-			show_404();
-		}
-		$data['Id'] = $Id;
-		$data['formcrf'] = $this->tokens->token('formcrf');
-		$this->template->backend('administrator/formpassword', $data);
-	}
+	// public function formpassword($Id = "")
+	// {
+	// 	$this->permission->admin();
+	// 	if ($Id == "") {
+	// 		show_404();
+	// 	}
+	// 	$data['Id'] = $Id;
+	// 	$data['formcrf'] = $this->tokens->token('formcrf');
+	// 	$this->template->backend('administrator/formpassword', $data);
+	// }
 
 	public function create()
 	{
@@ -101,18 +107,18 @@ class Administrator extends MX_Controller
 			);
 			$id = $this->administrator->insertData($data);
 
-			if($this->input->post('position_id') == 2 || $this->input->post('position_id') == 3){
+			if ($this->input->post('position_id') == 2 || $this->input->post('position_id') == 3) {
 				// เพิ่มเวลา
 				$condition = array();
 				$condition['fide'] = "*";
 				$condition['where'] = array('set_status' => 2);
 				$setting = $this->setting->listData($condition);
-	
+
 				$condition = array();
 				$condition['fide'] = "*";
 				$condition['where'] = array('use_id' => $id, 'set_id' => $setting[0]['set_id']);
 				$section = $this->section->listData($condition);
-	
+
 				if (count($setting) != 0 && count($section) == 0) {
 					$this->insertsection($id);
 				}
@@ -211,7 +217,6 @@ class Administrator extends MX_Controller
 
 	public function update()
 	{
-		$this->permission->admin();
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'use_id' 			=> $this->input->post('Id'),
@@ -222,20 +227,38 @@ class Administrator extends MX_Controller
 				'use_lastedit_date' => date('Y-m-d H:i:s')
 			);
 			$this->administrator->updateData($data);
-			$result = array(
-				'error' => false,
-				'msg' => 'แก้ไขข้อมูลสำเร็จ',
-				'url' => site_url('administrator/main')
-			);
-			echo json_encode($result);
+			if($this->input->post('type') == 'T'){
+				$cookie_fullname = array(
+					'name'   => 'sysn',
+					'value'  => $this->input->post('use_name'),
+					'expire' => '86500',
+					'path'   => '/'
+				);
+				$this->input->set_cookie($cookie_fullname);
+			}
+			if ($this->input->post('type') == 'AM') {
+				$result = array(
+					'error' => false,
+					'msg' => 'แก้ไขข้อมูลสำเร็จ',
+					'url' => site_url('administrator/main')
+				);
+				echo json_encode($result);
+			} elseif ($this->input->post('type') == 'T') {
+				$result = array(
+					'error' => false,
+					'msg' => 'เปลี่ยนรหัสผ่านสำเร็จ',
+					'url' => site_url('profile/index/' . $this->input->post('Id'))
+				);
+				echo json_encode($result);
+			}
 		}
 	}
 
 	public function delete($id)
 	{
 		$data = array(
-            'use_id'            => $id,
-        );
+			'use_id'            => $id,
+		);
 		$this->administrator->deleteData($data);
 		header("location:" . site_url('administrator/main'));
 	}
@@ -260,21 +283,28 @@ class Administrator extends MX_Controller
 
 	public function changepassword()
 	{
-		$this->permission->admin();
-		
 
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'use_id' 		=> $this->input->post('Id'),
-				'use_pass' 	=> md5($this->input->post('use_pass'))
+				'use_pass' 		=> md5($this->input->post('use_pass'))
 			);
 			$this->administrator->updateData($data);
-			$result = array(
-				'error' => false,
-				'msg' => 'เปลี่ยนรหัสผ่านสำเร็จ',
-				'url' => site_url('administrator/main')
-			);
-			echo json_encode($result);
+			if ($this->input->post('type') == 'AM') {
+				$result = array(
+					'error' => false,
+					'msg' => 'เปลี่ยนรหัสผ่านสำเร็จ',
+					'url' => site_url('administrator/main')
+				);
+				echo json_encode($result);
+			} elseif ($this->input->post('type') == 'T') {
+				$result = array(
+					'error' => false,
+					'msg' => 'เปลี่ยนรหัสผ่านสำเร็จ',
+					'url' => site_url('profile/index/' . $this->input->post('Id'))
+				);
+				echo json_encode($result);
+			}
 		}
 	}
 
@@ -344,7 +374,7 @@ class Administrator extends MX_Controller
 					$this->student->updateStd($data);
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
-					$f = $this->encryption->encrypt($liststd[0]['std_fname'].' '.$liststd[0]['std_lname']);
+					$f = $this->encryption->encrypt($liststd[0]['std_fname'] . ' ' . $liststd[0]['std_lname']);
 					$p = $this->encryption->encrypt($liststd[0]['position_name']);
 					$img = $this->encryption->encrypt($liststd[0]['std_img']);
 					$cookie = array(
@@ -428,6 +458,10 @@ class Administrator extends MX_Controller
 	public function logout()
 	{
 		delete_cookie("syslev");
+		delete_cookie("sysli");
+		delete_cookie("sysn");
+		delete_cookie("sysp");
+		delete_cookie("sysimg");
 		header("location:" . site_url());
 	}
 }

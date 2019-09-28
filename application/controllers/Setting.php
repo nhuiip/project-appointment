@@ -16,7 +16,7 @@ class Setting extends CI_Controller
     public function index()
     {
         $permission = array("ผู้ดูแลระบบ");
-        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+        if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
             $data = array();
             $condition = array();
             $condition['fide'] = "*";
@@ -33,15 +33,16 @@ class Setting extends CI_Controller
             } else {
                 $data['checkinsert'] = 'yes';
             }
+            $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('setting/main', $data);
         } else {
             $this->load->view('errors/html/error_403');
         }
     }
-    public function form($type, $id = "")
+    public function form($id = "")
     {
         $permission = array("ผู้ดูแลระบบ");
-        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+        if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
             if (!empty($id)) {
                 $condition = array();
                 $condition['fide'] = "*";
@@ -50,6 +51,7 @@ class Setting extends CI_Controller
 
                 $condition = array();
                 $condition['fide'] = "*";
+                $condition['where'] = array('set_id' => $id);
                 $condition['orderby'] = "hol_date ASC  ";
                 $data['listholiday'] = $this->holiday->listData($condition);
 
@@ -58,7 +60,6 @@ class Setting extends CI_Controller
                 }
             }
             $data['formcrf'] = $this->tokens->token('formcrf');
-            $data['type'] = $type;
             $this->template->backend('setting/form', $data);
         } else {
             $this->load->view('errors/html/error_403');

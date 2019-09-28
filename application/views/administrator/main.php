@@ -3,7 +3,7 @@
   <div class="col-lg-12">
     <h2>ผู้ดูแลระบบ</h2>
     <ol class="breadcrumb">
-      <li><a href="#">หน้าแรก</a></li>
+      <li><a href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a></li>
       <li class="active"><strong>ผู้ดูแลระบบ</strong></li>
     </ol>
   </div>
@@ -15,9 +15,9 @@
       <div class="ibox float-e-margins">
         <div class="ibox-title">
           <div class="ibox-tools">
-            <a href="<?= site_url('administrator/form'); ?>">
-                <button type="button" class="btn btn-outline btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
-            </a>
+            <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#U-insert">
+              <i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล
+            </button>
           </div>
         </div>
         <div class="ibox-content">
@@ -57,9 +57,13 @@
                           <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" style="width:100%">
-                            <li><a href="<?= site_url('administrator/form/' . $value['use_id']); ?>"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
-                            <li><a href="<?= site_url('administrator/formpassword/' . $value['use_id']); ?>"><i class="fa fa-repeat"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
-                            <li><a href="#" class="btn-alert" data-url="<?= site_url('administrator/delete/' . $value['use_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                          <li>
+                            <a href="#" data-use_id="<?= $value['use_id']; ?>" data-use_name="<?= $value['use_name']; ?>" data-position_id="<?= $value['position_id']; ?>" data-use_email="<?= $value['use_email']; ?>" data-toggle="modal" data-target="#U-update" class="update">
+                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล
+                            </a>
+                          </li>
+                          <li><a href="#" data-use_id="<?= $value['use_id']; ?>" data-toggle="modal" data-target="#U-repass" class="btnrepass"><i class="fa fa-repeat"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
+                          <li><a href="#" class="btn-alert" data-url="<?= site_url('administrator/delete/' . $value['use_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                         </ul>
                       </div>
                     </td>
@@ -86,6 +90,176 @@
           <!-- */table ----------------------------------------------------------------------------------------------------->
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- model insert -->
+<div class="modal fade" id="U-insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">เพิ่มข้อมูลผู้ใช้</h4>
+      </div>
+      <div class="modal-body">
+        <form action="<?= site_url('administrator/create'); ?>" method="post" enctype="multipart/form-data" name="formAdministrators_C" id="formAdministrators_C" class="form-horizontal" novalidate>
+          <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
+          <div class="form-group row">
+            <label class="col-sm-12">ชื่อเต็ม<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="text" name="use_name" id="use_name" value="" class="form-control">
+            </div>
+          </div>
+          <!--*/form-group-->
+          <?PHP if (count($listposition) != 0) { ?>
+            <div class="form-group row">
+              <label class="col-sm-12">ระดับผู้ใช้<span class="text-muted" style="color:#c0392b">*</span></label>
+              <div class="col-sm-12">
+                <select class="form-control" name="position_id">
+                  <option value="">กรุณาเลือกข้อมูล</option>
+                  <?PHP foreach ($listposition as $key => $value) { ?>
+                    <option value="<?= $value['position_id'] ?>"><?= $value['position_name'] ?></option>
+                  <?PHP } ?>
+                </select>
+              </div>
+            </div>
+            <!--*/form-group-->
+          <?PHP } ?>
+          <div class="form-group row">
+            <label class="col-sm-12">อีเมล<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="text" name="use_email" id="use_email" data-url="<?= site_url('administrator/checkemail'); ?>" class="form-control" value="">
+            </div>
+          </div>
+          <!--*/form-group-->
+          <div class="form-group row">
+            <label class="col-sm-12">รหัสผ่าน<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="password" name="use_pass" id="use_pass" class="form-control">
+            </div>
+          </div>
+          <!--*/form-group-->
+          <div class="form-group row">
+            <label class="col-sm-12">ยืนยันรหัสผ่าน<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="password" name="use_confirmPassword" id="use_confirmPassword" class="form-control">
+            </div>
+          </div>
+          <!--*/form-group-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- model update -->
+<script>
+  $('.update').click(function() {
+    var use_id = $(this).attr('data-use_id');
+    var use_name = $(this).attr('data-use_name');
+    var position_id = $(this).attr('data-position_id');
+    var use_email = $(this).attr('data-use_email');
+    $(".use_id").val(use_id);
+    $(".use_name").val(use_name);
+    $(".position_id").val(position_id);
+    $(".use_email").val(use_email);
+  });
+</script>
+<div class="modal fade" id="U-update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลผู้ใช้</h4>
+      </div>
+      <div class="modal-body">
+        <form action="<?= site_url('administrator/update'); ?>" method="post" enctype="multipart/form-data" name="formAdministrators_Up" id="formAdministrators_Up" class="form-horizontal" novalidate>
+          <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
+          <input type="hidden" name="Id" id="Id" value="" class="use_id">
+          <input type="hidden" name="type" id="type" value="AM">
+          <div class="form-group row">
+            <label class="col-sm-12">ชื่อเต็ม<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="text" name="use_name" id="use_name" value="" class="form-control use_name">
+            </div>
+          </div>
+          <!--*/form-group-->
+          <?PHP if (count($listposition) != 0) { ?>
+            <div class="form-group row">
+              <label class="col-sm-12">ระดับผู้ใช้<span class="text-muted" style="color:#c0392b">*</span></label>
+              <div class="col-sm-12">
+                <select class="form-control position_id" name="position_id">
+                  <option value="">กรุณาเลือกข้อมูล</option>
+                  <?PHP foreach ($listposition as $key => $value) { ?>
+                    <option value="<?= $value['position_id'] ?>"><?= $value['position_name'] ?></option>
+                  <?PHP } ?>
+                </select>
+              </div>
+            </div>
+            <!--*/form-group-->
+          <?PHP } ?>
+          <div class="form-group row">
+            <label class="col-sm-12">อีเมล<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="text" name="use_email" id="use_email" data-url="<?= site_url('administrator/checkemail'); ?>" class="form-control use_email" value="">
+            </div>
+          </div>
+          <!--*/form-group-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- model repass -->
+<script>
+  $('.btnrepass').click(function() {
+    var use_id = $(this).attr('data-use_id');
+    $(".useid").val(use_id);
+  });
+</script>
+
+<div class="modal fade" id="U-repass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">เปลี่ยนรหัสผ่าน</h4>
+      </div>
+      <div class="modal-body">
+        <form action="<?= site_url('administrator/changepassword'); ?>" method="post" enctype="multipart/form-data" name="formRepass" id="formRepass" class="form-horizontal" novalidate>
+          <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
+          <input type="hidden" name="Id" id="Id" value="" class="useid">
+          <input type="hidden" name="type" id="type" value="AM">
+          <div class="form-group row">
+            <label class="col-sm-12">รหัสผ่าน<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="password" name="use_pass" id="use_pass" class="form-control">
+            </div>
+          </div>
+          <!--*/form-group-->
+          <div class="form-group row">
+            <label class="col-sm-12">ยืนยันรหัสผ่าน<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="password" name="use_confirmPassword" id="use_confirmPassword" class="form-control">
+            </div>
+          </div>
+          <!--*/form-group-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+      </div>
+      </form>
     </div>
   </div>
 </div>
