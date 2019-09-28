@@ -1,4 +1,3 @@
-
 <?
 if (isset($liststudent) && count($liststudent) != 0) {
     foreach ($liststudent as $key => $student) {

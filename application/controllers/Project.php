@@ -15,9 +15,9 @@ class Project extends MX_Controller
     {
         if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) != 'นักศึกษา'){
             $this->load->view('errors/html/error_403');
-
-        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
-
+        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+            
+            $data = array();
             //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
             $condition = array();
             $condition['fide'] = "*";

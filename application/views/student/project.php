@@ -1,5 +1,4 @@
 <?
-
     //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
     if (isset($listsubject) && count($listsubject) != 0) {
         foreach ($listsubject as $key => $value) {

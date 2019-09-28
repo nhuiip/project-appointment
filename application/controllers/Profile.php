@@ -45,7 +45,6 @@ class Profile extends MX_Controller
                 $data = array();
                 $condition = array();
                 $condition['fide'] = "*";
-
                 $condition['where'] = array('use_id' => $id);
                 $data['listdata'] = $this->administrator->listjoinData($condition);
 
@@ -90,8 +89,7 @@ class Profile extends MX_Controller
 
                     $this->student->updateStd($data);
 
-                    if(!empty($Id)){
-
+                    if (!empty($Id)) {
                         $result = array(
                             'error' => false,
                             'msg' => 'แก้ไขข้อมูลสำเร็จ',
@@ -202,7 +200,6 @@ class Profile extends MX_Controller
 
 		}else{
 			return $fileold;
-        }
+		}
     }
-
 }
