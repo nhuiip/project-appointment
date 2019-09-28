@@ -13,11 +13,11 @@ class Project extends MX_Controller
 
     public function index()
     {
-        if($this->encryption->decrypt($this->input->cookie('sysp')) != 'นักศึกษา'){
+        if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) != 'นักศึกษา'){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
-            
-            $data = array();
+
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
+
             //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
             $condition = array();
             $condition['fide'] = "*";
@@ -147,7 +147,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
 
                 $condition = array();
@@ -198,7 +198,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -298,7 +298,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -398,7 +398,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -498,7 +498,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -598,7 +598,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -698,7 +698,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -798,7 +798,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -898,7 +898,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -998,7 +998,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -1098,7 +1098,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -1198,7 +1198,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -1298,7 +1298,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";
@@ -1398,7 +1398,7 @@ class Project extends MX_Controller
 
         if($Id == ""){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
             $condition = array();
             $condition['fide'] = "std_id";

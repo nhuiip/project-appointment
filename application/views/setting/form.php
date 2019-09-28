@@ -2,18 +2,8 @@
 if (isset($listdata) && count($listdata) != 0) {
 	foreach ($listdata as $key => $value) {
 		$id           	= $value['set_id'];
-		$set_year		= $value['set_year'];
-		$set_term		= $value['set_term'];
-		$set_open		= $value['set_open'];
-		$set_close		= $value['set_close'];
-		$set_option_sat	= $value['set_option_sat'];
-		$set_option_sun	= $value['set_option_sun'];
 	}
-	$title          = "แก้ไขข้อมูลการตั้งค่าระบบ";
-	$actionUrl      = site_url('setting/update');
-} else {
-	$title          = "เพิ่มข้อมูลการตั้งค่าระบบ";
-	$actionUrl      = site_url('setting/create');
+	$title          = "จัดการวันหยุด";
 }
 ?>
 <!-- Breadcrumb for page -->
@@ -21,122 +11,23 @@ if (isset($listdata) && count($listdata) != 0) {
 	<div class="col-lg-12">
 		<h2><?= $title; ?></h2>
 		<ol class="breadcrumb">
-			<li><a href="#">หน้าแรก</a></li>
+			<li><a href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a></li>
 			<li><a href="<?= site_url('setting/index'); ?>">ตั้งค่าระบบ</a></li>
 			<li class="active"><strong><?= $title; ?></strong></li>
 		</ol>
 	</div>
 </div>
-<hr>
 <!-- End breadcrumb for page -->
-<div class="tabs-container">
-	<ul class="nav nav-tabs">
-		<li <? if ($type == 1) {
-					echo 'class="active"';
-				} ?>><a data-toggle="tab" href="#tab-1" aria-expanded="true"> ตั้งค่าระบบ</a></li>
-		<? if (!empty($id)) { ?>
-			<li <? if ($type == 2) {
-							echo 'class="active"';
-						} ?>><a data-toggle="tab" href="#tab-2" aria-expanded="false">ข้อมูลวันหยุด</a></li>
-		<? } ?>
-	</ul>
-	<div class="tab-content">
-		<div id="tab-1" class="tab-pane <? if ($type == 1) {
-																			echo 'active';
-																		} ?>">
-			<div class="panel-body">
-				<form action="<?= $actionUrl ?>" method="post" enctype="multipart/form-data" name="formSetting" id="formSetting" class="form-horizontal" novalidate>
-					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-					<input type="hidden" name="Id" id="Id" value="<? if (isset($id)) {
-																													echo $id;
-																												} ?>">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">ปีการศึกษา<span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-sm-1">
-							<input type="text" name="set_year" id="set_year" value="<? if (isset($set_year)) {
-																																				echo $set_year;
-																																			} ?>" class="form-control" maxlength="4">
-						</div>
-						<div class="col-sm-8">
-							<div class="radio radio-success radio-inline">
-								<input type="radio" value="เทอม 1" name="set_term" <? if (isset($set_term) && $set_term == 'เทอม 1') {
-																																			echo 'checked';
-																																		} ?>>
-								<label for=""> เทอม 1 </label>
-							</div>
-							<div class="radio radio-success radio-inline">
-								<input type="radio" value="เทอม 2" name="set_term" <? if (isset($set_term) && $set_term == 'เทอม 2') {
-																																			echo 'checked';
-																																		} ?>>
-								<label for=""> เทอม 2 </label>
-							</div>
-						</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<div class="ibox-tools">
+						<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#createHol"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
 					</div>
-					<!--*/form-group-->
-					<div class="hr-line-dashed"></div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">วันที่เปิดนัด<span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-sm-3">
-							<div class="input-group date">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" name="set_open" id="set_open" value="<? if (isset($set_open)) {
-																																					echo $set_open;
-																																				} ?>" class="form-control datepicker">
-							</div>
-						</div>
-						<label class="col-sm-1 control-label">วันที่ปิดนัด<span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-sm-3">
-							<div class="input-group date">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" name="set_close" id="set_close" value="<? if (isset($set_close)) {
-																																						echo $set_close;
-																																					} ?>" class="form-control datepicker">
-							</div>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">ตัวเลือก<span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-sm-3">
-							<div class="checkbox checkbox-success checkbox-inline">
-								<input type="checkbox" id="set_option_sat" name="set_option_sat" value="1" <? if (isset($set_option_sat) && $set_option_sat == '1') {
-																																															echo 'checked';
-																																														} ?>>
-								<label for=""> เปิดนัดวันเสาร์ </label>
-							</div>
-							<div class="checkbox checkbox-success checkbox-inline">
-								<input type="checkbox" id="set_option_sun" name="set_option_sun" value="1" <? if (isset($set_option_sun) && $set_option_sun == '1') {
-																																															echo 'checked';
-																																														} ?>>
-								<label for=""> เปิดนัดวันอาทิตย์ </label>
-							</div>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-					<div class="form-group">
-						<div class="col-sm-6 col-sm-offset-4">
-							<a href="<?= site_url('setting/index'); ?>">
-								<button class="btn btn-w-m btn-danger" type="button">ยกเลิก</button>
-							</a>
-							<button class="btn btn-w-m btn-primary" type="submit">บันทึก</button>
-						</div>
-					</div>
-					<!--*/form-group-->
-				</form>
-			</div>
-		</div>
-		<? if (!empty($id)) { ?>
-			<div id="tab-2" class="tab-pane <? if ($type == 2) {
-																					echo 'active';
-																				} ?>">
-				<div class="panel-body">
-					<div class="row col-sm-12" style="text-align:right">
-						<a href="#" style="color:#27ae60" data-toggle="modal" data-target="#createHol">
-							<i class="fa fa-plus"></i> เพิ่มข้อมูล
-						</a>
-					</div>
-					<br>
-					<br>
+				</div>
+				<div class="ibox-content">
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered table-hover dataTables" width="100%">
 							<thead>
@@ -188,9 +79,11 @@ if (isset($listdata) && count($listdata) != 0) {
 					</div>
 				</div>
 			</div>
-		<? } ?>
+		</div>
 	</div>
 </div>
+
+<!-- model insert -->
 <div class="modal fade" id="createHol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -226,6 +119,8 @@ if (isset($listdata) && count($listdata) != 0) {
 		</div>
 	</div>
 </div>
+
+<!-- model update -->
 <script>
 	$('.updateHol').click(function() {
 		var holid = $(this).attr('data-holid');
@@ -246,7 +141,9 @@ if (isset($listdata) && count($listdata) != 0) {
 			<form action="<?= site_url('setting/updateHol') ?>" method="post" enctype="multipart/form-data" name="formEHoliday" id="formEHoliday" class="form-horizontal" novalidate>
 				<div class="modal-body">
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-					<input type="hidden" name="Id" id="Id" value="<? if (isset($id)) {echo $id;} ?>">
+					<input type="hidden" name="Id" id="Id" value="<? if (isset($id)) {
+																													echo $id;
+																												} ?>">
 					<input type="hidden" name="hol_id" id="hol_id" class="hol_id">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันหยุด<span class="text-muted" style="color:#c0392b">*</span></label>

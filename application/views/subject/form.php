@@ -21,7 +21,7 @@ if (isset($listdata) && count($listdata) != 0) {
     <div class="col-lg-12">
         <h2><?= $title; ?></h2>
         <ol class="breadcrumb">
-            <li><a href="#">หน้าแรก</a></li>
+            <li><a href="<?=site_url('dashboard/index');?>">หน้าแรก</a></li>
             <li><a href="<?= site_url('subject/index'); ?>">จัดการรายวิชา</a></li>
             <li class="active"><strong><?= $title; ?></strong></li>
         </ol>
@@ -35,10 +35,6 @@ if (isset($listdata) && count($listdata) != 0) {
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <!-- form ------------------------------------------------------------------------------------------------------->
-                    <div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333">
-                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                        กรุณากรอกข้อมูลที่มีเครื่องหมาย <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> ให้ครบถ้วน.
-                    </div>
                     <form action="<?= $actionUrl ?>" method="post" enctype="multipart/form-data" name="formSubject" id="formSubject" class="form-horizontal" novalidate>
                         <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
                         <input type="hidden" name="Id" id="Id" value="<? if (isset($id)) {echo $id;} ?>">

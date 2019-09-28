@@ -198,13 +198,13 @@ class Student extends MX_Controller
                     'email' => $this->input->post('s_email'),
                     'pass'  => $newpass,
                 );
-            // อาจารย์
+                // อาจารย์
             } else {
                 $condition = array();
                 $condition['fide'] = "use_id, use_name";
                 $condition['where'] = array('use_email' => $this->input->post('s_email'));
                 $listuse = $this->administrator->listData($condition);
-                
+
                 $data = array(
                     'use_id'    => $listuse[0]['use_id'],
                     'use_pass'  => md5($newpass),
@@ -242,9 +242,13 @@ class Student extends MX_Controller
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_repass($datamail);
             $mail->MsgHTML($message);
-            $mail->send();
-            echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
-            die;
+            // $mail->send();
+            if (!$mail->send()) {
+                echo $mail->ErrorInfo;
+            } else {
+                echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
+                die;
+            }
         } else {
             show_404();
         }
@@ -339,34 +343,42 @@ class Student extends MX_Controller
         $this->load->view('page/succeed-repass');
     }
 
-    // public function testmail()
-    // {
-    //     require_once APPPATH . 'third_party/class.phpmailer.php';
-    //     require_once APPPATH . 'third_party/class.smtp.php';
-    //     $mail = new PHPMailer;
-    //     $mail->SMTPOptions = array(
-    //         'ssl' => array(
-    //             'verify_peer' => false,
-    //             'verify_peer_name' => false,
-    //             'allow_self_signed' => true
-    //         )
-    //     );
-    //     $mail->CharSet = "utf-8";
-    //     $mail->IsSMTP();
-    //     $mail->SMTPDebug = 0;
-    //     $mail->SMTPAuth = true;
-    //     $mail->Host = "smtp.hostinger.in.th";
-    //     $mail->Port = 587;
-    //     $mail->Username = "appoint@preedarat-cv.com";
-    //     $mail->Password = "9a&c?Ww5";
-    //     $mail->setFrom('appoint@preedarat-cv.com', 'Appoint-IT');
-    //     $mail->AddAddress('preedarat.jut@gmail.com');
-    //     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-    //     $mail->MsgHTML('test');
-    //     if (!$mail->send()) {
-    //         echo $mail->ErrorInfo;
-    //     } else {
-    //         echo 'send';
-    //     }
-    // }
+    public function testmail()
+    {
+        require_once APPPATH . 'third_party/class.phpmailer.php';
+        require_once APPPATH . 'third_party/class.smtp.php';
+        $mail = new PHPMailer;
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+        $mail->CharSet = "utf-8";
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 0;
+        $mail->SMTPAuth = true;
+
+        // $mail->Host = "27.254.131.201";
+        // $mail->Port = 25;
+        // $mail->Username = "system@owlsiam.com";
+        // $mail->Password = "Ew%9NjEG";
+        // $mail->SetFrom("system@owlsiam.com", "owlsiam.com");
+
+        $mail->Host = "smtp.hostinger.in.th";
+        $mail->Port = 587;
+        $mail->Username = "appoint@preedarat-cv.com";
+        $mail->Password = "fAC2Kb>4";
+        $mail->setFrom('appoint@preedarat-cv.com', 'Appoint-IT');
+
+        $mail->AddAddress('preedarat.jut@gmail.com');
+        $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+        $mail->MsgHTML('test');
+        if (!$mail->send()) {
+            echo $mail->ErrorInfo;
+        } else {
+            echo 'send';
+        }
+    }
 }

@@ -3,7 +3,7 @@
 	<div class="col-lg-12">
 		<h2>เปลี่ยนรหัสผ่าน</h2>
 		<ol class="breadcrumb">
-			<li><a href="#">หน้าแรก</a></li>
+			<li><a href="<?=site_url('dashboard/index');?>">หน้าแรก</a></li>
 			<li><a href="<?=site_url('administrator/main');?>">ผู้ดูแลระบบ</a></li>
 			<li class="active"><strong>เปลี่ยนรหัสผ่าน</strong></li>
 		</ol>
@@ -22,6 +22,7 @@
 <form action="<?=site_url('administrator/changepassword');?>" method="post" enctype="multipart/form-data" name="formRepass" id="formRepass" class="form-horizontal" novalidate>
 	<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
 	<input type="hidden" name="Id" id="Id" value="<?=$Id?>">
+	<input type="hidden" name="type" id="type" value="AM">
 	<div class="form-group">
 		<label class="col-sm-2 control-label">รหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
 		<div class="col-sm-10">

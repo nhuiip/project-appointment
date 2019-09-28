@@ -1,9 +1,4 @@
-
 <?
-
-if($this->encryption->decrypt($this->input->cookie('sysp')) != 'นักศึกษา'){
-    $this->load->view('errors/html/error_403');
-}else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
 
     //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
     if (isset($listsubject) && count($listsubject) != 0) {
@@ -1060,5 +1055,4 @@ if($this->encryption->decrypt($this->input->cookie('sysp')) != 'นักศึ�
             </div>
         </div>
     </form>
-<?PHP } ?>
 <?PHP } ?>

@@ -27,7 +27,7 @@
 
 		<div class="error-desc">
 			<hr>
-			<a href="<?= site_url('dashboard/index'); ?>"><button type="button" class="btn btn-outline btn-info btn-block btn-lg">กลับหน้าแรก</button></a>
+			<a href="<?= site_url(); ?>"><button type="button" class="btn btn-outline btn-info btn-block btn-lg">กลับหน้าแรก</button></a>
 		</div>
 	</div>
 

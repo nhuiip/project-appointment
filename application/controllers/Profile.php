@@ -8,57 +8,74 @@ class Profile extends MX_Controller
         parent::__construct();
         $this->load->model("student_model", "student");
         $this->load->model("subject_model", "subject");
+        $this->load->model("administrator_model", "administrator");
     }
 
-    public function index($loginid = "")
+    public function index($id = "")
     {
+        $poslogin   = $this->input->cookie('sysp');
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
-        if($loginid == ""){
-            $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+            if ($id == "") {
+                show_404();
+            } elseif ($poslogin == 'นักศึกษา' && $idlogin == $id) {
+                $condition = array();
+                $condition['fide'] = "std_id";
+                $condition['where'] = array('std_id' => $id);
+                $checkstudent = $this->student->listData($condition);
+                if (count($checkstudent) == 0) {
+                    show_404();
+                } else {
+                    $data = array();
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $data['liststudent'] = $this->student->listjoinData($condition);
 
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $data['listsubject'] = $this->subject->listData($condition);
 
-            $condition = array();
-            $condition['fide'] = "std_id";
-            $condition['where'] = array('std_id' => $loginid);
-            $checkstudent = $this->student->listData($condition);
-            if(count($checkstudent) == 0){
-                $this->load->view('errors/html/error_403');
-            }else{
+                    // $data['position'] = $poslogin;
+                    $data['formcrf'] = $this->tokens->token('formcrf');
+                    $this->template->backend('student/profile', $data);
+                }
+            } elseif (($poslogin != 'นักศึกษา' && $idlogin == $id) && ($poslogin != 'ผู้ดูแลระบบ' && $poslogin != 'ฉุกเฉิน')) {
 
+                $data = array();
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('std_id' => $loginid);
-                $data['liststudent'] = $this->student->listjoinData($condition);
+
+                $condition['where'] = array('use_id' => $id);
+                $data['listdata'] = $this->administrator->listjoinData($condition);
 
                 $condition = array();
-                $condition['fide'] = "*";
-                $data['listsubject'] = $this->subject->listData($condition);
-    
+                $condition['fide'] = "'tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1, 'tb_settings.set_status' => 2";
+                $condition['orderby'] = "set_id DESC  ";
+                $data['listsubject'] = $this->subject->listjoinData($condition);
+
                 $data['formcrf'] = $this->tokens->token('formcrf');
-                $this->template->backend('student/profile', $data);
-
+                $this->template->backend('administrator/profile', $data);
+            } else {
+                $this->load->view('errors/html/error_403');
             }
+        } else {
+            show_404();
         }
-
-       
-
     }
 
     public function update($Id = "")
     {
-        if($Id == ""){
-            $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
-
-
+        if ($Id == "") {
+            show_404();
+        } else if ($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา') {
             $condition = array();
             $condition['fide'] = "std_id";
             $condition['where'] = array('std_id' => $Id);
             $checkstudent = $this->student->listData($condition);
-            if(count($checkstudent) == 0){
-                $this->load->view('errors/html/error_403');
-            }else{
+            if (count($checkstudent) == 0) {
+                // $this->load->view('errors/html/error_403');
+            } else {
 
                 if ($this->tokens->verify('formcrf')) {
                     $data = array(
@@ -73,27 +90,15 @@ class Profile extends MX_Controller
 
                     $this->student->updateStd($data);
 
-                    // if ($this->input->post('std_img') != '') {
-                    //     define('UPLOAD_DIR', './uploads/student/');
-                    //     $img = $this->input->post('std_img');
-                    //     $img = str_replace('data:image/jpeg;base64,', '', $img);
-                    //     $img = str_replace('data:image/jpg;base64,', '', $img);
-                    //     $img = str_replace('data:image/png;base64,', '', $img);
-                    //     $img = str_replace('data:image/gif;base64,', '', $img);
-                    //     $img = str_replace(' ', '+', $img);
-                    //     $data = base64_decode($img);
-                    //     $file = UPLOAD_DIR  . $this->input->post('std_number') . '.png';
-                    //     file_put_contents($file, $data);
-                    // }
-
                     if(!empty($Id)){
+
                         $result = array(
                             'error' => false,
                             'msg' => 'แก้ไขข้อมูลสำเร็จ',
-                            'url' => site_url('profile/index/'.$Id)
+                            'url' => site_url('profile/index/' . $Id)
                         );
                         echo json_encode($result);
-                    }else{
+                    } else {
                         $result = array(
                             'error' => true,
                             'title' => "ล้มเหลว",
@@ -102,7 +107,7 @@ class Profile extends MX_Controller
                         echo json_encode($result);
                     }
                     die;
-                }else{
+                } else {
                     $result = array(
                         'error' => true,
                         'title' => "ล้มเหลว",
@@ -112,24 +117,22 @@ class Profile extends MX_Controller
                 }
             }
         }
-        
-
     }
 
     public function changemail($Id = "")
     {
-        if($Id == ""){
+        if ($Id == "") {
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+        } else if ($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา') {
 
 
             $condition = array();
             $condition['fide'] = "std_id";
             $condition['where'] = array('std_id' => $Id);
             $checkstudent = $this->student->listData($condition);
-            if(count($checkstudent) == 0){
+            if (count($checkstudent) == 0) {
                 $this->load->view('errors/html/error_403');
-            }else{
+            } else {
 
                 if ($this->tokens->verify('formcrf')) {
                     $data = array(
@@ -141,14 +144,14 @@ class Profile extends MX_Controller
 
                     $this->student->updateStd($data);
 
-                    if(!empty($Id)){
+                    if (!empty($Id)) {
                         $result = array(
                             'error' => false,
                             'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้ว รอการยืนยันผ่านทางอีเมล์',
-                            'url' => site_url('profile/index/'.$Id)
+                            'url' => site_url('profile/index/' . $Id)
                         );
                         echo json_encode($result);
-                    }else{
+                    } else {
                         $result = array(
                             'error' => true,
                             'title' => "ล้มเหลว",
@@ -157,7 +160,7 @@ class Profile extends MX_Controller
                         echo json_encode($result);
                     }
                     die;
-                }else{
+                } else {
                     $result = array(
                         'error' => true,
                         'title' => "ล้มเหลว",
@@ -167,8 +170,6 @@ class Profile extends MX_Controller
                 }
             }
         }
-        
-
     }
 
     private function upfileimages($Fild_Name,$Nember){
@@ -201,8 +202,5 @@ class Profile extends MX_Controller
 		}else{
 			return $fileold;
 		}
-    }
-
-    
 
 }
