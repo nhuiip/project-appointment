@@ -2,6 +2,11 @@
 $loginid 	= $this->encryption->decrypt($this->input->cookie('sysli'));
 $loginname	= $this->encryption->decrypt($this->input->cookie('sysn'));
 $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
+if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->encryption->decrypt($this->input->cookie('sysimg')) != ''){
+	$loginimg = $this->encryption->decrypt($this->input->cookie('sysimg'));
+} else {
+	$loginimg = 'noimage.png';
+}
 
 ?>
 <!DOCTYPE html>
@@ -35,21 +40,7 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 		echo $css;
 	}
 	?>
-	<style>
-		.img-circular {
-			position: relative;
-			width: 30px;
-			height: 30px;
-			background: url('https://scontent.fbkk6-2.fna.fbcdn.net/v/t1.0-9/70847629_2363954343844207_4579293697203503104_n.jpg?_nc_cat=109&_nc_eui2=AeGjshH5FV8hQKl0o6UGvQzD2eRFUnfQjIBUt8bqiEJyxMZDK4hAWqfzVB2fC8J4M1KZvhYJbnmWqBykNIaQKwyCFTdg4NCjT7fsH6nPf44nLw&_nc_oc=AQmwzzPWGPdInHVocYYVdOdC0ieBHON43dOZgPRfsOBi2NOvL5FrjbQcyHyBlUl8aYA&_nc_ht=scontent.fbkk6-2.fna&oh=1237d67d4cb2cb0c2962bb5e1b9135c3&oe=5DF8E78E') no-repeat center;
-			background-size: cover;
-			display: inline-block;
-			margin: 0;
-			top: 10px;
-			border-radius: 100px;
-			-webkit-border-radius: 100px;
-			-moz-border-radius: 100px;
-		}
-	</style>
+
 	<link href="<?= base_url('assets/css/style.min.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/plugins/datapicker/datepicker3.css'); ?>" rel="stylesheet">
 	<!-- script js -->
@@ -155,19 +146,35 @@ $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
 										<a aria-expanded="false" role="button" href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a>
 									</li>
 									<li>
-										<a href="<?=site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+										<a href="<?= site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
-										<a href="<?=site_url('project/index'); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
+										<a href="<?= site_url('project/index'); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
 									</li>
 									<li>
-										<a href="<?=site_url('profile/index/'.$loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
+										<a href="<?= site_url('profile/index/' . $loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
 									</li>
 
 								</ul>
 								<ul class="nav navbar-top-links navbar-right">
-									<li><a href=""><?=$loginname; ?></a></li>
-									<div class="img-circular" style=""></div>
+									<style>
+										.img-circular {
+											position: relative !important;
+											width: 30px !important;
+											height: 30px !important;
+											background-repeat: no-repeat !important;
+											background-position: center center !important;
+											background-size: cover !important;
+											display: inline-block !important;
+											margin: 0 !important;
+											top: 10px !important;
+											border-radius: 50% !important;
+											-webkit-border-radius: 100px !important;
+											-moz-border-radius: 100px !important;
+										}
+									</style>
+									<li><a href=""><?= $loginname; ?></a></li>
+									<div class="img-circular" style="background: url('<?=base_url("uploads/student/".$loginimg);?>');"></div>
 									<li>
 										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
 									</li>

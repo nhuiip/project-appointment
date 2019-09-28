@@ -293,8 +293,8 @@ class Administrator extends MX_Controller
 				$listdata = $this->administrator->listjoinData($condition);
 				// login นักศึกษา
 				$condition = array();
-				$condition['fide'] = "std_id,std_number,position_name";
-				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password));
+				$condition['fide'] = "std_id,std_number,position_name,std_fname,std_lname,std_img";
+				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password), 'std_checkmail' => 1);
 				$liststd = $this->student->listjoinData($condition);
 
 				if (count($listdata) == 1) {
@@ -344,8 +344,9 @@ class Administrator extends MX_Controller
 					$this->student->updateStd($data);
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt($liststd[0]['std_id']);
-					$f = $this->encryption->encrypt($liststd[0]['std_number']);
+					$f = $this->encryption->encrypt($liststd[0]['std_fname'].' '.$liststd[0]['std_lname']);
 					$p = $this->encryption->encrypt($liststd[0]['position_name']);
+					$img = $this->encryption->encrypt($liststd[0]['std_img']);
 					$cookie = array(
 						'name'   => 'syslev',
 						'value'  => $l,
@@ -370,10 +371,17 @@ class Administrator extends MX_Controller
 						'expire' => '86500',
 						'path'   => '/'
 					);
+					$cookie_img = array(
+						'name'   => 'sysimg',
+						'value'  => $img,
+						'expire' => '86500',
+						'path'   => '/'
+					);
 					$this->input->set_cookie($cookie);
 					$this->input->set_cookie($cookie_id);
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
+					$this->input->set_cookie($cookie_img);
 					header("location:" . site_url('dashboard/index'));
 				} elseif ($username == 'support@itrmutr.com' && $password == 'supp0rt@it;;') {
 					// pass ' supp0rt@it;; ';

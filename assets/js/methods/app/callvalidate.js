@@ -36,7 +36,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           use_pass: {
             required: true,
-            required: true,
             minlength: 6
           },
           use_confirmPassword: {

@@ -81,9 +81,8 @@
   <body>
     <div class="boxcontent">
       <h1>
-        <a href="#" class="effect-underline"> การลงทะเบียนสำเร็จ !!!!</a>
+        <a href="#" class="effect-underline"> ยืนยันอีเมลเรียบร้อย !!</a>
       </h1>
-      <h3 style="margin:0 0 20px">กรุณาตรวจสอบและยืนยันอีเมลของคุณก่อนเข้าใช้งานระบบ</h3>
       <center><a href="<?=site_url()?>" class="btn btn-5">กลับหน้าแรก</a></center>
     </div>
   </body>
