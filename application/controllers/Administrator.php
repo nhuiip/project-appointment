@@ -228,9 +228,10 @@ class Administrator extends MX_Controller
 			);
 			$this->administrator->updateData($data);
 			if($this->input->post('type') == 'T'){
+				$f = $this->encryption->encrypt($this->input->post('use_name'));
 				$cookie_fullname = array(
 					'name'   => 'sysn',
-					'value'  => $this->input->post('use_name'),
+					'value'  => $f,
 					'expire' => '86500',
 					'path'   => '/'
 				);

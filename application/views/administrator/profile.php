@@ -7,7 +7,7 @@ if (isset($listdata) && count($listdata) != 0) {
 		$position_id = $value['position_id'];
 	}
 }
-$title = $this->input->cookie('sysn');
+$title = $this->encryption->decrypt($this->input->cookie('sysn'));
 ?>
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
