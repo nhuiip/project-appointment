@@ -172,7 +172,8 @@ class Profile extends MX_Controller
         }
     }
 
-    private function upfileimages($Fild_Name,$Nember){
+    private function upfileimages($Fild_Name,$Nember)
+    {
 
 		$fileold = $this->input->post($Fild_Name.'_old');
 		if(!empty($_FILES[$Fild_Name])){
@@ -201,6 +202,7 @@ class Profile extends MX_Controller
 
 		}else{
 			return $fileold;
-		}
+        }
+    }
 
 }
