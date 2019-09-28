@@ -318,12 +318,12 @@ class Administrator extends MX_Controller
 
 				// login อาจารย์
 				$condition = array();
-				$condition['fide'] = "use_id,use_name,position_name";
+				$condition['fide'] = "use_id,use_name,position_name,use_email,use_pass,use_lastlogin";
 				$condition['where'] = array('use_email' => $username, 'use_pass' => md5($password));
 				$listdata = $this->administrator->listjoinData($condition);
 				// login นักศึกษา
 				$condition = array();
-				$condition['fide'] = "std_id,std_number,position_name,std_fname,std_lname,std_img";
+				$condition['fide'] = "std_id,std_number,position_name,std_fname,std_lname,std_img,std_email,std_pass,std_checkmail";
 				$condition['where'] = array('std_email' => $username, 'std_pass' => md5($password), 'std_checkmail' => 1);
 				$liststd = $this->student->listjoinData($condition);
 

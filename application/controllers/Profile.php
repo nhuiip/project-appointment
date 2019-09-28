@@ -53,6 +53,7 @@ class Profile extends MX_Controller
                 $condition['orderby'] = "set_id DESC  ";
                 $data['listsubject'] = $this->subject->listjoinData($condition);
 
+
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('administrator/profile', $data);
             } else {
@@ -79,12 +80,10 @@ class Profile extends MX_Controller
                 if ($this->tokens->verify('formcrf')) {
                     $data = array(
                         'std_id'                => $this->input->post('Id'),
-                        'std_img'               => $this->upfileimages('std_img'),
+                        'std_img'               => $this->upfileimages('std_img', 'std_number'),
                         'std_fname'             => $this->input->post('text_name'),
                         'std_lname'             => $this->input->post('text_lastname'),
-                        // 'std_email'             => $this->input->post('text_email'),
                         'std_tel'               => $this->input->post('text_tel'),
-                        // 'std_pass'               => md5($this->input->post('text_password')),
                         'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
                         'std_lastedit_date'     => date('Y-m-d H:i:s'),
                     );
@@ -172,34 +171,35 @@ class Profile extends MX_Controller
         }
     }
 
-    private function upfileimages($Fild_Name)
-    {
-        $fileold = $this->input->post($Fild_Name . '_old');
-        if (!empty($_FILES[$Fild_Name])) {
-            $new_name = time();
-            $config['upload_path'] = './uploads/student/';
-            $config['allowed_types'] = '*';
-            $config['file_name'] = $new_name;
-            $config['max_size']    = '65000';
-            $this->load->library('upload', $config, 'upbanner');
-            $this->upbanner->initialize($config);
-            if (!$this->upbanner->do_upload($Fild_Name)) {
-                $result = array(
-                    'error' => true,
-                    'title' => "Error",
-                    'msg' => $this->upbanner->display_errors()
-                );
-                echo json_encode($result);
-                die;
-            } else {
-                if (!empty($fileold)) {
-                    @unlink($config['upload_path'] . $fileold);
-                }
-                $img = $this->upbanner->data();
-                return $img['file_name'];
-            }
-        } else {
-            return $fileold;
-        }
+    private function upfileimages($Fild_Name,$Nember){
+
+		$fileold = $this->input->post($Fild_Name.'_old');
+		if(!empty($_FILES[$Fild_Name])){
+			$new_name = $Nember;
+			$config['upload_path'] = './uploads/student/';
+			$config['allowed_types'] = '*';
+			$config['file_name'] = $new_name;
+			$config['max_size']	= '65000';
+			$this->load->library('upload', $config ,'upbanner');
+			$this->upbanner->initialize($config);
+			if ( ! $this->upbanner->do_upload($Fild_Name)){
+				$result = array(
+					'error' => true,
+					'title' => "Error",
+					'msg' => $this->upbanner->display_errors()
+				);
+				echo json_encode($result);
+				die;
+			}else{
+				if(!empty($fileold)){
+					@unlink($config['upload_path'].$fileold);
+				}
+				$img = $this->upbanner->data();
+				return $img['file_name'];
+			}
+
+		}else{
+			return $fileold;
+		}
     }
 }

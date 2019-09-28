@@ -371,34 +371,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             email: "รูปแบบ E-mail ผิดพลาด."
           }
         },
-        errorPlacement: function() {
-          $("#formError").slideDown();
-          $("#formError").removeClass("hide");
-        },
-        submitHandler: function(form) {
-          fun.dataSubmit(form);
-          return false;
-        }
-      });
-    }
-    if ($("#formChangemail").length) {
-      $("#formChangemail").validate({
-        rules: {
-          text_email: {
-            required: true,
-            email: true
-          }
-        },
-        messages: {
-          text_email: {
-            required: "กรุณากรอกข้อมูล.",
-            email: "รูปแบบ E-mail ผิดพลาด."
-          }
-        },
-        errorPlacement: function() {
-          $("#formErrorchangemail").slideDown();
-          $("#formErrorchangemail").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -419,12 +391,20 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
                 }
               }
             }
-          }
+          },
+          txt_projectname: { required: true }
         },
-        errorPlacement: function() {
-          $("#formErroraddproject").slideDown();
-          $("#formErroraddproject").removeClass("hide");
-        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formsearchStudent").length) {
+      $("#formsearchStudent").validate({
+        rules: {
+          txt_search: { required: true }
+        }, 
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -435,10 +415,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add01_cov").validate({
         rules: {
           txt_01_cov: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_addfile_01").slideDown();
-          $("#formError_addfile_01").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -451,10 +427,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_02_cer: { required: true }
         },
-        errorPlacement: function() {
-          $("#formError_addfile_02").slideDown();
-          $("#formError_addfile_02").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -465,10 +437,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add03_abs").validate({
         rules: {
           txt_03_abs: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_addfile_03_abs").slideDown();
-          $("#formError_addfile_03_abs").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -481,10 +449,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_04_ack: { required: true }
         },
-        errorPlacement: function() {
-          $("#formError_add04_ack").slideDown();
-          $("#formError_add04_ack").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -495,10 +459,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add05_tcb").validate({
         rules: {
           txt_05_tcb: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_add05_tcb").slideDown();
-          $("#formError_add05_tcb").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -511,10 +471,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_06_ch01: { required: true }
         },
-        errorPlacement: function() {
-          $("#formError_add06_ch01").slideDown();
-          $("#formError_add06_ch01").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -525,10 +481,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add06_ch02").validate({
         rules: {
           txt_06_ch02: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_add06_ch02").slideDown();
-          $("#formError_add06_ch02").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -541,10 +493,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_06_ch03: { required: true }
         },
-        errorPlacement: function() {
-          $("#formError_add06_ch03").slideDown();
-          $("#formError_add06_ch03").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -555,10 +503,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add06_ch04").validate({
         rules: {
           txt_06_ch04: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_addfile_06_ch04").slideDown();
-          $("#formError_addfile_06_ch04").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -571,10 +515,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_06_ch05: { required: true }
         },
-        errorPlacement: function() {
-          $("#formError_addfile_06_ch05").slideDown();
-          $("#formError_addfile_06_ch05").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -585,10 +525,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add07_ref").validate({
         rules: {
           txt_07_ref: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_add07_ref").slideDown();
-          $("#formError_add07_ref").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -601,10 +537,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_08_app: { required: true }
         },
-        errorPlacement: function() {
-          $("#formError_add08_app").slideDown();
-          $("#formError_add08_app").removeClass("hide");
-        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -615,10 +547,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add09_bio").validate({
         rules: {
           txt_09_bio: { required: true }
-        },
-        errorPlacement: function() {
-          $("#formError_addfile_09_bio").slideDown();
-          $("#formError_addfile_09_bio").removeClass("hide");
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

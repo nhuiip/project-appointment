@@ -15,8 +15,10 @@ class Project extends MX_Controller
     {
         if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) != 'นักศึกษา'){
             $this->load->view('errors/html/error_403');
-        }else if($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'นักศึกษา'){
 
+        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+            
+            $data = array();
             //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
             $condition = array();
             $condition['fide'] = "*";
@@ -28,6 +30,13 @@ class Project extends MX_Controller
             $data['Id']         =   $this->encryption->decrypt($this->input->cookie('sysli'));   
             $data['position']   =   $this->encryption->decrypt($this->input->cookie('sysp'));   
 
+            $search_text = $this->input->post('txt_search');
+
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where'] = array('std_number' => $search_text);
+            $data['liststudent'] = $this->student->listData($condition);
+
             $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('student/project', $data);
 
@@ -35,6 +44,106 @@ class Project extends MX_Controller
 
     }
 
+    public function updatestdproject($Id = "")
+    {
+        if($Id == ""){
+            $this->load->view('errors/html/error_403');
+        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+
+
+            $condition = array();
+            $condition['fide'] = "std_id";
+            $condition['where'] = array('std_id' => $Id);
+            $checkstudent = $this->project->listData($condition);
+            if(count($checkstudent) == 0){
+                $this->load->view('errors/html/error_403');
+            }else{
+
+                $condition = array();
+                $condition['fide'] = "std_id";
+                $condition['where'] = array('std_id' => $Id);
+                $showstudent = $this->project->listData($condition);
+
+                $project_id  =   $showstudent[0]['project_id'];
+                $idstd       =   $showstudent[0]['std_id'];
+
+                    $data = array(
+                        'project_id'            => $project_id,
+                        'std_id'                => $idstd,
+                        'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                        'project_lastedit_date' => date('Y-m-d H:i:s'),
+                    );
+
+                    $this->project->updateData($data);
+
+                    if(!empty($Id)){
+                        $result = array(
+                            'error' => false,
+                            'msg' => 'แก้ไขข้อมูลสำเร็จ',
+                            'url' => site_url('profile/index/'.$Id)
+                        );
+                        echo json_encode($result);
+                    }else{
+                        $result = array(
+                            'error' => true,
+                            'title' => "ล้มเหลว",
+                            'msg' => 'อัพเดตข้อมูลไม่สำเร็จ',
+                        );
+                        echo json_encode($result);
+                    }
+                   
+            }
+        }
+        
+
+    }
+
+    public function updatestdproject2($Id = "", $addstd = "")
+    {
+        if($Id == ""){
+            $this->load->view('errors/html/error_403');
+        }else if($this->encryption->decrypt($this->input->cookie('sysp')) == 'นักศึกษา'){
+
+
+            $condition = array();
+            $condition['fide'] = "std_id";
+            $condition['where'] = array('std_id' => $Id);
+            $checkstudent = $this->project->listData($condition);
+            if(count($checkstudent) == 0){
+                $this->load->view('errors/html/error_403');
+            }else{
+
+                // $search_text = "";
+                if($addstd != NULL ){
+                    $search_text = $addstd;
+                    $this->session->set_userdata(array("search"=>$search_text));
+                }else{
+                    if($this->session->userdata('search') != NULL){
+                        $search_text = $this->session->userdata('search');
+                    }
+                }
+
+                if(!empty($search_text)){
+                    $result = array(
+                        'error' => false,
+                        'msg' => 'แก้ไขข้อมูลสำเร็จ',
+                        'url' => site_url('profile/index/'.$search_text)
+                    );
+                    echo json_encode($result);
+                }else{
+                    $result = array(
+                        'error' => true,
+                        'title' => "ล้มเหลว",
+                        'msg' => 'อัพเดตข้อมูลไม่สำเร็จ',
+                    );
+                    echo json_encode($result);
+                }
+                   
+            }
+        }
+        
+
+    }
     public function addproject($Id = ""){
 
         if($Id == ""){
@@ -83,24 +192,6 @@ class Project extends MX_Controller
                 }
             
         }
-    }
-
-    public function checkprojectname()
-	{
-		$this->permission->admin();
-		// check email count 0 = true or than 0 = false
-		$projectname = $this->input->post('txt_projectname');
-		if (!empty($projectname)) {
-			$condition = array();
-			$condition['fide'] = "useproject_name_id";
-			$condition['where'] = array('txt_projectname' => $project_name);
-			$listemail = $this->administrator->listData($condition);
-			if (count($listemail) == 0) {
-				echo "true";
-			} else {
-				echo "false";
-			}
-		}
     }
     
     // uploadfile 01_cov

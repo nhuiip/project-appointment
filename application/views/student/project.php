@@ -1,5 +1,4 @@
 <?
-
     //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
     if (isset($listsubject) && count($listsubject) != 0) {
         foreach ($listsubject as $key => $value) {
@@ -44,22 +43,28 @@
                     <div class="ibox-title">
                         <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
                         <div class="ibox-tools" >
-                            <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal_addnameproject"><i class="fa fa-plus-square-o"></i> เพิ่มหัวข้อปริญญานิพนธ์</button>
+                                <!-- <?PHP if(isset($project_id) == 0){ ?>
+                                    <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal_addnameproject"><i class="fa fa-plus-square-o"></i> เพิ่มหัวข้อปริญญานิพนธ์</button>
+                                <?PHP }else{ ?>
+                                    เปลี่ยนโปรเจค
+                                <?PHP } ?> -->
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <?PHP if(count($searchProject) != 0){ ?>
-                        <div class="form-group-mgTB grid-two-show-subject">
-                            <label>ชื่อปริญญานิพนธ์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                            <input placeholder="ชื่อโปรเจค" class="form-control" name="txt_projectname" id="txt_projectname" value="<?=$project_name;?>" disabled>
-                        </div>
+                        <?PHP if(!empty($project_name)){ ?>
+                            <?PHP if(count($searchProject) != 0){ ?>
+                            <div class="form-group-mgTB grid-two-show-subject">
+                                <label>ชื่อปริญญานิพนธ์</label>
+                                <input placeholder="ชื่อโปรเจค" class="form-control" name="txt_projectname" id="txt_projectname" value="<?=$project_name;?>" disabled>
+                            </div>
+                            <?PHP } ?>
                         <?PHP } ?>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>รหัสวิชา</label>
                             <input placeholder="รหัสวิชา" class="form-control" name="txt_showcode" id="txt_showcode" value="<?=$subject_code;?>" disabled>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
-                            <label>รายวิชาที่ลงทะเบียน<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                            <label>รายวิชาที่ลงทะเบียน</label>
                             <input placeholder="รายวิชาที่ลงทะเบียน" class="form-control" name="txt_subject" id="txt_subject" value="<?=$subject_name;?>" disabled>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
@@ -73,6 +78,176 @@
                                 <label>คน</label>
                             </div>
                         </div>
+
+                    </div>
+                </div>
+
+                <!-- <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
+                        <div class="ibox-tools" >
+                            <?PHP if(!empty($project_name)){ ?>
+                                <?PHP if(count($project_name) == 0){ ?>
+                                    <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal_addnameproject"><i class="fa fa-plus-square-o"></i> เพิ่มหัวข้อปริญญานิพนธ์</button>
+                                <?PHP }else{ ?>
+                                    เปลี่ยนโปรเจค
+                                <?PHP } ?>
+                            <?PHP } ?>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                            <br/>
+                            <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                กรุณากรอกรหัสนักศึกษา
+                            </div>
+                            <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
+                                <br/>
+                                <div class="input-group" >
+                                    <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
+                                    <span class="input-group-btn"> 
+                                        <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
+                                    </span>
+                                </div>
+                                <br/>
+                            </form>
+                            <div class="hr-line-dashed"></div>
+                            <?PHP if (count($liststudent) != 0) { ?>
+                                <?PHP foreach ($liststudent as $key => $value) { 
+                                    $std_number = $value['std_number'];
+                                    $std_title = $value['std_title'];
+                                    $std_fname = $value['std_fname'];
+                                    $std_lname = $value['std_lname'];  
+                                    
+                                    $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
+                                    $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
+                                ?>
+                                    <div class="alert alert-success">
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
+                                            <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
+                                        </div>
+                                    </div>
+                                <?PHP } ?>
+                            <?PHP } else { ?>
+                                <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
+                            <?PHP } ?>
+                            <?PHP if(!empty($pagination)){?>
+                                <div class="hr-line-dashed"></div>
+                                <div style="text-align: right;"> <?=$pagination;?> </div>
+                            <?PHP } ?>
+                    </div>
+                </div> -->
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
+                        <div class="ibox-tools" >
+                            <?PHP if(!empty($project_name)){ ?>
+                                <?PHP if(count($project_name) == 0){ ?>
+                                    <button type="button" data-toggle="modal"  class="btn btn-outline btn-primary" href="#modal_addnameproject"><i class="fa fa-plus-square-o"></i> เพิ่มหัวข้อปริญญานิพนธ์</button>
+                                <?PHP }else{ ?>
+                                    เปลี่ยนโปรเจค
+                                <?PHP } ?>
+                            <?PHP } ?>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
+                                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                    กรุณากรอกรหัสนักศึกษา
+                                </div>
+                                <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
+                                    <br/>
+                                    <div class="input-group" >
+                                        <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
+                                        <span class="input-group-btn"> 
+                                            <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
+                                        </span>
+                                    </div>
+                                    <br/>
+                                </form>
+                                <div class="hr-line-dashed"></div>
+                                <?PHP if (count($liststudent) != 0) { ?>
+                                    <?PHP foreach ($liststudent as $key => $value) { 
+                                        $std_number = $value['std_number'];
+                                        $std_title = $value['std_title'];
+                                        $std_fname = $value['std_fname'];
+                                        $std_lname = $value['std_lname'];  
+                                        
+                                        $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
+                                        $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
+                                    ?>
+                                        <div class="alert alert-success">
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject2/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
+                                                <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
+                                            </div>
+                                        </div>
+                                    <?PHP } ?>
+                                <?PHP } else { ?>
+                                    <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
+                                <?PHP } ?>
+                                <?PHP if(!empty($pagination)){?>
+                                    <div class="hr-line-dashed"></div>
+                                    <div style="text-align: right;"> <?=$pagination;?> </div>
+                                <?PHP } ?>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="well">
+                                    <div class="form-group-mgTB grid-two-show-subject">
+                                        <label>ชื่อโปรเจค<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                                        <div>
+                                            <input type="text" class="form-control" name="txt_projectname" id="txt_projectname" data-url="<?=site_url('project/checkprojectname');?>" accept=".pdf">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <!-- <br/>
+                            <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                กรุณากรอกรหัสนักศึกษา
+                            </div>
+                            <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
+                                <br/>
+                                <div class="input-group" >
+                                    <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
+                                    <span class="input-group-btn"> 
+                                        <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
+                                    </span>
+                                </div>
+                                <br/>
+                            </form>
+                            <div class="hr-line-dashed"></div>
+                            <?PHP if (count($liststudent) != 0) { ?>
+                                <?PHP foreach ($liststudent as $key => $value) { 
+                                    $std_number = $value['std_number'];
+                                    $std_title = $value['std_title'];
+                                    $std_fname = $value['std_fname'];
+                                    $std_lname = $value['std_lname'];  
+                                    
+                                    $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
+                                    $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
+                                ?>
+                                    <div class="alert alert-success">
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
+                                            <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
+                                        </div>
+                                    </div>
+                                <?PHP } ?>
+                            <?PHP } else { ?>
+                                <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
+                            <?PHP } ?>
+                            <?PHP if(!empty($pagination)){?>
+                                <div class="hr-line-dashed"></div>
+                                <div style="text-align: right;"> <?=$pagination;?> </div>
+                            <?PHP } ?> -->
 
                     </div>
                 </div>
@@ -287,7 +462,6 @@
         </div>
     </div>
 
-
     <form action="<?=base_url('project/addproject/'.$Id);?>" method="post" enctype="multipart/form-data" name="formAddproject" id="formAddproject" class="form-horizontal" novalidate>  
 
         <div id="modal_addnameproject" class="modal fade" role="dialog">
@@ -308,7 +482,7 @@
                             <div class="col-lg-12">
                                 <div class="alert alert-warning alert-dismissable hide" id="formErroraddproject" style="color:#333">
                                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                                    หัวข้อปริญญานิพนธ์นี้มีผู้จัดทำแล้ว หรือ ข้อมูลอาจไม่ครบถ้วน กรุณากรอกข้อมูลอีกครั้ง
+                                   ข้อมูลอาจไม่ครบถ้วน กรุณากรอกข้อมูลอีกครั้ง
                                 </div>
                             </div>
                         </div>
@@ -320,6 +494,45 @@
                             </div>
                         </div>
                         <br/>
+                        <div class="alert alert-warning alert-dismissable hide" id="formError_studentsearch" style="color:#333">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            กรุณากรอกรหัสนักศึกษา
+                        </div>
+                        <form action="<?=base_url('project/index');?>" method="post" enctype="multipart/form-data" name="formsearchStudent" id="1formsearchStudent" class="form-horizontal" novalidate>
+                            <br/>
+                            <div class="input-group" >
+                                <input type="text" class="form-control" name="txt_search" id="txt_search" placeholder="ค้นหาผู้ร่วมจัดทำจากรหัสนักศึกษา"> 
+                                <span class="input-group-btn"> 
+                                    <button type="submit" class="btn btn-primary">ค้นหาผู้ร่วมจัดทำ</button>
+                                </span>
+                            </div>
+                            <br/>
+                        </form>
+                        <div class="hr-line-dashed"></div>
+                        <?PHP if (count($liststudent) != 0) { ?>
+                            <?PHP foreach ($liststudent as $key => $value) { 
+                                $std_number = $value['std_number'];
+                                $std_title = $value['std_title'];
+                                $std_fname = $value['std_fname'];
+                                $std_lname = $value['std_lname'];  
+                                
+                                $show = $std_number.'  '.$std_title.'  '.$std_fname.'  '.$std_lname;
+                                $show_number = $std_title.'  '.$std_fname.'  '.$std_lname;
+                            ?>
+                                <div class="alert alert-success">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="checkbox<?=$value['std_id'];?>" name="<?=$value['std_id'];?>" type="checkbox" class="btn-alert" data-url="<?= site_url('project/updatestdproject/' . $Id.'/'.$value['std_id']); ?>" data-title="ยืนยันการเพิ่ม" data-text="<?=$show_number;?>">
+                                        <label for="checkbox<?=$value['std_id'];?>"> <?=$show;?> </label>
+                                    </div>
+                                </div>
+                            <?PHP } ?>
+                        <?PHP } else { ?>
+                            <center><label>ไม่พบข้อมูลที่ต้องการค้นหา</label></center>
+                        <?PHP } ?>
+                        <?PHP if(!empty($pagination)){?>
+                            <div class="hr-line-dashed"></div>
+                            <div style="text-align: right;"> <?=$pagination;?> </div>
+                        <?PHP } ?>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มหัวข้อปริญญานิพนธ์</strong></button>
