@@ -161,50 +161,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
-    if ($("#formChangemailstd").length) {
-      $("#formChangemailstd").validate({
-        rules: {
-          std_email: {
-            required: true,
-            email: true,
-            remote: {
-              url: $("#std_email").attr("data-url"),
-              type: "post",
-              data: {
-                std_email: function() {
-                  return $("#std_email").val();
-                }
-              }
-            }
-          },
-        },
-        messages: {
-          std_email: {
-            required: "กรุณากรอกอีเมล.",
-            email: "รูปแบบอีเมลผิดพลาด.",
-            remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
-          },
-        },
-        submitHandler: function(form) {
-          fun.dataSubmit(form);
-          return false;
-        }
-      });
-    }
-    if ($("#formChangepasswordstd").length) {
-      $("#formChangepasswordstd").validate({
-        rules: {
-          std_password: { required: true },
-        },
-        messages: {
-          std_password: { required: "กรุณากรอกรหัสผ่าน." },
-        },
-        submitHandler: function(form) {
-          fun.dataSubmit(form);
-          return false;
-        }
-      });
-    }
     if ($("#formSetting").length) {
       $("#formSetting").validate({
         rules: {
@@ -460,6 +416,11 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           txt_01_cov: { required: true }
         },
+        messages: {
+          txt_01_cov: {
+            required: "กรุณาเลือกไฟล์."
+          }
+        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -591,6 +552,74 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#add09_bio").validate({
         rules: {
           txt_09_bio: { required: true }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formChangemailstd").length) {
+      $("#formChangemailstd").validate({
+        rules: {
+          std_email: {
+            required: true,
+            email: true,
+            remote: {
+              url: $("#std_email").attr("data-url"),
+              type: "post",
+              data: {
+                std_email: function() {
+                  return $("#std_email").val();
+                }
+              }
+            }
+          },
+        },
+        messages: {
+          std_email: {
+            required: "กรุณากรอกอีเมล.",
+            email: "รูปแบบอีเมลผิดพลาด.",
+            remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formChangepasswordstd").length) {
+      $("#formChangepasswordstd").validate({
+        rules: {
+          std_password: { required: true },
+        },
+        messages: {
+          std_password: { required: "กรุณากรอกรหัสผ่าน." },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formStudentAddproject").length) {
+      $("#formStudentAddproject").validate({
+        rules: {
+          txt_projectname: {
+            required: true
+          },
+          std_number: {
+            number: true
+          },
+        },
+        messages: {
+          txt_projectname: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          std_number: {
+            number: "กรุณากรอกเฉพาะตัวเลข"
+          },
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

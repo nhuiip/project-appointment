@@ -23,6 +23,7 @@ requirejs.config({
     function: "../methods/app/function",
     callvalidate: "../methods/callvalidate.min",
     callplugins: "../methods/callplugins.min",
+
   },
   shim: {
     bootstrap: {
@@ -60,7 +61,7 @@ requirejs.config({
     },
     inspinia: {
       deps: ["jquery", "metisMenu", "slimscroll"]
-    }
+    },
   }
 });
 
@@ -77,7 +78,7 @@ requirejs(
     "jqueryForm",
     "validate",
     "clipboard",
-    "inspinia"
+    "inspinia",
   ],
   function($) {
     // @ts-ignore
@@ -249,13 +250,3 @@ tables.columns().every(function() {
     }
   });
 });
-
-
-function ShowHidePassword() {
-  var x = document.getElementById("text_password");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}

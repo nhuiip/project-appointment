@@ -91,7 +91,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                             <?PHP }else{?>
                                                 <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgprefile"></div>
                                             <?PHP } ?>
-                                            <input type="file" id="std_img" name="std_img" aria-invalid="false" accept="image/*">
+                                            <input type="file" id="std_img" name="std_img" accept="image/*" value="">
                                             <input type="hidden" id="std_img_old" name="std_img_old" value="<?=$Img_std;?>">
                                         </div>
                                         <h6 class="description">เปลี่ยนรูปภาพ</h6>
@@ -184,31 +184,64 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <div class="ibox-content">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-lg-3">รหัสวิชา :</label>
+                            <label class="col-lg-3">รหัสวิชา</label>
                             <label class="col-lg-9"><?=$subjectcode;?></label>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3">ชื่อวิชา :</label>
+                            <label class="col-lg-3">ชื่อวิชา</label>
                             <label class="col-lg-9"><?=$subjectname;?></label>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3">อาจารย์ประจำวิชา :</label>
+                            <label class="col-lg-3">อาจารย์ประจำวิชา</label>
                             <label class="col-lg-9"><?=$usefullname;?></label>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3">อาจารย์ขึ้นสอบจำนวน :</label>
+                            <label class="col-lg-3">อาจารย์ขึ้นสอบจำนวน</label>
                             <label class="col-lg-9"><?=$subjectsetuse;?> คน</label>
                         </div>
                     </form>
                 </div>
             </div>
+
+            <?PHP if(count($searchProject) != 0) { ?>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5><i class="fa fa-book"></i> ประวัติการทำปริญญานิพจน์</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+                        <?PHP foreach ($searchProject as $key => $value) { ?>
+                            <div class="form-group">
+                                <label class="col-xs-12 col-sm-8">
+                                    <i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<?=$value['project_name'];?>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small><?=date('d M Y', strtotime($value['project_create_date']));?></small></p>
+                                </label>
+                                <label class="col-xs-12 col-sm-4">
+                                    <?PHP if($value['project_status'] == 1){ ?>
+                                        <p><span class="label label-info">ยังไม่สอบโครงงานหนึ่ง</span></p>
+                                    <?PHP } else if($value['project_status'] == 2){ ?>
+                                        <p><span class="label label-primary">ผ่านโครงงานหนึ่ง</span></p>
+                                    <?PHP } else if($value['project_status'] == 3){ ?>
+                                        <p><span class="label label-warning">สอบโครงงานสองแล้วติดแก้ไข</span></p>
+                                    <?PHP } else if($value['project_status'] == 4){ ?>
+                                        <p><span class="label label-success">สอบโครงงานสองผ่าน</span></p>
+                                    <?PHP } else if($value['project_status'] == 0){ ?>
+                                        <p><span class="label label-danger">เปลี่ยนโครงงาน</span></p>
+                                    <?PHP } ?>
+                                </label>
+                            </div>
+                        <?PHP } ?>
+                    </form>
+                </div>
+            </div>
+            <?PHP } ?>
         </div>
     </div>
 </div>
 
-<form action="<?=base_url('profile/changemail/'.$Id);?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
-    <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-    <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
+<form action="<?=base_url('profile/changemail');?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
+    <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?=$formcrfmail;?>">
+    <input type="hidden" name="Idmail" id="Idmail" value="<?=$Id;?>">
 
     <div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -231,26 +264,26 @@ if (isset($listsubject) && count($listsubject) != 0) {
 </form>
 
 <form action="<?=base_url('profile/changepassword');?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>                   
-<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-<input type="hidden" name="Id2" id="Id2" value="<?=$Id;?>">
+    <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?=$formcrfpassword;?>">
+    <input type="hidden" name="Id2" id="Id2" value="<?=$Id;?>">
 
-<div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
-                <hr/>
-                <div class="form-group-mgTB">
-                    <input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
+    <div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
+                    <hr/>
+                    <div class="form-group-mgTB">
+                        <input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
+                    </div>
+                    <div class="mgBottom">
+                        <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
+                    </div>
+                    <div style="margin-bottom: 20px;"></div>
                 </div>
-                <div class="mgBottom">
-                    <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
-                </div>
-                <div style="margin-bottom: 20px;"></div>
             </div>
         </div>
     </div>
-</div>
 </form>
 
 <!-- แสดงภาพก่อนอัพโหลด -->
@@ -266,8 +299,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
             reader.readAsDataURL(input.files[0]);
         }
     }
+
     $("#std_img").change(function() {
         readURL(this);
-        console.log(this);
     });
 </script>

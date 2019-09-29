@@ -48,6 +48,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/datatables.min.js'); ?>"></script>
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
+
 </head>
 
 <? if ($position != 'นักศึกษา') { ?>
@@ -149,7 +150,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 										<a href="<?= site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
-										<a href="<?= site_url('project/index/'.$loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
+										<a href="<?= site_url('project/index/'.$loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
 									</li>
 									<li>
 										<a href="<?= site_url('profile/index/'.$loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
@@ -192,5 +193,5 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 		<? } ?>
 
 		</body>
-
+		
 </html>
