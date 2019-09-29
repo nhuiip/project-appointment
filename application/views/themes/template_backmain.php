@@ -34,6 +34,12 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 	<link href="<?= base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/animate.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet">
+
+	<!-- calendar -->
+	<link href="<?= base_url('assets/css/plugins/iCheck/custom.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.print.css'); ?>" rel='stylesheet' media='print'>
+
 	
 	<?PHP
 	if (!empty($css)) {
@@ -48,6 +54,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/datatables.min.js'); ?>"></script>
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
+
 
 </head>
 
@@ -147,7 +154,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 										<a aria-expanded="false" role="button" href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a>
 									</li>
 									<li>
-										<a href="<?= site_url('calendar/index/'); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+										<a href="<?= site_url('calendar/index/'.$loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
 										<a href="<?= site_url('project/index/'.$loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>

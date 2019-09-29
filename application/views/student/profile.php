@@ -87,12 +87,12 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     <div class="picture-container">
                                         <div class="picture">
                                             <?PHP if($Img_std == ""){ ?>
-                                                <div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgprefile"></div>
+                                                <div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
                                             <?PHP }else{?>
-                                                <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgprefile"></div>
+                                                <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgpre"></div>
                                             <?PHP } ?>
-                                            <input type="file" id="std_img" name="std_img" accept="image/*" value="">
-                                            <input type="hidden" id="std_img_old" name="std_img_old" value="<?=$Img_std;?>">
+                                            <input type="file" id="std_img" aria-invalid="false" accept="image/*">
+                                            <input type="hidden" id="std_img2" name="std_img" aria-invalid="false" accept="image/*">
                                         </div>
                                         <h6 class="description">เปลี่ยนรูปภาพ</h6>
                                     </div>
@@ -290,12 +290,14 @@ if (isset($listsubject) && count($listsubject) != 0) {
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
+            const reader = new FileReader({
+                type: 'image/png'
+            });
             reader.onload = function(e) {
-                $('#std_imgprefile').css('background', 'url(' + e.target.result + ') no-repeat center');
+                $('#std_imgpre').css('background', 'url(' + e.target.result + ') no-repeat center');
+                var img = e.target.result;
+                $("#std_img2").val(img);
             }
-
             reader.readAsDataURL(input.files[0]);
         }
     }
