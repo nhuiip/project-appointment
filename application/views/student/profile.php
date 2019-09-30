@@ -225,6 +225,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                     <small class="text-navy"><?=date('d M Y', strtotime($value['project_create_date']));?></small>
                                 </div>
                                 <div class="col-xs-7 content no-top-border">
+                                    
                                     <p class="m-b-xs"><strong><?=$value['project_name'];?></strong></p>
                                     <p>
                                         <?PHP if($value['project_status'] == 1){ ?>
@@ -239,6 +240,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                             <p><span class="label label-danger" style="font-size: 12px;">เปลี่ยนหัวข้อปริญญานิพนธ์</span></p>
                                         <?PHP } ?>
                                     </p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -296,7 +298,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
         </div>
     </div>
 </form>
-
 <!-- แสดงภาพก่อนอัพโหลด -->
 <script>
     function readURL(input) {

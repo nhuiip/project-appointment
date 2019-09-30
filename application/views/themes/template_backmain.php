@@ -93,7 +93,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 									<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-graduation-cap"></i> <span class="nav-label">ข้อมูลนักศึกษา</span></a>
 								</li>
 								<li>
-									<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">ข้อมูลโปรเจค</span></a>
+									<a href="<?= site_url('project/index/'.$loginid); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
 								</li>
 							<? } ?>
 							<? if ($position == 'ผู้ดูแลระบบ' || $position == 'ฉุกเฉิน') { ?>

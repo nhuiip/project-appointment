@@ -174,6 +174,11 @@ body {
     grid-template-columns: auto 15%;
     grid-gap: 10px;
 }
+.grid-two-show-search{
+    display: grid;
+    grid-template-columns: auto ;
+    grid-gap: 10px;
+}
 @media only screen and (min-width: 768px) {
     
 .grid-two-show-subject{
@@ -183,7 +188,15 @@ body {
 }
 
 }
-
+@media only screen and (min-width: 992px) {
+    
+    .grid-two-show-search{
+        display: grid;
+        grid-template-columns: 75% auto ;
+        grid-gap: 10px;
+    }
+    
+}
 label.error {
     /* display: none !important; */
     margin-top: 5px !important;

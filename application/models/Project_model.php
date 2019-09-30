@@ -22,6 +22,128 @@ class Project_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function listjoinData2($data = array()){
+        $this->db->select($data['fide']);
+        $this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+		$this->db->join('tb_student', 'tb_student.std_id = tb_project.std_id');
+		$this->db->join('tb_subject', 'tb_subject.sub_id = tb_student.sub_id');
+		if(!empty($data['where'])){$this->db->where($data['where']);}
+		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
+		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function count_all_news()
+    {
+        $this->db->select('*');
+        $query = $this->db->get('tb_project');
+        return count($query->result_array());
+	}
+
+
+	// Select project name
+	public function getData($rowno,$rowperpage,$search="") {
+ 
+		$this->db->select('*');
+		$this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+
+		if($search != ''){
+			$this->db->like('tb_project.project_name', $search);
+		}
+
+		$this->db->limit($rowperpage, $rowno); 
+		$query = $this->db->get();
+		
+		return $query->result_array();
+	}
+
+	public function getrecordCount($search="") {
+
+		$this->db->select('count(*) as allcount');
+		$this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+	
+		if($search != ''){
+			$this->db->like('tb_project.project_name', $search);
+		}
+
+		$query = $this->db->get();
+		$result = $query->result_array();
+	
+		return $result[0]['allcount'];
+	}
+
+	// Select project status
+	public function getDataStatus($rowno,$rowperpage,$search="") {
+ 
+		$this->db->select('*');
+		$this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+
+		if($search != ''){
+			$this->db->like('tb_project.project_status', $search);
+		}
+
+		$this->db->limit($rowperpage, $rowno); 
+		$query = $this->db->get();
+		
+		return $query->result_array();
+	}
+
+	public function getrecordCountStatus($search="") {
+
+		$this->db->select('count(*) as allcount');
+		$this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+	
+		if($search != ''){
+			$this->db->like('tb_project.project_status', $search);
+		}
+
+		$query = $this->db->get();
+		$result = $query->result_array();
+	
+		return $result[0]['allcount'];
+		
+	}
+
+	// Select project teacher
+	public function getDataTeacher($rowno,$rowperpage,$search="") {
+ 
+		$this->db->select('*');
+		$this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+
+		if($search != ''){
+			$this->db->like('tb_project.use_id', $search);
+		}
+
+		$this->db->limit($rowperpage, $rowno); 
+		$query = $this->db->get();
+		
+		return $query->result_array();
+	}
+
+	public function getrecordCountTeacher($search="") {
+
+		$this->db->select('count(*) as allcount');
+		$this->db->from('tb_project');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
+	
+		if($search != ''){
+			$this->db->like('tb_project.use_id', $search);
+		}
+
+		$query = $this->db->get();
+		$result = $query->result_array();
+	
+		return $result[0]['allcount'];
+		
+	}
+
 	public function searchstdProject($Id){
 		$query = $this->db->query("SELECT * FROM tb_project WHERE FIND_IN_SET(".$Id.",std_id)" );
 		return $query->result_array();

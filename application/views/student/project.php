@@ -48,12 +48,19 @@
             $project_fileapptwo     = $value['project_fileapptwo'];
             $project_filebio        = $value['project_filebio'];
             $project_status         = $value['project_status'];
-            $project_studentId         = $value['std_id'];
+            $project_studentId      = $value['std_id'];
+            $teacherId              = $value['use_id'];
         }
     } 
 
-    //แสดงข้อมูลผู้ร่วมจัดทำปริญญานิิพนธ์
-
+    if(!empty($project_id)){
+        //แสดงข้อมูลอาจารย์ที่ปรึกษาโปรเจค
+        $this->db->select('*');
+        $this->db->from('tb_user');
+        $this->db->where(array('use_id' => $teacherId));
+        $query_selectteacher = $this->db->get();
+        $selectteacher = $query_selectteacher->result_array();
+    }
     ?>
 
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -75,7 +82,7 @@
                         <?PHP if(count($searchProject) != 0){ ?>
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
-                                <label>ชื่อปริญญานิพนธ์</label>
+                                <label>หัวข้อปริญญานิพนธ์</label>
                                 <label><?=$project_name;?></label>
                             </div>
                             <?PHP } ?>
@@ -88,10 +95,28 @@
                             <label>รายวิชาที่ลงทะเบียน</label>
                             <label><?=$subject_name;?></label>
                         </div>
+                        <?PHP if(count($searchProject) != 0){ ?>
+                        <?PHP if($teacher_id == $teacherId){ ?>
+                        <div class="form-group-mgTB grid-two-show-subject">
+                            <label>อาจารย์ผู้สอน / อาจารย์ที่ปรึกษา</label>
+                            <label><?=$teacher_fullname;?></label>
+                        </div>
+                        <?PHP }else{ ?>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>อาจารย์ผู้สอน</label>
                             <label><?=$teacher_fullname;?></label>
                         </div>
+                        <div class="form-group-mgTB grid-two-show-subject">
+                            <label>อาจารย์ที่ปรึกษา</label>
+                            <label><?=$selectteacher[0]['use_name'];?></label>
+                        </div>
+                        <?PHP } ?>
+                        <?PHP } else {?>
+                        <div class="form-group-mgTB grid-two-show-subject">
+                            <label>อาจารย์ผู้สอน</label>
+                            <label><?=$teacher_fullname;?></label>
+                        </div>
+                        <?PHP } ?>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>จำนวนอาจารย์ขึ้นสอบ</label>
                             <label><?=$subject_setuse;?>  คน</label>
@@ -240,6 +265,32 @@
                                         <br/>
                                         <br/>
                                         <span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เพิ่มเฉพาะผู้ร่วมจัดทำปริญญานิพนธ์ ไม่ต้องเพิ่มผู้สร้างปริญญานิพนธ์ ระบบจะเพิ่มให้อัตโนมัติ
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label>อาจารย์ที่ปรึกษาโปรเจค</label>
+                                    <div>
+                                        <div class="radio radio-success radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheckT();" id="inlineRadio3" value="1" name="radioInline3" checked="">
+                                            <label for="inlineRadio3"> อาจารย์ประจำวิชา </label>
+                                        </div>
+                                        <div class="radio radio-success radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheckT();" id="inlineRadio4" value="2" name="radioInline3">
+                                            <label for="inlineRadio4"> อาจารย์ท่านอื่นๆ </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label></label>
+                                    <div id="ifYesT" style="display:none">
+                                        <select class="form-control" id="txt_teacher" name="txt_teacher" >
+                                            <option value="">เลือกอาจารย์ที่ปรึกษาโปรเจค</option>
+                                            <?PHP foreach ($listuser as $key => $value) { ?>
+                                                <option value="<?=$value['use_id'];?>"><?=$value['use_name'];?></option>
+                                            <?PHP } ?>
+                                        </select>
+                                        <br/>
+                                        <br/>
                                     </div>
                                 </div>
                                 <div class="form-group-mgTB">
@@ -973,6 +1024,14 @@
             document.getElementById('ifYes').style.display = 'block';
         }
         else document.getElementById('ifYes').style.display = 'none';
+
+    }
+
+    function yesnoCheckT() {
+        if (document.getElementById('inlineRadio4').checked) {
+            document.getElementById('ifYesT').style.display = 'block';
+        }
+        else document.getElementById('ifYesT').style.display = 'none';
 
     }
 
