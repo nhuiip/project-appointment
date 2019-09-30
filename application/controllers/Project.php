@@ -129,7 +129,7 @@ class Project extends MX_Controller
 
                             $condition = array();
                             $condition['fide'] = "tb_project.project_id,tb_project.project_name,tb_project.project_status,tb_subject.sub_id,tb_subject.sub_type,tb_subject.sub_code,tb_subject.sub_name,tb_user.use_name";
-                            $condition['where'] = array('tb_project.project_id' => $id);
+                            $condition['where'] = array('tb_project.project_id' => $projectId);
                             $data['showproject'] = $this->project->listjoinData2($condition);
 
 
