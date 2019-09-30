@@ -44,6 +44,11 @@ define([
       placeholder: "กรุณาเลือก",
       allowClear: true
     });
+
+    $(".select2_demo_2").select2({
+      tags: true,
+      placeholder: 'ค้นหารหัสนักศึกษา'
+    });
   };
 
   methods.TouchSpin = function() {

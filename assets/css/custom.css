@@ -205,6 +205,6 @@ label.error {
     padding:10px;
 }
 
-.icheckbox_square-green{
-   
+.select2-container {
+    width: 100% !important;
 }

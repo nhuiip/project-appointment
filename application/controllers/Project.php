@@ -103,12 +103,35 @@ class Project extends MX_Controller
                 }else{
 
 
+                    // if($this->input->post('txt_std_id') != ''){
+                    //     $stypesVal = explode(",", $this->input->post('txt_std_id'));
+                    // } else {
+                    //     $stypesVal = '';
+                    // }
+
+                    // $arrcategory1 = $this->input->post('txt_std_id');
+
+                    // foreach($arrcategory1 as $val1)
+                    // {
+                    //     $categoryarr1 = $categoryarr1 . $val1. ",";
+                    // }
+                    // $categoryarr1 = substr(trim($categoryarr1), 0, -1);
+
+                    // if($this->input->post('radioInline')==1){
+                    //     $idstd  =   $this->input->post('Idstd');
+                    // }else{
+                    //     $idstd  =   $this->input->post('Idstd').','.$this->input->post('txt_std_id');
+                    // }
+
+
+                    die;
+
                     if($this->tokens->verify('formcrfaddproject')){
                         
                         $data = array(
                             'project_name'          => $this->input->post('txt_projectname'),
                             'use_id'                => $this->input->post('teacher_id'),
-                            'std_id'                => $this->input->post('Idstd'),
+                            'std_id'                => $Id,
                             'project_status'        => '1',
                             'project_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
                             'project_create_date'   => date('Y-m-d H:i:s'),

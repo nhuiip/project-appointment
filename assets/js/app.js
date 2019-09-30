@@ -326,3 +326,4 @@ $('#calendar').fullCalendar({
         }
     ]
 });
+

@@ -197,7 +197,18 @@ class Profile extends MX_Controller
 			$condition['where'] = array('std_email' => $std_email);
 			$listemail = $this->student->listData($condition);
 			if (count($listemail) == 0) {
-				echo "true";
+                
+                $condition = array();
+                $condition['fide'] = "use_email";
+                $condition['where'] = array('use_email' => $std_email);
+                $listemails = $this->administrator->listData($condition);
+            
+                if (count($listemails) == 0) {
+                    echo "true";
+                } else {
+                    echo "false";
+                }
+
 			} else {
 				echo "false";
 			}

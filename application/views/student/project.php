@@ -10,6 +10,7 @@
     //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
     if (isset($listsubject) && count($listsubject) != 0) {
         foreach ($listsubject as $key => $value) {
+            $subject_Id             = $value['sub_id'];
             $subject_type           = $value['sub_type'];
             $subject_name           = $value['sub_name'];
             $subject_code           = $value['sub_code'];
@@ -19,6 +20,14 @@
             $teacher_fullname       = $value['use_name'];
         }
     } 
+
+    //ค้นหารายชื่อนักศึกษาที่ลงทะเบียนในรายวิชาเดียวกัน
+    $this->db->select('*');
+    $this->db->from('tb_student');
+    $this->db->where(array('std_id !=' => $Idstd, 'std_status' => 0, 'sub_id' => $subject_Id));
+    $query_selectstudent = $this->db->get();
+    $selectstudent = $query_selectstudent->result_array();
+
     //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
     if (isset($searchProject) && count($searchProject) != 0) {
         foreach ($searchProject as $key => $value) {
@@ -141,15 +150,17 @@
                                         <div class="form-group-mgTB grid-two-show-subject">
                                             <label></label>
                                             <div id="ifYes" style="display:none">
-                                                <p>
-                                                    <input type="text" class="hide-input-border form-control font-20" name="txt_std_id" placeholder="โปรดเลือกนักศึกษา" /> 
-                                                </p>
+                                                <select class="select2_demo_2 form-control" id="txt_std_id" name="txt_std_id" multiple="multiple" >
+                                                    <?PHP foreach ($selectstudent as $key => $value) { ?>
+                                                        <option value="<?=$value['std_id'];?>"><?=$value['std_number'];?></option>
+                                                    <?PHP } ?>
+                                                </select>
                                             </div>
                                         </div>
                                         
                                         <div class="form-group-mgTB">
                                             <br/>
-                                            <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
+                                            <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
                                         </div>
                                     </form>
                                 </div>
@@ -161,7 +172,7 @@
                                 <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
                             </div>
                             <div class="ibox-content">  
-                                <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
+                                <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="1formStudentAddproject" class="form-horizontal" novalidate>
                                     <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
                                     <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
                                     <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
@@ -188,9 +199,11 @@
                                     <div class="form-group-mgTB grid-two-show-subject">
                                         <label></label>
                                         <div id="ifYes" style="display:none">
-                                            <p>
-                                                <input type="text" class="hide-input-border form-control font-20" name="txt_std_id" placeholder="โปรดเลือกนักศึกษา" /> 
-                                            </p>
+                                            <select class="select2_demo_2 form-control" id="txt_std_id" name="txt_std_id" multiple="multiple" >
+                                                <?PHP foreach ($selectstudent as $key => $value) { ?>
+                                                    <option value="<?=$value['std_id'];?>"><?=$value['std_number'];?></option>
+                                                <?PHP } ?>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group-mgTB">
@@ -927,4 +940,12 @@
 
     }
 
+    $("select2_demo_2").on("select2:select", function (evt) {
+        var element = evt.params.data.element;
+        var $element = $(element);
+        
+        $element.detach();
+        $(this).append($element);
+        $(this).trigger("change");
+    });
 </script>

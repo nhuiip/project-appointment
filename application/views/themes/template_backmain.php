@@ -40,7 +40,6 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.print.css'); ?>" rel='stylesheet' media='print'>
 
-	
 	<?PHP
 	if (!empty($css)) {
 		echo $css;
@@ -54,7 +53,6 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/datatables.min.js'); ?>"></script>
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
-
 
 </head>
 
