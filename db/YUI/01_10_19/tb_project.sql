@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 30, 2019 at 06:55 PM
+-- Generation Time: Sep 30, 2019 at 07:06 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.2.20
 
@@ -60,7 +60,7 @@ CREATE TABLE `tb_project` (
 
 INSERT INTO `tb_project` (`project_id`, `project_name`, `use_id`, `std_id`, `project_status`, `project_filecov`, `project_filecer`, `project_fileabs`, `project_fileack`, `project_filetbc`, `project_filechone`, `project_filechtwo`, `project_filechthree`, `project_filechfour`, `project_filechfive`, `project_fileref`, `project_fileappone`, `project_fileapptwo`, `project_filebio`, `project_create_name`, `project_create_date`, `project_lastedit_name`, `project_lastedit_date`) VALUES
 (1, 'OTOP MALL', 11, '1,3', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'นภัสสร ศรีจันทร์', '2019-09-30 20:05:27', 'นภัสสร ศรีจันทร์', '2019-09-30 20:05:41'),
-(2, 'ระบบจองคิวสอบโปรเจคออนไลน์', 4, '1,3', 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03'),
+(2, 'ระบบจองคิวสอบโปรเจคออนไลน์', 4, '1,3', 1, '01_cov.pdf', '02_cer.pdf', '', '04_ack.pdf', '05_tcb.pdf', '06_ch01.pdf', '06_ch02.pdf', '06_ch03.pdf', '', '', '', '', '', '09_bio.pdf', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03', 'นภัสสร ศรีจันทร์', '2019-10-01 00:05:31'),
 (3, 'ระบบบริหารจัดการร้านค้า', 4, '10', 3, '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03'),
 (5, 'แอพกายภาพบำบัด', 4, '11', 2, '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03', 'นภัสสร ศรีจันทร์', '2019-09-30 20:06:03');
 
