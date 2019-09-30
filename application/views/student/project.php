@@ -48,8 +48,11 @@
             $project_fileapptwo     = $value['project_fileapptwo'];
             $project_filebio        = $value['project_filebio'];
             $project_status         = $value['project_status'];
+            $project_studentId         = $value['std_id'];
         }
     } 
+
+    //แสดงข้อมูลผู้ร่วมจัดทำปริญญานิิพนธ์
 
     ?>
 
@@ -73,106 +76,87 @@
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
                                 <label>ชื่อปริญญานิพนธ์</label>
-                                <input placeholder="ชื่อโปรเจค" class="form-control" name="txt_projectname" id="txt_projectname" value="<?=$project_name;?>" disabled>
+                                <label><?=$project_name;?></label>
                             </div>
                             <?PHP } ?>
                         <?PHP } ?>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>รหัสวิชา</label>
-                            <input placeholder="รหัสวิชา" class="form-control" name="txt_showcode" id="txt_showcode" value="<?=$subject_code;?>" disabled>
+                            <label><?=$subject_code;?></label>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>รายวิชาที่ลงทะเบียน</label>
-                            <input placeholder="รายวิชาที่ลงทะเบียน" class="form-control" name="txt_subject" id="txt_subject" value="<?=$subject_name;?>" disabled>
+                            <label><?=$subject_name;?></label>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>อาจารย์ผู้สอน</label>
-                            <input placeholder="อาจารย์ผู้สอน" class="form-control" name="txt_use_name" id="txt_use_name" value="<?=$teacher_fullname;?>" disabled>
+                            <label><?=$teacher_fullname;?></label>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>จำนวนอาจารย์ขึ้นสอบ</label>
-                            <div class="grid-three-show-subject">
-                                <input placeholder="จำนวนอาจารย์ขึ้นสอบ" class="form-control" name="txt_sub_setuse" id="txt_sub_setuse" value="<?=$subject_setuse;?>" disabled>
-                                <label>คน</label>
-                            </div>
+                            <label><?=$subject_setuse;?>  คน</label>
                         </div>
                         <?PHP if(count($searchProject) != 0){ ?>
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
                                 <label>สถานะปริญญานิพนธ์</label>
                                 <?PHP if($project_status == 1){ ?>
-                                    <input class="form-control" value="ยังไม่สอบโครงงานหนึ่ง" disabled>
+                                    <p><span class="label label-info" style="font-size: 13px;">ยังไม่สอบโครงงานหนึ่ง</span></p>
                                 <?PHP } else if($project_status == 2){ ?>
-                                    <input class="form-control" value="ผ่านโครงงานหนึ่ง" disabled>
+                                    <p><span class="label label-primary" style="font-size: 13px;">ผ่านโครงงานหนึ่ง</span></p>
                                 <?PHP } else if($project_status == 3){ ?>
-                                    <input class="form-control" value="สอบโครงงานสองแล้วติดแก้ไข" disabled>
+                                    <p><span class="label label-warning" style="font-size: 13px;">สอบโครงงานสองแล้วติดแก้ไข</span></p>
                                 <?PHP } else if($project_status == 4){ ?>
-                                    <input class="form-control" value="สอบโครงงานสองผ่าน" disabled>
+                                    <p><span class="label label-success" style="font-size: 13px;">สอบโครงงานสองผ่าน</span></p>
                                 <?PHP } ?>
+                            </div>
+                            <?PHP } ?>
+                        <?PHP } ?>
+                        <?PHP if(count($searchProject) != 0){ ?>
+                            <?PHP if($project_status != 0){ ?>
+                            <div class="form-group-mgTB grid-two-show-subject">
+                                <label>ผู้จัดทำปริญญานิพนธ์</label>
+                                <div>
+                                 <!-- ================================================================ แตกสตริงออกเป็นสตริงย่อย ผลลัพธ์ที่คืนกลับมาจะเป็นรูปแบบ array -->
+                                 <?PHP
+                                if($project_studentId != ''){
+                                    $stypesVal = explode(",", $project_studentId);
+                                } else {
+                                    $stypesVal = '';
+                                }
+
+                                $i = 1;
+                                if (count($stypesVal) != 0) {
+                                    foreach ($stypesVal as $key => $value) { 
+
+                                    $this->db->select('std_id,std_number,std_title,std_fname,std_lname');
+                                    $this->db->where(array('std_id' => $value));
+                                    $query_student = $this->db->get('tb_student');
+                                    $liststudent = $query_student->result_array();
+                                ?>
+                                    <div class="form-group">
+                                        <label><?=$i;?>. <?=$liststudent[0]['std_number']?> <?=$liststudent[0]['std_title']?><?=$liststudent[0]['std_fname']?>  <?=$liststudent[0]['std_lname']?></label>
+                                    </div>
+                                <?PHP
+                                    $i++; } 
+                                } 
+                                ?>
+                                <!-- ================================================================ ./แตกสตริงออกเป็นสตริงย่อย ผลลัพธ์ที่คืนกลับมาจะเป็นรูปแบบ array -->
+                                </div>
                             </div>
                             <?PHP } ?>
                         <?PHP } ?>
 
                     </div>
                 </div>
-
-                    <?PHP if(!empty($project_status)){ ?>
-                        <?PHP if($project_status == 0){ ?>
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
-                                </div>
-                                <div class="ibox-content">  
-                                    <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
-                                        <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
-                                        <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
-                                        <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
-
-                                        <div class="form-group-mgTB grid-two-show-subject">
-                                            <label>ชื่อปริญญานิพนธ์</label>
-                                            <div>
-                                                <input placeholder="ชื่อปริญญานิพนธ์" class="form-control" name="txt_projectname" id="txt_projectname" value="" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group-mgTB grid-two-show-subject">
-                                            <label>ผู้จัดทำปริญญานิพนธ์</label>
-                                            <div>
-                                                <div class="radio radio-info radio-inline">
-                                                    <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio1" value="1" name="radioInline" checked="">
-                                                    <label for="inlineRadio1"> จัดทำแบบเดี่ยว </label>
-                                                </div>
-                                                <div class="radio radio-info radio-inline">
-                                                    <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio2" value="2" name="radioInline">
-                                                    <label for="inlineRadio2"> จัดทำแบบกลุ่ม </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group-mgTB grid-two-show-subject">
-                                            <label></label>
-                                            <div id="ifYes" style="display:none">
-                                                <select class="select2_demo_2 form-control" id="txt_std_id" name="txt_std_id" multiple="multiple" >
-                                                    <?PHP foreach ($selectstudent as $key => $value) { ?>
-                                                        <option value="<?=$value['std_id'];?>"><?=$value['std_number'];?></option>
-                                                    <?PHP } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group-mgTB">
-                                            <br/>
-                                            <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        <?PHP } ?>
-                    <?PHP } else {?>
+                <?PHP if(!empty($project_status)){ ?>
+                    <?PHP if($project_status == 0){ ?>
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
                             </div>
                             <div class="ibox-content">  
-                                <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="1formStudentAddproject" class="form-horizontal" novalidate>
+                                <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
                                     <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
                                     <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
                                     <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
@@ -206,6 +190,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group-mgTB">
                                         <br/>
                                         <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
@@ -214,6 +199,57 @@
                             </div>
                         </div>
                     <?PHP } ?>
+                <?PHP } else {?>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
+                        </div>
+                        <div class="ibox-content">  
+                            <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
+                                <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
+                                <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
+                                <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
+
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label>ชื่อปริญญานิพนธ์</label>
+                                    <div>
+                                        <input placeholder="ชื่อปริญญานิพนธ์" class="form-control" name="txt_projectname" id="txt_projectname" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label>ผู้จัดทำปริญญานิพนธ์</label>
+                                    <div>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio1" value="1" name="radioInline" checked="">
+                                            <label for="inlineRadio1"> จัดทำแบบเดี่ยว </label>
+                                        </div>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio2" value="2" name="radioInline">
+                                            <label for="inlineRadio2"> จัดทำแบบกลุ่ม </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label></label>
+                                    <div id="ifYes" style="display:none">
+                                        <select class="select2_demo_2 form-control" id="txt_std_id" name="txt_std_id[]" multiple="multiple" >
+                                            <?PHP foreach ($selectstudent as $key => $value) { ?>
+                                                <option value="<?=$value['std_id'];?>"><?=$value['std_number'];?></option>
+                                            <?PHP } ?>
+                                        </select>
+                                        <br/>
+                                        <br/>
+                                        <span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เพิ่มเฉพาะผู้ร่วมจัดทำปริญญานิพนธ์ ไม่ต้องเพิ่มผู้สร้างปริญญานิพนธ์ ระบบจะเพิ่มให้อัตโนมัติ
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB">
+                                    <br/>
+                                    <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <?PHP } ?>
             </div>
             <div class="col-lg-5">
                 <div class="ibox float-e-margins">

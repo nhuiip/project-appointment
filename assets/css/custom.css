@@ -178,7 +178,7 @@ body {
     
 .grid-two-show-subject{
     display: grid;
-    grid-template-columns: 30% auto;
+    grid-template-columns: 25% auto;
     grid-gap: 10px;
 }
 

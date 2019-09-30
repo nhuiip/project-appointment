@@ -53,6 +53,13 @@ class Student_model extends CI_Model {
 		return $query->result_array();
 	  }
 
+	public function searchstdProject($Idstud){
+		$this->db->select('*');
+		$this->db->like('std_id',$Idstud);
+		$query = $this->db->get('tb_student');
+		return $query->result_array();
+	}
+
     // Insert data
 	public function insertData($data = array()){
 		$this->db->insert("tb_student",$data);

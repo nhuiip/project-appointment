@@ -33,6 +33,11 @@ class Project extends MX_Controller
                     
                     //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
                     $data['searchProject'] = $this->project->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
+
+
+                    //ค้นหานักศึกษาที่ร่วมทำปริญญานิพนธ์
+                    $data['searchStd'] = $this->student->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
+
                     //แสดง id ที่ login เอาไป select subject
                     $data['Idstd'] =   $this->encryption->decrypt($this->input->cookie('sysli'));
 
@@ -58,7 +63,7 @@ class Project extends MX_Controller
             $condition = array();
             $condition['fide'] = "std_id";
             $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
-            $checkstudent = $this->project->listData($condition);
+            $checkstudent = $this->student->listData($condition);
             if(count($checkstudent) == 0){
                 $this->load->view('errors/html/error_403');
             }else{
@@ -102,44 +107,56 @@ class Project extends MX_Controller
                     $this->load->view('errors/html/error_403');
                 }else{
 
-
-                    // if($this->input->post('txt_std_id') != ''){
-                    //     $stypesVal = explode(",", $this->input->post('txt_std_id'));
-                    // } else {
-                    //     $stypesVal = '';
-                    // }
-
-                    // $arrcategory1 = $this->input->post('txt_std_id');
-
-                    // foreach($arrcategory1 as $val1)
-                    // {
-                    //     $categoryarr1 = $categoryarr1 . $val1. ",";
-                    // }
-                    // $categoryarr1 = substr(trim($categoryarr1), 0, -1);
-
-                    // if($this->input->post('radioInline')==1){
-                    //     $idstd  =   $this->input->post('Idstd');
-                    // }else{
-                    //     $idstd  =   $this->input->post('Idstd').','.$this->input->post('txt_std_id');
-                    // }
-
-
-                    die;
-
                     if($this->tokens->verify('formcrfaddproject')){
                         
-                        $data = array(
-                            'project_name'          => $this->input->post('txt_projectname'),
-                            'use_id'                => $this->input->post('teacher_id'),
-                            'std_id'                => $Id,
-                            'project_status'        => '1',
-                            'project_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
-                            'project_create_date'   => date('Y-m-d H:i:s'),
-                            'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-                            'project_lastedit_date' => date('Y-m-d H:i:s'),
-                        );
-                        
-                        $this->project->insertData($data);
+                        //================================================================ check radio [1=เดี่ยว, 2=กลุ่ม]
+                        if($this->input->post('radioInline')==1){
+
+                            $data = array(
+                                'project_name'          => $this->input->post('txt_projectname'),
+                                'use_id'                => $this->input->post('teacher_id'),
+                                'std_id'                => $this->input->post('Idstd'),
+                                'project_status'        => '1',
+                                'project_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+                                'project_create_date'   => date('Y-m-d H:i:s'),
+                                'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                                'project_lastedit_date' => date('Y-m-d H:i:s'),
+                            );
+                            
+                            $this->project->insertData($data);
+
+                        }else{
+                            $data = array(
+                                'project_name'          => $this->input->post('txt_projectname'),
+                                'use_id'                => $this->input->post('teacher_id'),
+                                'std_id'                => $this->input->post('Idstd'),
+                                'project_status'        => '1',
+                                'project_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+                                'project_create_date'   => date('Y-m-d H:i:s'),
+                                'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                                'project_lastedit_date' => date('Y-m-d H:i:s'),
+                            );
+
+                            $Id_project  =   $this->project->insertData($data);
+
+                            
+                            $other = array();
+                            for($i=0;$i<count($this->input->post('txt_std_id'));$i++){
+                                $condition = array();
+                                $condition['fide'] = "*";
+                                $condition['where'] = array('project_id' => $Id_project);
+                                $checkproject = $this->project->listData($condition);
+
+                                $idstd  =   $checkproject[0]['std_id'];
+
+                                $other['project_id'] 	= $Id_project;
+                                $other['std_id'] 		= $idstd.','.$this->input->post('txt_std_id')[$i];
+
+                                $this->project->updateData2($other);
+                            }
+
+                        }
+                        //================================================================ ./check radio
                             
                         $result = array(
                             'error' => false,

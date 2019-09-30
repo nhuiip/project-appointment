@@ -21,13 +21,12 @@ class Project_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
+
 	public function searchstdProject($Id){
-		$this->db->select('*');
-		$this->db->like('std_id',$Id);
-		$query = $this->db->get('tb_project');
+		$query = $this->db->query("SELECT * FROM tb_project WHERE FIND_IN_SET(".$Id.",std_id)" );
 		return $query->result_array();
 	}
+
 
 	public function searchstdProjectNumber($searchstudent){
 		$this->db->select('*');
@@ -59,6 +58,12 @@ class Project_model extends CI_Model {
 		$this->db->where(array('project_id' => $data['project_id']));
 		$this->db->update("tb_project",$data);
 		return $data['project_id'];
+	}
+
+	public function updateData2($other = array()){
+		$this->db->where(array('project_id' => $other['project_id']));
+		$this->db->update("tb_project",$other);
+		return $other['project_id'];
 	}
 	public function deleteData($data = array()){
 		$this->db->delete('tb_project', array('project_id' => $data['project_id']));
