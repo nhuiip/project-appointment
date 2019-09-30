@@ -76,13 +76,13 @@
                             <?PHP } ?>
                             
                             <br/>
-                            <a href="<?=base_url('project/detail/'.$value['project_id']);?>" class="product-name" style="height: 40px;"> <?=character_limiter(strip_tags($value['project_name']), 20);?></a>
+                            <a href="<?=base_url('project/detail/'.$this->encryption->decrypt($this->input->cookie('sysli')).'/'.$value['project_id']);?>" class="product-name" style="height: 40px;"> <?=character_limiter(strip_tags($value['project_name']), 20);?></a>
                             <br/>
                             <div class="small m-t-xs">
                                 อาจารย์ที่ปรึกษา <br/><?=character_limiter(strip_tags($value['use_name']), 20);?>
                             </div>
                             <div class="m-t text-righ">
-                                <a href="<?=base_url('project/detail/'.$value['project_id']);?>" class="btn btn-xs btn-outline btn-primary">เพิ่มเติม <i class="fa fa-long-arrow-right"></i> </a>
+                                <a href="<?=base_url('project/detail/'.$this->encryption->decrypt($this->input->cookie('sysli')).'/'.$value['project_id']);?>" class="btn btn-xs btn-outline btn-primary">เพิ่มเติม <i class="fa fa-long-arrow-right"></i> </a>
                             </div>
                         </div>
                     </div>

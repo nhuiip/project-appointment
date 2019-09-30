@@ -95,7 +95,7 @@ class Project extends MX_Controller
 
     }
     
-    public function detail($id = "")
+    public function detail($id = "", $projectId="")
     {
         $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
@@ -103,7 +103,7 @@ class Project extends MX_Controller
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
             if ($id == "") {
                 show_404();
-            } else if ($poslogin == 'อาจารย์ผู้สอน') {
+            } else if ($poslogin == 'อาจารย์ผู้สอน' && $idlogin == $id || $poslogin == 'ผู้ดูแลระบบ' && $idlogin == $id) {
             
                 $condition = array();
                 $condition['fide'] = "use_id";
@@ -113,21 +113,34 @@ class Project extends MX_Controller
                     show_404();
                 } else {
 
-                    $data = array();
+                    if($projectId == ""){
+                        show_404();
+                    }else{
 
-                    $condition = array();
-                    $condition['fide'] = "tb_project.project_id,tb_project.project_name,tb_project.project_status,tb_subject.sub_id,tb_subject.sub_type,tb_subject.sub_code,tb_subject.sub_name,tb_user.use_name";
-                    $condition['where'] = array('tb_project.project_id' => $id);
-                    $data['showproject'] = $this->project->listjoinData2($condition);
+                        $condition = array();
+                        $condition['fide'] = "project_id";
+                        $condition['where'] = array('project_id' => $projectId);
+                        $checkproject= $this->project->listData($condition);
+                        if (count($checkproject) == 0) {
+                            show_404();
+                        } else {
+
+                            $data = array();
+
+                            $condition = array();
+                            $condition['fide'] = "tb_project.project_id,tb_project.project_name,tb_project.project_status,tb_subject.sub_id,tb_subject.sub_type,tb_subject.sub_code,tb_subject.sub_name,tb_user.use_name";
+                            $condition['where'] = array('tb_project.project_id' => $id);
+                            $data['showproject'] = $this->project->listjoinData2($condition);
 
 
-                    $condition = array();
-                    $condition['fide'] = "*";
-                    $condition['where'] = array('project_id' => $id);
-                    $data['showproject2'] = $this->project->listData($condition);
+                            $condition = array();
+                            $condition['fide'] = "*";
+                            $condition['where'] = array('project_id' => $id);
+                            $data['showproject2'] = $this->project->listData($condition);
 
-                    $this->template->backend('project/detail', $data);
-
+                            $this->template->backend('project/detail', $data);
+                        }
+                    }
                 }
 
             }else{
