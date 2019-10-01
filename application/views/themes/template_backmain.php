@@ -86,7 +86,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 							</li>
 							<? } ?>
 							<li>
-								<a href="<?= site_url('profile/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+								<a href="<?= site_url('calendar/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 							</li>
 							<? if ($position == 'ผู้ดูแลระบบ' || $position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
 								<li>

@@ -22,21 +22,13 @@ class Calendar extends MX_Controller
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
             if ($id == "") {
                 show_404();
-            } elseif ($poslogin == 'นักศึกษา' && $idlogin == $id) {
-
-                $condition = array();
-                $condition['fide'] = "std_id";
-                $condition['where'] = array('std_id' => $id);
-                $checkstudent = $this->student->listData($condition);
-                if (count($checkstudent) == 0) {
-                    show_404();
-                } else {
+            } else{
+                
                     $data = array();
                     $data['formcrf'] = $this->tokens->token('formcrf');
                     $this->template->backend('calendar/main', $data);
-                }
-            } else {
-                show_404();
+                
+            
             }
         }
     }
