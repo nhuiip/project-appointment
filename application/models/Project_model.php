@@ -182,6 +182,12 @@ class Project_model extends CI_Model {
 		return $data['project_id'];
 	}
 
+	public function updateDatas($datas = array()){
+		$this->db->where(array('project_id' => $datas['project_id']));
+		$this->db->update("tb_project",$datas);
+		return $datas['project_id'];
+	}
+
 	public function updateData2($other = array()){
 		$this->db->where(array('project_id' => $other['project_id']));
 		$this->db->update("tb_project",$other);

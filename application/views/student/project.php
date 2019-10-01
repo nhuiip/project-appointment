@@ -517,7 +517,6 @@
         <!-- modal update file -->
 
         <form action="<?=base_url('project/add01_cov');?>" method="post" enctype="multipart/form-data" name="add01_cov" id="add01_cov" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_01_cov" id="txt_01_cov" value="<?=$project_filecer;?>">
             <div id="modal_01_cov" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -529,14 +528,15 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+                        <input type="hidden" class="form-control" name="txt_01_cov_old" id="txt_01_cov_old" value="<?=$project_filecov;?>">
 
-                            <br/>
-                            <div class="row">
-                                <label class="col-sm-12">หน้าปกภาษาไทยและภาษาอังกฤษ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                <div class="col-sm-12"><br/></div>
-                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_01_cov" id="txt_01_cov" accept=".pdf"></div>
-                            </div>
-                            <br/>
+                        <br/>
+                        <div class="row">
+                            <label class="col-sm-12">หน้าปกภาษาไทยและภาษาอังกฤษ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                            <div class="col-sm-12"><br/></div>
+                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_01_cov" id="txt_01_cov" accept=".pdf"></div>
+                        </div>
+                        <br/>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
@@ -548,7 +548,6 @@
         </form>
 
         <form action="<?=base_url('project/add02_cer');?>" method="post" enctype="multipart/form-data" name="add02_cer" id="add02_cer" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_02_cer" id="txt_02_cer" value="<?=$project_filecer;?>">
             <div id="modal_02_cer" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -559,7 +558,9 @@
                     <div class="modal-body">
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
-                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">  
+                        <input type="hidden" class="form-control" name="txt_02_cer_old" id="txt_02_cer_old" value="<?=$project_filecer;?>">
+             
 
                             <br/>
                             <div class="row">
@@ -587,7 +588,6 @@
         </form>
 
         <form action="<?=base_url('project/add03_abs');?>" method="post" enctype="multipart/form-data" name="add03_abs" id="add03_abs" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_03_abs" id="txt_03_abs" value="<?=$project_fileabs;?>">
             <div id="modal_03_abs" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -599,6 +599,7 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+                        <input type="hidden" class="form-control" name="txt_03_abs_old" id="txt_03_abs_old" value="<?=$project_fileabs;?>">
 
                             <br/>
                             <div class="row">
@@ -626,7 +627,6 @@
         </form>
 
         <form action="<?=base_url('project/add04_ack');?>" method="post" enctype="multipart/form-data" name="add04_ack" id="add04_ack" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_04_ack" id="txt_04_ack" value="<?=$project_fileack;?>">
             <div id="modal_04_ack" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -638,7 +638,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_04_ack_old" id="txt_04_ack_old" value="<?=$project_fileack;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -665,7 +666,6 @@
         </form>
 
         <form action="<?=base_url('project/add05_tcb');?>" method="post" enctype="multipart/form-data" name="add05_tcb" id="add05_tcb" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_05_tcb" id="txt_05_tcb" value="<?=$project_filetbc;?>">
             <div id="modal_05_tcb" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -677,7 +677,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_05_tcb_old" id="txt_05_tcb_old" value="<?=$project_filetbc;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -704,7 +705,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch01');?>" method="post" enctype="multipart/form-data" name="add06_ch01" id="add06_ch01" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch01" id="txt_06_ch01" value="<?=$project_filechone;?>">
             <div id="modal_06_ch01" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -716,7 +716,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch01_old" id="txt_06_ch01_old" value="<?=$project_filechone;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -743,7 +744,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch02');?>" method="post" enctype="multipart/form-data" name="add06_ch02" id="add06_ch02" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch02" id="txt_06_ch02" value="<?=$project_filechtwo;?>">
             <div id="modal_06_ch02" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -755,7 +755,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch02_old" id="txt_06_ch02_old" value="<?=$project_filechtwo;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -782,7 +783,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch03');?>" method="post" enctype="multipart/form-data" name="add06_ch03" id="add06_ch03" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch03" id="txt_06_ch03" value="<?=$project_filechthree;?>">
             <div id="modal_06_ch03" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -794,7 +794,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch03_old" id="txt_06_ch03_old" value="<?=$project_filechthree;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -821,7 +822,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch04');?>" method="post" enctype="multipart/form-data" name="add06_ch04" id="add06_ch04" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch04" id="txt_06_ch04" value="<?=$project_filechfour;?>">
             <div id="modal_06_ch04" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -833,7 +833,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch04_old" id="txt_06_ch04_old" value="<?=$project_filechfour;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -860,7 +861,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch05');?>" method="post" enctype="multipart/form-data" name="add06_ch05" id="add06_ch05" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch05" id="txt_06_ch05" value="<?=$project_filechfive;?>">
             <div id="modal_06_ch05" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -872,7 +872,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch05_old" id="txt_06_ch05_old" value="<?=$project_filechfive;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -899,7 +900,6 @@
         </form>
 
         <form action="<?=base_url('project/add07_ref');?>" method="post" enctype="multipart/form-data" name="add07_ref" id="add07_ref" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_07_ref" id="txt_07_ref" value="<?=$project_fileref;?>">
             <div id="modal_07_ref" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -911,7 +911,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_07_ref_old" id="txt_07_ref_old" value="<?=$project_fileref;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -938,7 +939,6 @@
         </form>
 
         <form action="<?=base_url('project/add08_app');?>" method="post" enctype="multipart/form-data" name="add08_app" id="add08_app" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_08_app" id="txt_08_app" value="<?=$project_fileappone;?>">
             <div id="modal_08_app" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -950,7 +950,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_08_app_old" id="txt_08_app_old" value="<?=$project_fileappone;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -977,7 +978,6 @@
         </form>
 
         <form action="<?=base_url('project/add09_bio');?>" method="post" enctype="multipart/form-data" name="add09_bio" id="add09_bio" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_09_bio" id="txt_09_bio" value="<?=$project_filebio;?>">
             <div id="modal_09_bio" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -989,7 +989,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_09_bio_old" id="txt_09_bio_old" value="<?=$project_filebio;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">

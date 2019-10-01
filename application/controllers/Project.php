@@ -387,17 +387,15 @@ class Project extends MX_Controller
                 if($this->tokens->verify('formcrf')){
                     
                     $Idproject =    $this->input->post('projectId');
-
+                   
                     $data = array(
                         'project_id'                => $Idproject,
                         'project_filecov'           => $this->upfileCOV('txt_01_cov',$Idproject),
                         'project_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
                         'project_lastedit_date'     => date('Y-m-d H:i:s'),
                     );
-                    
-
                     $this->project->updateData($data);
-
+                   
                     if(!empty($Id)){
                         $result = array(
                             'error' => false,
@@ -429,7 +427,8 @@ class Project extends MX_Controller
 
     private function upfileCOV($Fild_Name, $Idproject){
 
-		$fileold = $this->input->post($Fild_Name.'_old');
+        $fileold = $this->input->post($Fild_Name.'_old');
+
 		if(!empty($_FILES[$Fild_Name])){
             $pathToUpload = './uploads/fileproject/' . $Idproject;
             if ( ! file_exists($pathToUpload) )
@@ -458,8 +457,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -560,8 +559,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -662,8 +661,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -764,8 +763,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -866,8 +865,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -968,8 +967,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1070,8 +1069,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1172,8 +1171,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1274,8 +1273,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1376,8 +1375,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1478,8 +1477,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1580,8 +1579,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
@@ -1682,8 +1681,8 @@ class Project extends MX_Controller
 				die;
 			}else{
 				if(!empty($fileold)){
-					@unlink($config['upload_path'].$fileold);
-				}
+					@unlink($config['upload_path'].'/'.$fileold);
+                }
 				$img = $this->upbanner->data();
 				return $img['file_name'];
 			}
