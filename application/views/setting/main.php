@@ -76,13 +76,13 @@
 														<li><a href="<?= site_url('setting/form/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 1) { ?>
-														<li><a href="<?= site_url('setting/opensection/' . $value['set_id']); ?>"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
+														<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/opensection/' . $value['set_id']); ?>" data-title="ต้องการเปิดระบบนัดหมาย?"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 2) { ?>
 														<li><a href="<?= site_url('setting/form/1/' . $value['set_id']); ?>"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดระบบ</a></li>
 													<? } ?>
 													<? if ($value['set_status'] != 2) { ?>
-														<li><a href="#" class="btn-alert" data-url="<?= site_url('setting/delete/' . $value['set_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+														<li><a href="#" class="btn-alert" data-url="<?= site_url('setting/delete/' . $value['set_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
 													<? } ?>
 												</ul>
 											</div>

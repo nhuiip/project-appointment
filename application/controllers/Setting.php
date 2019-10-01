@@ -159,7 +159,7 @@ class Setting extends CI_Controller
             $result = array(
                 'error' => false,
                 'msg' => 'เพิ่มข้อมูลสำเร็จ',
-                'url' => site_url('setting/form/2/' . $this->input->post('Id'))
+                'url' => site_url('setting/form/' . $this->input->post('Id'))
             );
             echo json_encode($result);
         }
@@ -179,7 +179,7 @@ class Setting extends CI_Controller
             $result = array(
                 'error' => false,
                 'msg' => 'แก้ไขข้อมูลสำเร็จ',
-                'url' => site_url('setting/form/2/' . $this->input->post('Id'))
+                'url' => site_url('setting/form/' . $this->input->post('Id'))
             );
             echo json_encode($result);
         }
@@ -266,26 +266,29 @@ class Setting extends CI_Controller
             }
         }
 
+        $time = array();
+        $time[0] = ['9.00', '9.00'];
+        $time[1] = ['10.00', '10.30'];
+        $time[2] = ['11.00', '12.00'];
+        $time[3] = ['13.00', '13.00'];
+        $time[4] = ['14.00', '14.30'];
+        $time[5] = ['15.00', '16.00'];
         //insert section
         foreach ($user as $key => $value) {
             $use_id = $value['use_id'];
             foreach ($date as $key => $value) {
-                $data = array(
-                    'sec_date'          => $value,
-                    'sec_one'           => '9.00, 9.00, 1, sec_one',
-                    'sec_two'           => '10.00, 10.30, 1, sec_two',
-                    'sec_three'         => '11.00, 12.00, 1, sec_three',
-                    'sec_four'          => '13.00, 13.00, 1, sec_four',
-                    'sec_five'          => '14.00, 14.30, 1, sec_five',
-                    'sec_six'           => '15.00, 16.00, 1, sec_six',
-                    'use_id'            => $use_id,
-                    'set_id'            => $id,
-                    'sec_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
-                    'sec_create_date'   => date('Y-m-d H:i:s'),
-                    'sec_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-                    'sec_lastedit_date' => date('Y-m-d H:i:s'),
-                );
-                $this->section->insertData($data);
+                foreach ($time as $key => $valtime) {
+                    // print_r($valtime[0]);
+                    $data = array(
+                        'sec_date'          => $value,
+                        'sec_time_one'      => $valtime[0],
+                        'sec_time_two'      => $valtime[1],
+                        'sec_status'        => 1,
+                        'use_id'            => $use_id,
+                        'set_id'            => $id,
+                    );
+                    $this->section->insertData($data);
+                }
             }
         }
         $data = array(
@@ -293,5 +296,7 @@ class Setting extends CI_Controller
             'set_status'        => 2,
         );
         $this->setting->updateData($data);
+        header("location:" . site_url('setting/index'));
+
     }
 }

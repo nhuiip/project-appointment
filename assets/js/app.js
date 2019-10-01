@@ -42,9 +42,9 @@ requirejs.config({
     moment: {
       deps: ["jquery", "bootstrap"]
     },
-  //  iCheck : {
-  //     deps: ["jquery"]
-  //   },
+    //  iCheck : {
+    //     deps: ["jquery"]
+    //   },
     fullcalendar: {
       deps: ["jquery", "bootstrap", "moment"]
     },
@@ -92,7 +92,7 @@ requirejs(
   ],
   function($) {
     // @ts-ignore
-    require(["function", "callplugins", "callvalidate", "clipboard" ], function(
+    require(["function", "callplugins", "callvalidate", "clipboard"], function(
       fun,
       plug,
       vali,
@@ -105,8 +105,6 @@ requirejs(
       plug.fullcalendar();
       plug.TouchSpin();
       plug.fullcalendar();
-      // plug.iCheck();
-      // reload
       $(".btn-reload").click(function() {
         location.reload();
       });
@@ -261,5 +259,48 @@ tables.columns().every(function() {
     if (that.search() !== this.value) {
       that.search(this.value).draw();
     }
+  });
+});
+
+$(".btnajax").click(function() {
+  var date = $(this).attr("data-date");
+  var time = $(this).attr("data-time");
+  var url = $(this).attr("data-url");
+  console.log(url);
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: url,
+    data: {
+      date: date,
+      time: time
+    },
+    success: function(result) {
+      console.log(result);
+      $('#listtt').empty();
+      $.each(result, function(index, item) {
+        $("#listtt").append(
+          $('<li><span class="m-l-xs">' + item.name + '</span></li>').append()
+          // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
+        );
+      });
+    },
+    // error: function(jqXHR, exception) {
+    //   if (jqXHR.status === 0) {
+    //     alert("Not connect.\n Verify Network.");
+    //   } else if (jqXHR.status == 404) {
+    //     alert("Requested page not found. [404]");
+    //   } else if (jqXHR.status == 500) {
+    //     alert("Internal Server Error [500].");
+    //   } else if (exception === "parsererror") {
+    //     alert("Requested JSON parse failed.");
+    //   } else if (exception === "timeout") {
+    //     alert("Time out error.");
+    //   } else if (exception === "abort") {
+    //     alert("Ajax request aborted.");
+    //   } else {
+    //     alert("Uncaught Error.\n" + jqXHR.responseText);
+    //   }
+    // }
   });
 });

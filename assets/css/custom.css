@@ -221,3 +221,11 @@ label.error {
 .select2-container {
     width: 100% !important;
 }
+
+
+.todo-list > li {
+    background: #FFF !important;
+    border-left: 6px solid #16a085 !important;
+    border-right: 6px solid #16a085 !important;
+    margin-bottom: 5px !important;
+}

@@ -30,8 +30,7 @@ class Student extends MX_Controller
                     show_404();
                 } else {
 
-                   
-
+                
                     $this->template->backend('student/main');
 
                 }

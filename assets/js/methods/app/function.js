@@ -48,5 +48,6 @@ define(["jquery", "jqueryForm", "toastr", "sweetalert"], function(
     });
   };
 
+
   return methods;
 });
