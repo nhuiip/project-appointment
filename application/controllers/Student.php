@@ -21,7 +21,7 @@ class Student extends MX_Controller
             if ($idlogin == "") {
                 show_404();
             } elseif ($poslogin == 'อาจารย์ผู้สอน' && $idlogin != "" || $poslogin == 'ผู้ดูแลระบบ'  && $idlogin != "" || $poslogin == 'หัวหน้าสาขา' && $idlogin != "" ) {
-            
+
                 $condition = array();
                 $condition['fide'] = "use_id";
                 $condition['where'] = array('use_id' => $idlogin);
@@ -30,8 +30,15 @@ class Student extends MX_Controller
                     show_404();
                 } else {
 
-                
-                    $this->template->backend('student/main');
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['orderby'] = "std_number DESC";
+                    $data['listdata']= $this->student->listData($condition);
+
+                    $data['formcrfmail'] = $this->tokens->token('formcrfmail');
+                    $data['formcrfstudent'] = $this->tokens->token('formcrfstudent');
+                    $data['formcrfpassword'] = $this->tokens->token('formcrfpassword');
+                    $this->template->backend('student/main', $data);
 
                 }
             }else{
@@ -222,7 +229,7 @@ class Student extends MX_Controller
                 );
                 $this->student->updateData($data);
 
-                // data for email 
+                // data for email
                 $datamail = array(
                     'fullname'  => $liststd[0]['std_title'] . $liststd[0]['std_fname'] . ' ' . $liststd[0]['std_lname'],
                     'email' => $this->input->post('s_email'),
@@ -241,7 +248,7 @@ class Student extends MX_Controller
                 );
                 $this->administrator->updateData($data);
 
-                // data for email 
+                // data for email
                 $datamail = array(
                     'fullname'  => $listuse[0]['use_name'],
                     'email'     => $this->input->post('s_email'),
@@ -409,6 +416,151 @@ class Student extends MX_Controller
             echo $mail->ErrorInfo;
         } else {
             echo 'send';
+        }
+    }
+
+    public function changemailstd()
+    {
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+
+            if ($poslogin == 'อาจารย์ผู้สอน' && $idlogin != "" || $poslogin == 'ผู้ดูแลระบบ'  && $idlogin != "" || $poslogin == 'หัวหน้าสาขา' && $idlogin != "" ) {
+
+                if ($this->tokens->verify('formcrfmail')) {
+                    $data = array(
+                        'std_id'                => $this->input->post('Idmail'),
+                        'std_email'             => $this->input->post('std_email'),
+                        'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
+                        'std_lastedit_date'     => date('Y-m-d H:i:s'),
+                    );
+
+                    $this->student->updateStd($data);
+
+                    if (!empty($this->input->post('Idmail'))) {
+                        $result = array(
+                            'error' => false,
+                            'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้วเรียบร้อยแล้ว',
+                            'url' => site_url('student/index')
+                        );
+                        echo json_encode($result);
+                    } else {
+                        $result = array(
+                            'error' => false,
+                            'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้วเรียบร้อยแล้ว',
+                            'url' => site_url('student/index')
+                        );
+                        echo json_encode($result);
+                    }
+                    die;
+                } else {
+                    $result = array(
+                        'error' => true,
+                        'title' => "ล้มเหลว",
+                        'msg' => "เปลี่ยนที่อยู่อีเมล์ไม่สำเร็จ"
+                    );
+                    echo json_encode($result);
+                }
+
+            }else{
+                show_404();
+            }
+        }
+    }
+
+    public function changepasswordstd()
+	{
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+
+            if ($poslogin == 'อาจารย์ผู้สอน' && $idlogin != "" || $poslogin == 'ผู้ดูแลระบบ'  && $idlogin != "" || $poslogin == 'หัวหน้าสาขา' && $idlogin != "" ) {
+
+                if ($this->tokens->verify('formcrfpassword')) {
+                    $data = array(
+                        'std_id' 		=> $this->input->post('Id2'),
+                        'std_pass' 		=> md5($this->input->post('std_password'))
+                    );
+
+                    $Id = $this->student->updateStd($data);
+
+                    if (!empty($Id)) {
+                        $result = array(
+                            'error' => false,
+                            'msg' => 'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว',
+                            'url' => site_url('student/index')
+                        );
+                        echo json_encode($result);
+                    } else {
+                        $result = array(
+                            'error' => true,
+                            'title' => "ล้มเหลว",
+                            'msg' => 'อัพเดตข้อมูลไม่สำเร็จ',
+                        );
+                        echo json_encode($result);
+                    }
+                    die;
+                } else {
+                    $result = array(
+                        'error' => true,
+                        'title' => "ล้มเหลว",
+                        'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
+                    );
+                    echo json_encode($result);
+                }
+            }
+        }
+
+    }
+
+    public function updatestd()
+    {
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+
+            if ($poslogin == 'อาจารย์ผู้สอน' && $idlogin != "" || $poslogin == 'ผู้ดูแลระบบ'  && $idlogin != "" || $poslogin == 'หัวหน้าสาขา' && $idlogin != "" ) {
+
+                if ($this->tokens->verify('formcrfstudent')) {
+                    $data = array(
+                        'std_id'                => $this->input->post('Idstd_up'),
+                        'std_fname'             => $this->input->post('text_name'),
+                        'std_lname'             => $this->input->post('text_lastname'),
+                        'std_tel'               => $this->input->post('text_tel'),
+                        'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
+                        'std_lastedit_date'     => date('Y-m-d H:i:s'),
+                    );
+
+                    $this->student->updateStd($data);
+
+                    if (!empty($this->input->post('Idstd_up'))) {
+                        $result = array(
+                            'error' => false,
+                            'msg' => 'แก้ไขข้อมูลสำเร็จ',
+                            'url' => site_url('student/index/')
+                        );
+                        echo json_encode($result);
+                    } else {
+                        $result = array(
+                            'error' => true,
+                            'title' => "ล้มเหลว",
+                            'msg' => 'อัพเดตข้อมูลไม่สำเร็จ',
+                        );
+                        echo json_encode($result);
+                    }
+                    die;
+                } else {
+                    $result = array(
+                        'error' => true,
+                        'title' => "ล้มเหลว",
+                        'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
+                    );
+                    echo json_encode($result);
+                }
+            }
         }
     }
 }

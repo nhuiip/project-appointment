@@ -49,15 +49,15 @@
     width: 100%!important;
 } */
 body {
-    font-family: 'Trirong', serif !important; 
+    font-family: 'Trirong', serif !important;
     color: #2c3e50 !important;
-    /* font-family: 'Sarabun', sans-serif !important; 
+    /* font-family: 'Sarabun', sans-serif !important;
     font-size: 14px !important; */
 }
 .breadcrumb>.active {
     color: #2c3e50 !important;
 }
-.table>thead>tr>th { 
+.table>thead>tr>th {
     background-color: #bdc3c7 !important;
     color: #FFFFFF !important;
 }
@@ -180,7 +180,7 @@ body {
     grid-gap: 10px;
 }
 @media only screen and (min-width: 768px) {
-    
+
 .grid-two-show-subject{
     display: grid;
     grid-template-columns: 25% auto;
@@ -189,13 +189,13 @@ body {
 
 }
 @media only screen and (min-width: 992px) {
-    
+
     .grid-two-show-search{
         display: grid;
         grid-template-columns: 75% auto ;
         grid-gap: 10px;
     }
-    
+
 }
 label.error {
     /* display: none !important; */

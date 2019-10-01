@@ -202,7 +202,11 @@ var table = $(".dataTables-export").DataTable({
   dom: '<"html5buttons"B>lfrtip',
   buttons: [
     {
-      extend: "copy"
+      extend: "copy",
+      title: filename,
+      exportOptions: {
+        columns: [exportcol]
+      }
     },
     {
       extend: "excel",

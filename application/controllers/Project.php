@@ -84,6 +84,11 @@ class Project extends MX_Controller
                     $data['listproject'] = $this->project->listjoinData2($condition);
                     $data['pagination'] = $this->pagination->create_links();
 
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    // $condition['orderby'] = "std_number DESC";
+                    $data['listdata']= $this->project->listData($condition);
+
                     $this->template->backend('project/main', $data);
 
                 }
