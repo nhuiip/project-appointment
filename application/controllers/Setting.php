@@ -16,7 +16,7 @@ class Setting extends CI_Controller
     public function index()
     {
         $permission = array("ผู้ดูแลระบบ");
-        if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
+        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
             $data = array();
             $condition = array();
             $condition['fide'] = "*";
@@ -42,7 +42,7 @@ class Setting extends CI_Controller
     public function form($id = "")
     {
         $permission = array("ผู้ดูแลระบบ");
-        if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
+        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
             if (!empty($id)) {
                 $condition = array();
                 $condition['fide'] = "*";

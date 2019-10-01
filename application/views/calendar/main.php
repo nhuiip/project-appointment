@@ -24,7 +24,13 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div id="calendar"></div>
+                    <div id='calendar' data-url="<?= base_url('calendar/jsoneven'); ?>">
+                    </div>
+
+                    <div>
+                        <? //= "test"
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

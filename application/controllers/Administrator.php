@@ -32,7 +32,7 @@ class Administrator extends MX_Controller
 	public function main()
 	{
 		$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
-		if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
+		if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
 			$data = array();
 			$condition = array();
 			$condition['fide'] = "*";
@@ -50,44 +50,6 @@ class Administrator extends MX_Controller
 			$this->load->view('errors/html/error_403');
 		}
 	}
-
-	// public function form($id = "")
-	// {
-	// 	$permission = array("ผู้ดูแลระบบ", "ฉุกเฉิน");
-	// 	if (in_array($this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))), $permission)) {
-	// 		$data = array();
-	// 		$condition = array();
-	// 		$condition['fide'] = "position_id,position_name";
-	// 		$condition['where'] = array('position_id !=' => 4);
-	// 		$data['listposition'] = $this->administrator->listDataPosition($condition);
-
-	// 		//Data in case update
-	// 		if (!empty($id)) {
-	// 			$condition = array();
-	// 			$condition['fide'] = "*";
-	// 			$condition['where'] = array('use_id' => $id);
-	// 			$data['listdata'] = $this->administrator->listData($condition);
-	// 			if (count($data['listdata']) == 0) {
-	// 				show_404();
-	// 			}
-	// 		}
-	// 		$data['formcrf'] = $this->tokens->token('formcrf');
-	// 		$this->template->backend('administrator/form', $data);
-	// 	} else {
-	// 		$this->load->view('errors/html/error_403');
-	// 	}
-	// }
-
-	// public function formpassword($Id = "")
-	// {
-	// 	$this->permission->admin();
-	// 	if ($Id == "") {
-	// 		show_404();
-	// 	}
-	// 	$data['Id'] = $Id;
-	// 	$data['formcrf'] = $this->tokens->token('formcrf');
-	// 	$this->template->backend('administrator/formpassword', $data);
-	// }
 
 	public function create()
 	{

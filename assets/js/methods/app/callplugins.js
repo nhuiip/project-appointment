@@ -6,6 +6,8 @@ define([
   "daterange",
   "select2",
   "TouchSpin",
+  // "iCheck",
+  "fullcalendar"
 ], function($) {
   var methods = {};
 
@@ -47,16 +49,44 @@ define([
 
     $(".select2_demo_2").select2({
       tags: true,
-      placeholder: 'ค้นหารหัสนักศึกษา'
+      placeholder: "ค้นหารหัสนักศึกษา"
     });
   };
 
   methods.TouchSpin = function() {
     $(".touchspin").TouchSpin({
       buttondown_class: "btn btn-white",
-      buttonup_class: "btn btn-white",
+      buttonup_class: "btn btn-white"
     });
   };
+
+  methods.fullcalendar = function() {
+    var burl = $('#calendar').attr('data-url');
+		$('#calendar').fullCalendar({
+			eventLimit: true, // allow "more" link when too many events
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay,listWeek'
+			},
+			defaultDate: new Date(),
+			navLinks: true, // can click day/week names to navigate views
+			editable: false,
+			eventLimit: true, // allow "more" link when too many events
+			events: {
+				url: burl
+      },
+      // eventColor: '#378006',
+		});
+    // console.log(url);
+  };
+
+  // methods.iCheck = function() {
+  //   $(".i-checks").iCheck({
+  //     checkboxClass: "icheckbox_square-green",
+  //     radioClass: "iradio_square-green"
+  //   });
+  // };
 
   return methods;
 });

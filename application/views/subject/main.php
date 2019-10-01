@@ -69,7 +69,7 @@
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <ul class="dropdown-menu" style="width:100%">
-                                                    <? if ($value['use_id'] == $this->encryption->decrypt($this->input->cookie('sysi')) || $this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'ผู้ดูแลระบบ' || $this->encryption->decrypt($this->encryption->decrypt($this->input->cookie('sysp'))) == 'ฉุกเฉิน') { ?>
+                                                    <? if ($value['use_id'] == $this->encryption->decrypt($this->input->cookie('sysi')) || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ' || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ฉุกเฉิน') { ?>
                                                         <li><a href="#" data-toggle="modal" data-target="#U-update" class="update" data-sub_id="<?= $value['sub_id']; ?>" data-sub_name="<?= $value['sub_name']; ?>" data-sub_code="<?= $value['sub_code']; ?>" data-use_id="<?= $value['use_id']; ?>" data-sub_setuse="<?= $value['sub_setuse']; ?>" data-sub_setless="<?= $value['sub_setless']; ?>" data-sub_type="<?= $value['sub_type']; ?>"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
                                                         <li><a href="#" class="btn-alert" data-url="<?= site_url('subject/delete/' . $value['sub_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                                                     <? } ?>
