@@ -12,6 +12,37 @@ class Student extends MX_Controller
         $this->load->model("administrator_model", "administrator");
     }
 
+    public function index($id = "")
+    {
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+            if ($idlogin == "") {
+                show_404();
+            } elseif ($poslogin == 'อาจารย์ผู้สอน' && $idlogin != "" || $poslogin == 'ผู้ดูแลระบบ'  && $idlogin != "" || $poslogin == 'หัวหน้าสาขา' && $idlogin != "" ) {
+            
+                $condition = array();
+                $condition['fide'] = "use_id";
+                $condition['where'] = array('use_id' => $idlogin);
+                $checkteacher= $this->administrator->listData($condition);
+                if (count($checkteacher) == 0) {
+                    show_404();
+                } else {
+
+                   
+
+                    $this->template->backend('student/main');
+
+                }
+            }else{
+                show_404();
+            }
+
+        }
+
+    }
+
     public function register()
     {
         $data = array();

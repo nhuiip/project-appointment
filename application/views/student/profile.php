@@ -39,6 +39,12 @@ if (isset($listsubject) && count($listsubject) != 0) {
     }
 } 
 
+//ค้นหาโปรเจคที่นักศึกษาสร้างไว้
+if (isset($searchProject) && count($searchProject) != 0) {
+    foreach ($searchProject as $key => $value) {
+        $project_studentId      = $value['std_id'];
+    }
+} 
 
 ?>
 <style>
@@ -206,32 +212,39 @@ if (isset($listsubject) && count($listsubject) != 0) {
             <?PHP if(count($searchProject) != 0) { ?>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><i class="fa fa-book"></i> ประวัติการทำปริญญานิพจน์</h5>
+                    <h5><i class="fa fa-book"></i> ประวัติการทำปริญญานิพนธ์</h5>
                 </div>
-                <div class="ibox-content">
-                    <form class="form-horizontal">
-                        <?PHP foreach ($searchProject as $key => $value) { ?>
-                            <div class="form-group">
-                                <label class="col-xs-12 col-sm-8">
-                                    <i class="fa fa-file-zip-o"></i>&nbsp;&nbsp;<?=$value['project_name'];?>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small><?=date('d M Y', strtotime($value['project_create_date']));?></small></p>
-                                </label>
-                                <label class="col-xs-12 col-sm-4">
-                                    <?PHP if($value['project_status'] == 1){ ?>
-                                        <p><span class="label label-info">ยังไม่สอบโครงงานหนึ่ง</span></p>
-                                    <?PHP } else if($value['project_status'] == 2){ ?>
-                                        <p><span class="label label-primary">ผ่านโครงงานหนึ่ง</span></p>
-                                    <?PHP } else if($value['project_status'] == 3){ ?>
-                                        <p><span class="label label-warning">สอบโครงงานสองแล้วติดแก้ไข</span></p>
-                                    <?PHP } else if($value['project_status'] == 4){ ?>
-                                        <p><span class="label label-success">สอบโครงงานสองผ่าน</span></p>
-                                    <?PHP } else if($value['project_status'] == 0){ ?>
-                                        <p><span class="label label-danger">เปลี่ยนโครงงาน</span></p>
-                                    <?PHP } ?>
-                                </label>
+                <div class="ibox-content inspinia-timeline">
+                    <?PHP foreach ($searchProject as $key => $value) { ?>
+                        <div class="timeline-item">
+                            <div class="row">
+                                <div class="col-xs-3 date">
+                                    <i class="fa fa-file-zip-o"></i>
+                                    <!-- 6:00 am -->
+                                    <br>
+                                    <small class="text-navy"><?=date('d M Y', strtotime($value['project_create_date']));?></small>
+                                </div>
+                                <div class="col-xs-7 content no-top-border">
+                                    
+                                    <p class="m-b-xs"><strong><?=$value['project_name'];?></strong></p>
+                                    <p>
+                                        <?PHP if($value['project_status'] == 1){ ?>
+                                            <p><span class="label label-info" style="font-size: 12px;">ยังไม่สอบโครงงานหนึ่ง</span></p>
+                                        <?PHP } else if($value['project_status'] == 2){ ?>
+                                            <p><span class="label label-primary" style="font-size: 12px;">ผ่านโครงงานหนึ่ง</span></p>
+                                        <?PHP } else if($value['project_status'] == 3){ ?>
+                                            <p><span class="label label-warning" style="font-size: 12px;">สอบโครงงานสองแล้วติดแก้ไข</span></p>
+                                        <?PHP } else if($value['project_status'] == 4){ ?>
+                                            <p><span class="label label-success" style="font-size: 12px;">สอบโครงงานสองผ่าน</span></p>
+                                        <?PHP } else if($value['project_status'] == 0){ ?>
+                                            <p><span class="label label-danger" style="font-size: 12px;">เปลี่ยนหัวข้อปริญญานิพนธ์</span></p>
+                                        <?PHP } ?>
+                                    </p>
+                                    
+                                </div>
                             </div>
-                        <?PHP } ?>
-                    </form>
+                        </div>
+                    <?PHP } ?>
                 </div>
             </div>
             <?PHP } ?>
@@ -285,7 +298,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
         </div>
     </div>
 </form>
-
 <!-- แสดงภาพก่อนอัพโหลด -->
 <script>
     function readURL(input) {

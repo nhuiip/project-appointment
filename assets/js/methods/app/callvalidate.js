@@ -612,6 +612,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           std_number: {
             number: true
           },
+          txt_std_id: {
+            required: true
+          },
+          txt_teacher: {
+            required: true
+          },
         },
         messages: {
           txt_projectname: {
@@ -619,6 +625,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           std_number: {
             number: "กรุณากรอกเฉพาะตัวเลข"
+          },
+          txt_std_id: {
+            required: "กรุณาเลือกข้อมูล"
+          },
+          txt_teacher: {
+            required: "กรุณาเลือกข้อมูล"
           },
         },
         submitHandler: function(form) {

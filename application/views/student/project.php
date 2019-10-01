@@ -48,9 +48,19 @@
             $project_fileapptwo     = $value['project_fileapptwo'];
             $project_filebio        = $value['project_filebio'];
             $project_status         = $value['project_status'];
+            $project_studentId      = $value['std_id'];
+            $teacherId              = $value['use_id'];
         }
     } 
 
+    if(!empty($project_id)){
+        //แสดงข้อมูลอาจารย์ที่ปรึกษาโปรเจค
+        $this->db->select('*');
+        $this->db->from('tb_user');
+        $this->db->where(array('use_id' => $teacherId));
+        $query_selectteacher = $this->db->get();
+        $selectteacher = $query_selectteacher->result_array();
+    }
     ?>
 
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -72,107 +82,106 @@
                         <?PHP if(count($searchProject) != 0){ ?>
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
-                                <label>ชื่อปริญญานิพนธ์</label>
-                                <input placeholder="ชื่อโปรเจค" class="form-control" name="txt_projectname" id="txt_projectname" value="<?=$project_name;?>" disabled>
+                                <label>หัวข้อปริญญานิพนธ์</label>
+                                <label><?=$project_name;?></label>
                             </div>
                             <?PHP } ?>
                         <?PHP } ?>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>รหัสวิชา</label>
-                            <input placeholder="รหัสวิชา" class="form-control" name="txt_showcode" id="txt_showcode" value="<?=$subject_code;?>" disabled>
+                            <label><?=$subject_code;?></label>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>รายวิชาที่ลงทะเบียน</label>
-                            <input placeholder="รายวิชาที่ลงทะเบียน" class="form-control" name="txt_subject" id="txt_subject" value="<?=$subject_name;?>" disabled>
+                            <label><?=$subject_name;?></label>
                         </div>
+                        <?PHP if(count($searchProject) != 0){ ?>
+                        <?PHP if($teacher_id == $teacherId){ ?>
+                        <div class="form-group-mgTB grid-two-show-subject">
+                            <label>อาจารย์ผู้สอน / อาจารย์ที่ปรึกษา</label>
+                            <label><?=$teacher_fullname;?></label>
+                        </div>
+                        <?PHP }else{ ?>
                         <div class="form-group-mgTB grid-two-show-subject">
                             <label>อาจารย์ผู้สอน</label>
-                            <input placeholder="อาจารย์ผู้สอน" class="form-control" name="txt_use_name" id="txt_use_name" value="<?=$teacher_fullname;?>" disabled>
+                            <label><?=$teacher_fullname;?></label>
                         </div>
                         <div class="form-group-mgTB grid-two-show-subject">
+                            <label>อาจารย์ที่ปรึกษา</label>
+                            <label><?=$selectteacher[0]['use_name'];?></label>
+                        </div>
+                        <?PHP } ?>
+                        <?PHP } else {?>
+                        <div class="form-group-mgTB grid-two-show-subject">
+                            <label>อาจารย์ผู้สอน</label>
+                            <label><?=$teacher_fullname;?></label>
+                        </div>
+                        <?PHP } ?>
+                        <div class="form-group-mgTB grid-two-show-subject">
                             <label>จำนวนอาจารย์ขึ้นสอบ</label>
-                            <div class="grid-three-show-subject">
-                                <input placeholder="จำนวนอาจารย์ขึ้นสอบ" class="form-control" name="txt_sub_setuse" id="txt_sub_setuse" value="<?=$subject_setuse;?>" disabled>
-                                <label>คน</label>
-                            </div>
+                            <label><?=$subject_setuse;?>  คน</label>
                         </div>
                         <?PHP if(count($searchProject) != 0){ ?>
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
                                 <label>สถานะปริญญานิพนธ์</label>
                                 <?PHP if($project_status == 1){ ?>
-                                    <input class="form-control" value="ยังไม่สอบโครงงานหนึ่ง" disabled>
+                                    <p><span class="label label-info" style="font-size: 13px;">ยังไม่สอบโครงงานหนึ่ง</span></p>
                                 <?PHP } else if($project_status == 2){ ?>
-                                    <input class="form-control" value="ผ่านโครงงานหนึ่ง" disabled>
+                                    <p><span class="label label-primary" style="font-size: 13px;">ผ่านโครงงานหนึ่ง</span></p>
                                 <?PHP } else if($project_status == 3){ ?>
-                                    <input class="form-control" value="สอบโครงงานสองแล้วติดแก้ไข" disabled>
+                                    <p><span class="label label-warning" style="font-size: 13px;">สอบโครงงานสองแล้วติดแก้ไข</span></p>
                                 <?PHP } else if($project_status == 4){ ?>
-                                    <input class="form-control" value="สอบโครงงานสองผ่าน" disabled>
+                                    <p><span class="label label-success" style="font-size: 13px;">สอบโครงงานสองผ่าน</span></p>
                                 <?PHP } ?>
+                            </div>
+                            <?PHP } ?>
+                        <?PHP } ?>
+                        <?PHP if(count($searchProject) != 0){ ?>
+                            <?PHP if($project_status != 0){ ?>
+                            <div class="form-group-mgTB grid-two-show-subject">
+                                <label>ผู้จัดทำปริญญานิพนธ์</label>
+                                <div>
+                                 <!-- ================================================================ แตกสตริงออกเป็นสตริงย่อย ผลลัพธ์ที่คืนกลับมาจะเป็นรูปแบบ array -->
+                                 <?PHP
+                                if($project_studentId != ''){
+                                    $stypesVal = explode(",", $project_studentId);
+                                } else {
+                                    $stypesVal = '';
+                                }
+
+                                $i = 1;
+                                if (count($stypesVal) != 0) {
+                                    foreach ($stypesVal as $key => $value) { 
+
+                                    $this->db->select('std_id,std_number,std_title,std_fname,std_lname');
+                                    $this->db->where(array('std_id' => $value));
+                                    $query_student = $this->db->get('tb_student');
+                                    $liststudent = $query_student->result_array();
+                                ?>
+                                    <div class="form-group">
+                                        <label><?=$i;?>. <?=$liststudent[0]['std_number']?> <?=$liststudent[0]['std_title']?><?=$liststudent[0]['std_fname']?>  <?=$liststudent[0]['std_lname']?></label>
+                                    </div>
+                                <?PHP
+                                    $i++; } 
+                                } 
+                                ?>
+                                <!-- ================================================================ ./แตกสตริงออกเป็นสตริงย่อย ผลลัพธ์ที่คืนกลับมาจะเป็นรูปแบบ array -->
+                                </div>
                             </div>
                             <?PHP } ?>
                         <?PHP } ?>
 
                     </div>
                 </div>
-
-                    <?PHP if(!empty($project_status)){ ?>
-                        <?PHP if($project_status == 0){ ?>
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
-                                </div>
-                                <div class="ibox-content">  
-                                    <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
-                                        <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
-                                        <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
-                                        <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
-
-                                        <div class="form-group-mgTB grid-two-show-subject">
-                                            <label>ชื่อปริญญานิพนธ์</label>
-                                            <div>
-                                                <input placeholder="ชื่อปริญญานิพนธ์" class="form-control" name="txt_projectname" id="txt_projectname" value="" >
-                                            </div>
-                                        </div>
-                                        <div class="form-group-mgTB grid-two-show-subject">
-                                            <label>ผู้จัดทำปริญญานิพนธ์</label>
-                                            <div>
-                                                <div class="radio radio-info radio-inline">
-                                                    <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio1" value="1" name="radioInline" checked="">
-                                                    <label for="inlineRadio1"> จัดทำแบบเดี่ยว </label>
-                                                </div>
-                                                <div class="radio radio-info radio-inline">
-                                                    <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio2" value="2" name="radioInline">
-                                                    <label for="inlineRadio2"> จัดทำแบบกลุ่ม </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group-mgTB grid-two-show-subject">
-                                            <label></label>
-                                            <div id="ifYes" style="display:none">
-                                                <select class="select2_demo_2 form-control" id="txt_std_id" name="txt_std_id" multiple="multiple" >
-                                                    <?PHP foreach ($selectstudent as $key => $value) { ?>
-                                                        <option value="<?=$value['std_id'];?>"><?=$value['std_number'];?></option>
-                                                    <?PHP } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group-mgTB">
-                                            <br/>
-                                            <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        <?PHP } ?>
-                    <?PHP } else {?>
+                <?PHP if(!empty($project_status)){ ?>
+                    <?PHP if($project_status == 0){ ?>
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
                             </div>
                             <div class="ibox-content">  
-                                <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="1formStudentAddproject" class="form-horizontal" novalidate>
+                                <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
                                     <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
                                     <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
                                     <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
@@ -206,6 +215,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group-mgTB">
                                         <br/>
                                         <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
@@ -214,6 +224,83 @@
                             </div>
                         </div>
                     <?PHP } ?>
+                <?PHP } else {?>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5><i class="fa fa-book"></i> ข้อมูลผู้จัดทำปริญญานิพนธ์</h5>
+                        </div>
+                        <div class="ibox-content">  
+                            <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
+                                <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
+                                <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
+                                <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
+
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label>ชื่อปริญญานิพนธ์</label>
+                                    <div>
+                                        <input placeholder="ชื่อปริญญานิพนธ์" class="form-control" name="txt_projectname" id="txt_projectname" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label>ผู้จัดทำปริญญานิพนธ์</label>
+                                    <div>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio1" value="1" name="radioInline" checked="">
+                                            <label for="inlineRadio1"> จัดทำแบบเดี่ยว </label>
+                                        </div>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheck();" id="inlineRadio2" value="2" name="radioInline">
+                                            <label for="inlineRadio2"> จัดทำแบบกลุ่ม </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label></label>
+                                    <div id="ifYes" style="display:none">
+                                        <select class="select2_demo_2 form-control" id="txt_std_id" name="txt_std_id[]" multiple="multiple" >
+                                            <?PHP foreach ($selectstudent as $key => $value) { ?>
+                                                <option value="<?=$value['std_id'];?>"><?=$value['std_number'];?></option>
+                                            <?PHP } ?>
+                                        </select>
+                                        <br/>
+                                        <br/>
+                                        <span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เพิ่มเฉพาะผู้ร่วมจัดทำปริญญานิพนธ์ ไม่ต้องเพิ่มผู้สร้างปริญญานิพนธ์ ระบบจะเพิ่มให้อัตโนมัติ
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label>อาจารย์ที่ปรึกษาโปรเจค</label>
+                                    <div>
+                                        <div class="radio radio-success radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheckT();" id="inlineRadio3" value="1" name="radioInline3" checked="">
+                                            <label for="inlineRadio3"> อาจารย์ประจำวิชา </label>
+                                        </div>
+                                        <div class="radio radio-success radio-inline">
+                                            <input type="radio" onclick="javascript:yesnoCheckT();" id="inlineRadio4" value="2" name="radioInline3">
+                                            <label for="inlineRadio4"> อาจารย์ท่านอื่นๆ </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB grid-two-show-subject">
+                                    <label></label>
+                                    <div id="ifYesT" style="display:none">
+                                        <select class="form-control" id="txt_teacher" name="txt_teacher" >
+                                            <option value="">เลือกอาจารย์ที่ปรึกษาโปรเจค</option>
+                                            <?PHP foreach ($listuser as $key => $value) { ?>
+                                                <option value="<?=$value['use_id'];?>"><?=$value['use_name'];?></option>
+                                            <?PHP } ?>
+                                        </select>
+                                        <br/>
+                                        <br/>
+                                    </div>
+                                </div>
+                                <div class="form-group-mgTB">
+                                    <br/>
+                                    <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>เพิ่มข้อมูลปริญญานิพนธ์</strong></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <?PHP } ?>
             </div>
             <div class="col-lg-5">
                 <div class="ibox float-e-margins">
@@ -430,7 +517,6 @@
         <!-- modal update file -->
 
         <form action="<?=base_url('project/add01_cov');?>" method="post" enctype="multipart/form-data" name="add01_cov" id="add01_cov" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_01_cov" id="txt_01_cov" value="<?=$project_filecer;?>">
             <div id="modal_01_cov" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -442,14 +528,15 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+                        <input type="hidden" class="form-control" name="txt_01_cov_old" id="txt_01_cov_old" value="<?=$project_filecov;?>">
 
-                            <br/>
-                            <div class="row">
-                                <label class="col-sm-12">หน้าปกภาษาไทยและภาษาอังกฤษ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                <div class="col-sm-12"><br/></div>
-                                <div class="col-sm-12"><input type="file" class="form-control" name="txt_01_cov" id="txt_01_cov" accept=".pdf"></div>
-                            </div>
-                            <br/>
+                        <br/>
+                        <div class="row">
+                            <label class="col-sm-12">หน้าปกภาษาไทยและภาษาอังกฤษ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+                            <div class="col-sm-12"><br/></div>
+                            <div class="col-sm-12"><input type="file" class="form-control" name="txt_01_cov" id="txt_01_cov" accept=".pdf"></div>
+                        </div>
+                        <br/>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary btn-lw100" type="submit"><strong>เพิ่มไฟล์เอกสารปริญญานิพนธ์</strong></button>
@@ -461,7 +548,6 @@
         </form>
 
         <form action="<?=base_url('project/add02_cer');?>" method="post" enctype="multipart/form-data" name="add02_cer" id="add02_cer" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_02_cer" id="txt_02_cer" value="<?=$project_filecer;?>">
             <div id="modal_02_cer" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -472,7 +558,9 @@
                     <div class="modal-body">
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
-                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+                        <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">  
+                        <input type="hidden" class="form-control" name="txt_02_cer_old" id="txt_02_cer_old" value="<?=$project_filecer;?>">
+             
 
                             <br/>
                             <div class="row">
@@ -500,7 +588,6 @@
         </form>
 
         <form action="<?=base_url('project/add03_abs');?>" method="post" enctype="multipart/form-data" name="add03_abs" id="add03_abs" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_03_abs" id="txt_03_abs" value="<?=$project_fileabs;?>">
             <div id="modal_03_abs" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -512,6 +599,7 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
+                        <input type="hidden" class="form-control" name="txt_03_abs_old" id="txt_03_abs_old" value="<?=$project_fileabs;?>">
 
                             <br/>
                             <div class="row">
@@ -539,7 +627,6 @@
         </form>
 
         <form action="<?=base_url('project/add04_ack');?>" method="post" enctype="multipart/form-data" name="add04_ack" id="add04_ack" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_04_ack" id="txt_04_ack" value="<?=$project_fileack;?>">
             <div id="modal_04_ack" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -551,7 +638,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_04_ack_old" id="txt_04_ack_old" value="<?=$project_fileack;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -578,7 +666,6 @@
         </form>
 
         <form action="<?=base_url('project/add05_tcb');?>" method="post" enctype="multipart/form-data" name="add05_tcb" id="add05_tcb" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_05_tcb" id="txt_05_tcb" value="<?=$project_filetbc;?>">
             <div id="modal_05_tcb" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -590,7 +677,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_05_tcb_old" id="txt_05_tcb_old" value="<?=$project_filetbc;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -617,7 +705,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch01');?>" method="post" enctype="multipart/form-data" name="add06_ch01" id="add06_ch01" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch01" id="txt_06_ch01" value="<?=$project_filechone;?>">
             <div id="modal_06_ch01" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -629,7 +716,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch01_old" id="txt_06_ch01_old" value="<?=$project_filechone;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -656,7 +744,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch02');?>" method="post" enctype="multipart/form-data" name="add06_ch02" id="add06_ch02" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch02" id="txt_06_ch02" value="<?=$project_filechtwo;?>">
             <div id="modal_06_ch02" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -668,7 +755,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch02_old" id="txt_06_ch02_old" value="<?=$project_filechtwo;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -695,7 +783,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch03');?>" method="post" enctype="multipart/form-data" name="add06_ch03" id="add06_ch03" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch03" id="txt_06_ch03" value="<?=$project_filechthree;?>">
             <div id="modal_06_ch03" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -707,7 +794,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch03_old" id="txt_06_ch03_old" value="<?=$project_filechthree;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -734,7 +822,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch04');?>" method="post" enctype="multipart/form-data" name="add06_ch04" id="add06_ch04" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch04" id="txt_06_ch04" value="<?=$project_filechfour;?>">
             <div id="modal_06_ch04" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -746,7 +833,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch04_old" id="txt_06_ch04_old" value="<?=$project_filechfour;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -773,7 +861,6 @@
         </form>
 
         <form action="<?=base_url('project/add06_ch05');?>" method="post" enctype="multipart/form-data" name="add06_ch05" id="add06_ch05" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_06_ch05" id="txt_06_ch05" value="<?=$project_filechfive;?>">
             <div id="modal_06_ch05" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -785,7 +872,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_06_ch05_old" id="txt_06_ch05_old" value="<?=$project_filechfive;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -812,7 +900,6 @@
         </form>
 
         <form action="<?=base_url('project/add07_ref');?>" method="post" enctype="multipart/form-data" name="add07_ref" id="add07_ref" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_07_ref" id="txt_07_ref" value="<?=$project_fileref;?>">
             <div id="modal_07_ref" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -824,7 +911,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_07_ref_old" id="txt_07_ref_old" value="<?=$project_fileref;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -851,7 +939,6 @@
         </form>
 
         <form action="<?=base_url('project/add08_app');?>" method="post" enctype="multipart/form-data" name="add08_app" id="add08_app" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_08_app" id="txt_08_app" value="<?=$project_fileappone;?>">
             <div id="modal_08_app" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -863,7 +950,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_08_app_old" id="txt_08_app_old" value="<?=$project_fileappone;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -890,7 +978,6 @@
         </form>
 
         <form action="<?=base_url('project/add09_bio');?>" method="post" enctype="multipart/form-data" name="add09_bio" id="add09_bio" class="form-horizontal" novalidate> 
-            <input type="hidden" class="form-control" name="txt_09_bio" id="txt_09_bio" value="<?=$project_filebio;?>">
             <div id="modal_09_bio" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -902,7 +989,8 @@
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Idstd;?>">    
                         <input type="hidden" name="projectId" id="projectId" value="<?=$project_id;?>">   
-
+                        <input type="hidden" class="form-control" name="txt_09_bio_old" id="txt_09_bio_old" value="<?=$project_filebio;?>">
+            
                             <br/>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -937,6 +1025,14 @@
             document.getElementById('ifYes').style.display = 'block';
         }
         else document.getElementById('ifYes').style.display = 'none';
+
+    }
+
+    function yesnoCheckT() {
+        if (document.getElementById('inlineRadio4').checked) {
+            document.getElementById('ifYesT').style.display = 'block';
+        }
+        else document.getElementById('ifYesT').style.display = 'none';
 
     }
 

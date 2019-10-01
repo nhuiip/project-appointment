@@ -105,6 +105,20 @@ class Profile extends MX_Controller
                         file_put_contents($file, $data);
                     }
 
+                    $condition = array();
+                    $condition['fide'] = "std_id,std_fname,std_lname";
+                    $condition['where'] = array('std_id' => $this->input->post('Id'));
+                    $liststd = $this->student->listData($condition);
+
+                    $f = $this->encryption->encrypt($liststd[0]['std_fname'] . ' ' . $liststd[0]['std_lname']);
+					$cookie_fullname = array(
+						'name'   => 'sysn',
+						'value'  => $f,
+						'expire' => '86500',
+						'path'   => '/'
+					);
+                    $this->input->set_cookie($cookie_fullname);
+                    
                     if (!empty($Id)) {
                         $result = array(
                             'error' => false,
