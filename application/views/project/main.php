@@ -101,27 +101,27 @@
                                         อาจารย์ที่ปรึกษา <br/><?=character_limiter(strip_tags($value['use_name']), 20);?>
                                     </div>
                                     <br/>
-                                    <div style="display: grid; grid-template-columns: auto auto; grid-gap: 10px;">
+                                    <div class="display-grid-project">
                                         <a href="<?=base_url('project/detail/'.$this->encryption->decrypt($this->input->cookie('sysli')).'/'.$value['project_id']);?>" class="btn btn-xs btn-outline btn-primary">เพิ่มเติม <i class="fa fa-long-arrow-right"></i> </a>
                                         <div>
                                             <?PHP if($value['project_status'] == 1){ ?>
-                                                <div class="message-data" style="text-align: right;">
+                                                <div class="message-data" >
                                                     <span class="message-data-name"><i class="fa fa-circle online" style="color: #23c6c8!important;"></i>&nbsp; &nbsp;ยังไม่สอบโครงงานหนึ่ง</span>
                                                 </div>
                                             <?PHP } else if($value['project_status'] == 2){ ?>
-                                                <div class="message-data" style="text-align: right;">
+                                                <div class="message-data">
                                                     <span class="message-data-name"><i class="fa fa-circle online" style="color: #1ab394!important;"></i>&nbsp; &nbsp;ผ่านโครงงานหนึ่ง</span>
                                                 </div>
                                             <?PHP } else if($value['project_status'] == 3){ ?>
-                                                <div class="message-data" style="text-align: right;">
+                                                <div class="message-data" >
                                                     <span class="message-data-name"><i class="fa fa-circle online" style="color: #f8ac59!important;"></i>&nbsp; &nbsp;สอบโครงงานสองแล้วติดแก้ไข</span>
                                                 </div>
                                             <?PHP } else if($value['project_status'] == 4){ ?>
-                                                <div class="message-data" style="text-align: right;">
+                                                <div class="message-data" >
                                                     <span class="message-data-name"><i class="fa fa-circle online" style="color: #1c84c6!important;"></i>&nbsp; &nbsp;สอบโครงงานสองผ่าน</span>
                                                 </div>
                                             <?PHP } else if($value['project_status'] == 0){ ?>
-                                                <div class="message-data" style="text-align: right;">
+                                                <div class="message-data" >
                                                     <span class="message-data-name"><i class="fa fa-circle online" style="color: #ed5565!important;"></i>&nbsp; &nbsp;เปลี่ยนหัวข้อปริญญานิพนธ์</span>
                                                 </div>
                                             <?PHP } ?>

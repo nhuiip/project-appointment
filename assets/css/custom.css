@@ -221,3 +221,60 @@ label.error {
 .select2-container {
     width: 100% !important;
 }
+
+/* =============================================================== project */
+.display-grid-project{
+    display: grid!important; 
+    grid-template-columns: auto !important; 
+    grid-gap: 10px!important;
+}
+@media only screen and (min-width: 420px) {
+    .display-grid-project{
+        display: grid!important; 
+        grid-template-columns: auto auto !important; 
+        grid-gap: 10px!important;
+    }
+    .message-data{
+        text-align: right;
+    }
+}
+@media only screen and (min-width: 576px) {
+    .display-grid-project{
+        display: grid!important; 
+        grid-template-columns: auto auto !important; 
+        grid-gap: 10px!important;
+    }
+    .message-data{
+        text-align: right;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .display-grid-project{
+        display: grid!important; 
+        grid-template-columns: auto!important; 
+        grid-gap: 10px!important; 
+        height: 60px!important;
+    }
+    .message-data{
+        text-align: left;
+    }
+}
+@media only screen and (min-width: 1200px) {
+    .display-grid-project{
+        display: grid!important; 
+        grid-template-columns: auto!important; 
+        grid-gap: 10px!important; 
+        height: 60px!important;
+    }
+}
+@media only screen and (min-width: 1600px) {
+    .display-grid-project{
+        display: grid!important; 
+        grid-template-columns: auto auto!important; 
+        grid-gap: 10px!important; 
+        height: unset!important;
+    }
+    .message-data{
+        text-align: right;
+    }
+}
