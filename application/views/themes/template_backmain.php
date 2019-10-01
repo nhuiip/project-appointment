@@ -80,11 +80,13 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 							<li>
 								<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
 							</li>
+							<? if ($position != 'ผู้ดูแลระบบ') { ?>
 							<li>
-								<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
+								<a href="<?= site_url('profile/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
 							</li>
+							<? } ?>
 							<li>
-								<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+								<a href="<?= site_url('profile/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 							</li>
 							<? if ($position == 'ผู้ดูแลระบบ' || $position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
 								<li>
