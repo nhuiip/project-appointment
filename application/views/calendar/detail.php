@@ -62,7 +62,7 @@ function DateThai($strDate)
                                     <? } ?>
                                     <? if (count($meet) == 0) { ?>
                                         <div class="m-t text-righ">
-                                            <button class="btn btn-xs btn-outline btn-primary">เลือกนัดหมาย <i class="fa fa-check"></i> </button>
+                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                         </div>
                                     <? } ?>
                                 </div>
@@ -124,11 +124,9 @@ function DateThai($strDate)
             <? } ?>
         </div>
         <div class="col-lg-4">
-
             <ul class="todo-list m-t ui-sortable" id="listtt">
 
             </ul>
-
         </div>
     </div>
 </div>
