@@ -32,8 +32,8 @@
 	</div>
 
 	<!-- Mainly scripts -->
-	<link href="<?= base_url('assets/js/jquery-2.1.1.js'); ?>" rel="stylesheet">
-	<link href="<?= base_url('assets/js/bootstrap.min.js'); ?>" rel="stylesheet">
+	<!-- <link href="<?= base_url('assets/js/jquery-2.1.1.js'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/js/bootstrap.min.js'); ?>" rel="stylesheet"> -->
 
 
 	</div>

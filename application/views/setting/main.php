@@ -68,7 +68,7 @@
 													<span class="sr-only">Toggle Dropdown</span>
 												</button>
 												<ul class="dropdown-menu" style="width:100%">
-													<? if ($value['set_status'] != 0) { ?>
+													<? if ($value['set_status'] != 0 && $value['set_status'] != 2) { ?>
 														<li><a href="#" data-toggle="modal" data-target="#U_update" class="update"
 														data-set_id="<?=$value['set_option_sun'];?>" data-set_year="<?=$value['set_year'];?>" data-set_term="<?=$value['set_term'];?>"
 														data-set_open="<?=$value['set_open'];?>" data-set_close="<?=$value['set_close'];?>" data-set_option_sat="<?=$value['set_option_sat'];?>" data-set_option_sun="<?=$value['set_option_sun'];?>"

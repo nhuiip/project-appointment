@@ -21,7 +21,7 @@ function DateThai($strDate)
             </div>
         </div>
         <div class="col-lg-8">
-            <? if ($sub_type == 1) { ?>
+            <? if (isset($sub_type) && $sub_type == 1) { ?>
                 <? foreach ($time as $key => $value) { ?>
                     <div class="col-md-6">
                         <div class="ibox">
@@ -62,7 +62,7 @@ function DateThai($strDate)
                                     <? } ?>
                                     <? if (count($meet) == 0) { ?>
                                         <div class="m-t text-righ">
-                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                            <button class="btn btn-xs btn-outline btn-primary btnajax" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                         </div>
                                     <? } ?>
                                 </div>
@@ -70,7 +70,7 @@ function DateThai($strDate)
                         </div>
                     </div>
                 <? } ?>
-            <? } elseif ($sub_type == 2) { ?>
+            <? } elseif (isset($sub_type) &&  $sub_type) { ?>
                 <? foreach ($time as $key => $value) { ?>
                     <? if ($value['two'] != '12.00' && $value['two'] != '16.00') { ?>
                         <div class="col-md-6">
@@ -127,63 +127,6 @@ function DateThai($strDate)
             <ul class="todo-list m-t ui-sortable" id="listtt">
 
             </ul>
-        </div>
-    </div>
-</div>
-
-<!-- <script>
-    $('.btnajax').click(function() {
-        var date = $(this).attr('data-date');
-        var time = $(this).attr('data-time');
-        var url = $(this).attr('data-url');
-        $.ajax({
-            method: "POST",
-            dataType: "json",
-            url: url,
-            data: {
-                date: date,
-                time: time,
-            },
-            success: function(result) {
-                $.each(result.data, function(i, item){
-                    console.log(item.id);
-                });
-            },
-            error: function(jqXHR, exception) {
-                if (jqXHR.status === 0) {
-                    alert('Not connect.\n Verify Network.');
-                } else if (jqXHR.status == 404) {
-                    alert('Requested page not found. [404]');
-                } else if (jqXHR.status == 500) {
-                    alert('Internal Server Error [500].');
-                } else if (exception === 'parsererror') {
-                    alert('Requested JSON parse failed.');
-                } else if (exception === 'timeout') {
-                    alert('Time out error.');
-                } else if (exception === 'abort') {
-                    alert('Ajax request aborted.');
-                } else {
-                    alert('Uncaught Error.\n' + jqXHR.responseText);
-                }
-            }
-        });
-    });
-</script> -->
-<!-- list -->
-<div class="modal fade" id="listT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body" id="testmodel">
-                <input class="use_name">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>

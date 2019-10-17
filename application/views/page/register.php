@@ -345,15 +345,15 @@
 											<input type="text" placeholder="นามสกุล" name="std_lname" id="std_lname" class="form-control">
 										</div>
 									</div>
-									<div class="input-group">
+									<div class="row">
+										<div class="input-group col-md-6">
 										<div class="input-group-prepend">
 											<div class="input-group-text">
 												<i class="now-ui-icons business_badge"></i>
 											</div>
 										</div>
 										<input type="text" class="form-control" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" data-url="<?= site_url('student/checknumber') ?>">
-									</div>
-									<div class="row">
+										</div>
 										<div class="input-group col-md-6">
 											<div class="input-group-prepend">
 												<div class="input-group-text">
@@ -361,19 +361,6 @@
 												</div>
 											</div>
 											<input type="text" class="form-control" name="std_tel" id="std_tel" placeholder="เบอร์โทร">
-										</div>
-										<div class="input-group col-md-6">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons files_single-copy-04"></i>
-												</div>
-											</div>
-											<select name="sub_id" id="sub_id" class="form-control custom-select" placeholder="เลือกวิชาลงทะเบียน">
-												<option value="">เลือกวิชาลงทะเบียน</option>
-												<? foreach ($subject as $key => $value) { ?>
-													<option value="<?= $value['sub_id']; ?>"><?= $value['sub_name']; ?></option>
-												<? } ?>
-											</select>
 										</div>
 									</div>
 									<div class="row">
@@ -488,10 +475,8 @@
 					}
 				},
 				std_tel: {
-					required: true
-				},
-				sub_id: {
-					required: true
+					required: true,
+					number: true,
 				},
 				std_email: {
 					required: true,
@@ -529,10 +514,8 @@
 					remote: "รหัสนักศึกษานี้มีในระบบอยุ่แล้ว"
 				},
 				std_tel: {
-					required: "กรุณากรอกเบอร์โทร."
-				},
-				sub_id: {
-					required: "กรุณาเลือกวิชาลงทะเบียน."
+					required: "กรุณากรอกเบอร์โทร.",
+					number: "กรุณากรอกเฉพาะตัวเลขเท่านั้น.",
 				},
 				std_email: {
 					required: "กรุณากรอกอีเมล.",

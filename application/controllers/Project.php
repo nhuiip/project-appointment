@@ -20,38 +20,7 @@ class Project extends MX_Controller
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
             if ($id == "") {
                 show_404();
-            } elseif ($poslogin == 'นักศึกษา' && $idlogin == $id) {
-            
-                $condition = array();
-                $condition['fide'] = "std_id";
-                $condition['where'] = array('std_id' => $id);
-                $checkstudent = $this->student->listData($condition);
-                if (count($checkstudent) == 0) {
-                    show_404();
-                } else {
-
-                    $data = array();
-                    
-                    //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
-                    $data['searchProject'] = $this->project->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
-
-                    //ค้นหานักศึกษาที่ร่วมทำปริญญานิพนธ์
-                    $data['searchStd'] = $this->student->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
-
-                    //แสดงอาจารญ์ทั้งหมด
-                    $condition = array();
-                    $condition['fide'] = "*";
-                    $data['listuser'] = $this->administrator->listData($condition);
-
-                    //แสดง id ที่ login เอาไป select subject
-                    $data['Idstd'] =   $this->encryption->decrypt($this->input->cookie('sysli'));
-
-                    $data['formcrf'] = $this->tokens->token('formcrf');
-                    $data['formcrfaddproject'] = $this->tokens->token('formcrfaddproject');
-                    $this->template->backend('student/project', $data);
-
-                }
-            }elseif ($poslogin == 'อาจารย์ผู้สอน' && $idlogin == $id || $poslogin == 'ผู้ดูแลระบบ' && $idlogin == $id) {
+            } elseif ($poslogin == 'อาจารย์ผู้สอน' || $poslogin == 'หัวหน้าสาขา' || $poslogin == 'ผู้ดูแลระบบ') {
             
                 $condition = array();
                 $condition['fide'] = "use_id";

@@ -15,7 +15,6 @@ class Student_model extends CI_Model {
         $this->db->select($data['fide']);
         $this->db->from('tb_student');
 		$this->db->join('tb_position', 'tb_position.position_id = tb_student.position_id');
-		$this->db->join('tb_subject', 'tb_subject.sub_id = tb_student.sub_id', 'left');
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}

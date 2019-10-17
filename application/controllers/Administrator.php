@@ -53,8 +53,6 @@ class Administrator extends MX_Controller
 
 	public function create()
 	{
-
-		$this->permission->admin();
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'use_name' 			=> $this->input->post('use_name'),
@@ -74,14 +72,15 @@ class Administrator extends MX_Controller
 				$condition['fide'] = "*";
 				$condition['where'] = array('set_status' => 2);
 				$setting = $this->setting->listData($condition);
+				if (count($setting) == 1) {
+					$condition = array();
+					$condition['fide'] = "*";
+					$condition['where'] = array('use_id' => $id, 'set_id' => $setting[0]['set_id']);
+					$section = $this->section->listData($condition);
 
-				$condition = array();
-				$condition['fide'] = "*";
-				$condition['where'] = array('use_id' => $id, 'set_id' => $setting[0]['set_id']);
-				$section = $this->section->listData($condition);
-
-				if (count($setting) != 0 && count($section) == 0) {
-					$this->insertsection($id);
+					if (count($setting) != 0 && count($section) == 0) {
+						$this->insertsection($id);
+					}
 				}
 			}
 
@@ -91,88 +90,6 @@ class Administrator extends MX_Controller
 				'url' => site_url('administrator/main')
 			);
 			echo json_encode($result);
-		}
-	}
-
-	private function insertsection($id = "")
-	{
-		if (!empty($id)) {
-			$condition = array();
-			$condition['fide'] = "*";
-			$condition['where'] = array('set_status' => 2);
-			$setting = $this->setting->listData($condition);
-
-			$condition = array();
-			$condition['fide'] = "hol_date";
-			$condition['where'] = array('set_id' => $id);
-			$holiday = $this->holiday->listData($condition);
-
-			// หาช่วงวันที่
-			$perday = new DatePeriod(
-				new DateTime($setting[0]['set_open']),
-				new DateInterval('P1D'),
-				new DateTime($setting[0]['set_close'])
-			);
-			//วันหยุด
-			$arrholiday = array();
-			foreach ($holiday as $key => $value) {
-				array_push($arrholiday, $value['hol_date']);
-			}
-
-			$date = array();
-			//ตัดวันเสาร์อาทิตย์
-			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 0) {
-				foreach ($perday as $key => $value) {
-					$thisdate = $value->format('Y-m-d');
-					if ((date('w', strtotime($thisdate)) != 6 && date('w', strtotime($thisdate)) != 0) && !in_array($thisdate, $arrholiday)) {
-						array_push($date, $thisdate);
-					}
-				}
-			}
-			//ตัดวันอาทิตย์
-			if ($setting[0]['set_option_sat'] == 1 && $setting[0]['set_option_sun'] == 0) {
-				foreach ($perday as $key => $value) {
-					$thisdate = $value->format('Y-m-d');
-					if (date('w', strtotime($thisdate)) != 0 && !in_array($thisdate, $arrholiday)) {
-						array_push($date, $thisdate);
-					}
-				}
-			}
-			//ตัดวันเสาร์
-			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
-				foreach ($perday as $key => $value) {
-					$thisdate = $value->format('Y-m-d');
-					if (date('w', strtotime($thisdate)) != 6 && !in_array($thisdate, $arrholiday)) {
-						array_push($date, $thisdate);
-					}
-				}
-			}
-			//เปิดนัดทุกวัน
-			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
-				foreach ($perday as $key => $value) {
-					$thisdate = $value->format('Y-m-d');
-					array_push($date, $thisdate);
-				}
-			}
-
-			foreach ($date as $key => $value) {
-				$data = array(
-					'sec_date'          => $value,
-					'sec_one'           => '9.00, 9.00, 1, sec_one',
-					'sec_two'           => '10.00, 10.30, 1, sec_two',
-					'sec_three'         => '11.00, 12.00, 1, sec_three',
-					'sec_four'          => '13.00, 13.00, 1, sec_four',
-					'sec_five'          => '14.00, 14.30, 1, sec_five',
-					'sec_six'           => '15.00, 16.00, 1, sec_six',
-					'use_id'            => $id,
-					'set_id'            => $setting[0]['set_id'],
-					'sec_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
-					'sec_create_date'   => date('Y-m-d H:i:s'),
-					'sec_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-					'sec_lastedit_date' => date('Y-m-d H:i:s'),
-				);
-				$this->section->insertData($data);
-			}
 		}
 	}
 
@@ -188,7 +105,7 @@ class Administrator extends MX_Controller
 				'use_lastedit_date' => date('Y-m-d H:i:s')
 			);
 			$this->administrator->updateData($data);
-			if($this->input->post('type') == 'T'){
+			if ($this->input->post('type') == 'T') {
 				$f = $this->encryption->encrypt($this->input->post('use_name'));
 				$cookie_fullname = array(
 					'name'   => 'sysn',
@@ -208,7 +125,7 @@ class Administrator extends MX_Controller
 			} elseif ($this->input->post('type') == 'T') {
 				$result = array(
 					'error' => false,
-					'msg' => 'เปลี่ยนรหัสผ่านสำเร็จ',
+					'msg' => 'แก้ไขข้อมูลสำเร็จ',
 					'url' => site_url('profile/index/' . $this->input->post('Id'))
 				);
 				echo json_encode($result);
@@ -218,6 +135,17 @@ class Administrator extends MX_Controller
 
 	public function delete($id)
 	{
+
+		$condition = array();
+		$condition['fide'] = "*";
+		$condition['where'] = array('tb_settings.set_status' => 2, 'tb_section.use_id' => $id);
+		$section = $this->section->listjoinData($condition);
+		if (count($section) != 0) {
+			$data = array(
+				'use_id'            => $id,
+			);
+			$this->section->deleteData($data);
+		}
 		$data = array(
 			'use_id'            => $id,
 		);
@@ -225,10 +153,96 @@ class Administrator extends MX_Controller
 		header("location:" . site_url('administrator/main'));
 	}
 
+	private function insertsection($id = "")
+	{
+		if (!empty($id)) {
+			$condition = array();
+			$condition['fide'] = "set_id, set_open, set_close, set_option_sat, set_option_sun";
+			$condition['where'] = array('set_status' => 2);
+			$setting = $this->setting->listData($condition);
+
+			$condition = array();
+			$condition['fide'] = "hol_date";
+			$condition['where'] = array('set_id' => $setting[0]['set_id']);
+			$holiday = $this->holiday->listData($condition);
+
+			// หาช่วงวันที่
+			$begin = new DateTime($setting[0]['set_open']);
+			$end = clone $begin;
+			$end->modify($setting[0]['set_close']);
+			$end->setTime(0, 0, 1);
+			$interval = new DateInterval('P1D');
+			$daterange = new DatePeriod($begin, $interval, $end);
+			//วันหยุด
+			$arrholiday = array();
+			foreach ($holiday as $key => $value) {
+				array_push($arrholiday, $value['hol_date']);
+			}
+
+			$date = array();
+			//ตัดวันเสาร์อาทิตย์
+			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 0) {
+				foreach ($daterange as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					if ((date('w', strtotime($thisdate)) != 6 && date('w', strtotime($thisdate)) != 0) && !in_array($thisdate, $arrholiday)) {
+						array_push($date, $thisdate);
+					}
+				}
+			}
+			//ตัดวันอาทิตย์
+			if ($setting[0]['set_option_sat'] == 1 && $setting[0]['set_option_sun'] == 0) {
+				foreach ($daterange as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					if (date('w', strtotime($thisdate)) != 0 && !in_array($thisdate, $arrholiday)) {
+						array_push($date, $thisdate);
+					}
+				}
+			}
+			//ตัดวันเสาร์
+			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
+				foreach ($daterange as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					if (date('w', strtotime($thisdate)) != 6 && !in_array($thisdate, $arrholiday)) {
+						array_push($date, $thisdate);
+					}
+				}
+			}
+			//เปิดนัดทุกวัน
+			if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
+				foreach ($daterange as $key => $value) {
+					$thisdate = $value->format('Y-m-d');
+					array_push($date, $thisdate);
+				}
+			}
+
+			$time = array();
+			$time[0] = ['9.00', '9.00'];
+			$time[1] = ['10.00', '10.30'];
+			$time[2] = ['11.00', '12.00'];
+			$time[3] = ['13.00', '13.00'];
+			$time[4] = ['14.00', '14.30'];
+			$time[5] = ['15.00', '16.00'];
+
+			$use_id = $id;
+			foreach ($date as $key => $value) {
+				foreach ($time as $key => $valtime) {
+					// echo $value . '<br>';
+					$data = array(
+						'sec_date'          => $value,
+						'sec_time_one'      => $valtime[0],
+						'sec_time_two'      => $valtime[1],
+						'sec_status'        => 1,
+						'use_id'            => $use_id,
+						'set_id'            => $setting[0]['set_id'],
+					);
+					$this->section->insertData($data);
+				}
+			}
+		}
+	}
+
 	public function checkemail()
 	{
-		$this->permission->admin();
-		// check email count 0 = true or than 0 = false
 		$use_email = $this->input->post('use_email');
 		if (!empty($use_email)) {
 			$condition = array();
@@ -243,9 +257,25 @@ class Administrator extends MX_Controller
 		}
 	}
 
+	public function checkemailup()
+	{
+		$use_id = $this->input->post('use_id');
+		$use_email = $this->input->post('use_email');
+		if (!empty($use_email)) {
+			$condition = array();
+			$condition['fide'] = "use_id";
+			$condition['where'] = array('use_email' => $use_email, 'use_id !=' => $use_id);
+			$listemail = $this->administrator->listData($condition);
+			if (count($listemail) == 0) {
+				echo "true";
+			} else {
+				echo "false";
+			}
+		}
+	}
+
 	public function changepassword()
 	{
-
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'use_id' 		=> $this->input->post('Id'),
@@ -374,9 +404,8 @@ class Administrator extends MX_Controller
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
 					$this->input->set_cookie($cookie_img);
-					header("location:" . site_url('dashboard/index'));
+					header("location:" . site_url('student/stdprofile/'.$liststd[0]['std_id']));
 				} elseif ($username == 'support@itrmutr.com' && $password == 'supp0rt@it;;') {
-					// pass ' supp0rt@it;; ';
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt(0);
 					$f = $this->encryption->encrypt('Support');
@@ -409,7 +438,7 @@ class Administrator extends MX_Controller
 					$this->input->set_cookie($cookie_id);
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
-					header("location:" . site_url('dashboard/index'));
+					header("location:" . site_url('administrator/main'));
 				} else {
 					header("location:" . site_url('administrator/index/false'));
 				}

@@ -1,7 +1,7 @@
 <?
 if (isset($listdata) && count($listdata) != 0) {
 	foreach ($listdata as $key => $value) {
-		$id           	= $value['set_id'];
+		$set_id           	= $value['set_id'];
 	}
 	$title          = "จัดการวันหยุด";
 }
@@ -91,12 +91,10 @@ if (isset($listdata) && count($listdata) != 0) {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">ข้อมูลวันหยุด</h4>
 			</div>
-			<form action="<?= site_url('setting/createHol') ?>" method="post" enctype="multipart/form-data" name="formCHoliday" id="formCHoliday" class="form-horizontal" novalidate>
+			<form action="<?= site_url('holiday/create') ?>" method="post" enctype="multipart/form-data" name="formCHoliday" id="formCHoliday" class="form-horizontal" novalidate>
 				<div class="modal-body">
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-					<input type="hidden" name="Id" id="Id" value="<? if (isset($id)) {
-																													echo $id;
-																												} ?>">
+					<input type="hidden" name="set_id" id="set_id" value="<?=$set_id?>">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันหยุด<span class="text-muted" style="color:#c0392b">*</span></label>
 						<div class="col-sm-10">
@@ -107,7 +105,7 @@ if (isset($listdata) && count($listdata) != 0) {
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันที่<span class="text-muted" style="color:#c0392b">*</span></label>
 						<div class="col-sm-10">
-							<input type="text" name="hol_date" id="hol_date" class="form-control datepicker">
+							<input type="text" name="hol_date" id="hol_date" class="form-control datepicker" data-url="<?= site_url('holiday/checkdate'); ?>">
 						</div>
 					</div>
 				</div>
@@ -138,12 +136,10 @@ if (isset($listdata) && count($listdata) != 0) {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">ข้อมูลวันหยุด</h4>
 			</div>
-			<form action="<?= site_url('setting/updateHol') ?>" method="post" enctype="multipart/form-data" name="formEHoliday" id="formEHoliday" class="form-horizontal" novalidate>
+			<form action="<?= site_url('holiday/update') ?>" method="post" enctype="multipart/form-data" name="formEHoliday" id="formEHoliday" class="form-horizontal" novalidate>
 				<div class="modal-body">
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-					<input type="hidden" name="Id" id="Id" value="<? if (isset($id)) {
-																													echo $id;
-																												} ?>">
+					<input type="hidden" name="set_id" id="set_id_up" value="<?=$set_id?>">
 					<input type="hidden" name="hol_id" id="hol_id" class="hol_id">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันหยุด<span class="text-muted" style="color:#c0392b">*</span></label>
@@ -155,7 +151,7 @@ if (isset($listdata) && count($listdata) != 0) {
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันที่<span class="text-muted" style="color:#c0392b">*</span></label>
 						<div class="col-sm-10">
-							<input type="text" name="hol_date" id="hol_date" class="form-control datepicker hol_date" value="">
+							<input type="text" name="hol_date" id="hol_date_up" class="form-control datepicker hol_date" data-url="<?= site_url('holiday/checkdate'); ?>">
 						</div>
 					</div>
 				</div>

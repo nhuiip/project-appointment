@@ -3,14 +3,12 @@ if (isset($liststudent) && count($liststudent) != 0) {
     foreach ($liststudent as $key => $student) {
         $Id               = $student['std_id'];
         $Text_position    = $student['position_name'];
-        $IdSub            = $student['sub_id'];
         $Img_std          = $student['std_img'];
         $Tetx_number      = $student['std_number'];
         $Text_title       = $student['std_title'];
         $Text_name        = $student['std_fname'];
         $Text_lastname    = $student['std_lname'];
         $Text_email       = $student['std_email'];
-        $Text_emailchang  = $student['std_emailchang'];
         $Text_password    = $student['std_pass'];
         $Tetx_tel         = $student['std_tel'];
         $Text_checkemail  = $student['std_checkmail'];
@@ -19,30 +17,6 @@ if (isset($liststudent) && count($liststudent) != 0) {
         $create_date      = $student['std_create_date'];
         $lastedit_name    = $student['std_lastedit_name'];
         $lastedit_date    = $student['std_lastedit_date'];
-    }
-} 
-
-$this->db->select('*');
-$this->db->from('tb_subject');
-$this->db->join('tb_user', 'tb_user.use_id = tb_subject.use_id');
-$this->db->where(array('tb_subject.sub_id' => $IdSub));
-$query_subject = $this->db->get();
-$listsubject = $query_subject->result_array();
-
-if (isset($listsubject) && count($listsubject) != 0) {
-    foreach ($listsubject as $key => $subject) {
-        $subjectcode      = $subject['sub_code'];
-        $subjectname      = $subject['sub_name'];
-        $subjectsetuse    = $subject['sub_setuse'];
-        $usefullname      = $subject['use_name'];
-        $subjectstatus    = $subject['sub_status'];
-    }
-} 
-
-//ค้นหาโปรเจคที่นักศึกษาสร้างไว้
-if (isset($searchProject) && count($searchProject) != 0) {
-    foreach ($searchProject as $key => $value) {
-        $project_studentId      = $value['std_id'];
     }
 } 
 
@@ -84,7 +58,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form action="<?=base_url('profile/update/'.$Id);?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
+                    <form action="<?=base_url('student/stdupdate/');?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentPrile" class="form-horizontal" novalidate>
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
                         <div class="form-group">
@@ -98,7 +72,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                 <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgpre"></div>
                                             <?PHP } ?>
                                             <input type="file" id="std_img" aria-invalid="false" accept="image/*">
-                                            <input type="hidden" id="std_img2" name="std_img" aria-invalid="false" accept="image/*">
+                                            <input type="hidden" id="std_img2" name="std_img">
                                         </div>
                                         <h6 class="description">เปลี่ยนรูปภาพ</h6>
                                     </div>
@@ -188,71 +162,21 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-lg-3">รหัสวิชา</label>
-                            <label class="col-lg-9"><?=$subjectcode;?></label>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3">ชื่อวิชา</label>
-                            <label class="col-lg-9"><?=$subjectname;?></label>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3">อาจารย์ประจำวิชา</label>
-                            <label class="col-lg-9"><?=$usefullname;?></label>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3">อาจารย์ขึ้นสอบจำนวน</label>
-                            <label class="col-lg-9"><?=$subjectsetuse;?> คน</label>
-                        </div>
-                    </form>
                 </div>
             </div>
 
-            <?PHP if(count($searchProject) != 0) { ?>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><i class="fa fa-book"></i> ประวัติการทำปริญญานิพนธ์</h5>
                 </div>
                 <div class="ibox-content inspinia-timeline">
-                    <?PHP foreach ($searchProject as $key => $value) { ?>
-                        <div class="timeline-item">
-                            <div class="row">
-                                <div class="col-xs-3 date">
-                                    <i class="fa fa-file-zip-o"></i>
-                                    <!-- 6:00 am -->
-                                    <br>
-                                    <small class="text-navy"><?=date('d M Y', strtotime($value['project_create_date']));?></small>
-                                </div>
-                                <div class="col-xs-7 content no-top-border">
-                                    
-                                    <p class="m-b-xs"><strong><?=$value['project_name'];?></strong></p>
-                                    <p>
-                                        <?PHP if($value['project_status'] == 1){ ?>
-                                            <p><span class="label label-info" style="font-size: 12px;">ยังไม่สอบโครงงานหนึ่ง</span></p>
-                                        <?PHP } else if($value['project_status'] == 2){ ?>
-                                            <p><span class="label label-primary" style="font-size: 12px;">ผ่านโครงงานหนึ่ง</span></p>
-                                        <?PHP } else if($value['project_status'] == 3){ ?>
-                                            <p><span class="label label-warning" style="font-size: 12px;">สอบโครงงานสองแล้วติดแก้ไข</span></p>
-                                        <?PHP } else if($value['project_status'] == 4){ ?>
-                                            <p><span class="label label-success" style="font-size: 12px;">สอบโครงงานสองผ่าน</span></p>
-                                        <?PHP } else if($value['project_status'] == 0){ ?>
-                                            <p><span class="label label-danger" style="font-size: 12px;">เปลี่ยนหัวข้อปริญญานิพนธ์</span></p>
-                                        <?PHP } ?>
-                                    </p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    <?PHP } ?>
                 </div>
             </div>
-            <?PHP } ?>
         </div>
     </div>
 </div>
 
-<form action="<?=base_url('profile/changemail');?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
+<form action="<?=base_url('student/stdchangemail');?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
     <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?=$formcrfmail;?>">
     <input type="hidden" name="Idmail" id="Idmail" value="<?=$Id;?>">
 
@@ -264,7 +188,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     <p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนอีเมล์แล้วต้องเข้าสู่ระบบใหม่อีกครั้ง.</p>
                     <hr/>
                     <div class="form-group-mgTB">
-                        <input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control"  data-url="<?=site_url('profile/checkemail');?>" >
+                        <input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control"  data-url="<?=site_url('student/checkemail');?>" >
                     </div>
                     <div class="mgBottom">
                         <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนที่อยู่อีเมล์</strong></button>
@@ -276,7 +200,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
     </div>
 </form>
 
-<form action="<?=base_url('profile/changepassword');?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>                   
+<form action="<?=base_url('student/stdchangepassword');?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>                   
     <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?=$formcrfpassword;?>">
     <input type="hidden" name="Id2" id="Id2" value="<?=$Id;?>">
 

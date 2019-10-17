@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 require_once( BASEPATH .'database/DB'. EXT );
-$db =& DB();
+// $db =& DB();
 // $query = $db->select('con_id, con_page_th, con_page_en');
 // $query = $db->get('tb_contents');
 // $result = $query->result();

@@ -136,6 +136,28 @@ $(".btn-alert").click(function() {
   );
 });
 
+$(".timechecks").change(function() {
+  var url = $(this).attr("data-url");
+  swal(
+    {
+      title: "ยืนยันการเปลี่ยนแปลงช่วงเวลา",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c0392b",
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ยกเลิก",
+      closeOnConfirm: false
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        location.href = url;
+      } else {
+        location.reload();
+      }
+    }
+  ); 
+});
+
 // sweetalert ckeck
 $(".btn-check").click(function() {
   var url = $(this).attr("data-url");
@@ -281,10 +303,10 @@ $(".btnajax").click(function() {
     },
     success: function(result) {
       console.log(result);
-      $('#listtt').empty();
+      $("#listtt").empty();
       $.each(result, function(index, item) {
         $("#listtt").append(
-          $('<li><span class="m-l-xs">' + item.name + '</span></li>').append()
+          $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });

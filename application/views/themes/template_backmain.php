@@ -2,7 +2,7 @@
 $loginid 	= $this->encryption->decrypt($this->input->cookie('sysli'));
 $loginname	= $this->encryption->decrypt($this->input->cookie('sysn'));
 $position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
-if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->encryption->decrypt($this->input->cookie('sysimg')) != ''){
+if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->encryption->decrypt($this->input->cookie('sysimg')) != '') {
 	$loginimg = $this->encryption->decrypt($this->input->cookie('sysimg'));
 } else {
 	$loginimg = 'noimage.png';
@@ -77,37 +77,27 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 									<img src="<?= base_url('assets/images/reunion.svg'); ?>" alt="">
 								</div>
 							</li>
-							<li>
-								<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
-							</li>
-							<? if ($position != 'ผู้ดูแลระบบ') { ?>
-							<li>
-								<a href="<?= site_url('profile/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
-							</li>
-							<? } ?>
-							<li>
-								<a href="<?= site_url('calendar/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
-							</li>
-							<? if ($position == 'ผู้ดูแลระบบ' || $position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
+							<? if ($position != 'ฉุกเฉิน') { ?>
 								<li>
-									<a href="<?= site_url('subject/index'); ?>"><i class="fa fa-align-left"></i> <span class="nav-label">จัดการรายวิชา</span></a>
+									<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
 								</li>
 								<li>
-									<a href="<?= site_url('student/index'); ?>"><i class="fa fa-graduation-cap"></i> <span class="nav-label">ข้อมูลนักศึกษา</span></a>
-								</li>
-								<li>
-									<a href="<?= site_url('project/index/'.$loginid); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
+									<a href="<?= site_url('calendar/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 								</li>
 							<? } ?>
-							<? if ($position == 'ผู้ดูแลระบบ' || $position == 'ฉุกเฉิน') { ?>
+							<? if ($position != 'ผู้ดูแลระบบ' && $position != 'ฉุกเฉิน') { ?>
 								<li>
-									<a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-group"></i> <span class="nav-label">จัดการข้อมูลผู้ใช้</span></a>
+									<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
 								</li>
+							<? } ?>
+							<? if ($position != 'นักศึกษา' && $position != 'ฉุกเฉิน') { ?>
+								<li><a href="<?= site_url('subject/index'); ?>"><i class="fa fa-align-left"></i> <span class="nav-label">จัดการรายวิชา</span></a></li>
+								<li><a href="<?= site_url('student/index'); ?>"><i class="fa fa-graduation-cap"></i> <span class="nav-label">ข้อมูลนักศึกษา</span></a></li>
+								<li><a href="<?= site_url('project/index/' . $loginid); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a></li>
 							<? } ?>
 							<? if ($position == 'ผู้ดูแลระบบ') { ?>
-								<li>
-									<a href="<?= site_url('setting/index'); ?>"><i class="fa fa-tasks"></i> <span class="nav-label">ตั้งค่าระบบ</span></a>
-								</li>
+								<li><a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-group"></i> <span class="nav-label">จัดการข้อมูลผู้ใช้</span></a></li>
+								<li><a href="<?= site_url('setting/index'); ?>"><i class="fa fa-tasks"></i> <span class="nav-label">ตั้งค่าระบบ</span></a></li>
 							<? } ?>
 
 						</ul>
@@ -155,13 +145,13 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 										<a aria-expanded="false" role="button" href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a>
 									</li>
 									<li>
-										<a href="<?= site_url('calendar/index/'.$loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+										<a href="<?= site_url('calendar/index/' . $loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
-										<a href="<?= site_url('project/index/'.$loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
+										<a href="<?= site_url('student/stdproject/' . $loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
 									</li>
 									<li>
-										<a href="<?= site_url('profile/index/'.$loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
+										<a href="<?= site_url('student/stdprofile/' . $loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
 									</li>
 
 								</ul>
@@ -183,7 +173,7 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 										}
 									</style>
 									<li><a href=""><?= $loginname; ?></a></li>
-									<div class="img-circular" style="background: url('<?=base_url("uploads/student/".$loginimg);?>');"></div>
+									<div class="img-circular" style="background: url('<?= base_url("uploads/student/" . $loginimg); ?>');"></div>
 									<li>
 										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
 									</li>
@@ -201,5 +191,5 @@ if(!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->
 		<? } ?>
 
 		</body>
-		
+
 </html>

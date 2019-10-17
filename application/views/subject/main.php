@@ -23,7 +23,7 @@
                         <? if ($checkinsert == 'no') { ?>
                             <button type="button" class="btn btn-outline btn-primary" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
                         <? } else { ?>
-                            <button type="button" data-toggle="modal" data-target="#U-insert" class="btn btn-outline btn-primary" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
+                            <button type="button" data-toggle="modal" data-target="#U-insert" class="btn btn-outline btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
                         <? } ?> 
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <ul class="dropdown-menu" style="width:100%">
-                                                    <? if ($value['use_id'] == $this->encryption->decrypt($this->input->cookie('sysi')) || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ' || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ฉุกเฉิน') { ?>
+                                                    <? if ($value['use_id'] == $this->encryption->decrypt($this->input->cookie('sysli')) || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ') { ?>
                                                         <li><a href="#" data-toggle="modal" data-target="#U-update" class="update" data-sub_id="<?= $value['sub_id']; ?>" data-sub_name="<?= $value['sub_name']; ?>" data-sub_code="<?= $value['sub_code']; ?>" data-use_id="<?= $value['use_id']; ?>" data-sub_setuse="<?= $value['sub_setuse']; ?>" data-sub_setless="<?= $value['sub_setless']; ?>" data-sub_type="<?= $value['sub_type']; ?>"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
                                                         <li><a href="#" class="btn-alert" data-url="<?= site_url('subject/delete/' . $value['sub_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                                                     <? } ?>
@@ -221,7 +221,6 @@
                 <form action="<?= site_url('subject/update'); ?>" method="post" enctype="multipart/form-data" name="formSubject_Up" id="formSubject_Up" class="form-horizontal" novalidate>
                     <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
                     <input type="hidden" name="Id" id="Id" value="" class="sub_id">
-                    <input type="hidden" name="set_id" id="set_id" value="<?= $set_id; ?>">
                     <div class="form-group row">
                         <label class="col-sm-12">ชื่อวิชา<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">

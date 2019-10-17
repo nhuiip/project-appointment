@@ -79,7 +79,19 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           position_id: { required: true },
           use_email: {
             required: true,
-            email: true
+            email: true,
+            remote: {
+              url: $("#use_email_up").attr("data-url"),
+              type: "post",
+              data: {
+                use_id: function() {
+                  return $("#use_id").val();
+                },
+                use_email: function() {
+                  return $("#use_email_up").val();
+                }
+              }
+            }
           }
         },
         messages: {
@@ -91,7 +103,8 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           use_email: {
             required: "กรุณากรอกข้อมูล.",
-            email: "รูปแบบ E-mail ผิดพลาด."
+            email: "รูปแบบ E-mail ผิดพลาด.",
+            remote: "อีเมลนี้มีในระบบอยุ่แล้ว",
           }
         },
         submitHandler: function(form) {
@@ -206,7 +219,19 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: true
           },
           hol_date: {
-            required: true
+            required: true,
+            remote: {
+              url: $("#hol_date").attr("data-url"),
+              type: "post",
+              data: {
+                set_id: function() {
+                  return $("#set_id").val();
+                },
+                hol_date: function() {
+                  return $("#hol_date").val();
+                },
+              }
+            }
           }
         },
         messages: {
@@ -214,8 +239,9 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: "กรุณากรอกข้อมูล."
           },
           hol_date: {
-            required: "กรุณาระบุวันหยุด."
-          }
+            required: "กรุณาระบุวันหยุด.",
+            remote: "วันที่ผิดพลาด"
+          },
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -230,7 +256,19 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: true
           },
           hol_date: {
-            required: true
+            required: true,
+            remote: {
+              url: $("#hol_date_up").attr("data-url"),
+              type: "post",
+              data: {
+                set_id: function() {
+                  return $("#set_id_up").val();
+                },
+                hol_date: function() {
+                  return $("#hol_date_up").val();
+                },
+              }
+            }
           }
         },
         messages: {
@@ -238,7 +276,8 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
             required: "กรุณากรอกข้อมูล."
           },
           hol_date: {
-            required: "กรุณาระบุวันหยุด."
+            required: "กรุณาระบุวันหยุด.",
+            remote: "วันที่ผิดพลาด"
           }
         },
         submitHandler: function(form) {
@@ -336,6 +375,30 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           sub_type: {
             required: "กรุณาเลือกประเภทวิชา."
           }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formAttached").length) {
+      $("#formAttached").validate({
+        rules: {
+          att_name: {
+            required: true
+          },
+          att_filename: {
+            required: true
+          },
+        },
+        messages: {
+          att_name: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          att_filename: {
+            required: "กรุณาเลือกไฟล์."
+          },
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

@@ -27,8 +27,6 @@ class Calendar extends MX_Controller
                     $data = array();
                     $data['formcrf'] = $this->tokens->token('formcrf');
                     $this->template->backend('calendar/main', $data);
-                
-            
             }
         }
     }
@@ -54,7 +52,9 @@ class Calendar extends MX_Controller
                 $time[5] = array('one' => '15.00', 'two' => '16.00');
 
                 $data['time'] = $time;
-                $data['sub_type'] = $liststudent[0]['sub_type'];
+                if(count($liststudent) != 0){
+                    $data['sub_type'] = $liststudent[0]['sub_type'];
+                }
                 $data['date'] = $date;
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('calendar/detail', $data);

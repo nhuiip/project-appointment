@@ -63,7 +63,7 @@
                             </a>
                           </li>
                           <li><a href="#" data-use_id="<?= $value['use_id']; ?>" data-toggle="modal" data-target="#U-repass" class="btnrepass"><i class="fa fa-repeat"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
-                          <li><a href="#" class="btn-alert" data-url="<?= site_url('administrator/delete/' . $value['use_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                          <li><a href="#" class="btn-alert" data-url="<?= site_url('administrator/delete/' . $value['use_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                         </ul>
                       </div>
                     </td>
@@ -104,11 +104,11 @@
       </div>
       <div class="modal-body">
         <form action="<?= site_url('administrator/create'); ?>" method="post" enctype="multipart/form-data" name="formAdministrators_C" id="formAdministrators_C" class="form-horizontal" novalidate>
-          <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
+          <input type="hidden" name="formcrf" id="formcrfinsert" value="<?= $formcrf; ?>">
           <div class="form-group row">
             <label class="col-sm-12">ชื่อเต็ม<span class="text-muted" style="color:#c0392b">*</span></label>
             <div class="col-sm-12">
-              <input type="text" name="use_name" id="use_name" value="" class="form-control">
+              <input type="text" name="use_name" value="" class="form-control">
             </div>
           </div>
           <!--*/form-group-->
@@ -179,9 +179,9 @@
       </div>
       <div class="modal-body">
         <form action="<?= site_url('administrator/update'); ?>" method="post" enctype="multipart/form-data" name="formAdministrators_Up" id="formAdministrators_Up" class="form-horizontal" novalidate>
-          <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-          <input type="hidden" name="Id" id="Id" value="" class="use_id">
-          <input type="hidden" name="type" id="type" value="AM">
+          <input type="hidden" name="formcrf" id="formcrfup" value="<?= $formcrf; ?>">
+          <input type="hidden" name="Id" id="use_id" class="use_id">
+          <input type="hidden" name="type" value="AM">
           <div class="form-group row">
             <label class="col-sm-12">ชื่อเต็ม<span class="text-muted" style="color:#c0392b">*</span></label>
             <div class="col-sm-12">
@@ -206,7 +206,7 @@
           <div class="form-group row">
             <label class="col-sm-12">อีเมล<span class="text-muted" style="color:#c0392b">*</span></label>
             <div class="col-sm-12">
-              <input type="text" name="use_email" id="use_email" data-url="<?= site_url('administrator/checkemail'); ?>" class="form-control use_email" value="">
+              <input type="text" name="use_email" id="use_email_up" data-url="<?= site_url('administrator/checkemailup'); ?>" class="form-control use_email" value="">
             </div>
           </div>
           <!--*/form-group-->
@@ -237,9 +237,9 @@
       </div>
       <div class="modal-body">
         <form action="<?= site_url('administrator/changepassword'); ?>" method="post" enctype="multipart/form-data" name="formRepass" id="formRepass" class="form-horizontal" novalidate>
-          <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-          <input type="hidden" name="Id" id="Id" value="" class="useid">
-          <input type="hidden" name="type" id="type" value="AM">
+          <input type="hidden" name="formcrf" id="formcrfpass" value="<?= $formcrf; ?>">
+          <input type="hidden" name="Id" class="useid">
+          <input type="hidden" name="type" value="AM">
           <div class="form-group row">
             <label class="col-sm-12">รหัสผ่าน<span class="text-muted" style="color:#c0392b">*</span></label>
             <div class="col-sm-12">

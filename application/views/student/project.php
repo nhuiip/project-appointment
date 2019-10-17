@@ -2,29 +2,14 @@
     $this->db->select('*');
     $this->db->from('tb_subject');
     $this->db->join('tb_user', 'tb_user.use_id = tb_subject.use_id');
-    $this->db->join('tb_student', 'tb_student.sub_id = tb_subject.sub_id');
-    $this->db->where(array('tb_student.std_id' => $Idstd));
+    // $this->db->where(array('tb_student.std_id' => $Idstd));
     $query_subject = $this->db->get();
     $listsubject = $query_subject->result_array();
-
-    //แสดงข้อมูลรายวิชาที่ลงทะเบียนเรียน
-    if (isset($listsubject) && count($listsubject) != 0) {
-        foreach ($listsubject as $key => $value) {
-            $subject_Id             = $value['sub_id'];
-            $subject_type           = $value['sub_type'];
-            $subject_name           = $value['sub_name'];
-            $subject_code           = $value['sub_code'];
-            $subject_setuse         = $value['sub_setuse'];
-            $subject_status         = $value['sub_status'];
-            $teacher_id             = $value['use_id'];
-            $teacher_fullname       = $value['use_name'];
-        }
-    } 
 
     //ค้นหารายชื่อนักศึกษาที่ลงทะเบียนในรายวิชาเดียวกัน
     $this->db->select('*');
     $this->db->from('tb_student');
-    $this->db->where(array('std_id !=' => $Idstd, 'std_status' => 0, 'sub_id' => $subject_Id));
+    // $this->db->where(array('std_id !=' => $Idstd, 'std_status' => 0, 'sub_id' => $subject_Id));
     $query_selectstudent = $this->db->get();
     $selectstudent = $query_selectstudent->result_array();
 
@@ -33,20 +18,6 @@
         foreach ($searchProject as $key => $value) {
             $project_id             = $value['project_id'];
             $project_name           = $value['project_name'];
-            $project_filecov        = $value['project_filecov'];
-            $project_filecer        = $value['project_filecer'];
-            $project_fileabs        = $value['project_fileabs'];
-            $project_fileack        = $value['project_fileack'];
-            $project_filetbc        = $value['project_filetbc'];
-            $project_filechone      = $value['project_filechone'];
-            $project_filechtwo      = $value['project_filechtwo'];
-            $project_filechthree    = $value['project_filechthree'];
-            $project_filechfour     = $value['project_filechfour'];
-            $project_filechfive     = $value['project_filechfive'];
-            $project_fileref        = $value['project_fileref'];
-            $project_fileappone     = $value['project_fileappone'];
-            $project_fileapptwo     = $value['project_fileapptwo'];
-            $project_filebio        = $value['project_filebio'];
             $project_status         = $value['project_status'];
             $project_studentId      = $value['std_id'];
             $teacherId              = $value['use_id'];
@@ -87,14 +58,6 @@
                             </div>
                             <?PHP } ?>
                         <?PHP } ?>
-                        <div class="form-group-mgTB grid-two-show-subject">
-                            <label>รหัสวิชา</label>
-                            <label><?=$subject_code;?></label>
-                        </div>
-                        <div class="form-group-mgTB grid-two-show-subject">
-                            <label>รายวิชาที่ลงทะเบียน</label>
-                            <label><?=$subject_name;?></label>
-                        </div>
                         <?PHP if(count($searchProject) != 0){ ?>
                         <?PHP if($teacher_id == $teacherId){ ?>
                         <div class="form-group-mgTB grid-two-show-subject">
@@ -117,11 +80,7 @@
                             <label><?=$teacher_fullname;?></label>
                         </div>
                         <?PHP } ?>
-                        <div class="form-group-mgTB grid-two-show-subject">
-                            <label>จำนวนอาจารย์ขึ้นสอบ</label>
-                            <label><?=$subject_setuse;?>  คน</label>
-                        </div>
-                        <?PHP if(count($searchProject) != 0){ ?>
+                        <!-- <?PHP if(count($searchProject) != 0){ ?>
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
                                 <label>สถานะปริญญานิพนธ์</label>
@@ -136,8 +95,8 @@
                                 <?PHP } ?>
                             </div>
                             <?PHP } ?>
-                        <?PHP } ?>
-                        <?PHP if(count($searchProject) != 0){ ?>
+                        <?PHP } ?> -->
+                        <!-- <?PHP if(count($searchProject) != 0){ ?>
                             <?PHP if($project_status != 0){ ?>
                             <div class="form-group-mgTB grid-two-show-subject">
                                 <label>ผู้จัดทำปริญญานิพนธ์</label>
@@ -170,7 +129,7 @@
                                 </div>
                             </div>
                             <?PHP } ?>
-                        <?PHP } ?>
+                        <?PHP } ?> 
 
                     </div>
                 </div>
@@ -184,7 +143,7 @@
                                 <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
                                     <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
                                     <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
-                                    <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
+                                    <!-- <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>"> -->
 
                                     <div class="form-group-mgTB grid-two-show-subject">
                                         <label>ชื่อปริญญานิพนธ์</label>
@@ -233,7 +192,7 @@
                             <form action="<?=base_url('project/addproject/'.$Idstd);?>" method="post" enctype="multipart/form-data" name="formStudentAddproject" id="formStudentAddproject" class="form-horizontal" novalidate>
                                 <input type="hidden" class="form-control" name="Idstd" id="Idstd" value="<?=$Idstd;?>">
                                 <input type="hidden" class="form-control" name="formcrfaddproject" id="formcrfaddproject" value="<?=$formcrfaddproject;?>">
-                                <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>">
+                                <!-- <input type="hidden" class="form-control" name="teacher_id" id="teacher_id" value="<?=$teacher_id;?>"> -->
 
                                 <div class="form-group-mgTB grid-two-show-subject">
                                     <label>ชื่อปริญญานิพนธ์</label>
@@ -309,7 +268,7 @@
                     </div>
                     <div class="ibox-content">
 
-                        <?PHP if(count($searchProject) != 0){ ?>
+                        <!-- <?PHP if(count($searchProject) != 0){ ?>
                             <div class="row">
                                 <label class="col-sm-5 control-label">หน้าปกภาษาไทยและภาษาอังกฤษ</label>
                                 <div class="col-sm-5">
@@ -505,7 +464,7 @@
                             </center>
                             <br/>
                             <br/>
-                        <?PHP }?>
+                        <?PHP }?> -->
                     </div>
                 </div>
             </div>
@@ -513,7 +472,7 @@
     </div>
 
 <!-- =======================================  upload file project  =======================================   -->
-    <?PHP if(count($searchProject) != 0){ ?>
+    <!-- <?PHP if(count($searchProject) != 0){ ?>
         <!-- modal update file -->
 
         <form action="<?=base_url('project/add01_cov');?>" method="post" enctype="multipart/form-data" name="add01_cov" id="add01_cov" class="form-horizontal" novalidate> 
@@ -1015,7 +974,7 @@
                 </div>
             </div>
         </form>
-    <?PHP } ?>
+    <?PHP } ?> -->
 <!-- =======================================  upload file project  =======================================   -->
 
 <script type="text/javascript">

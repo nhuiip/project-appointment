@@ -133,67 +133,7 @@ class Setting extends CI_Controller
             echo json_encode($result);
         }
     }
-    // public function delete($id = '')
-    // {
-    //     $data = array(
-    //         'set_id'            => $id,
-    //         'set_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-    //         'set_lastedit_date' => date('Y-m-d H:i:s'),
-    //     );
-    //     $this->setting->updateData($data);
-    //     header("location:" . site_url('setting/index'));
-    // }
-    public function createHol()
-    {
-        if ($this->tokens->verify('formcrf')) {
-            $data = array(
-                'hol_name'          => $this->input->post('hol_name'),
-                'hol_date'          => $this->input->post('hol_date'),
-                'set_id'            => $this->input->post('Id'),
-                'hol_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
-                'hol_create_date'   => date('Y-m-d H:i:s'),
-                'hol_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-                'hol_lastedit_date' => date('Y-m-d H:i:s'),
-            );
-            $this->holiday->insertData($data);
-            $result = array(
-                'error' => false,
-                'msg' => 'เพิ่มข้อมูลสำเร็จ',
-                'url' => site_url('setting/form/' . $this->input->post('Id'))
-            );
-            echo json_encode($result);
-        }
-    }
-    public function updateHol()
-    {
-        if ($this->tokens->verify('formcrf')) {
-            $data = array(
-                'hol_id'            => $this->input->post('hol_id'),
-                'hol_name'          => $this->input->post('hol_name'),
-                'hol_date'          => $this->input->post('hol_date'),
-                'set_id'            => $this->input->post('Id'),
-                'hol_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-                'hol_lastedit_date' => date('Y-m-d H:i:s'),
-            );
-            $this->holiday->updateData($data);
-            $result = array(
-                'error' => false,
-                'msg' => 'แก้ไขข้อมูลสำเร็จ',
-                'url' => site_url('setting/form/' . $this->input->post('Id'))
-            );
-            echo json_encode($result);
-        }
-    }
-    // public function deleteHol($set_id, $id = '')
-    // {
-    //     $data = array(
-    //         'hol_id'            => $id,
-    //         'hol_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-    //         'hol_lastedit_date' => date('Y-m-d H:i:s'),
-    //     );
-    //     $this->holiday->updateData($data);
-    //     header("location:" . site_url('setting/form/2/' . $set_id));
-    // }
+
     public function opensection($id = '')
     {
         if (!empty($id)) {
@@ -219,11 +159,12 @@ class Setting extends CI_Controller
             }
         }
         // หาช่วงวันที่
-        $perday = new DatePeriod(
-            new DateTime($setting[0]['set_open']),
-            new DateInterval('P1D'),
-            new DateTime($setting[0]['set_close'])
-        );
+        $begin = new DateTime($setting[0]['set_open']);
+        $end = clone $begin;
+        $end->modify($setting[0]['set_close']);
+        $end->setTime(0, 0, 1);
+        $interval = new DateInterval('P1D');
+        $daterange = new DatePeriod($begin, $interval, $end);
         //วันหยุด
         $arrholiday = array();
         foreach ($holiday as $key => $value) {
@@ -233,7 +174,7 @@ class Setting extends CI_Controller
         $date = array();
         //ตัดวันเสาร์อาทิตย์
         if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 0) {
-            foreach ($perday as $key => $value) {
+            foreach ($daterange as $key => $value) {
                 $thisdate = $value->format('Y-m-d');
                 if ((date('w', strtotime($thisdate)) != 6 && date('w', strtotime($thisdate)) != 0) && !in_array($thisdate, $arrholiday)) {
                     array_push($date, $thisdate);
@@ -242,7 +183,7 @@ class Setting extends CI_Controller
         }
         //ตัดวันอาทิตย์
         if ($setting[0]['set_option_sat'] == 1 && $setting[0]['set_option_sun'] == 0) {
-            foreach ($perday as $key => $value) {
+            foreach ($daterange as $key => $value) {
                 $thisdate = $value->format('Y-m-d');
                 if (date('w', strtotime($thisdate)) != 0 && !in_array($thisdate, $arrholiday)) {
                     array_push($date, $thisdate);
@@ -251,7 +192,7 @@ class Setting extends CI_Controller
         }
         //ตัดวันเสาร์
         if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
-            foreach ($perday as $key => $value) {
+            foreach ($daterange as $key => $value) {
                 $thisdate = $value->format('Y-m-d');
                 if (date('w', strtotime($thisdate)) != 6 && !in_array($thisdate, $arrholiday)) {
                     array_push($date, $thisdate);
@@ -260,7 +201,7 @@ class Setting extends CI_Controller
         }
         //เปิดนัดทุกวัน
         if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
-            foreach ($perday as $key => $value) {
+            foreach ($daterange as $key => $value) {
                 $thisdate = $value->format('Y-m-d');
                 array_push($date, $thisdate);
             }
@@ -278,7 +219,6 @@ class Setting extends CI_Controller
             $use_id = $value['use_id'];
             foreach ($date as $key => $value) {
                 foreach ($time as $key => $valtime) {
-                    // print_r($valtime[0]);
                     $data = array(
                         'sec_date'          => $value,
                         'sec_time_one'      => $valtime[0],
@@ -297,6 +237,5 @@ class Setting extends CI_Controller
         );
         $this->setting->updateData($data);
         header("location:" . site_url('setting/index'));
-
     }
 }

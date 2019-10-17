@@ -77,7 +77,7 @@ class Subject extends MX_Controller
                 if (count($data['listdata']) == 0) {
                     show_404();
                     // show_404
-                } elseif ($data['listdata'][0]['use_id'] != $this->encryption->decrypt($this->input->cookie('sysi')) && $this->encryption->decrypt($this->input->cookie('sysp')) != 'ผู้ดูแลระบบ') {
+                } elseif ($data['listdata'][0]['use_id'] != $this->encryption->decrypt($this->input->cookie('sysli')) || $this->encryption->decrypt($this->input->cookie('sysp')) != 'ผู้ดูแลระบบ') {
                     $this->load->view('errors/html/error_403');
                     // show edit form
                 } else {
@@ -127,7 +127,6 @@ class Subject extends MX_Controller
                 'sub_name'          => $this->input->post('sub_name'),
                 'sub_code'          => $this->input->post('sub_code'),
                 'use_id'            => $this->input->post('use_id'),
-                'set_id'            => $this->input->post('set_id'),
                 'sub_setuse'        => $this->input->post('sub_setuse'),
                 'sub_setless'       => $this->input->post('sub_setless'),
                 'sub_type'          => $this->input->post('sub_type'),

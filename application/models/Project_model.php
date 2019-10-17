@@ -15,19 +15,9 @@ class Project_model extends CI_Model {
         $this->db->select($data['fide']);
         $this->db->from('tb_project');
 		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
-		if(!empty($data['where'])){$this->db->where($data['where']);}
-		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
-		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
-	public function listjoinData2($data = array()){
-        $this->db->select($data['fide']);
-        $this->db->from('tb_project');
-		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
-		$this->db->join('tb_student', 'tb_student.std_id = tb_project.std_id');
-		$this->db->join('tb_subject', 'tb_subject.sub_id = tb_student.sub_id');
+		$this->db->join('tb_projectperson', 'tb_projectperson.project_id = tb_project.project_id');
+		// $this->db->join('tb_projectfile', 'tb_projectfile.project_id = tb_project.project_id', 'left');
+		$this->db->join('tb_student', 'tb_student.std_id = tb_projectperson.std_id');
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
@@ -144,10 +134,10 @@ class Project_model extends CI_Model {
 		
 	}
 
-	public function searchstdProject($Id){
-		$query = $this->db->query("SELECT * FROM tb_project WHERE FIND_IN_SET(".$Id.",std_id)" );
-		return $query->result_array();
-	}
+	// public function searchstdProject($Id){
+	// 	$query = $this->db->query("SELECT * FROM tb_project WHERE FIND_IN_SET(".$Id.",std_id)" );
+	// 	return $query->result_array();
+	// }
 
 
 	public function searchstdProjectNumber($searchstudent){
