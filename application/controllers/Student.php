@@ -599,24 +599,22 @@ class Student extends MX_Controller
         $this->student->updateStd($data);
 
         if ($this->input->post('std_img') != '') {
-            echo 'img';
-            die;
-            // define('UPLOAD_DIR', './uploads/student/');
-            // $img = $this->input->post('std_img');
-            // $img = str_replace('data:image/jpeg;base64,', '', $img);
-            // $img = str_replace('data:image/jpg;base64,', '', $img);
-            // $img = str_replace('data:image/png;base64,', '', $img);
-            // $img = str_replace('data:image/gif;base64,', '', $img);
-            // $img = str_replace(' ', '+', $img);
-            // $data = base64_decode($img);
-            // $file = UPLOAD_DIR  . $this->input->post('std_number') . '.png';
-            // file_put_contents($file, $data);
-        } else {
-            echo 'no img';
-            die;
-        }
+
+            define('UPLOAD_DIR', './uploads/student/');
+            $img = $this->input->post('std_img');
+            $img = str_replace('data:image/jpeg;base64,', '', $img);
+            $img = str_replace('data:image/jpg;base64,', '', $img);
+            $img = str_replace('data:image/png;base64,', '', $img);
+            $img = str_replace('data:image/gif;base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+            $data = base64_decode($img);
+            $file = UPLOAD_DIR  . $this->input->post('std_number') . '.png';
+            file_put_contents($file, $data);
+            
+        } 
 
         $f = $this->encryption->encrypt($this->input->post('text_name') . ' ' . $this->input->post('text_lastname'));
+        $loginimg = $this->encryption->encrypt($this->input->post('std_number') . '.png');
         $cookie_fullname = array(
             'name'   => 'sysn',
             'value'  => $f,
@@ -624,6 +622,13 @@ class Student extends MX_Controller
             'path'   => '/'
         );
         $this->input->set_cookie($cookie_fullname);
+        $cookie_img = array(
+            'name'   => 'sysimg',
+            'value'  => $loginimg,
+            'expire' => '86500',
+            'path'   => '/'
+        );
+        $this->input->set_cookie($cookie_img);
 
         $result = array(
             'error' => false,

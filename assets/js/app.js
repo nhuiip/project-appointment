@@ -1,5 +1,6 @@
 requirejs.config({
   baseUrl: "http://localhost:9900/assets/js/lib",
+  
   // baseUrl: 'http://min-yota.com/assets/inspinia/js/lib',
   paths: {
     jquery: "jquery-2.1.1",
@@ -302,6 +303,7 @@ tables.columns().every(function() {
 $(".btnajax").click(function() {
   var date = $(this).attr("data-date");
   var time = $(this).attr("data-time");
+  var sub = $(this).attr("data-sub");
   var url = $(this).attr("data-url");
   console.log(url);
   $.ajax({
@@ -310,14 +312,16 @@ $(".btnajax").click(function() {
     url: url,
     data: {
       date: date,
-      time: time
+      time: time,
+      sub: sub,
     },
     success: function(result) {
-      console.log(result);
+      // console.log(result);
       $("#listtt").empty();
       $.each(result, function(index, item) {
         $("#listtt").append(
           $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
+          // $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +'" ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });
@@ -341,3 +345,88 @@ $(".btnajax").click(function() {
     }
   });
 });
+
+
+
+// function addcart(e){
+//   var userId = $(e).attr('data-userId');
+  
+//   console.log(userId);
+
+//   var urlb = "http://localhost:9900";
+
+// 	data = [ ]
+		
+// 	$.ajax({
+//     method: 'POST',
+//     dataType: 'json',
+//     url: urlb+'/calendar/cart',
+//     data: {
+//       userId: userId,
+//     },
+//     beforeSend: function() {}, 
+//     success: function(result) {
+
+//       data.push(result)
+
+//       if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
+		
+//         products = JSON.parse(localStorage.getItem('productCompare')) //get old data
+//         products.push(result)//set new data
+//         localStorage.setItem('productCompare',JSON.stringify(products)) // add old data & new data
+        
+//       }else{
+//         //add localStorage
+//         localStorage.setItem('productCompare',JSON.stringify(data))
+//       }
+
+//       // show html
+//       products2 = JSON.parse(localStorage.getItem('productCompare'))  
+//       console.log('Get item:', products2);
+
+
+//       var viewcompre2  =products2.reverse();
+
+//       var Texthtml = ''
+//       viewcompre2.map((data,key) => {
+
+//         Texthtml+= '<div>';
+//         Texthtml+= ''+data.use_name+'';
+//         Texthtml+= '</div>';
+      
+//       })
+
+//       $('#menu-compare').html(Texthtml);
+        
+
+
+// 	  },
+//   })
+  
+
+// }
+
+// $(function() {
+
+// 	if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
+// 		products = JSON.parse(localStorage.getItem('productCompare'))  
+// 	}else{
+// 		products = []
+// 	}
+
+// 	var viewcompre	=	products.reverse();
+
+// 	$('#total-item-compare').html(products.length);   
+
+// 	viewcompre.map((data,key) => {
+
+// 		//view compare | page quotationcart
+// 		var viewhtml = '<div>';
+// 		viewhtml+= ''+data.use_name+'';
+// 		viewhtml+= '</div>';
+
+// 		$('#menu-compare').append(viewhtml);
+
+// 	})
+
+// })
