@@ -31,6 +31,29 @@ class Calendar extends MX_Controller
         }
     }
 
+    public function subject($id = "")
+    {
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+            if ($id == "") {
+                show_404();
+            } else{
+                
+                $data = array();
+                $condition = array();
+                $condition['fide'] = "*";
+                // $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+                $listsubject = $this->subject->listjoinData($condition);
+                
+
+                $data['formcrf'] = $this->tokens->token('formcrf');
+                $this->template->backend('calendar/subject', $data);
+            }
+        }
+    }
+
     public function detail($date = "")
     {
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
@@ -38,10 +61,10 @@ class Calendar extends MX_Controller
 
                 $data = array();
 
-                $condition = array();
-                $condition['fide'] = "tb_subject.sub_type";
-                $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
-                $liststudent = $this->student->listjoinData($condition);
+                // $condition = array();
+                // $condition['fide'] = "tb_subject.sub_type";
+                // $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+                // $liststudent = $this->student->listjoinData($condition);
 
                 $time = array();
                 $time[0] = array('one' => '9.00', 'two' => '9.00');
@@ -58,6 +81,7 @@ class Calendar extends MX_Controller
                 $data['date'] = $date;
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('calendar/detail', $data);
+
             } else {
                 show_404();
             }
@@ -65,6 +89,7 @@ class Calendar extends MX_Controller
             show_404();
         }
     }
+
     public function jsoneven()
     {
         $condition = array();
@@ -82,7 +107,7 @@ class Calendar extends MX_Controller
             $listJson[$key]['title'] = "นัดสอบ";
             $listJson[$key]['start'] = $value['sec_date'];
             $listJson[$key]['color'] = "#16a085";
-            $listJson[$key]['url'] = site_url('calendar/detail/' . $value['sec_date']);
+            $listJson[$key]['url'] = site_url('calendar/subject/' . $value['sec_date']);
         }
 
         echo json_encode($listJson);
@@ -130,4 +155,5 @@ class Calendar extends MX_Controller
         echo json_encode($listJson);
         die;
     }
+
 }

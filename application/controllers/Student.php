@@ -613,6 +613,7 @@ class Student extends MX_Controller
         } 
 
         $f = $this->encryption->encrypt($this->input->post('text_name') . ' ' . $this->input->post('text_lastname'));
+        $loginimg = $this->encryption->encrypt($this->input->post('std_number') . '.png');
         $cookie_fullname = array(
             'name'   => 'sysn',
             'value'  => $f,
@@ -620,6 +621,13 @@ class Student extends MX_Controller
             'path'   => '/'
         );
         $this->input->set_cookie($cookie_fullname);
+        $cookie_img = array(
+            'name'   => 'sysimg',
+            'value'  => $loginimg,
+            'expire' => '86500',
+            'path'   => '/'
+        );
+        $this->input->set_cookie($cookie_img);
 
         $result = array(
             'error' => false,
