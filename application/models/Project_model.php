@@ -166,12 +166,16 @@ class Project_model extends CI_Model {
 		$this->db->insert("tb_project",$data);
 		return $this->db->insert_id();
 	}
+	public function insertPerson($data = array()){
+		$this->db->insert("tb_projectperson",$data);
+		return $this->db->insert_id();
+	}
+
 	public function updateData($data = array()){
 		$this->db->where(array('project_id' => $data['project_id']));
 		$this->db->update("tb_project",$data);
 		return $data['project_id'];
 	}
-
 	public function updateDatas($datas = array()){
 		$this->db->where(array('project_id' => $datas['project_id']));
 		$this->db->update("tb_project",$datas);

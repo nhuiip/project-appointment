@@ -10,6 +10,7 @@ class Student extends MX_Controller
         $this->load->model("subject_model", "subject");
         $this->load->model("setting_model", "setting");
         $this->load->model("project_model", "project");
+        $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
     }
 
@@ -744,7 +745,6 @@ class Student extends MX_Controller
             $condition = array();
             $condition['fide'] = "std_id";
             $condition['where'] = array('std_id' => $id);
-            // $checkstudent = $this->student->listData($condition);
             $data['liststudent'] = $this->student->listjoinData($condition);
             if (count($data['liststudent']) != 1) {
                 //ไม่พบ id, พบข้อมูลมากกว่า 1 แถว ให้ show 404
@@ -755,17 +755,32 @@ class Student extends MX_Controller
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status !=' => 0);
                 $data['searchProject'] = $this->project->listjoinData($condition);
-                // $data['searchProject'] = $this->project->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
-                //ค้นหานักศึกษาที่ร่วมทำปริญญานิพนธ์
-                $data['searchStd'] = $this->student->searchstdProject($this->encryption->decrypt($this->input->cookie('sysli')));
+
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status' => 0);
+                $data['lastProject'] = $this->project->listjoinData($condition);
                 //แสดงอาจารญ์ทั้งหมด
                 $condition = array();
                 $condition['fide'] = "*";
+                $condition['where'] = array('position_id !=' => 1);
                 $data['listuser'] = $this->administrator->listData($condition);
+
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('std_status !=' => 1);
+                $data['liststd'] = $this->student->listData($condition);
+
+                $condition = array();
+                $condition['fide'] = "*";
+                $data['listformat'] = $this->projectfile->listformat($condition);
+
                 //แสดง id ที่ login เอาไป select subject
                 $data['Idstd'] =   $this->encryption->decrypt($this->input->cookie('sysli'));
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $data['formcrfaddproject'] = $this->tokens->token('formcrfaddproject');
+                $data['formcrfupproject'] = $this->tokens->token('formcrfupproject');
+                $data['formcrffileproject'] = $this->tokens->token('formcrffileproject');
                 $this->template->backend('student/project', $data);
             }
         } elseif ($poslogin != 'นักศึกษา' && $idlogin != $id) {
@@ -773,16 +788,143 @@ class Student extends MX_Controller
             $this->load->view('errors/html/error_403');
         }
     }
+    public function stdprojectadd()
+    {
+        if ($this->tokens->verify('formcrfaddproject')) {
+            $data = array(
+                'project_name'          => $this->input->post('project_name'),
+                'use_id'                => $this->input->post('use_id'),
+                'project_status'        => 1,
+                'project_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'project_create_date'   => date('Y-m-d H:i:s'),
+                'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'project_lastedit_date' => date('Y-m-d H:i:s'),
+            );
+            $id = $this->project->insertData($data);
+            foreach ($this->input->post('std_id') as $key => $value) {
+                $data = array(
+                    'project_id'            => $id,
+                    'std_id'                => $value,
+                );
+                $this->project->insertPerson($data);
+            }
+            if (!file_exists('./uploads/fileproject/Project_' . $id)) {
+                mkdir('./uploads/fileproject/Project_' . $id, 0777, true);
+            }
+            $result = array(
+                'error' => false,
+                'msg' => 'เพิ่มข้อมูลสำเร็จ',
+                'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+            );
+            echo json_encode($result);
+        }
+    }
+    public function stdprojectupdate()
+    {
+        if ($this->tokens->verify('formcrfupproject')) {
+            $data = array(
+                'project_id'        => $this->input->post('project_id'),
+                'project_name'      => $this->input->post('project_name'),
+                'use_id'            => $this->input->post('use_id'),
+                'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'project_lastedit_date' => date('Y-m-d H:i:s'),
+            );
+            $this->project->updateData($data);
+            $result = array(
+                'error' => false,
+                'msg' => 'แก้ไขข้อมูลสำเร็จ',
+                'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+            );
+            echo json_encode($result);
+        }
+    }
+    public function stdprojectdel($id)
+    {
+        $data = array(
+            'project_id'        => $id,
+            'project_status'    => 0,
+            'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+            'project_lastedit_date' => date('Y-m-d H:i:s'),
+        );
+        $this->project->updateData($data);
+        header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
+    }
+    public function stdprojectaddfile()
+    {
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array(
+            'project_id' => $this->input->post('project_id'),
+            'file_name' => $this->input->post('proformat_name') . '.pdf'
+        );
+        $listdata = $this->projectfile->listData($condition);
+
+        if(count($listdata) == 0){
+            if ($this->tokens->verify('formcrffileproject')) {
+                $data = array(
+                    'project_id'            => $this->input->post('project_id'),
+                    'file_name'             => $this->input->post('proformat_name') . '.pdf',
+                    'file_create_name'      => $this->encryption->decrypt($this->input->cookie('sysn')),
+                    'file_create_date'      => date('Y-m-d H:i:s'),
+                    'file_lastedit_name'    => $this->encryption->decrypt($this->input->cookie('sysn')),
+                    'file_lastedit_date'    => date('Y-m-d H:i:s'),
+                );
+                $this->projectfile->insertData($data);
+                $this->upfileimages('file_name', $this->input->post('proformat_name'), $this->input->post('project_id'));
+
+                $result = array(
+                    'error' => false,
+                    'msg' => 'เพิ่มเอกสารสำเร็จ',
+                    'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+                );
+                echo json_encode($result);
+            }
+        } else {
+            $result = array(
+                'error' => true,
+                'msg' => 'มีเอกสารรายการนี้อยู่ก่อนแล้ว',
+            );
+            echo json_encode($result);
+        }
+    }
+    private function upfileimages($Fild_Name, $proformat_name, $project_id)
+    {
+        if (!empty($_FILES[$Fild_Name])) {
+            $new_name = $proformat_name;
+            $config['upload_path'] = './uploads/fileproject/Project_' . $project_id;
+            $config['allowed_types'] = 'pdf';
+            $config['file_name'] = $new_name;
+            $config['max_size']    = 0;
+            $this->load->library('upload', $config, 'upbanner');
+            $this->upbanner->initialize($config);
+            if (!$this->upbanner->do_upload($Fild_Name)) {
+                $result = array(
+                    'error' => true,
+                    'title' => "Error",
+                    'msg' => $this->upbanner->display_errors()
+                );
+                echo json_encode($result);
+                die;
+            } else {
+                $img = $this->upbanner->data();
+                return $img['file_name'];
+            }
+        }
+    }
     public function testq($id = 1)
     {
 
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('tb_projectperson.std_id' => $id);
-        $listdata = $this->project->listjoinData($condition);
+        if (!file_exists('./uploads/fileproject/Project_' . $id)) {
+            mkdir('./uploads/fileproject/Project_' . $id, 0777, true);
+        }
 
-        echo '<pre>';
-        print_r($listdata);
-        echo '</pre>';
+        // $condition = array();
+        // $condition['fide'] = "*";
+        // $condition['where'] = array('tb_projectperson.std_id' => $id);
+        // $listdata = $this->project->listjoinData($condition);
+
+        // echo '<pre>';
+        // print_r($listdata);
+        // echo '</pre>';
     }
 }
