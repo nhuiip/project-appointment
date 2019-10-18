@@ -248,7 +248,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                             <button class="btn btn-danger"><i class="fa fa-trash-o"></i></i></i></button>
                                         </div>
                                     </div>
-                                </li>
+                                </li>    
                             <? } ?>
                         </ul>
                     <? } else { ?>
