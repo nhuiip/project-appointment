@@ -58,7 +58,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form action="<?=base_url('student/stdupdate/');?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentPrile" class="form-horizontal" novalidate>
+                    <form action="<?=base_url('student/stdupdate/');?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
                         <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
                         <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
                         <div class="form-group">
