@@ -12,6 +12,7 @@ class Calendar extends MX_Controller
         $this->load->model("setting_model", "setting");
         $this->load->model("section_model", "section");
         $this->load->model("meet_model", "meet");
+		$this->load->model("administrator_model", "administrator");
     }
 
     public function index($id = "")
@@ -31,40 +32,64 @@ class Calendar extends MX_Controller
         }
     }
 
-    public function subject($id = "")
+    public function subject($sec_id ="", $date = "")
     {
         $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
-            if ($id == "") {
+            if ($sec_id == "") {
                 show_404();
             } else{
-                
-                $data = array();
-                $condition = array();
-                $condition['fide'] = "*";
-                // $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
-                $listsubject = $this->subject->listjoinData($condition);
-                
+                if ($date == "") {
+                    show_404();
+                } else{
 
-                $data['formcrf'] = $this->tokens->token('formcrf');
-                $this->template->backend('calendar/subject', $data);
+                    $data = array();
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('tb_section.sec_date' => $date, 'tb_settings.set_status' => 2);
+                    $listsection = $this->section->listjoinData($condition);
+                    if(count($listsection) == 0){
+                        show_404();
+                    }else{
+                    
+                        $data = array();
+                        $condition = array();
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('sub_status' => 1);
+                        $data['listsubject'] = $this->subject->listjoinData($condition);
+
+                        // $condition = array();
+                        // $condition['fide'] = "*";
+                        // $condition['where'] = array('tb_projectperson.std_id' => $idlogin);
+                        // $listprojectperson = $this->project->listjoinData($condition);
+
+                        // $data['project_id'] = $listprojectperson[0]['project_id'];
+                        
+                        $data['date'] = $date;
+
+                        $data['formcrf'] = $this->tokens->token('formcrf');
+                        $this->template->backend('calendar/subject', $data);
+
+                    }
+                }
             }
         }
     }
 
-    public function detail($date = "")
+    public function detail($sub_type ="" ,$date = "")
     {
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
-            if (!empty($date) && $date != '') {
+            if (!empty($sub_type) && $sub_type != '' || !empty($date) && $date != '') {
 
                 $data = array();
 
-                // $condition = array();
-                // $condition['fide'] = "tb_subject.sub_type";
-                // $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
-                // $liststudent = $this->student->listjoinData($condition);
+                $data = array();
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('tb_subject.sub_type' => $sub_type);
+                $data['listsubject'] = $this->subject->listjoinData($condition);
 
                 $time = array();
                 $time[0] = array('one' => '9.00', 'two' => '9.00');
@@ -75,8 +100,8 @@ class Calendar extends MX_Controller
                 $time[5] = array('one' => '15.00', 'two' => '16.00');
 
                 $data['time'] = $time;
-                if(count($liststudent) != 0){
-                    $data['sub_type'] = $liststudent[0]['sub_type'];
+                if(!empty($sub_type)){
+                    $data['sub_type'] = $sub_type;
                 }
                 $data['date'] = $date;
                 $data['formcrf'] = $this->tokens->token('formcrf');
@@ -107,7 +132,7 @@ class Calendar extends MX_Controller
             $listJson[$key]['title'] = "นัดสอบ";
             $listJson[$key]['start'] = $value['sec_date'];
             $listJson[$key]['color'] = "#16a085";
-            $listJson[$key]['url'] = site_url('calendar/subject/' . $value['sec_date']);
+            $listJson[$key]['url'] = site_url('calendar/subject/' .$value['set_id'] ."/". $value['sec_date']);
         }
 
         echo json_encode($listJson);
@@ -115,10 +140,10 @@ class Calendar extends MX_Controller
 
     public function jsontimeT()
     {
-        $condition = array();
-        $condition['fide'] = "tb_subject.sub_type";
-        $condition['where'] = array('std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
-        $liststudent = $this->student->listjoinData($condition);
+        // echo 'ee';
+        // die;
+        $sub_type = $this->input->post('sub');
+        // $sub_type = 1;
 
         $condition = array();
         $condition['fide'] = "";
@@ -126,21 +151,21 @@ class Calendar extends MX_Controller
         $data['listdata'] = $this->setting->listData($condition);
 
         $condition['fide'] = "tb_section.use_id, tb_user.use_name, sec_time_one,sec_time_two";
-        if ($liststudent[0]['sub_type'] == 1) {
+        if ($sub_type == 1) {
             $condition['where'] = array(
                 'tb_section.set_id' => $data['listdata'][0]['set_id'],
                 'sec_date' => $this->input->post('date'),
                 'sec_time_one' => $this->input->post('time'),
-                // 'sec_date' => '2019-10-09',
+                // 'sec_date' => '2019-10-15',
                 // 'sec_time_one' => '9.00',
                 'sec_status'   => '1'
             );
-        } elseif ($liststudent[0]['sub_type'] == 2) {
+        } elseif ($sub_type == 2) {
             $condition['where'] = array(
                 'tb_section.set_id' => $data['listdata'][0]['set_id'],
                 'sec_date' => $this->input->post('date'),
                 'sec_time_two' => $this->input->post('time'),
-                // 'sec_date' => '2019-10-09',
+                // 'sec_date' => '2019-10-15',
                 // 'sec_time_one' => '9.00',
                 'sec_status'   => '1'
             );
@@ -153,7 +178,32 @@ class Calendar extends MX_Controller
         }
         // echo json_encode(array('data' => $listJson));
         echo json_encode($listJson);
+        // echo '<pre>';
+        // print_r($listJson);
+        // echo '</pre>';
         die;
     }
+
+
+    // public function cart(){
+
+    //     $userId = $this->input->post('userId');
+
+    //     $condition = array();
+    //     $condition['fide'] = "";
+    //     $condition['where'] = array('use_id' => $userId);
+    //     $listdata = $this->administrator->listData($condition);
+
+
+    //     $data = array(
+    //         'use_id'      				=> $listdata[0]['use_id'],
+    //         'use_name'      				=> $listdata[0]['use_name'],
+    //     );
+    //     echo json_encode($data);
+                    
+    //     die;
+
+        
+	// }
 
 }
