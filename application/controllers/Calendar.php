@@ -175,6 +175,7 @@ class Calendar extends MX_Controller
         foreach ($listsec as $key => $value) {
             $listJson[$key]['id'] = $value['use_id'];
             $listJson[$key]['name'] = $value['use_name'];
+            $listJson[$key]['times'] = $this->input->post('date');
         }
         // echo json_encode(array('data' => $listJson));
         echo json_encode($listJson);
@@ -185,25 +186,25 @@ class Calendar extends MX_Controller
     }
 
 
-    // public function cart(){
+    public function cart(){
 
-    //     $userId = $this->input->post('userId');
+        $userId = $this->input->post('userId');
 
-    //     $condition = array();
-    //     $condition['fide'] = "";
-    //     $condition['where'] = array('use_id' => $userId);
-    //     $listdata = $this->administrator->listData($condition);
+        $condition = array();
+        $condition['fide'] = "";
+        $condition['where'] = array('use_id' => $userId);
+        $listdata = $this->administrator->listData($condition);
 
 
-    //     $data = array(
-    //         'use_id'      				=> $listdata[0]['use_id'],
-    //         'use_name'      				=> $listdata[0]['use_name'],
-    //     );
-    //     echo json_encode($data);
+        $data = array(
+            'use_id'      				=> $listdata[0]['use_id'],
+            'use_name'      				=> $listdata[0]['use_name'],
+        );
+        echo json_encode($data);
                     
-    //     die;
+        die;
 
         
-	// }
+	}
 
 }

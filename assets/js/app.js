@@ -320,8 +320,8 @@ $(".btnajax").click(function() {
       $("#listtt").empty();
       $.each(result, function(index, item) {
         $("#listtt").append(
-          $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
-          // $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +'" ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
+          // $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
+          $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' data-date=" '+ item.times +'" ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });
@@ -348,85 +348,87 @@ $(".btnajax").click(function() {
 
 
 
-// function addcart(e){
-//   var userId = $(e).attr('data-userId');
+function addcart(e){
+  var userId = $(e).attr('data-userId');
+  var date = $(e).attr('data-date');
   
-//   console.log(userId);
+  console.log(userId);
+  console.log(date);
 
-//   var urlb = "http://localhost:9900";
+  var urlb = "http://localhost:9900";
 
-// 	data = [ ]
+	data = [ ]
 		
-// 	$.ajax({
-//     method: 'POST',
-//     dataType: 'json',
-//     url: urlb+'/calendar/cart',
-//     data: {
-//       userId: userId,
-//     },
-//     beforeSend: function() {}, 
-//     success: function(result) {
+	$.ajax({
+    method: 'POST',
+    dataType: 'json',
+    url: urlb+'/calendar/cart',
+    data: {
+      userId: userId,
+    },
+    beforeSend: function() {}, 
+    success: function(result) {
 
-//       data.push(result)
+      data.push(result)
 
-//       if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
+      if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
 		
-//         products = JSON.parse(localStorage.getItem('productCompare')) //get old data
-//         products.push(result)//set new data
-//         localStorage.setItem('productCompare',JSON.stringify(products)) // add old data & new data
+        products = JSON.parse(localStorage.getItem('productCompare')) //get old data
+        products.push(result)//set new data
+        localStorage.setItem('productCompare',JSON.stringify(products)) // add old data & new data
         
-//       }else{
-//         //add localStorage
-//         localStorage.setItem('productCompare',JSON.stringify(data))
-//       }
+      }else{
+        //add localStorage
+        localStorage.setItem('productCompare',JSON.stringify(data))
+      }
 
-//       // show html
-//       products2 = JSON.parse(localStorage.getItem('productCompare'))  
-//       console.log('Get item:', products2);
+      // show html
+      products2 = JSON.parse(localStorage.getItem('productCompare'))  
+      console.log('Get item:', products2);
 
 
-//       var viewcompre2  =products2.reverse();
+      var viewcompre2  =products2.reverse();
 
-//       var Texthtml = ''
-//       viewcompre2.map((data,key) => {
+      var Texthtml = ''
+      viewcompre2.map((data,key) => {
 
-//         Texthtml+= '<div>';
-//         Texthtml+= ''+data.use_name+'';
-//         Texthtml+= '</div>';
+        Texthtml+= '<div>';
+        Texthtml+= ''+data.use_name+'';
+        Texthtml+= '</div>';
       
-//       })
+      })
 
-//       $('#menu-compare').html(Texthtml);
+      $('#menu-compare').html(Texthtml);
         
 
 
-// 	  },
-//   })
+	  },
+  })
   
 
-// }
+}
 
-// $(function() {
+$(function() {
 
-// 	if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
-// 		products = JSON.parse(localStorage.getItem('productCompare'))  
-// 	}else{
-// 		products = []
-// 	}
+	if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
+		products = JSON.parse(localStorage.getItem('productCompare'))  
+	}else{
+		products = []
+	}
 
-// 	var viewcompre	=	products.reverse();
+	var viewcompre	=	products.reverse();
 
-// 	$('#total-item-compare').html(products.length);   
+	$('#total-item-compare').html(products.length);   
 
-// 	viewcompre.map((data,key) => {
+	viewcompre.map((data,key) => {
 
-// 		//view compare | page quotationcart
-// 		var viewhtml = '<div>';
-// 		viewhtml+= ''+data.use_name+'';
-// 		viewhtml+= '</div>';
+		//view compare | page quotationcart
+		var viewhtml = '<div>';
+		viewhtml+= ''+data.use_name+'';
+		viewhtml+= '</div>';
 
-// 		$('#menu-compare').append(viewhtml);
+		$('#menu-compare').append(viewhtml);
 
-// 	})
+	})
 
-// })
+})
