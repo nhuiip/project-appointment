@@ -4,6 +4,7 @@ requirejs.config({
   // baseUrl: 'http://min-yota.com/assets/inspinia/js/lib',
   paths: {
     jquery: "jquery-2.1.1",
+    jqueryui: "plugins/jquery-ui/jquery-ui.min",
     bootstrap: "bootstrap.min",
     metisMenu: "plugins/metisMenu/jquery.metisMenu",
     slimscroll: "plugins/slimscroll/jquery.slimscroll.min",
@@ -25,10 +26,14 @@ requirejs.config({
     inspinia: "../methods/inspinia.min",
     function: "../methods/app/function",
     callvalidate: "../methods/callvalidate.min",
-    callplugins: "../methods/callplugins.min"
+    callplugins: "../methods/callplugins.min",
+    chosen: 'plugins/chosen/chosen.jquery',
   },
   shim: {
     bootstrap: {
+      deps: ["jquery"]
+    },
+    jqueryui: {
       deps: ["jquery"]
     },
     codemirrorjs: {
@@ -43,9 +48,6 @@ requirejs.config({
     moment: {
       deps: ["jquery", "bootstrap"]
     },
-    //  iCheck : {
-    //     deps: ["jquery"]
-    //   },
     fullcalendar: {
       deps: ["jquery", "bootstrap", "moment"]
     },
@@ -58,6 +60,10 @@ requirejs.config({
     select2: {
       deps: ["jquery"]
     },
+    'chosen': {
+			deps: ['jquery'],
+			exports : "chosen"
+		},
     TouchSpin: {
       deps: ["jquery"]
     },
@@ -106,6 +112,7 @@ requirejs(
       plug.fullcalendar();
       plug.TouchSpin();
       plug.fullcalendar();
+      plug.chosen();
       $(".btn-reload").click(function() {
         location.reload();
       });
@@ -265,6 +272,7 @@ $(".dataTables tfoot th").each(function() {
 var tables = $(".dataTables").DataTable({
   responsive: true,
   ordering: false,
+  searching: true,
   language: {
     sSearch: "ค้นหา",
     zeroRecords: "ไม่พบข้อมูลที่คุณค้นหา",
@@ -279,6 +287,7 @@ var tables = $(".dataTables").DataTable({
   },
   dom: "lfrtip"
 });
+
 // Apply the search
 tables.columns().every(function() {
   var that = this;
@@ -288,6 +297,8 @@ tables.columns().every(function() {
     }
   });
 });
+
+// DataTable end
 
 $(".btnajax").click(function() {
   var date = $(this).attr("data-date");

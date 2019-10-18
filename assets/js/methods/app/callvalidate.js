@@ -104,7 +104,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           use_email: {
             required: "กรุณากรอกข้อมูล.",
             email: "รูปแบบ E-mail ผิดพลาด.",
-            remote: "อีเมลนี้มีในระบบอยุ่แล้ว",
+            remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
           }
         },
         submitHandler: function(form) {
@@ -159,14 +159,14 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
                 }
               }
             }
-          },
+          }
         },
         messages: {
           use_email: {
             required: "กรุณากรอกอีเมล.",
             email: "รูปแบบอีเมลผิดพลาด.",
             remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -229,7 +229,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
                 },
                 hol_date: function() {
                   return $("#hol_date").val();
-                },
+                }
               }
             }
           }
@@ -241,7 +241,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           hol_date: {
             required: "กรุณาระบุวันหยุด.",
             remote: "วันที่ผิดพลาด"
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -266,7 +266,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
                 },
                 hol_date: function() {
                   return $("#hol_date_up").val();
-                },
+                }
               }
             }
           }
@@ -390,7 +390,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           att_filename: {
             required: true
-          },
+          }
         },
         messages: {
           att_name: {
@@ -398,7 +398,85 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           att_filename: {
             required: "กรุณาเลือกไฟล์."
+          }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formProjectStd_Up").length) {
+      $("#formProjectStd_Up").validate({
+        rules: {
+          project_name: {
+            required: true
           },
+          use_id: {
+            required: true
+          }
+        },
+        messages: {
+          project_name: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          use_id: {
+            required: "กรุณาเลือกอาจารย์ที่ปรึกษา."
+          }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formProjectStd_Add").length) {
+      $("#formProjectStd_Add").validate({
+        rules: {
+          project_name: {
+            required: true
+          },
+          use_id: {
+            required: true
+          },
+          std_id: {
+            required: true
+          }
+        },
+        messages: {
+          project_name: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          use_id: {
+            required: "กรุณาเลือกอาจารย์ที่ปรึกษา."
+          },
+          std_id: {
+            required: "กรุณาเลือกอาจารย์ที่ผู้จัดทำ."
+          }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formProjectfileStd_Add").length) {
+      $("#formProjectfileStd_Add").validate({
+        rules: {
+          file_name: {
+            required: true
+          },
+          proformat_name: {
+            required: true
+          },
+        },
+        messages: {
+          file_name: {
+            required: "กรุณาเลือกไฟล์เอกสาร."
+          },
+          proformat_name: {
+            required: "กรุณาเลือกชื่อไฟล์."
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -426,13 +504,13 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           }
         },
         messages: {
-          text_name: { required: "กรุณากรอกข้อมูล."},
-          text_lastname: { required: "กรุณากรอกข้อมูล."},
+          text_name: { required: "กรุณากรอกข้อมูล." },
+          text_lastname: { required: "กรุณากรอกข้อมูล." },
           text_email: {
             required: "กรุณากรอกข้อมูล.",
             email: "รูปแบบ E-mail ผิดพลาด."
           },
-          text_tel: {required: "กรุณากรอกข้อมูล."}
+          text_tel: { required: "กรุณากรอกข้อมูล." }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -467,7 +545,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#formsearchStudent").validate({
         rules: {
           txt_search: { required: true }
-        }, 
+        },
         submitHandler: function(form) {
           fun.dataSubmit(form);
           return false;
@@ -637,14 +715,14 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
                 }
               }
             }
-          },
+          }
         },
         messages: {
           std_email: {
             required: "กรุณากรอกอีเมล.",
             email: "รูปแบบอีเมลผิดพลาด.",
             remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -655,10 +733,10 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#formChangepasswordstd").length) {
       $("#formChangepasswordstd").validate({
         rules: {
-          std_password: { required: true },
+          std_password: { required: true }
         },
         messages: {
-          std_password: { required: "กรุณากรอกรหัสผ่าน." },
+          std_password: { required: "กรุณากรอกรหัสผ่าน." }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -680,7 +758,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           txt_teacher: {
             required: true
-          },
+          }
         },
         messages: {
           txt_projectname: {
@@ -694,7 +772,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           txt_teacher: {
             required: "กรุณาเลือกข้อมูล"
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);

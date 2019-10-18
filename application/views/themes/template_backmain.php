@@ -36,7 +36,7 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet">
 
 	<!-- calendar -->
-	<link href="<?= base_url('assets/css/plugins/iCheck/custom.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/chosen/chosen.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.print.css'); ?>" rel='stylesheet' media='print'>
 

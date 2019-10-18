@@ -268,3 +268,52 @@ label.error {
 .timecheck p {
     font-size: 14px;
 }
+
+.top-navigation .navbar-brand {
+  background-color: #273c75 !important;
+}
+.top-navigation .nav>li>a {
+  /* padding: 15px 20px; */
+  color: #000 !important;
+}
+
+.tagfile ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.tagfile ul li {
+	position: relative;
+	display: inline-block;
+	margin: 0 .75em .5em 0;
+	padding: 0;
+}
+.tagfile ul li a {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  /* line-height: 28px; */
+  padding: 5px 5px 5px;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  word-wrap: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+  -webkit-transition: .2s;
+  transition: .2s;
+  border-radius: 50%;
+  text-align: center;
+}
+
+
+.tagfile ul li a:hover {
+	border: 1px solid #3498db;
+	color: #3498db;
+}
+

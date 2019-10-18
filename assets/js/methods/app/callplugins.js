@@ -6,7 +6,7 @@ define([
   "daterange",
   "select2",
   "TouchSpin",
-  // "iCheck",
+  "chosen",
   "fullcalendar"
 ], function($) {
   var methods = {};
@@ -42,8 +42,9 @@ define([
   };
 
   methods.select2 = function() {
+    var placeholder = $('.select2').attr('data-placeholder');
     $(".select2").select2({
-      placeholder: "กรุณาเลือก",
+      placeholder: placeholder,
       allowClear: true
     });
 
@@ -77,6 +78,19 @@ define([
 				url: burl
       },
 		});
+  };
+
+  methods.chosen = function(e) {
+    var config = {
+      ".chosen-select": {},
+      ".chosen-select-deselect": { allow_single_deselect: true },
+      ".chosen-select-no-single": { disable_search_threshold: 10 },
+      ".chosen-select-no-results": { no_results_text: "Oops, nothing found!" },
+      ".chosen-select-width": { width: "100%" }
+    };
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
   };
 
   return methods;
