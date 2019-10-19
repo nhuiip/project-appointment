@@ -935,8 +935,16 @@ class Student extends MX_Controller
         );
         echo json_encode($result);
     }
-    public function stdprojectdelfile($project_id, $file_name, $id)
+    public function stdprojectdelfile($id)
     {
+        $condition = array();
+        $condition['fide'] = "project_id, file_name";
+        $condition['where'] = array('file_id' => $id,);
+        $listdata = $this->projectfile->listData($condition);
+
+        $project_id = $listdata[0]['project_id'];
+        $file_name = $listdata[0]['file_name'];
+
         $data = array(
             'file_id'        => $id,
         );
