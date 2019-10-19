@@ -556,6 +556,12 @@ class Student extends MX_Controller
             $condition['fide'] = "*";
             $condition['where'] = array('std_id' => $id);
             $data['liststudent'] = $this->student->listjoinData($condition);
+
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status !=' => 0);
+            $data['listprojectperson'] = $this->project->listjoinData($condition);
+
             if (count($data['liststudent']) != 1) {
                 //ไม่พบ id, พบข้อมูลมากกว่า 1 แถว ให้ show 404
                 show_404();

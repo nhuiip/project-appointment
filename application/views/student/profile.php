@@ -44,6 +44,10 @@ if (isset($liststudent) && count($liststudent) != 0) {
         -moz-border-radius: 100px;
     }
 </style>
+<form action="<?=base_url('student/stdupdate/');?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
+<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
+<input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
+                        
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-7">
@@ -58,123 +62,113 @@ if (isset($liststudent) && count($liststudent) != 0) {
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form action="<?=base_url('student/stdupdate/');?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
-                        <input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-                        <input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <div class="col-lg-12 center">
-                                    <div class="picture-container">
-                                        <div class="picture">
-                                            <?PHP if($Img_std == ""){ ?>
-                                                <div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
-                                            <?PHP }else{?>
-                                                <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgpre"></div>
-                                            <?PHP } ?>
-                                            <input type="file" id="std_img" aria-invalid="false" accept="image/*">
-                                            <input type="hidden" id="std_img2" name="std_img">
-                                        </div>
-                                        <h6 class="description">เปลี่ยนรูปภาพ</h6>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12 center">
+                                <div class="picture-container">
+                                    <div class="picture">
+                                        <?PHP if($Img_std == ""){ ?>
+                                            <div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
+                                        <?PHP }else{?>
+                                            <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgpre"></div>
+                                        <?PHP } ?>
+                                        <input type="file" id="std_img" aria-invalid="false" accept="image/*">
+                                        <input type="hidden" id="std_img2" name="std_img">
                                     </div>
+                                    <h6 class="description">เปลี่ยนรูปภาพ</h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">รหัสนักศึกษา</div>
                             <div class="col-lg-12">
-                                <div class="col-lg-12">รหัสนักศึกษา</div>
-                                <div class="col-lg-12">
-                                    <input placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>" disabled>
-                                    <input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>">
-                                </div>
+                                <input placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>" disabled>
+                                <input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-6">
-                                <label class="col-lg-12">ชื่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                <div class="col-lg-12">
-                                    <input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?=$Text_name;?>"class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="col-lg-12">นามสกุล<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                <div class="col-lg-12">
-                                    <input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?=$Text_lastname;?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <label class="col-lg-12">ชื่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
                             <div class="col-lg-12">
-                                <label class="col-lg-12">เบอร์โทรศัพท์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
-                                <div class="col-lg-12">
-                                    <input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?=$Tetx_tel;?>">
-                                </div>
+                                <input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?=$Text_name;?>"class="form-control">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="col-lg-6">
+                            <label class="col-lg-12">นามสกุล<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
                             <div class="col-lg-12">
-                                <label class="col-md-12 col-lg-12">อีเมล์</label>
-                                <div class="col-md-9 col-lg-9">
-                                    <input placeholder="อีเมล์" class="form-control" name="text_email" id="text_email" value="<?=$Text_email;?>" disabled>
-                                    <?PHP if(!empty($Text_emailchang)){?>
-                                        <p>
-                                        <div class="form-group-mgTB">
-                                            <b style="color:#c0392b">เปลี่ยนที่อยู่อีเมล์ รอยืนยันผ่านทางอีเมล์ : <span class="underline"><?=$Text_emailchang;?></span></b>
-                                        </div>
-                                        </p>
-                                    <?PHP } ?>
-                                </div>
-                                <div class="col-md-3 col-lg-3">
-                                    <button data-toggle="modal"  type="button" class="btn btn-outline btn-primary btn-lw100" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</button>
-                                </div>
+                                <input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?=$Text_lastname;?>">
                             </div>
                         </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label class="col-lg-12">เบอร์โทรศัพท์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
                             <div class="col-lg-12">
-                                <div class="col-lg-12">
-                                    <button type="button" class="btn btn-outline btn-warning" data-toggle="modal" href="#modal-chengpassword">เปลี่ยนรหัสผ่าน</button>
-                                </div>
+                                <input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?=$Tetx_tel;?>">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <div class="col-lg-12"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="mgBottom">
+                                <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <div class="col-lg-12">เข้าสู่ระบบล่าสุด : <?=$lastlogin;?></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <div class="mgBottom">
-                                    <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-5">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
+                    <h5><i class="fa fa-book"></i> ข้อมูลการเข้าสู่ระบบ</h5>
                 </div>
                 <div class="ibox-content">
-                </div>
-            </div>
-
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5><i class="fa fa-book"></i> ประวัติการทำปริญญานิพนธ์</h5>
-                </div>
-                <div class="ibox-content inspinia-timeline">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label class="col-md-12 col-lg-12">อีเมล์</label>
+                            <div class="col-md-9 col-lg-9">
+                                <input placeholder="อีเมล์" class="form-control" name="text_email" id="text_email" value="<?=$Text_email;?>" disabled>
+                                <?PHP if(!empty($Text_emailchang)){?>
+                                    <p>
+                                    <div class="form-group-mgTB">
+                                        <b style="color:#c0392b">เปลี่ยนที่อยู่อีเมล์ รอยืนยันผ่านทางอีเมล์ : <span class="underline"><?=$Text_emailchang;?></span></b>
+                                    </div>
+                                    </p>
+                                <?PHP } ?>
+                            </div>
+                            <div class="col-md-3 col-lg-3">
+                                <button data-toggle="modal"  type="button" class="btn btn-outline btn-primary btn-lw100" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-outline btn-warning" data-toggle="modal" href="#modal-chengpassword">เปลี่ยนรหัสผ่าน</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">เข้าสู่ระบบล่าสุด : <?=$lastlogin;?></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+</form>
 
 <form action="<?=base_url('student/stdchangemail');?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
     <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?=$formcrfmail;?>">
