@@ -175,7 +175,6 @@ class Calendar extends MX_Controller
         foreach ($listsec as $key => $value) {
             $listJson[$key]['id'] = $value['use_id'];
             $listJson[$key]['name'] = $value['use_name'];
-            $listJson[$key]['times'] = $this->input->post('date');
         }
         // echo json_encode(array('data' => $listJson));
         echo json_encode($listJson);
@@ -203,7 +202,6 @@ class Calendar extends MX_Controller
         echo json_encode($data);
                     
         die;
-
         
 	}
 
