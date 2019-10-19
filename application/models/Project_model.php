@@ -16,7 +16,6 @@ class Project_model extends CI_Model {
         $this->db->from('tb_project');
 		$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
 		$this->db->join('tb_projectperson', 'tb_projectperson.project_id = tb_project.project_id');
-		// $this->db->join('tb_projectfile', 'tb_projectfile.project_id = tb_project.project_id', 'left');
 		$this->db->join('tb_student', 'tb_student.std_id = tb_projectperson.std_id');
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
@@ -24,6 +23,19 @@ class Project_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function listperson($data = array()){
+        $this->db->select($data['fide']);
+        $this->db->from('tb_projectperson');
+		$this->db->join('tb_student', 'tb_student.std_id = tb_projectperson.std_id');
+		$this->db->join('tb_project', 'tb_project.project_id = tb_projectperson.project_id');
+		if(!empty($data['where'])){$this->db->where($data['where']);}
+		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
+		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 
 	public function count_all_news()
     {

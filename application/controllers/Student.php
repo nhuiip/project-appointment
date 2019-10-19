@@ -10,6 +10,7 @@ class Student extends MX_Controller
         $this->load->model("subject_model", "subject");
         $this->load->model("setting_model", "setting");
         $this->load->model("project_model", "project");
+        $this->load->model("meet_model", "meet");
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
     }
@@ -599,7 +600,6 @@ class Student extends MX_Controller
         $this->student->updateStd($data);
 
         if ($this->input->post('std_img') != '') {
-
             define('UPLOAD_DIR', './uploads/student/');
             $img = $this->input->post('std_img');
             $img = str_replace('data:image/jpeg;base64,', '', $img);
@@ -633,7 +633,7 @@ class Student extends MX_Controller
         $result = array(
             'error' => false,
             'msg' => 'แก้ไขข้อมูลสำเร็จ',
-            'url' => site_url('student/stdprofile/' . $this->input->post('Id'))
+            'url' => site_url('student/stdprofile/' . $this->encryption->decrypt($this->input->cookie('sysli')))
         );
         echo json_encode($result);
         // } else {
@@ -760,6 +760,26 @@ class Student extends MX_Controller
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status !=' => 0);
                 $data['searchProject'] = $this->project->listjoinData($condition);
+                if(count($data['searchProject']) != 0){
+                    $project_id = $data['searchProject'][0]['project_id'];
+
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('tb_projectperson.project_id' => $project_id);
+                    $data['listprojectperson'] = $this->project->listperson($condition);
+
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('tb_projectfile.project_id' => $project_id);
+                    $condition['orderby'] = "tb_projectfile.file_name ASC";
+                    $data['listfile'] = $this->projectfile->listjoinData($condition);
+
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status' => 2);
+                    $data['listmeetnow'] = $this->meet->listjoinData($condition);
+
+                }
 
                 $condition = array();
                 $condition['fide'] = "*";
@@ -891,6 +911,35 @@ class Student extends MX_Controller
             );
             echo json_encode($result);
         }
+    }
+    public function stdprojectupfile()
+    {
+        $file_name = $this->input->post('file_name_up');
+        $proformat_name = str_replace(".pdf","",$file_name);
+        $project_id = $this->input->post('project_id');
+        // del old file
+        @unlink('./uploads/fileproject/Project_'.$project_id.'/'.$file_name);
+        //upnewfile
+        $this->upfileimages('file_name', $proformat_name, $project_id);
+
+        $result = array(
+            'error' => false,
+            'msg' => 'แก้ไขเอกสารสำเร็จ',
+            'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+        );
+        echo json_encode($result);
+    }
+    public function stdprojectdelfile($project_id, $file_name, $id)
+    {
+        $data = array(
+            'file_id'        => $id,
+        );
+        $this->projectfile->deleteData($data);
+
+        //del file
+        @unlink('./uploads/fileproject/Project_'.$project_id.'/'.$file_name);
+        header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
+
     }
     private function upfileimages($Fild_Name, $proformat_name, $project_id)
     {

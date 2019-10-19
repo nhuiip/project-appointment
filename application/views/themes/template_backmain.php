@@ -142,9 +142,6 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 							<div class="navbar-collapse collapse" id="navbar">
 								<ul class="nav navbar-nav">
 									<li>
-										<a aria-expanded="false" role="button" href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a>
-									</li>
-									<li>
 										<a href="<?= site_url('calendar/index/' . $loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>

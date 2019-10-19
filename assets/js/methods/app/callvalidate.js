@@ -484,6 +484,24 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formProjectfileStd_Up").length) {
+      $("#formProjectfileStd_Up").validate({
+        rules: {
+          file_name: {
+            required: true
+          },
+        },
+        messages: {
+          file_name: {
+            required: "กรุณาเลือกไฟล์เอกสาร."
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
 
     //################################################################## yui
     if ($("#formStudentProfile").length) {
