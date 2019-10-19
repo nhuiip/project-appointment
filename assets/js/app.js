@@ -305,6 +305,9 @@ $(".btnajax").click(function() {
   var time = $(this).attr("data-time");
   var sub = $(this).attr("data-sub");
   var url = $(this).attr("data-url");
+  console.log(date);
+  console.log(time);
+  console.log(sub);
   console.log(url);
   $.ajax({
     method: "POST",
@@ -321,7 +324,7 @@ $(".btnajax").click(function() {
       $.each(result, function(index, item) {
         $("#listtt").append(
           // $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
-          $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' data-date=" '+ item.times +'" ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
+          $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });
