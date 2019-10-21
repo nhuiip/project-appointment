@@ -316,16 +316,8 @@ class Calendar extends MX_Controller
 
           
 
+            //อัพเดตข้อมูลเวลาว่างของอาจารย์
             foreach ($listmeetdetail as $key => $value) {
-              
-                // echo $value['use_id'];
-                // echo '<br/>';
-                // echo $value['meet_date'];
-                // echo '<br/>';
-                // echo $value['meet_time'];
-                // echo '<br/>';
-                // echo $listprojectsubType[0]['sub_id'];
-                // echo '<br/>';
 
                 if($listprojectsubType[0]['sub_id'] == 1){
 
@@ -367,42 +359,9 @@ class Calendar extends MX_Controller
 
                 }
 
-                // $condition['fide'] = "*";
-                // $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date']);
-                // $listmeet = $this->section->listData($condition);
-                
-                // foreach ($listmeet as $key => $values) {
-
-                //     print_r($values['sec_id'] );
-
-                //         if($values['sec_time_one']  == $value['meet_time']){
-
-                //             $othersection['sec_id'] 	    = $values['sec_id'];
-                //             $othersection['sec_status'] 		= 0;
-
-                //             // $this->section->updateData($othersection);
-
-                //         }else{
-
-                //             $othersection['sec_id'] 	    = $values['sec_id'];
-                //             $othersection['sec_status'] 		= 0;
-
-                //             // $this->section->updateData($othersection);
-
-                //         }
-
-                // }
-
-
-                
-
             }
 
-        //    die;
-
             redirect('calendar/chkrequest/'.$meetId);
-
-            // print_r('มากกว่า');
 
         }else{
            
@@ -454,6 +413,7 @@ class Calendar extends MX_Controller
 
         $project_id  =  $data['listshowproject'][0]['project_id'];
         $meet_id     =  $data['listshowproject'][0]['meet_id'];
+        $sub_id      =  $data['listshowproject'][0]['sub_id'];
         $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
         $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
 
@@ -488,6 +448,11 @@ class Calendar extends MX_Controller
 
         }
 
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+        $data['listsubject'] = $this->subject->listjoinData($condition);
+
         $data['formcrf'] = $this->tokens->token('formcrf');
         $this->template->backend('calendar/chkrequest',$data);
         
@@ -505,6 +470,7 @@ class Calendar extends MX_Controller
 
         $project_id  =  $data['listshowproject'][0]['project_id'];
         $meet_id     =  $data['listshowproject'][0]['meet_id'];
+        $sub_id      =  $data['listshowproject'][0]['sub_id'];
         $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
         $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
 
@@ -527,6 +493,11 @@ class Calendar extends MX_Controller
         $data['listmeet'] = $this->meet->listjoinData2($condition);
 
         $data['meetHeadshow'] = 1;
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+        $data['listsubject'] = $this->subject->listjoinData($condition);
 
         $data['formcrf'] = $this->tokens->token('formcrf');
         $this->template->backend('calendar/chkrequest',$data);

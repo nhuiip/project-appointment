@@ -439,6 +439,7 @@ function addcart(e){
 
 	  },
   })
+
   
 
 }
