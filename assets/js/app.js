@@ -384,8 +384,8 @@ $(".btnajax").click(function() {
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });
-      // $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
-      $("#listtts").append('<button type="button" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+      $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+      // $("#listtts").append('<a data-toggle="modal" class="btn btn-block btn-w-m btn-info" href="#modal-form">ส่งคำขอขึ้นสอบปริญญานิพนธ์</a>');
     },
     // error: function(jqXHR, exception) {
     //   if (jqXHR.status === 0) {

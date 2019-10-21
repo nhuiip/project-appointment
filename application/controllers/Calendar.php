@@ -310,9 +310,6 @@ class Calendar extends MX_Controller
 
         $sub_setless  =  $listsubject[0]['sub_setless']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
-        // print_r($this->input->post('checkUser'));
-        // die;
-
        //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
         if(count($this->input->post('checkUser')) >= $sub_setless){
 
@@ -332,7 +329,7 @@ class Calendar extends MX_Controller
             
             $meetId = $this->meet->insertData($data);
             
-            //insert meetdetail
+            // insert meetdetail
             $other = array();
             for($i=0;$i<count($this->input->post('checkUser'));$i++){
 
@@ -345,7 +342,10 @@ class Calendar extends MX_Controller
                 $this->meet->insertDetail($other);
             }          
 
-            redirect('calendar/chkrequest/'.$meetId);
+            // redirect('calendar/chkrequest/'.$meetId);
+
+            print_r('มากกว่า');
+
         }else{
            
             print_r('น้อยกว่า');
