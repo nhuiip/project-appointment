@@ -143,11 +143,16 @@ class Calendar extends MX_Controller
 
     public function jsontimeT()
     {
-        // echo 'ee';
-        // die;
         $sub_type = $this->input->post('sub');
+        $date = $this->input->post('date');
         $time = $this->input->post('time');
-        // $sub_type = 1;
+
+        // $sub_type = 2;
+        // $date = "2019-10-07";
+        // $time = '10.00';
+        if(empty($sub_type) || empty($date) || empty($time)){
+            show_404();
+        }
 
         $condition = array();
         $condition['fide'] = "";
@@ -155,25 +160,12 @@ class Calendar extends MX_Controller
         $data['listdata'] = $this->setting->listData($condition);
 
         $condition['fide'] = "tb_section.use_id, tb_user.use_name, sec_time_one,sec_time_two";
-        if ($sub_type == 1) {
-            $condition['where'] = array(
-                'tb_section.set_id' => $data['listdata'][0]['set_id'],
-                'sec_date' => $this->input->post('date'),
-                'sec_time_one' => $this->input->post('time'),
-                // 'sec_date' => '2019-10-15',
-                // 'sec_time_one' => '9.00',
-                'sec_status'   => '1'
-            );
-        } elseif ($sub_type == 2) {
-            $condition['where'] = array(
-                'tb_section.set_id' => $data['listdata'][0]['set_id'],
-                'sec_date' => $this->input->post('date'),
-                'sec_time_two' => $this->input->post('time'),
-                // 'sec_date' => '2019-10-15',
-                // 'sec_time_one' => '9.00',
-                'sec_status'   => '1'
-            );
-        }
+        $condition['where'] = array(
+            'tb_section.set_id' => $data['listdata'][0]['set_id'],
+            'sec_date' => $date,
+            'sec_time_one' => $time,
+            'sec_status'   => '1'
+        );
         $listsec = $this->section->listjoinData($condition);
         $listJson = array();
         foreach ($listsec as $key => $value) {
@@ -181,11 +173,7 @@ class Calendar extends MX_Controller
             $listJson[$key]['name'] = $value['use_name'];
             $listJson[$key]['time'] = $time;
         }
-        // echo json_encode(array('data' => $listJson));
         echo json_encode($listJson);
-        // echo '<pre>';
-        // print_r($listJson);
-        // echo '</pre>';
         die;
     }
 
