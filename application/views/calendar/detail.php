@@ -231,26 +231,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     <br />
                 <?PHP } else { ?>
                     <div class="ibox float-e-margins">
-                        <!-- <div class="ibox-title">
-                            <h5>Headings</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div> -->
 
                         <div class="ibox-content">
 
@@ -305,20 +285,23 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
                             </a>
 
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <div class="row">
-                                        <span class="badge badge-danger col-sm-2">สีแดง</span>
-                                        <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                        <span class="badge badge-warning col-sm-2">สีเหลือง</span>
-                                        <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
-                                        <span class="badge badge-default col-sm-2">สีเทา</span>
-                                        <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
+
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <span class="badge badge-danger col-sm-2">สีแดง</span>
+                                <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                <span class="badge badge-warning col-sm-2">สีเหลือง</span>
+                                <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
+                                <span class="badge badge-default col-sm-2">สีเทา</span>
+                                <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
+                            </div>
+                        </div>
+                    </div> 
+                    
                 <?PHP } ?>
             </form>
 
