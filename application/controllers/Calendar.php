@@ -225,9 +225,13 @@ class Calendar extends MX_Controller
 
     public function request(){
 
-        $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
-        $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
-        $time  =  $this->input->post('txt_time'); //เวลา
+        // $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
+        // $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
+        // $time  =  $this->input->post('txt_time'); //เวลา
+
+        $date  =  '2019-10-07';//วันที่เลือกทำนัด
+        $type  =  1; //1: โครงการหนึ่ง, 2: โครงการสอง
+        $time  =  '10.00'; //เวลา
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli')); //รหัสนักศึกษา
 
         $condition = array();
@@ -239,9 +243,9 @@ class Calendar extends MX_Controller
         $set_id  =  $listsection[0]['set_id']; //การตั้งค่า
 
         $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('use_id' => $idlogin, 'project_status !=' => 0);
-        $liststudent = $this->project->listData($condition);
+        $condition['fide'] = "tb_projectperson.project_id";
+        $condition['where'] = array('tb_projectperson.std_id' => $idlogin, 'tb_project.project_status !=' => 0);
+        $liststudent = $this->project->listjoinData($condition);
 
         $project_id  =  $liststudent[0]['project_id']; //รหัสโปรเจค
 
