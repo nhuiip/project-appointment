@@ -262,10 +262,10 @@ class Calendar extends MX_Controller
         $condition['where'] = array('sub_id' => $type);
         $listsubject = $this->subject->listData($condition);
 
-        $sub_setless  =  $listsubject[0]['sub_setless']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
+        $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
        //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
-        if(count($this->input->post('checkUser')) >= $sub_setless){
+        if(count($this->input->post('checkUser')) == $sub_setuse){
 
             // insert meet
             $data = array(
