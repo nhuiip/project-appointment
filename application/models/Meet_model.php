@@ -14,7 +14,7 @@ class Meet_model extends CI_Model {
 	public function listjoinData($data = array()){
 		$this->db->select($data['fide']);
 		$this->db->from('tb_meet');
-		$this->db->join('tb_project', 'tb_project.project_id = tb_project.project_id');
+		$this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
 		$this->db->join('tb_settings', 'tb_settings.set_id = tb_meet.set_id');
 		$this->db->join('tb_subject', 'tb_subject.sub_id = tb_meet.sub_id');
 		if(!empty($data['where'])){$this->db->where($data['where']);}

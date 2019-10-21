@@ -50,7 +50,7 @@ class Project extends MX_Controller
                     $condition['fide'] = "*";
                     $condition['limit'] = array($config['per_page'], $data['page']);
                     $condition['orderby'] = 'tb_project.project_create_date DESC';
-                    $data['listproject'] = $this->project->listjoinData2($condition);
+                    $data['listproject'] = $this->project->listjoinData($condition);
                     $data['pagination'] = $this->pagination->create_links();
 
                     $condition = array();

@@ -272,13 +272,13 @@ var table = $(".dataTables-export").DataTable({
   },
   dom: '<"html5buttons"B>lfrtip',
   buttons: [
-    {
-      extend: "copy",
-      title: filename,
-      exportOptions: {
-        columns: [exportcol]
-      }
-    },
+    // {
+    //   extend: "copy",
+    //   title: filename,
+    //   exportOptions: {
+    //     columns: [exportcol]
+    //   }
+    // },
     {
       extend: "excel",
       title: filename,

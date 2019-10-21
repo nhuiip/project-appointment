@@ -18,7 +18,7 @@ class Subject extends MX_Controller
             $data = array();
             $condition = array();
             $condition['fide'] = "*";
-            $condition['orderby'] = "tb_settings.set_status DESC, tb_subject.sub_id DESC ";
+            $condition['orderby'] = "tb_subject.sub_id DESC ";
             $data['listdata'] = $this->subject->listjoinData($condition);
 
             $condition = array();

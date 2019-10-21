@@ -169,22 +169,8 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                     $this->db->where(array('tb_projectperson.project_id' => $v['project_id']));
                                     $query = $this->db->get();
                                     $projectperson = $query->result_array();
-
-                                    $this->db->select('*');
-                                    $this->db->from('tb_meet');
-                                    $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
-                                    $this->db->where(array('tb_meet.project_id' => $v['project_id'], 'tb_meet.meet_status' => 2));
-                                    $query_meet = $this->db->get();
-                                    $listmeet = $query_meet->result_array();
                                     ?>
                                 <li class="list-group-item">
-                                    <span class="badge" style="margin-bottom:15px">
-                                        <? if (count($listmeet) == 0) { ?>
-                                            &nbsp;&nbsp;ไม่พบประวัติการขึ้นสอบ&nbsp;&nbsp;
-                                        <? } else { ?>
-                                            &nbsp;&nbsp;ดูประวัติการขึ้นสอบ&nbsp;&nbsp;
-                                        <? } ?>
-                                    </span>
                                     <span class="badge badge-danger" style="margin-bottom:15px">&nbsp;&nbsp;ยกเลิกโปรเจค&nbsp;&nbsp;</span>
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -258,9 +244,9 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                 </h3>
                                             </div>
                                             <div class="col-sm-5" style="text-align: right;">
-                                                <a href="<?=base_url('uploads/fileproject/Project_'.$project_id.'/'.$value['file_name']);?>" target="_blank"><button class="btn btn-white"><i class="fa fa-download"></i></i></i></button></a>
+                                                <a href="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>" target="_blank"><button class="btn btn-white"><i class="fa fa-download"></i></i></i></button></a>
                                                 <button class="btn btn-warning editfile" data-toggle="modal" data-target="#ProjectfileStd_Up" data-file_id="<?= $value['file_id']; ?>" data-file_name="<?= $value['file_name']; ?>"><i class="fa fa-refresh"></i></i></i></button>
-                                                <button class="btn btn-danger btn-alert" data-url="<?= site_url('student/stdprojectdelfile/' .$value['file_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash-o"></i></i></i></button>
+                                                <button class="btn btn-danger btn-alert" data-url="<?= site_url('student/stdprojectdelfile/' . $value['file_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash-o"></i></i></i></button>
                                             </div>
                                             <? if (count($listtag) != 0) { ?>
                                                 <div class="col-sm-12 tooltip-demo" style="background-color: aliceblue;padding-top: 5px;padding-bottom: 5px;">
@@ -291,7 +277,54 @@ if (isset($searchProject) && count($searchProject) != 0) {
                         <? if (count($listmeetnow) == 0) { ?>
                             <center>ไม่พบประวัติการขึ้นสอบ</center>
                         <? } else { ?>
-
+                            <ul class="list-group">
+                                <? foreach ($listmeetnow as $key => $value) { ?>
+                                    <?
+                                                $this->db->select("*");
+                                                $this->db->from('tb_meetdetail');
+                                                $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                                                $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
+                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status' => 2));
+                                                $this->db->order_by("dmeet_head", "DESC");
+                                                $query = $this->db->get();
+                                                $listt = $query->result_array();
+                                                ?>
+                                    <?
+                                                switch ($project_status) {
+                                                    case 1:
+                                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
+                                                        break;
+                                                    case 2:
+                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ 1&nbsp;&nbsp;</span>';
+                                                        break;
+                                                }
+                                                ?>
+                                        <li class="list-group-item" style="text-align: right;">
+                                                <?= $status_text ?>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <p>
+                                                        <? foreach ($listt as $key => $v) { ?>
+                                                            <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                                <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                            <? } else { ?>
+                                                                <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                            <? } ?>
+                                                        <? } ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <? } ?>
+                            </ul>
                         <? } ?>
                     </div>
                 </div>
