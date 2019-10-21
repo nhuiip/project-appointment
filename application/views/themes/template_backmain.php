@@ -105,7 +105,7 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 									<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
 								</li>
 								<li>
-									<a href="<?= site_url('calendar/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+									<a href="<?= site_url('amcalendar/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 								</li>
 							<? } ?>
 							<? if ($position != 'ผู้ดูแลระบบ' && $position != 'ฉุกเฉิน') { ?>
