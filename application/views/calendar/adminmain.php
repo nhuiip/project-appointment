@@ -21,26 +21,70 @@ function DateThai($strDate)
 </div>
 <!-- End breadcrumb for page -->
 <? if (count($listsec) != 0) { ?>
-    <? foreach ($listsec as $key => $value) { ?>
+    <? foreach ($listsec as $key => $v) {
+        $sec_date = $v['sec_date']
+    ?>
         <br>
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h3>
-                    <?= DateThai($value['sec_date']); ?>
+                    <?= DateThai($v['sec_date']); ?>
                 </h3>
             </div>
         </div>
-        <div class="row">
-            <?
-                    $this->db->select("*");
-                    $this->db->where(array(
-                        'set_id' => $set_id,
-                        'sec_date' => $value['sec_date'],
-                        'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))
-                    ));
-                    $query = $this->db->get('tb_section');
-                    $listusersec = $query->result_array();
-                    ?>
+        <div class="" style="display: grid;grid-template-columns: 33.33333333% 33.33333333% 33.33333333%;">
+            <? foreach ($time as $key => $value) {
+                        $numcol = 1;
+                        $this->db->select("*");
+                        $this->db->from('tb_meet');
+                        $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
+                        $this->db->where('meet_date', $sec_date);
+                        $this->db->where('meet_status !=', 0);
+                        $this->db->where("(meet_time=" . $value['one'] . "OR meet_time=" . $value['two'] . ")", NULL, FALSE);
+                        $query = $this->db->get();
+                        $meet = $query->result_array();
+                        if (count($meet) != 0) {
+                            $this->db->select("*");
+                            $this->db->from('tb_meetdetail');
+                            $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                            $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
+                            $this->db->where(array('tb_meetdetail.meet_id' => $meet[0]['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
+                            $this->db->order_by("dmeet_head", "DESC");
+                            $query = $this->db->get();
+                            $listt = $query->result_array();
+                        }
+                        ?>
+                <div class="" style="">
+                    <div class="ibox">
+                        <div class="ibox-content product-box">
+                            <div class="product-desc">
+                                <small class="text-muted" style="font-size:14px">เวลานัด</small>
+                                <a href="#" class="product-name" style="font-size:16px"> <?= $value['one']; ?> น. , <?= $value['two']; ?> น.</a>
+                                <? if (count($meet) != 0) { ?>
+                                    <div class="small m-t-xs" style="font-size:14px">
+                                        <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
+                                        <p><strong>เวลา</strong> : <?= $meet[0]['meet_time'];?> น.</p>
+                                        <p><? foreach ($listt as $key => $v) { ?>
+                                                <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
+                                                    <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                    <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                <? } else { ?>
+                                                    <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                <? } ?>
+                                            <? } ?></p>
+                                    </div>
+                                <? } else { ?>
+                                    <br>
+                                    <div class="alert alert-success">
+                                        เวลานัดหมาย <a class="alert-link" href="#">ว่าง</a>.
+                                    </div>
+                                <? } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <? } ?>
         </div>
     <? } ?>
 <? } else { ?>

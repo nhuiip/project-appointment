@@ -385,7 +385,7 @@ $(".btnajax").click(function() {
         );
       });
       // $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
-      $("#listtts").append('<button type="button" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+      $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
     },
     // error: function(jqXHR, exception) {
     //   if (jqXHR.status === 0) {

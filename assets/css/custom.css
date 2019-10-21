@@ -325,11 +325,10 @@ label.error {
   margin-bottom: 5px !important;
 }
 
+
 .row.coutomrow {
-  display: table;
+  display: flex;
   margin-bottom: 10px;
-  padding-right: 15px;
-  padding-left: 15px;
 }
 
 .row.coutomrow [class*="col-"] {

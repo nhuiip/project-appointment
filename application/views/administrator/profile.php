@@ -77,6 +77,9 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>วิชาที่เปิดสอน</h5>
+					<div class="ibox-tools">
+						<button type="button" class="btn btn-outline btn-sm btn-default">รายการขึ้นสอบ</button>
+					</div>
 				</div>
 				<div class="ibox-content">
 					<div class="form-group row">
@@ -136,7 +139,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 												<button type="button" class="btn btn-sm btn-white"><i class="fa fa-download"></i></button>
 											</td>
 											<td style="width:10%">
-												<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>
+												<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_name'] . '/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>
 											</td>
 										</tr>
 									<? $numrows++;
@@ -170,17 +173,20 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 								<?
 									$this->db->select("*");
 									$this->db->where(array(
-										'set_id' => $set_id, 
-										'sec_date' => $value['sec_date'], 
-										'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))));
+										'set_id' => $set_id,
+										'sec_date' => $value['sec_date'],
+										'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))
+									));
 									$query = $this->db->get('tb_section');
 									$listusersec = $query->result_array();
 									?>
 								<div class="col-md-8 content no-top-border">
 									<? foreach ($listusersec as $key => $v) { ?>
 										<div class="col-md-2 timecheck">
-											<label class="onoff"><input type="checkbox" value="1" id="sectione-<?=$v['sec_id'];?>" name="sectione-<?=$v['sec_id'];?>" class="timechecks" data-url="<?=site_url('section/timecheck/'.$v['sec_id']);?>" <?if($v['sec_status'] == 1){echo 'checked';}?>><label for="sectione-<?=$v['sec_id'];?>"></label></label>
-											<p><?=$v['sec_time_one'];?> น.</p>
+											<label class="onoff"><input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {
+																																																																	echo 'checked';
+																																																																} ?>><label for="sectione-<?= $v['sec_id']; ?>"></label></label>
+											<p><?= $v['sec_time_one']; ?> น.</p>
 										</div>
 									<? } ?>
 								</div>

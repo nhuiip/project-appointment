@@ -29,7 +29,7 @@ class Meet_model extends CI_Model {
 		$this->db->from('tb_meet');
 		$this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
 		$this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
-		$this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id', 'left');
 		if(!empty($data['where'])){$this->db->where($data['where']);}
 		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}

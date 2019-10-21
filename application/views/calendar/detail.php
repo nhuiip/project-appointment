@@ -72,7 +72,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 $this->db->order_by("dmeet_head", "DESC");
                                 $query = $this->db->get();
                                 $listt = $query->result_array();
-                            } else
+                            }
                                 ?>
                         <div class="col-md-6">
                             <div class="ibox">
