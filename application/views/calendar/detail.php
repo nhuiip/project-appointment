@@ -74,7 +74,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     <? } ?>
                                     <? if (count($meet) == 0) { ?>
                                         <div class="m-t text-righ">
-                                            <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?=$sub_type; ?>" data-date="<?=$date; ?>" data-time="<?=$value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                            <button class="btn btn-xs btn-outline btn-primary btnajax"  data-sub="<?=$sub_type; ?>" data-date="<?=$date; ?>" data-time="<?=$value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                         </div>
                                     <? } ?>
                                 </div>
@@ -124,7 +124,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <? } ?>
                                         <? if (count($meet) == 0) { ?>
                                             <div class="m-t text-righ">
-                                                <button class="btn btn-xs btn-outline btn-primary btnajax" data-date="<?=$date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                <button class="btn btn-xs btn-outline btn-primary btnajax"   data-sub="<?=$sub_type; ?>" data-date="<?=$date; ?>" data-time="<?=$value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                             </div>
                                         <? } ?>
                                     </div>
@@ -146,54 +146,28 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     <div>อาจารย์ขึ้นสอบอย่างน้อย : <?=$sub_setuse;?> คน</div>
                 </div>
             </div>
+            
+            <form action="<?=base_url('calendar/request');?>" method="post" name="formCalendarrequest" id="formCalendarrequest" class="form-horizontal" novalidate>                   
 
-            <div id="menu-compare" class="top-cart-items">
-                                            
-            </div>
+                <input type="hidden" name="txt_date" id="txt_date" value="<?=$date; ?>"/>
+                <input type="hidden" name="txt_type" id="txt_type" value="<?=$sub_type; ?>"/>
+                <input type="hidden" name="txt_time" id="txt_time" value=""/>
 
-
-
-            <ul class="todo-list  ui-sortable" id="listtt">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-content">
-                        <div class="alert alert-danger" style="margin-bottom: 0px;">
-                            <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
+                <ul class="todo-list  ui-sortable" id="listtt">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="alert alert-danger" style="margin-bottom: 0px;">
+                                <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </ul>
+                </ul>
+                <div class="todo-list  ui-sortable" id="listtts"></div>
+                <br/>
+
+            </form>
 
         </div>
     </div>
 </div>
 
-
-<div id="modal-form" class="modal fade" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Sign in</h3>
-
-                        <p>Sign in today for more expirience.</p>
-
-                        <form role="form">
-                            <div class="form-group"><label>Email</label> <input type="email" placeholder="Enter email" class="form-control"></div>
-                            <div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control"></div>
-                            <div>
-                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Log in</strong></button>
-                                <label> <div class="icheckbox_square-green" style="position: relative;"><input type="checkbox" class="i-checks" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Remember me </label>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-6"><h4>Not a member?</h4>
-                        <p>You can create an account:</p>
-                        <p class="text-center">
-                            <a href=""><i class="fa fa-sign-in big-icon"></i></a>
-                        </p>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>

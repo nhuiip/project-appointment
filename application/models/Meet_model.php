@@ -23,6 +23,19 @@ class Meet_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function listjoinData2($data = array()){
+		$this->db->select($data['fide']);
+		$this->db->from('tb_meet');
+		$this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
+		$this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
+		$this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+		if(!empty($data['where'])){$this->db->where($data['where']);}
+		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
+		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
     // Insert data
 	public function insertData($data = array()){
@@ -34,4 +47,16 @@ class Meet_model extends CI_Model {
 		$this->db->update("tb_meet",$data);
 		return $data['sec_id'];
 	}
+
+	// Insert data
+	public function insertDetail($data = array()){
+		$this->db->insert("tb_meetdetail",$data);
+		return $this->db->insert_id();
+	}
+	public function updateDetail($data = array()){
+		$this->db->where(array('dmeet_id' => $data['dmeet_id']));
+		$this->db->update("tb_meetdetail",$data);
+		return $data['dmeet_id'];
+	}
+
 }
