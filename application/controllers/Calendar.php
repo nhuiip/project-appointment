@@ -213,11 +213,13 @@ class Calendar extends MX_Controller
             $listJson[$key]['time'] = $time;
             //อาจารย์ประจำวิชา
             if($listdatasubject[0]['use_id'] == $value['use_id'] ){
-                $listJson[$key]['subjectUserId'] = 'checked=""  readonly';
+                $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
+                $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="'.$value['use_id'].'" name="checkUser[]" id="checkUser"/>';
             }
             //เช็คอาจารย์ที่ปรึกษา
             if($projectperson[0]['use_id'] == $value['use_id'] ){
-                $listJson[$key]['subjectUserId'] = 'checked=""  readonly';
+                $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
+                $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="'.$value['use_id'].'" name="checkUser[]" id="checkUser"/>';
             }
 
         }
