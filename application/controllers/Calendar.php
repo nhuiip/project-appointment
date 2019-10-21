@@ -86,8 +86,16 @@ class Calendar extends MX_Controller
             if (!empty($sub_type) && $sub_type != '' || !empty($date) && $date != '') {
 
                 $data = array();
-
-                $data = array();
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+                $projectperson = $this->project->listjoinData($condition);
+                if(count($projectperson) == 0){
+                    $data['chkprojectrequest'] = 0;
+                }else{
+                    $data['chkprojectrequest'] = 1;
+                }
+                
                 $condition = array();
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_subject.sub_type' => $sub_type);

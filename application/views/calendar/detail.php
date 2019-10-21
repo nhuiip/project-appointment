@@ -77,9 +77,13 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         </div>
                                     <? } ?>
                                     <? if (count($meet) == 0) { ?>
-                                        <div class="m-t text-righ">
-                                            <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
-                                        </div>
+
+                                        <?PHP  if($chkprojectrequest == 0){ ?>
+                                            <div class="m-t text-righ">
+                                                <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                            </div>
+                                        <?PHP } ?>
+
                                     <? } ?>
                                 </div>
                             </div>
@@ -130,9 +134,11 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                             </div>
                                         <? } ?>
                                         <? if (count($meet) == 0) { ?>
-                                            <div class="m-t text-righ">
-                                                <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
-                                            </div>
+                                            <?PHP  if($chkprojectrequest == 0){ ?>
+                                                <div class="m-t text-righ">
+                                                    <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                </div>
+                                            <?PHP } ?>
                                         <? } ?>
                                     </div>
                                 </div>
