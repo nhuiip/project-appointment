@@ -81,14 +81,12 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 	</style>
 
 </head>
-
 <? if ($position != 'นักศึกษา') { ?>
 
-	<body class="pace-done">
-	<? } else { ?>
+	<body class="pace-done"><? } ?>
+	<? if ($position == 'นักศึกษา') { ?>
 
 		<body class="top-navigation"><? } ?>
-
 		<? if ($position != 'นักศึกษา') { ?>
 			<div id="wrapper">
 				<nav class="navbar-default navbar-static-side" role="navigation">
@@ -151,9 +149,9 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 
 					<div class="footer"><strong>Copyright</strong> Napassorn | Preedarat &copy; 2019 </div>
 				</div>
-
 			</div>
-		<? } else { ?>
+		<? } ?>
+		<? if ($position == 'นักศึกษา') { ?>
 			<div id="wrapper">
 				<div id="page-wrapper" class="gray-bg">
 					<div class="row border-bottom white-bg">
@@ -202,7 +200,6 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 											<li><a href="" data-toggle="modal" data-target="#modal-chengpassword">เปลี่ยนรหัสผ่าน</a></li>
 										</ul>
 									</li>
-									<!-- <li><a href=""><?= $loginname; ?></a></li> -->
 									<div class="img-circular" style="background: url('<?= base_url("uploads/student/" . $loginimg); ?>');"></div>
 									<li>
 										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
@@ -235,14 +232,14 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 	$Tetx_tel = $listprofiledata[0]['std_tel'];
 	?>
 	<!-- edit profile -->
-	<form action="<?= base_url('student/stdupdate/'); ?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
-		<div class="modal fade" id="editdata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลส่วนตัว</h4>
-					</div>
+	<div class="modal fade" id="editdata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลส่วนตัว</h4>
+				</div>
+				<form action="<?= base_url('student/stdupdate/'); ?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
 					<div class="modal-body">
 						<input type="hidden" name="Id" id="Id" value="<?= $Id; ?>">
 						<div class="form-group">
@@ -295,18 +292,16 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 						<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
 						<button type="submit" class="btn btn-primary">บันทึก</button>
 					</div>
-
-				</div>
+				</form>
 			</div>
 		</div>
-	</form>
+	</div>
 	<!-- chengemail email -->
-	<form action="<?= base_url('student/stdchangemail'); ?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>
-		<!-- <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?= $formcrfmail; ?>"> -->
-		<input type="hidden" name="Idmail" id="Idmail" value="<?= $Id; ?>">
-		<div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog">
-				<div class="modal-content">
+	<div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="<?= base_url('student/stdchangemail'); ?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>
+					<input type="hidden" name="Idmail" id="Idmail" value="<?= $Id; ?>">
 					<div class="modal-body">
 						<h3 class="m-t-none m-b">เปลี่ยนที่อยู่อีเมล์</h3>
 						<p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนอีเมล์แล้วต้องเข้าสู่ระบบใหม่อีกครั้ง.</p>
@@ -319,32 +314,32 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 						</div>
 						<div style="margin-bottom: 20px;"></div>
 					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-<? } ?>
-<!-- chengepassword -->
-<form action="<?= base_url('student/stdchangepassword'); ?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
-	<input type="hidden" name="Id2" id="Id2" value="<?= $Id; ?>">
-	<div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
-					<hr />
-					<div class="form-group-mgTB">
-						<input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
-					</div>
-					<div class="mgBottom">
-						<button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
-					</div>
-					<div style="margin-bottom: 20px;"></div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
-</form>
+	<!-- chengepassword -->
+	<div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="<?= base_url('student/stdchangepassword'); ?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
+					<input type="hidden" name="Id2" id="Id2" value="<?= $Id; ?>">
+					<div class="modal-body">
+						<h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
+						<hr />
+						<div class="form-group-mgTB">
+							<input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
+						</div>
+						<div class="mgBottom">
+							<button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
+						</div>
+						<div style="margin-bottom: 20px;"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<? } ?>
 
 <script>
 	function readURL(input) {
