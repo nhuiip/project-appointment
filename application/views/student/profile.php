@@ -197,7 +197,6 @@ if (isset($liststudent) && count($liststudent) != 0) {
 <form action="<?=base_url('student/stdchangepassword');?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>                   
     <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?=$formcrfpassword;?>">
     <input type="hidden" name="Id2" id="Id2" value="<?=$Id;?>">
-
     <div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">

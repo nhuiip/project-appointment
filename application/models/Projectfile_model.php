@@ -44,5 +44,6 @@ class Projectfile_model extends CI_Model {
 	}
 	public function deleteData($data = array()){
 		$this->db->delete('tb_projectfile', array('file_id' => $data['file_id']));
+		$this->db->delete('tb_trace', array('file_id' => $data['file_id']));
 	}
 }

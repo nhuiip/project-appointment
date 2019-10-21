@@ -404,7 +404,7 @@ class Administrator extends MX_Controller
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
 					$this->input->set_cookie($cookie_img);
-					header("location:" . site_url('student/stdprofile/'.$liststd[0]['std_id']));
+					header("location:" . site_url('student/stdproject/'.$liststd[0]['std_id']));
 				} elseif ($username == 'support@itrmutr.com' && $password == 'supp0rt@it;;') {
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt(0);

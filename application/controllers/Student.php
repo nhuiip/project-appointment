@@ -581,7 +581,6 @@ class Student extends MX_Controller
     }
     public function stdupdate()
     {
-        // if ($this->tokens->verify('formcrf')) {
         if ($this->input->post('std_img') != '') {
             $data = array(
                 'std_id'                => $this->input->post('Id'),
@@ -616,8 +615,7 @@ class Student extends MX_Controller
             $data = base64_decode($img);
             $file = UPLOAD_DIR  . $this->input->post('std_number') . '.png';
             file_put_contents($file, $data);
-            
-        } 
+        }
 
         $f = $this->encryption->encrypt($this->input->post('text_name') . ' ' . $this->input->post('text_lastname'));
         $loginimg = $this->encryption->encrypt($this->input->post('std_number') . '.png');
@@ -639,17 +637,10 @@ class Student extends MX_Controller
         $result = array(
             'error' => false,
             'msg' => 'แก้ไขข้อมูลสำเร็จ',
-            'url' => site_url('student/stdprofile/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+            'url' => 'reload',
+
         );
         echo json_encode($result);
-        // } else {
-        //     $result = array(
-        //         'error' => true,
-        //         'title' => "ล้มเหลว",
-        //         'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
-        //     );
-        //     echo json_encode($result);
-        // }
     }
     public function stdchangemail()
     {
@@ -667,47 +658,31 @@ class Student extends MX_Controller
                 $this->load->view('errors/html/error_403');
             } else {
 
-                if ($this->tokens->verify('formcrfmail')) {
-                    $data = array(
-                        'std_id'                => $this->input->post('Idmail'),
-                        'std_email'             => $this->input->post('std_email'),
-                        'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
-                        'std_lastedit_date'     => date('Y-m-d H:i:s'),
-                    );
+                // if ($this->tokens->verify('formcrfmail')) {
+                $data = array(
+                    'std_id'                => $this->input->post('Idmail'),
+                    'std_email'             => $this->input->post('std_email'),
+                    // 'std_checkmail'         => 0,
+                    'std_lastedit_name'     => $this->encryption->decrypt($this->input->cookie('sysn')),
+                    'std_lastedit_date'     => date('Y-m-d H:i:s'),
+                );
 
-                    $this->student->updateStd($data);
+                $this->student->updateStd($data);
 
-                    if (!empty($Id)) {
-                        $result = array(
-                            'error' => false,
-                            'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้ว กรุณาเข้าสู่ระบบใหม่อีกครั้ง',
-                            'url' => site_url('administrator/logout')
-                        );
-                        echo json_encode($result);
-                    } else {
-                        $result = array(
-                            'error' => true,
-                            'title' => "ล้มเหลว",
-                            'msg' => 'เปลี่ยนที่อยู่อีเมล์ไม่สำเร็จ',
-                        );
-                        echo json_encode($result);
-                    }
-                    die;
-                } else {
-                    $result = array(
-                        'error' => true,
-                        'title' => "ล้มเหลว",
-                        'msg' => "เปลี่ยนที่อยู่อีเมล์ไม่สำเร็จ"
-                    );
-                    echo json_encode($result);
-                }
+                // ส่งเมลยืนยันอีเมลใหม่อีครั้ง //
+                $result = array(
+                    'error' => false,
+                    'msg' => 'เปลี่ยนที่อยู่อีเมล์สำเร็จ',
+                    'url' =>  site_url('administrator/logout')
+                );
+                echo json_encode($result);
             }
         }
     }
     public function stdchangepassword()
     {
 
-        if ($this->tokens->verify('formcrfpassword')) {
+        // if ($this->tokens->verify('formcrfpassword')) {
             $data = array(
                 'std_id'         => $this->input->post('Id2'),
                 'std_pass'       => md5($this->input->post('std_password'))
@@ -719,7 +694,7 @@ class Student extends MX_Controller
                 $result = array(
                     'error' => false,
                     'msg' => 'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว',
-                    'url' => site_url('student/stdprofile/' . $this->input->post('Id2'))
+                    'url' => 'reload'
                 );
                 echo json_encode($result);
             } else {
@@ -731,14 +706,14 @@ class Student extends MX_Controller
                 echo json_encode($result);
             }
             die;
-        } else {
-            $result = array(
-                'error' => true,
-                'title' => "ล้มเหลว",
-                'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
-            );
-            echo json_encode($result);
-        }
+        // } else {
+        //     $result = array(
+        //         'error' => true,
+        //         'title' => "ล้มเหลว",
+        //         'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
+        //     );
+        //     echo json_encode($result);
+        // }
     }
     public function stdproject($id = '')
     {
@@ -766,7 +741,7 @@ class Student extends MX_Controller
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status !=' => 0);
                 $data['searchProject'] = $this->project->listjoinData($condition);
-                if(count($data['searchProject']) != 0){
+                if (count($data['searchProject']) != 0) {
                     $project_id = $data['searchProject'][0]['project_id'];
 
                     $condition = array();
@@ -784,7 +759,6 @@ class Student extends MX_Controller
                     $condition['fide'] = "*";
                     $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status' => 2);
                     $data['listmeetnow'] = $this->meet->listjoinData($condition);
-
                 }
 
                 $condition = array();
@@ -890,7 +864,7 @@ class Student extends MX_Controller
         );
         $listdata = $this->projectfile->listData($condition);
 
-        if(count($listdata) == 0){
+        if (count($listdata) == 0) {
             if ($this->tokens->verify('formcrffileproject')) {
                 $data = array(
                     'project_id'            => $this->input->post('project_id'),
@@ -921,10 +895,10 @@ class Student extends MX_Controller
     public function stdprojectupfile()
     {
         $file_name = $this->input->post('file_name_up');
-        $proformat_name = str_replace(".pdf","",$file_name);
+        $proformat_name = str_replace(".pdf", "", $file_name);
         $project_id = $this->input->post('project_id');
         // del old file
-        @unlink('./uploads/fileproject/Project_'.$project_id.'/'.$file_name);
+        @unlink('./uploads/fileproject/Project_' . $project_id . '/' . $file_name);
         //upnewfile
         $this->upfileimages('file_name', $proformat_name, $project_id);
 
@@ -951,9 +925,8 @@ class Student extends MX_Controller
         $this->projectfile->deleteData($data);
 
         //del file
-        @unlink('./uploads/fileproject/Project_'.$project_id.'/'.$file_name);
+        @unlink('./uploads/fileproject/Project_' . $project_id . '/' . $file_name);
         header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
-
     }
     private function upfileimages($Fild_Name, $proformat_name, $project_id)
     {
@@ -982,9 +955,9 @@ class Student extends MX_Controller
     public function testq($id = 1)
     {
 
-        if (!file_exists('./uploads/fileproject/Project_' . $id)) {
-            mkdir('./uploads/fileproject/Project_' . $id, 0777, true);
-        }
+        // if (!file_exists('./uploads/fileproject/Project_' . $id)) {
+        //     mkdir('./uploads/fileproject/Project_' . $id, 0777, true);
+        // }
 
         // $condition = array();
         // $condition['fide'] = "*";

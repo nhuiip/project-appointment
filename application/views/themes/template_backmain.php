@@ -55,6 +55,31 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
 
+	<style>
+		.picture input[type="file"] {
+			cursor: pointer;
+			display: block;
+			height: 100%;
+			left: 0;
+			opacity: 0 !important;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			margin-top: 10px !important;
+		}
+
+		#std_imgpre {
+			width: 200px;
+			height: 200px;
+			background-size: cover !important;
+			display: inline-block;
+			border-radius: 100px;
+			margin-bottom: 10px;
+			-webkit-border-radius: 100px;
+			-moz-border-radius: 100px;
+		}
+	</style>
+
 </head>
 
 <? if ($position != 'นักศึกษา') { ?>
@@ -147,9 +172,9 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 									<li>
 										<a href="<?= site_url('student/stdproject/' . $loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
 									</li>
-									<li>
+									<!-- <li>
 										<a href="<?= site_url('student/stdprofile/' . $loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
-									</li>
+									</li> -->
 
 								</ul>
 								<ul class="nav navbar-top-links navbar-right">
@@ -169,7 +194,15 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 											-moz-border-radius: 100px !important;
 										}
 									</style>
-									<li><a href=""><?= $loginname; ?></a></li>
+									<li class="dropdown">
+										<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?= $loginname; ?> <span class="caret"></span></a>
+										<ul role="menu" class="dropdown-menu">
+											<li><a href="" data-toggle="modal" data-target="#editdata">แก้ไขข้อมูลส่วนตัว</a></li>
+											<li><a href="" data-toggle="modal" data-target="#modal-chengemail">เปลี่ยนที่อยู่อีเมล</a></li>
+											<li><a href="" data-toggle="modal" data-target="#modal-chengpassword">เปลี่ยนรหัสผ่าน</a></li>
+										</ul>
+									</li>
+									<!-- <li><a href=""><?= $loginname; ?></a></li> -->
 									<div class="img-circular" style="background: url('<?= base_url("uploads/student/" . $loginimg); ?>');"></div>
 									<li>
 										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
@@ -182,11 +215,153 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 					<?= $contents ?>
 					<!-- for footer-->
 					<div class="footer"><strong>Copyright</strong> Napassorn | Preedarat &copy; 2019 </div>
-
 				</div>
 			</div>
 		<? } ?>
-
 		</body>
 
 </html>
+<? if ($position == 'นักศึกษา') {
+	$this->db->select('*');
+	$this->db->where(array('std_id' => $loginid));
+	$query_profile = $this->db->get('tb_student');
+	$listprofiledata = $query_profile->result_array();
+
+	$Id = 	$listprofiledata[0]['std_id'];
+	$Img_std = 	$listprofiledata[0]['std_img'];
+	$Tetx_number = $listprofiledata[0]['std_number'];
+	$Text_name = $listprofiledata[0]['std_fname'];
+	$Text_lastname = $listprofiledata[0]['std_lname'];
+	$Tetx_tel = $listprofiledata[0]['std_tel'];
+	?>
+	<!-- edit profile -->
+	<form action="<?= base_url('student/stdupdate/'); ?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
+		<div class="modal fade" id="editdata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลส่วนตัว</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="Id" id="Id" value="<?= $Id; ?>">
+						<div class="form-group">
+							<div class="col-lg-12">
+								<div class="col-lg-12 center">
+									<div class="picture-container">
+										<div class="picture">
+											<?PHP if ($Img_std == "") { ?>
+												<div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
+											<?PHP } else { ?>
+												<div style="background: url('<?= base_url('uploads/student/' . $Img_std); ?>');" id="std_imgpre"></div>
+											<?PHP } ?>
+											<input type="file" id="std_img" aria-invalid="false" accept="image/*">
+											<input type="hidden" id="std_img2" name="std_img">
+										</div>
+										<h6 class="description">เปลี่ยนรูปภาพ</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-12">รหัสนักศึกษา</label>
+							<div class="col-lg-12">
+								<input placeholder="รหัสนักศึกษา" class="form-control" value="<?= $Tetx_number; ?>" disabled>
+								<input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?= $Tetx_number; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-6">
+								<label>ชื่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+								<div>
+									<input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?= $Text_name; ?>" class="form-control">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<label>นามสกุล<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+								<div>
+									<input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?= $Text_lastname; ?>">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-12">เบอร์โทรศัพท์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+							<div class="col-lg-12">
+								<input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?= $Tetx_tel; ?>">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+						<button type="submit" class="btn btn-primary">บันทึก</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- chengemail email -->
+	<form action="<?= base_url('student/stdchangemail'); ?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>
+		<!-- <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?= $formcrfmail; ?>"> -->
+		<input type="hidden" name="Idmail" id="Idmail" value="<?= $Id; ?>">
+		<div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h3 class="m-t-none m-b">เปลี่ยนที่อยู่อีเมล์</h3>
+						<p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนอีเมล์แล้วต้องเข้าสู่ระบบใหม่อีกครั้ง.</p>
+						<hr />
+						<div class="form-group-mgTB">
+							<input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control" data-url="<?= site_url('student/checkemail'); ?>">
+						</div>
+						<div class="mgBottom">
+							<button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนที่อยู่อีเมล์</strong></button>
+						</div>
+						<div style="margin-bottom: 20px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+<? } ?>
+<!-- chengepassword -->
+<form action="<?= base_url('student/stdchangepassword'); ?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
+	<input type="hidden" name="Id2" id="Id2" value="<?= $Id; ?>">
+	<div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
+					<hr />
+					<div class="form-group-mgTB">
+						<input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
+					</div>
+					<div class="mgBottom">
+						<button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
+					</div>
+					<div style="margin-bottom: 20px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			const reader = new FileReader({
+				type: 'image/png'
+			});
+			reader.onload = function(e) {
+				$('#std_imgpre').css('background', 'url(' + e.target.result + ') no-repeat center');
+				var img = e.target.result;
+				$("#std_img2").val(img);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	$("#std_img").change(function() {
+		readURL(this);
+	});
+</script>
