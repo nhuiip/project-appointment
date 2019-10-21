@@ -1,173 +1,433 @@
-<?php
-function DateThai($strDate)
-{
-    $strYear = date("Y", strtotime($strDate)) + 543;
-    $strMonth = date("n", strtotime($strDate));
-    $strDay = date("j", strtotime($strDate));
-    $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
-    $strMonthThai = $strMonthCut[$strMonth];
-    return "$strDay $strMonthThai $strYear";
-}
-?>
-
 <?
-if (isset($listsubject) && count($listsubject) != 0) {
-    foreach ($listsubject as $key => $student) {
-        $sub_name    = $student['sub_name'];
-        $sub_code    = $student['sub_code'];
-        $sub_setuse  = $student['sub_setuse'];
-        $use_name    = $student['use_name'];
-    }
-} 
+$loginid 	= $this->encryption->decrypt($this->input->cookie('sysli'));
+$loginname	= $this->encryption->decrypt($this->input->cookie('sysn'));
+$position 	= $this->encryption->decrypt($this->input->cookie('sysp'));
+if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this->encryption->decrypt($this->input->cookie('sysimg')) != '') {
+	$loginimg = $this->encryption->decrypt($this->input->cookie('sysimg'));
+} else {
+	$loginimg = 'noimage.png';
+}
+
 ?>
+<!DOCTYPE html>
+<html>
 
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="row">
-            <div class="ibox">
-                <div class="ibox-content">
-                    <center>
-                        <h1><strong>วันที่ : <?= DateThai($date); ?></strong></h1>
-                    </center>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <? if (isset($sub_type) && $sub_type == 1) { ?>
-                <? foreach ($time as $key => $value) { ?>
-                    <div class="col-md-6">
-                        <div class="ibox">
-                            <?
-                                    $this->db->select("*");
-                                    $this->db->from('tb_meet');
-                                    $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
-                                    $this->db->where('meet_date', $date);
-                                    $this->db->where('meet_status !=', 0);
-                                    $this->db->where("(meet_time =" . $value['one'] . "OR meet_time =" . $value['two'] . ")", NULL, FALSE);
-                                    $query = $this->db->get();
-                                    $meet = $query->result_array();
-                                    if (count($meet) != 0) {
-                                        $this->db->select("*");
-                                        $this->db->from('tb_detailmeet');
-                                        $this->db->join('tb_user', 'tb_user.use_id = tb_detailmeet.use_id');
-                                        $this->db->where(array('meet_id' => $meet[0]['meet_id'], 'dmeet_status' => 1));
-                                        $this->db->order_by("dmeet_head", "DESC");
-                                        $query = $this->db->get();
-                                        $listt = $query->result_array();
-                                    }
-                                    ?>
-                            <div class="ibox-content product-box">
-                                <div class="product-desc">
-                                    <small class="text-muted" style="font-size:14px">เวลานัด</small>
-                                    <a href="#" class="product-name" style="font-size:32px"> <?= $value['one']; ?> น.</a>
-                                    <? if (count($meet) != 0) { ?>
-                                        <div class="small m-t-xs" style="font-size:14px">
-                                            <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                            <p><? foreach ($listt as $key => $v) { ?>
-                                                    <? if ($v['dmeet_head'] == 1) { ?>
-                                                        <span class="label label-danger"><?= $v['use_name']; ?></span>
-                                                    <? } else { ?>
-                                                        <span class="label label-info"><?= $v['use_name']; ?></span>
-                                                    <? } ?>
-                                                <? } ?></p>
-                                        </div>
-                                    <? } ?>
-                                    <? if (count($meet) == 0) { ?>
-                                        <div class="m-t text-righ">
-                                            <button class="btn btn-xs btn-outline btn-primary btnajax"  data-sub="<?=$sub_type; ?>" data-date="<?=$date; ?>" data-time="<?=$value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
-                                        </div>
-                                    <? } ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <? } ?>
-            <? } elseif (isset($sub_type) &&  $sub_type) { ?>
-                <? foreach ($time as $key => $value) { ?>
-                    <? if ($value['two'] != '12.00' && $value['two'] != '16.00') { ?>
-                        <div class="col-md-6">
-                            <div class="ibox">
-                                <?
-                                            $this->db->select("*");
-                                            $this->db->from('tb_meet');
-                                            $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
-                                            $this->db->where('meet_date', $date);
-                                            $this->db->where('meet_status', 1);
-                                            $this->db->where("(meet_time =" . $value['one'] . "OR meet_time =" . $value['two'] . ")", NULL, FALSE);
-                                            $query = $this->db->get();
-                                            $meet = $query->result_array();
-                                            if (count($meet) != 0) {
-                                                $this->db->select("*");
-                                                $this->db->from('tb_detailmeet');
-                                                $this->db->join('tb_user', 'tb_user.use_id = tb_detailmeet.use_id');
-                                                $this->db->where(array('meet_id' => $meet[0]['meet_id'], 'dmeet_status' => 1));
-                                                $this->db->order_by("dmeet_head", "DESC");
-                                                $query = $this->db->get();
-                                                $listt = $query->result_array();
-                                            }
-                                            ?>
-                                <div class="ibox-content product-box">
-                                    <div class="product-desc">
-                                        <small class="text-muted" style="font-size:14px">เวลานัด</small>
-                                        <a href="#" class="product-name" style="font-size:32px"> <?= $value['two']; ?> น.</a>
-                                        <? if (count($meet) != 0) { ?>
-                                            <div class="small m-t-xs" style="font-size:14px">
-                                                <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                                <p><? foreach ($listt as $key => $v) { ?>
-                                                        <? if ($v['dmeet_head'] == 1) { ?>
-                                                            <span class="label label-danger"><?= $v['use_name']; ?></span>
-                                                        <? } else { ?>
-                                                            <span class="label label-info"><?= $v['use_name']; ?></span>
-                                                        <? } ?>
-                                                    <? } ?></p>
-                                            </div>
-                                        <? } ?>
-                                        <? if (count($meet) == 0) { ?>
-                                            <div class="m-t text-righ">
-                                                <button class="btn btn-xs btn-outline btn-primary btnajax"   data-sub="<?=$sub_type; ?>" data-date="<?=$date; ?>" data-time="<?=$value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
-                                            </div>
-                                        <? } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <? } ?>
-                <? } ?>
-            <? } ?>
-        </div>
-        <div class="col-lg-4">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title" style="border-color: #1c84c6;">
-                    <h5><i class="fa fa-calendar-o"></i> &nbsp; <?=$sub_name;?></h5>
-                </div>
-                <div class="ibox-content">
-                    <div>รหัสวิชา : <?=$sub_code;?></div>
-                    <div>อาจารย์ประจำวิชา : <?=$use_name;?></div>
-                    <div>อาจารย์ขึ้นสอบอย่างน้อย : <?=$sub_setuse;?> คน</div>
-                </div>
-            </div>
-            
-            <form action="<?=base_url('calendar/request');?>" method="post" name="formCalendarrequest" id="formCalendarrequest" class="form-horizontal" novalidate>                   
+<head>
 
-                <input type="hidden" name="txt_date" id="txt_date" value="<?=$date; ?>"/>
-                <input type="hidden" name="txt_type" id="txt_type" value="<?=$sub_type; ?>"/>
-                <input type="hidden" name="txt_time" id="txt_time" value=""/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                <ul class="todo-list  ui-sortable" id="listtt">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <div class="alert alert-danger" style="margin-bottom: 0px;">
-                                <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-                <div class="todo-list  ui-sortable" id="listtts"></div>
-                <br/>
+	<title>Appoint-IT</title>
+	<link rel="icon" href="<?= base_url('assets/images/logo/logo.png'); ?>" type="image/x-icon">
+	<link rel="shortcut icon" href="<?= base_url('assets/images/logo/logo.png'); ?>" type="image/x-icon">
 
-            </form>
+	<!-- css style -->
+	<link href="https://fonts.googleapis.com/css?family=Trirong:300,400&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Sarabun:300,400|Trirong:300,400&display=swap" rel="stylesheet">
+	<link href="<?= base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/dataTables/datatables.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/sweetalert/sweetalert.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/select2/select2.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/animate.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet">
 
-        </div>
-    </div>
-</div>
+	<!-- calendar -->
+	<link href="<?= base_url('assets/css/plugins/chosen/chosen.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/fullcalendar/fullcalendar.print.css'); ?>" rel='stylesheet' media='print'>
 
+	<?PHP
+	if (!empty($css)) {
+		echo $css;
+	}
+	?>
+
+	<link href="<?= base_url('assets/css/style.min.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/plugins/datapicker/datepicker3.css'); ?>" rel="stylesheet">
+	<!-- script js -->
+	<script src="<?= base_url('assets/js/lib/jquery-2.1.1.js'); ?>"></script>
+	<!-- <script src="<?= base_url('assets/js/lib/plugins/fullcalendar/fullcalendar.min.js'); ?>"></script> -->
+	<script src="<?= base_url('assets/js/lib/plugins/dataTables/datatables.min.js'); ?>"></script>
+	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
+	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
+
+	<style>
+		.picture input[type="file"] {
+			cursor: pointer;
+			display: block;
+			height: 100%;
+			left: 0;
+			opacity: 0 !important;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			margin-top: 10px !important;
+		}
+
+		#std_imgpre {
+			width: 200px;
+			height: 200px;
+			background-size: cover !important;
+			display: inline-block;
+			border-radius: 100px;
+			margin-bottom: 10px;
+			-webkit-border-radius: 100px;
+			-moz-border-radius: 100px;
+		}
+	</style>
+
+</head>
+
+<? if ($position != 'นักศึกษา') { ?>
+
+	<body class="pace-done">
+	<? } else { ?>
+
+		<body class="top-navigation"><? } ?>
+
+		<? if ($position != 'นักศึกษา') { ?>
+			<div id="wrapper">
+				<nav class="navbar-default navbar-static-side" role="navigation">
+					<div class="sidebar-collapse">
+						<ul class="nav metismenu" id="side-menu">
+							<li class="nav-header">
+								<div class="dropdown profile-element">
+									<center><img src="<?= base_url('assets/images/reunion.svg'); ?>" width="50%"></center>
+								</div>
+								<div class="logo-element">
+									<img src="<?= base_url('assets/images/reunion.svg'); ?>" alt="">
+								</div>
+							</li>
+							<? if ($position != 'ฉุกเฉิน') { ?>
+								<li>
+									<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
+								</li>
+								<li>
+									<a href="<?= site_url('calendar/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+								</li>
+							<? } ?>
+							<? if ($position != 'ผู้ดูแลระบบ' && $position != 'ฉุกเฉิน') { ?>
+								<li>
+									<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
+								</li>
+							<? } ?>
+							<? if ($position != 'นักศึกษา' && $position != 'ฉุกเฉิน') { ?>
+								<li><a href="<?= site_url('subject/index'); ?>"><i class="fa fa-align-left"></i> <span class="nav-label">จัดการรายวิชา</span></a></li>
+								<li><a href="<?= site_url('student/index'); ?>"><i class="fa fa-graduation-cap"></i> <span class="nav-label">ข้อมูลนักศึกษา</span></a></li>
+								<li><a href="<?= site_url('project/index/' . $loginid); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a></li>
+							<? } ?>
+							<? if ($position == 'ผู้ดูแลระบบ') { ?>
+								<li><a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-group"></i> <span class="nav-label">จัดการข้อมูลผู้ใช้</span></a></li>
+								<li><a href="<?= site_url('setting/index'); ?>"><i class="fa fa-tasks"></i> <span class="nav-label">ตั้งค่าระบบ</span></a></li>
+							<? } ?>
+
+						</ul>
+					</div>
+				</nav>
+				<div id="page-wrapper" class="gray-bg">
+					<div class="row border-bottom">
+						<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+							<div class="navbar-header">
+								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+							</div>
+							<ul class="nav navbar-top-links navbar-right">
+								<li>
+									<span class="m-r-sm text-muted welcome-message"><?= $loginname; ?></span>
+								</li>
+								<li>
+									<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+					<!-- contents -->
+					<?= $contents ?>
+					<!-- contents end -->
+
+					<div class="footer"><strong>Copyright</strong> Napassorn | Preedarat &copy; 2019 </div>
+				</div>
+
+			</div>
+		<? } else { ?>
+			<div id="wrapper">
+				<div id="page-wrapper" class="gray-bg">
+					<div class="row border-bottom white-bg">
+						<nav class="navbar navbar-static-top" role="navigation">
+							<div class="navbar-header">
+								<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+									<i class="fa fa-reorder"></i>
+								</button>
+								<a href="#" class="navbar-brand">Appoint-IT</a>
+							</div>
+							<div class="navbar-collapse collapse" id="navbar">
+								<ul class="nav navbar-nav">
+									<li>
+										<a href="<?= site_url('calendar/index/' . $loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+									</li>
+									<li>
+										<a href="<?= site_url('student/stdproject/' . $loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
+									</li>
+									<!-- <li>
+										<a href="<?= site_url('student/stdprofile/' . $loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
+									</li> -->
+
+								</ul>
+								<ul class="nav navbar-top-links navbar-right">
+									<style>
+										.img-circular {
+											position: relative !important;
+											width: 30px !important;
+											height: 30px !important;
+											background-repeat: no-repeat !important;
+											background-position: center center !important;
+											background-size: cover !important;
+											display: inline-block !important;
+											margin: 0 !important;
+											top: 10px !important;
+											border-radius: 50% !important;
+											-webkit-border-radius: 100px !important;
+											-moz-border-radius: 100px !important;
+										}
+									</style>
+									<li class="dropdown">
+										<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?= $loginname; ?> <span class="caret"></span></a>
+										<ul role="menu" class="dropdown-menu">
+											<li><a href="" data-toggle="modal" data-target="#editdata">แก้ไขข้อมูลส่วนตัว</a></li>
+											<li><a href="" data-toggle="modal" data-target="#modal-chengemail">เปลี่ยนที่อยู่อีเมล</a></li>
+											<li><a href="" data-toggle="modal" data-target="#modal-chengpassword">เปลี่ยนรหัสผ่าน</a></li>
+										</ul>
+									</li>
+									<!-- <li><a href=""><?= $loginname; ?></a></li> -->
+									<div class="img-circular" style="background: url('<?= base_url("uploads/student/" . $loginimg); ?>');"></div>
+									<li>
+										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
+									</li>
+								</ul>
+							</div>
+						</nav>
+					</div>
+					<!-- for content-->
+					<?= $contents ?>
+					<!-- for footer-->
+					<div class="footer"><strong>Copyright</strong> Napassorn | Preedarat &copy; 2019 </div>
+				</div>
+			</div>
+		<? } ?>
+		</body>
+
+</html>
+<? if ($position == 'นักศึกษา') {
+	$this->db->select('*');
+	$this->db->where(array('std_id' => $loginid));
+	$query_profile = $this->db->get('tb_student');
+	$listprofiledata = $query_profile->result_array();
+
+	$Id = 	$listprofiledata[0]['std_id'];
+	$Img_std = 	$listprofiledata[0]['std_img'];
+	$Tetx_number = $listprofiledata[0]['std_number'];
+	$Text_name = $listprofiledata[0]['std_fname'];
+	$Text_lastname = $listprofiledata[0]['std_lname'];
+	$Tetx_tel = $listprofiledata[0]['std_tel'];
+	?>
+	<!-- edit profile -->
+	<form action="<?= base_url('student/stdupdate/'); ?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
+		<div class="modal fade" id="editdata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลส่วนตัว</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="Id" id="Id" value="<?= $Id; ?>">
+						<div class="form-group">
+							<div class="col-lg-12">
+								<div class="col-lg-12 center">
+									<div class="picture-container">
+										<div class="picture">
+											<?PHP if ($Img_std == "") { ?>
+												<div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
+											<?PHP } else { ?>
+												<div style="background: url('<?= base_url('uploads/student/' . $Img_std); ?>');" id="std_imgpre"></div>
+											<?PHP } ?>
+											<input type="file" id="std_img" aria-invalid="false" accept="image/*">
+											<input type="hidden" id="std_img2" name="std_img">
+										</div>
+										<h6 class="description">เปลี่ยนรูปภาพ</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-12">รหัสนักศึกษา</label>
+							<div class="col-lg-12">
+								<input placeholder="รหัสนักศึกษา" class="form-control" value="<?= $Tetx_number; ?>" disabled>
+								<input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?= $Tetx_number; ?>">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-6">
+								<label>ชื่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+								<div>
+									<input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?= $Text_name; ?>" class="form-control">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<label>นามสกุล<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+								<div>
+									<input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?= $Text_lastname; ?>">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-12">เบอร์โทรศัพท์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
+							<div class="col-lg-12">
+								<input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?= $Tetx_tel; ?>">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+						<button type="submit" class="btn btn-primary">บันทึก</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- chengemail email -->
+	<form action="<?= base_url('student/stdchangemail'); ?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>
+		<!-- <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?= $formcrfmail; ?>"> -->
+		<input type="hidden" name="Idmail" id="Idmail" value="<?= $Id; ?>">
+		<div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h3 class="m-t-none m-b">เปลี่ยนที่อยู่อีเมล์</h3>
+						<p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนอีเมล์แล้วต้องเข้าสู่ระบบใหม่อีกครั้ง.</p>
+						<hr />
+						<div class="form-group-mgTB">
+							<input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control" data-url="<?= site_url('student/checkemail'); ?>">
+						</div>
+						<div class="mgBottom">
+							<button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนที่อยู่อีเมล์</strong></button>
+						</div>
+						<div style="margin-bottom: 20px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+<? } ?>
+<!-- chengepassword -->
+<form action="<?= base_url('student/stdchangepassword'); ?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
+	<input type="hidden" name="Id2" id="Id2" value="<?= $Id; ?>">
+	<div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
+					<hr />
+					<div class="form-group-mgTB">
+						<input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
+					</div>
+					<div class="mgBottom">
+						<button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนรหัสผ่าน</strong></button>
+					</div>
+					<div style="margin-bottom: 20px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			const reader = new FileReader({
+				type: 'image/png'
+			});
+			reader.onload = function(e) {
+				$('#std_imgpre').css('background', 'url(' + e.target.result + ') no-repeat center');
+				var img = e.target.result;
+				$("#std_img2").val(img);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	$("#std_img").change(function() {
+		readURL(this);
+	});
+</script>
+
+<? if ($position == 'นักศึกษา') { ?>
+			<div id="wrapper">
+				<div id="page-wrapper" class="gray-bg">
+					<div class="row border-bottom white-bg">
+						<nav class="navbar navbar-static-top" role="navigation">
+							<div class="navbar-header">
+								<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+									<i class="fa fa-reorder"></i>
+								</button>
+								<a href="#" class="navbar-brand">Appoint-IT</a>
+							</div>
+							<div class="navbar-collapse collapse" id="navbar">
+								<ul class="nav navbar-nav">
+									<li>
+										<a href="<?= site_url('calendar/index/' . $loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+									</li>
+									<li>
+										<a href="<?= site_url('student/stdproject/' . $loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
+									</li>
+									<!-- <li>
+										<a href="<?= site_url('student/stdprofile/' . $loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
+									</li> -->
+
+								</ul>
+								<ul class="nav navbar-top-links navbar-right">
+									<style>
+										.img-circular {
+											position: relative !important;
+											width: 30px !important;
+											height: 30px !important;
+											background-repeat: no-repeat !important;
+											background-position: center center !important;
+											background-size: cover !important;
+											display: inline-block !important;
+											margin: 0 !important;
+											top: 10px !important;
+											border-radius: 50% !important;
+											-webkit-border-radius: 100px !important;
+											-moz-border-radius: 100px !important;
+										}
+									</style>
+									<li class="dropdown">
+										<a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?= $loginname; ?> <span class="caret"></span></a>
+										<ul role="menu" class="dropdown-menu">
+											<li><a href="" data-toggle="modal" data-target="#editdata">แก้ไขข้อมูลส่วนตัว</a></li>
+											<li><a href="" data-toggle="modal" data-target="#modal-chengemail">เปลี่ยนที่อยู่อีเมล</a></li>
+											<li><a href="" data-toggle="modal" data-target="#modal-chengpassword">เปลี่ยนรหัสผ่าน</a></li>
+										</ul>
+									</li>
+									<!-- <li><a href=""><?= $loginname; ?></a></li> -->
+									<div class="img-circular" style="background: url('<?= base_url("uploads/student/" . $loginimg); ?>');"></div>
+									<li>
+										<a href="<?= site_url('administrator/logout'); ?>" style="color:#c0392b"> <i class="fa fa-sign-out"></i> ออกจากระบบ </a>
+									</li>
+								</ul>
+							</div>
+						</nav>
+					</div>
+					<!-- for content-->
+					<?= $contents ?>
+					<!-- for footer-->
+					<div class="footer"><strong>Copyright</strong> Napassorn | Preedarat &copy; 2019 </div>
+				</div>
+			</div>
+		<? } ?>

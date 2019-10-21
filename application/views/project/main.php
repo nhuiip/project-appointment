@@ -33,7 +33,7 @@
 </style>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="padding-right: 30px;padding-left: 30px;">
             <!-- Nav tabs -->
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
                 <li role="presentation" class="active"><a href="#work"data-toggle="pill"  class="btn-show-project"><i class="fa fa-laptop"></i></a></li>
@@ -45,7 +45,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="work">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12" style="padding-right: 30px;padding-left: 30px;">
                     <div class="ibox-content m-b-sm border-bottom">
                         <div class="row">
                             <div class="col-md-12">
@@ -88,17 +88,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row coutomrow">
                 <?PHP if($listproject != []) {?>
                 <?PHP foreach ($listproject as $key => $value) { ?>
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="ibox">
                             <div class="ibox-content product-box">
                                 <div class="product-desc">
-                                    <a href="<?=base_url('project/detail/'.$this->encryption->decrypt($this->input->cookie('sysli')).'/'.$value['project_id']);?>" class="product-name" style="height: 40px;"> <?=character_limiter(strip_tags($value['project_name']), 20);?></a>
+                                    <a href="<?=base_url('project/detail/'.$this->encryption->decrypt($this->input->cookie('sysli')).'/'.$value['project_id']);?>" class="product-name" style="height: 40px;"> <?=$value['project_name'];?></a>
                                     <br/>
                                     <div class="small m-t-xs">
-                                        อาจารย์ที่ปรึกษา <br/><?=character_limiter(strip_tags($value['use_name']), 20);?>
+                                        อาจารย์ที่ปรึกษา <br/><?=$value['use_name'];?>
                                     </div>
                                     <br/>
                                     <div class="display-grid-project">
