@@ -14,6 +14,7 @@ function DateThai($strDate)
 if (isset($listsubject) && count($listsubject) != 0) {
     foreach ($listsubject as $key => $student) {
         $sub_id      = $student['sub_id'];
+        $use_id      = $student['use_id'];
         $sub_name    = $student['sub_name'];
         $sub_code    = $student['sub_code'];
         $sub_setuse  = $student['sub_setuse'];
@@ -37,15 +38,31 @@ if (isset($listsubject) && count($listsubject) != 0) {
             <? if ($sub_type == 1) { ?>
                 <? foreach ($time as $key => $value) { ?>
                     <?
+                            $this->db->select("sec_status");
+                            $this->db->where('use_id', $use_id);
+                            $this->db->where('sec_date', $date);
+                            $this->db->where('sec_status', 1);
+                            $this->db->where("(sec_time_one=" . $value['one'] . "OR sec_time_two=" . $value['two'] . ")", NULL, FALSE);
+                            $query_section = $this->db->get('tb_section');
+                            $section_sub = $query_section->result_array();
+
+                            $this->db->select("sec_status");
+                            $this->db->where('use_id', $project_use);
+                            $this->db->where('sec_date', $date);
+                            $this->db->where('sec_status', 1);
+                            $this->db->where("(sec_time_one=" . $value['one'] . "OR sec_time_two=" . $value['two'] . ")", NULL, FALSE);
+                            $query_pro = $this->db->get('tb_section');
+                            $section_pro = $query_pro->result_array();
+
                             $this->db->select("*");
                             $this->db->from('tb_meet');
                             $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
                             $this->db->where('meet_date', $date);
                             $this->db->where('meet_status !=', 0);
                             $this->db->where("(meet_time=" . $value['one'] . "OR meet_time=" . $value['two'] . ")", NULL, FALSE);
-
                             $query = $this->db->get();
                             $meet = $query->result_array();
+
                             if (count($meet) != 0) {
                                 $this->db->select("*");
                                 $this->db->from('tb_meetdetail');
@@ -55,8 +72,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 $this->db->order_by("dmeet_head", "DESC");
                                 $query = $this->db->get();
                                 $listt = $query->result_array();
-                            }
-                            ?>
+                            } else
+                                ?>
                     <div class="col-md-6">
                         <div class="ibox">
                             <div class="ibox-content product-box">
@@ -78,8 +95,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         </div>
                                     <? } ?>
                                     <? if (count($meet) == 0) { ?>
-
-                                        <?PHP  if($chkprojectrequest == 0){ ?>
+                                        <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                             <div class="m-t text-righ">
                                                 <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                             </div>
@@ -96,6 +112,22 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <? foreach ($time as $key => $value) { ?>
                     <? if ($value['two'] != '12.00' && $value['two'] != '16.00') { ?>
                         <?
+                                    $this->db->select("sec_status");
+                                    $this->db->where('use_id', $use_id);
+                                    $this->db->where('sec_date', $date);
+                                    $this->db->where('sec_status', 1);
+                                    $this->db->where("(sec_time_one=" . $value['one'] . "OR sec_time_two=" . $value['two'] . ")", NULL, FALSE);
+                                    $query_section = $this->db->get('tb_section');
+                                    $section_sub = $query_section->result_array();
+
+                                    $this->db->select("sec_status");
+                                    $this->db->where('use_id', $project_use);
+                                    $this->db->where('sec_date', $date);
+                                    $this->db->where('sec_status', 1);
+                                    $this->db->where("(sec_time_one=" . $value['one'] . "OR sec_time_two=" . $value['two'] . ")", NULL, FALSE);
+                                    $query_pro = $this->db->get('tb_section');
+                                    $section_pro = $query_pro->result_array();
+
                                     $this->db->select("*");
                                     $this->db->from('tb_meet');
                                     $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
@@ -137,7 +169,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <? } ?>
 
                                         <? if (count($meet) == 0) { ?>
-                                            <?PHP  if($chkprojectrequest == 0){ ?>
+                                            <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
+
                                                 <div class="m-t text-righ">
                                                     <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                 </div>
@@ -170,7 +203,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <input type="hidden" name="txt_type" id="txt_type" value="<?= $sub_type; ?>" />
                 <input type="hidden" name="txt_time" id="txt_time" value="" />
 
-                <?PHP  if($chkprojectrequest == 0){ ?>
+                <?PHP if ($chkprojectrequest == 0) { ?>
                     <ul class="todo-list  ui-sortable" id="listtt">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
@@ -187,11 +220,11 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 </div>
                             </div>
                         </div> -->
-                        
+
                     </ul>
                     <div class="todo-list  ui-sortable" id="listtts"></div>
                     <br />
-                <?PHP }else{ ?>
+                <?PHP } else { ?>
                     <div class="ibox float-e-margins">
                         <!-- <div class="ibox-title">
                             <h5>Headings</h5>
@@ -220,7 +253,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
 
                                 $this->db->select("tb_projectperson.std_id,tb_projectperson.project_id");
                                 $this->db->from('tb_projectperson');
-                                $this->db->where('tb_projectperson.std_id' ,$this->encryption->decrypt($this->input->cookie('sysli')));
+                                $this->db->where('tb_projectperson.std_id', $this->encryption->decrypt($this->input->cookie('sysli')));
                                 $query_projectperson = $this->db->get();
                                 $projectperson = $query_projectperson->result_array();
 
@@ -244,7 +277,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     $list_showrequest = $query_showrequest->result_array();
                                 }
 
-                            ?>
+
+
+                                ?>
 
                             <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">
@@ -261,8 +296,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 </div>
                             <? } ?>
 
-                            <a href="<?=base_url('calendar/showcalendar/1');?>">
-                            <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
+                            <a href="<?= base_url('calendar/showcalendar/1'); ?>">
+                                <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
                             </a>
                         </div>
                     </div>

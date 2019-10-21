@@ -87,15 +87,18 @@ class Calendar extends MX_Controller
 
                 $data = array();
                 $condition = array();
-                $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id";
-                $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+                $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id, tb_project.use_id";
+                $condition['where'] = array(
+                    'tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')),
+                    'tb_project.project_status !=' => 0
+                );
                 $projectperson = $this->project->listjoinData($condition);
 
                 $project_id  = $projectperson[0]['project_id'];
 
                 $condition = array();
-                $condition['fide'] = "project_id";
-                $condition['where'] = array('project_id' => $project_id);
+                $condition['fide'] = "tb_meet.project_id";
+                $condition['where'] = array('tb_meet.project_id' => $project_id);
                 $projectrequest = $this->meet->listData($condition);
 
                 if(count($projectrequest) == ""){
@@ -122,6 +125,7 @@ class Calendar extends MX_Controller
                     $data['sub_type'] = $sub_type;
                 }
 
+                $data['project_use'] = $projectperson[0]['use_id'];
                 $data['date'] = $date;
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('calendar/detail', $data);
@@ -156,7 +160,7 @@ class Calendar extends MX_Controller
 
         echo json_encode($listJson);
     }    
-    
+
     public function jsontimeT()
     {
         $sub_type = $this->input->post('sub');
