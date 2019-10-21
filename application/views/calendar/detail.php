@@ -233,11 +233,11 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 $querysmeet = $this->db->get();
                                 $listdata_meet = $querysmeet->result_array();
 
-                                if (count($meet) != 0) {
+                                if (count($listdata_meet) != 0) {
                                     $this->db->select("*");
                                     $this->db->from('tb_meetdetail');
                                     $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
-                                    $this->db->where(array('meet_id' => $meet[0]['meet_id'], 'dmeet_status !=' => 0));
+                                    $this->db->where(array('meet_id' => $listdata_meet[0]['meet_id'], 'dmeet_status !=' => 0));
                                     $this->db->order_by("dmeet_head", "DESC");
                                     $query_showrequest = $this->db->get();
                                     $list_showrequest = $query_showrequest->result_array();
