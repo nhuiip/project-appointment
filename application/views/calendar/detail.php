@@ -278,7 +278,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <span class="badge badge-warning col-sm-2">สีเหลือง</span>
                                         <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
                                         <span class="badge badge-default col-sm-2">สีเทา</span>
-                                        <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
+                                        <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
                                     </div>
                                 </div>
                             </div>
