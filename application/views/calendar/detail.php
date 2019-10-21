@@ -179,6 +179,15 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 </div>
                             </div>
                         </div>
+
+                        <!-- <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <div class="alert alert-danger" style="margin-bottom: 0px;">
+                                    <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
+                                </div>
+                            </div>
+                        </div> -->
+                        
                     </ul>
                     <div class="todo-list  ui-sortable" id="listtts"></div>
                     <br />
@@ -222,15 +231,26 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
                                 $this->db->where('tb_meet.project_id', $project_id);
                                 $this->db->where('meet_status !=', 0);
-                                $querys = $this->db->get();
-                                $meet = $querys->result_array();
+                                $querysmeet = $this->db->get();
+                                $listdata_meet = $querysmeet->result_array();
+
+                                if (count($listdata_meet) != 0) {
+                                    $this->db->select("*");
+                                    $this->db->from('tb_meetdetail');
+                                    $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                                    $this->db->where(array('meet_id' => $listdata_meet[0]['meet_id'], 'dmeet_status !=' => 0));
+                                    $this->db->order_by("dmeet_head", "DESC");
+                                    $query_showrequest = $this->db->get();
+                                    $list_showrequest = $query_showrequest->result_array();
+                                }
+
                             ?>
 
-                            <? if (count($meet) != 0) { ?>
+                            <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">
-                                    <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                    <p><? foreach ($listt as $key => $v) { ?>
-                                            <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
+                                    <p><strong>รายการ</strong> : <?= $listdata_meet[0]['project_name']; ?></p>
+                                    <p><? foreach ($list_showrequest as $key => $v) { ?>
+                                            <? if ($v['use_id'] == $listdata_meet[0]['use_id']) { ?>
                                                 <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
                                             <? } elseif ($v['dmeet_head'] == 1) { ?>
                                                 <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>

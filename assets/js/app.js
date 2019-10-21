@@ -361,7 +361,7 @@ $(".btnajax").click(function() {
     },
     success: function(result) {
 
-      console.log(result);
+      // console.log(result);
 
       $("#listtt").empty();
       $("#listtts").empty();
