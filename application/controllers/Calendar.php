@@ -12,7 +12,9 @@ class Calendar extends MX_Controller
         $this->load->model("setting_model", "setting");
         $this->load->model("section_model", "section");
         $this->load->model("meet_model", "meet");
-		$this->load->model("administrator_model", "administrator");
+        $this->load->model("administrator_model", "administrator");
+        $this->load->library('cart');
+		$this->load->library('session');
     }
 
     public function index($id = "")
@@ -103,6 +105,7 @@ class Calendar extends MX_Controller
                 if(!empty($sub_type)){
                     $data['sub_type'] = $sub_type;
                 }
+
                 $data['date'] = $date;
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('calendar/detail', $data);
@@ -143,6 +146,7 @@ class Calendar extends MX_Controller
         // echo 'ee';
         // die;
         $sub_type = $this->input->post('sub');
+        $time = $this->input->post('time');
         // $sub_type = 1;
 
         $condition = array();
@@ -175,6 +179,7 @@ class Calendar extends MX_Controller
         foreach ($listsec as $key => $value) {
             $listJson[$key]['id'] = $value['use_id'];
             $listJson[$key]['name'] = $value['use_name'];
+            $listJson[$key]['time'] = $time;
         }
         // echo json_encode(array('data' => $listJson));
         echo json_encode($listJson);
@@ -189,20 +194,328 @@ class Calendar extends MX_Controller
 
         $userId = $this->input->post('userId');
 
-        $condition = array();
-        $condition['fide'] = "";
-        $condition['where'] = array('use_id' => $userId);
-        $listdata = $this->administrator->listData($condition);
+        $k = 0;
 
+		if($k == 0){
 
-        $data = array(
-            'use_id'      				=> $listdata[0]['use_id'],
-            'use_name'      				=> $listdata[0]['use_name'],
-        );
-        echo json_encode($data);
+            $condition = array();
+            $condition['fide'] = "";
+            $condition['where'] = array('use_id' => $userId);
+            $listdata = $this->administrator->listData($condition);
+
+            $data = array(
+                'use_id'      	=> $listdata[0]['use_id'],
+                'use_name'      => $listdata[0]['use_name'],
+            );
+
+            $this->cart->insert($data);
+
+            $data['total'] = $this->cart->total_items();
+            $data['totalprice'] = $this->cart->total();
+            $data['typeaction'] = 'insert';
+            echo json_encode($data);
+			
+        }	
+        
+
+        // $userId = $this->input->post('userId');
+
+        // $condition = array();
+        // $condition['fide'] = "";
+        // $condition['where'] = array('use_id' => $userId);
+        // $listdata = $this->administrator->listData($condition);
+
+        // $data = array(
+        //     'use_id'      				=> $listdata[0]['use_id'],
+        //     'use_name'      				=> $listdata[0]['use_name'],
+        // );
+        // echo json_encode($data);
                     
         die;
         
-	}
+    }
 
+    public function request(){
+
+        $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
+        $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
+        $time  =  $this->input->post('txt_time'); //เวลา
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli')); //รหัสนักศึกษา
+
+        $condition = array();
+        $condition['fide'] = "sec_id,sec_date,set_id";
+        $condition['where'] = array('sec_date' => $date);
+        $listsection = $this->section->listData($condition);
+
+        $sec_id  =  $listsection[0]['sec_id']; //Id เวลา
+        $set_id  =  $listsection[0]['set_id']; //การตั้งค่า
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('use_id' => $idlogin, 'project_status !=' => 0);
+        $liststudent = $this->project->listData($condition);
+
+        $project_id  =  $liststudent[0]['project_id']; //รหัสโปรเจค
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('sub_id' => $type);
+        $listsubject = $this->subject->listData($condition);
+
+        $sub_setless  =  $listsubject[0]['sub_setless']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
+
+       //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
+        if(count($this->input->post('checkUser')) <= $sub_setless){
+
+            print_r('น้อยกว่า');
+
+        }else{
+           
+            // insert meet
+            $data = array(
+                'set_id'             => $set_id,
+                'project_id'         => $project_id,
+                'sub_id'             => $type,
+                'meet_date'          => $date,
+                'meet_time'          => $time,
+                'meet_status'        => 1,
+                'meet_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'meet_create_date'   => date('Y-m-d H:i:s'),
+                'meet_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'meet_lastedit_date' => date('Y-m-d H:i:s'),
+            );
+            
+            $meetId = $this->meet->insertData($data);
+            
+            //insert meetdetail
+            $other = array();
+            for($i=0;$i<count($this->input->post('checkUser'));$i++){
+
+                $other['meet_id'] 	        = $meetId;
+                $other['use_id'] 		    = $this->input->post('checkUser')[$i];
+                $other['dmeet_status'] 		= 1;
+                $other['dmeet_head'] 		= 0;
+                $other['sec_id'] 		    = $sec_id;
+
+                $this->meet->insertDetail($other);
+            }          
+
+            redirect('calendar/chkrequest/'.$meetId);
+
+        }
+
+    }
+
+    public function addhead(){
+        
+        $userId = $this->input->post('id');
+
+        $data = array();
+        $condition = array();
+        $condition['fide'] = "tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.meet_id";
+        $condition['where'] = array('tb_meetdetail.use_id' => $userId);
+        $listsubject = $this->meet->listjoinData2($condition);
+
+        $dmeet_id  =  $listsubject[0]['dmeet_id'];
+        $meetId    = $listsubject[0]['meet_id'];
+
+        $data = array(
+            'dmeet_id'      => $dmeet_id,
+            'dmeet_head'    => 1
+        );
+
+        $this->meet->updateDetail($data);
+
+        $datas = array(
+            'meet_id'      => $meetId,
+        );
+
+        echo json_encode($datas);
+
+        die;
+
+    }
+
+    public function chkrequest($meetId = "")
+    {
+
+        $data = array();
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_meet.meet_id' => $meetId);
+        $data['listshowproject'] = $this->meet->listjoinData($condition);
+
+        $project_id  =  $data['listshowproject'][0]['project_id'];
+        $meet_id     =  $data['listshowproject'][0]['meet_id'];
+        $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
+        $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_project.project_id' => $project_id);
+        $listproject = $this->project->listjoinData($condition);
+
+        $data['teacher_fullname']  =  $listproject[0]['use_name'];
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_projectperson.project_id' => $project_id);
+        $data['listprojectperson'] = $this->project->listperson($condition);
+
+        $condition = array();
+        $condition['fide'] = "tb_meet.project_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.dmeet_head,tb_user.use_name";
+        $condition['where'] = array('tb_meet.project_id' => $meet_id);
+        $data['listmeet'] = $this->meet->listjoinData2($condition);
+
+        foreach ($data['listmeet'] as $key => $value) {
+            
+
+            if($value['dmeet_head'] == 1){
+
+                $data['meetHeadshow'] = 1;
+
+            }else{
+
+                $data['meetHeadshow'] = 0;
+
+            }
+        }
+
+        $data['formcrf'] = $this->tokens->token('formcrf');
+        $this->template->backend('calendar/chkrequest',$data);
+        
+    }
+
+    public function showcalendar($meetId = "")
+    {
+
+        $data = array();
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_meet.meet_id' => $meetId);
+        $data['listshowproject'] = $this->meet->listjoinData($condition);
+
+        $project_id  =  $data['listshowproject'][0]['project_id'];
+        $meet_id     =  $data['listshowproject'][0]['meet_id'];
+        $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
+        $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_project.project_id' => $project_id);
+        $listproject = $this->project->listjoinData($condition);
+
+        $data['teacher_fullname']  =  $listproject[0]['use_name'];
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_projectperson.project_id' => $project_id);
+        $data['listprojectperson'] = $this->project->listperson($condition);
+
+        $condition = array();
+        $condition['fide'] = "tb_meet.meet_id,tb_meet.project_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.dmeet_head,tb_user.use_name";
+        $condition['where'] = array('tb_meet.project_id' => $meet_id);
+        $condition['orderby'] = "dmeet_head desc";
+        $data['listmeet'] = $this->meet->listjoinData2($condition);
+
+        $data['meetHeadshow'] = 1;
+
+        $data['formcrf'] = $this->tokens->token('formcrf');
+        $this->template->backend('calendar/chkrequest',$data);
+        
+    }
+
+    public function message_verify($data)
+    {
+
+        $burl = site_url('student/sandrequest');
+        $html = file_get_contents("assets/template_email/sandrequest.html");
+        // $html = str_replace('[DATA-LINK]', $burl, $html);
+        // $html = str_replace('[DATA-TITLE]', $data['std_title'], $html);
+        // $html = str_replace('[DATA-FNAME]', $data['std_fname'], $html);
+        // $html = str_replace('[DATA-LNAME]', $data['std_lname'], $html);
+        // $html = str_replace('[DATA-EMAIL]', $data['std_email'], $html);
+        return $html;
+    }
+
+    public function sandrequest(){
+
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        //select project
+        $condition = array();
+        $condition['fide'] = "tb_projectperson.project_id,tb_student.std_id,tb_project.project_status";
+        $condition['where'] = array('tb_student.std_id' => $idlogin, 'tb_project.project_status !=' => 0);
+        $listproject = $this->project->listperson($condition);
+
+        $project_id  =  $listproject[0]['project_id'];
+
+        //select project student
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_project.project_id' => $project_id);
+        $listproject = $this->project->listjoinData($condition);
+
+        $data = array(
+            'project_id'    => $project_id,
+
+        );
+
+        require_once APPPATH . 'third_party/class.phpmailer.php';
+        require_once APPPATH . 'third_party/class.smtp.php';
+        $mail = new PHPMailer;
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+        $mail->CharSet = "utf-8";
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 0;
+        $mail->SMTPAuth = true;
+        $mail->Host = "smtp.hostinger.in.th";
+        $mail->Port = 587;
+        $mail->Username = "appoint@preedarat-cv.com";
+        $mail->Password = "1s1F]59H";
+        $mail->setFrom('appoint@preedarat-cv.com', 'Appoint-IT');
+        // $mail->AddAddress($data['std_email']);
+        $mail->AddAddress('yui.napassorn.s@gmail.com');
+        $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+        // $message = '<html lang="en">';
+        // $message .= '<head>';
+        // $message .= '<title>คำขอขึ้นสอบปริญญานิพนธ์</title>';
+        // $message .= '</head>';
+        // $message .= '<body>';
+        // $message .= '<div>';
+        // $message .= '111';
+        // $message .= '</div>';
+        // $message .= '</body>';
+        // $message .= '</html>';
+                        
+        $message = $this->message_verify($data);
+
+        print_r($message);
+        die;
+
+        $mail->MsgHTML($message);
+        $mail->send();
+        $result = array(
+            'error' => false,
+            'msg' => 'ลงทะเบียนสำเร็จ',
+            'url' => site_url('student/succeedreg')
+        );
+
+        // print_r('<pre>');
+        // print_r($listproject);
+        // print_r('</pre>');
+
+        die;
+
+    }
+
+   
 }

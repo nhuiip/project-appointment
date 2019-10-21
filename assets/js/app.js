@@ -200,6 +200,47 @@ $(".btn-check").click(function() {
   );
 });
 
+$(".btn-checkuserHead").click(function() {
+  var url = $(this).attr("data-url");
+  var title = $(this).attr("data-title");
+  var text = $(this).attr("data-text");
+  var id = $(this).attr("data-id");
+  var meetId = $(this).attr("data-meetId");
+
+  swal(
+    {
+      title: title,
+      text: text,
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c0392b",
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ยกเลิก",
+      closeOnConfirm: false
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        $.ajax({
+          method: "POST",
+          dataType: "json",
+          url: url,
+          data: {
+            id: id,
+            meetId: meetId
+          },
+          success: function(result) {
+
+            $meetId = result.meet_id;
+            location.href = '/calendar/showcalendar/'+$meetId+'';
+
+          }
+        });
+      }
+    },
+
+  );
+});
+
 // datatable-export
 $(".dataTables-export tfoot th").each(function() {
   var title = $(this).text();
@@ -301,14 +342,14 @@ tables.columns().every(function() {
 // DataTable end
 
 $(".btnajax").click(function() {
+
+  // window.localStorage.removeItem('productCompare');
+
   var date = $(this).attr("data-date");
   var time = $(this).attr("data-time");
   var sub = $(this).attr("data-sub");
   var url = $(this).attr("data-url");
-  console.log(date);
-  console.log(time);
-  console.log(sub);
-  console.log(url);
+ 
   $.ajax({
     method: "POST",
     dataType: "json",
@@ -321,13 +362,22 @@ $(".btnajax").click(function() {
     success: function(result) {
       // console.log(result);
       $("#listtt").empty();
+      $("#listtts").empty();
+
+
       $.each(result, function(index, item) {
+
+      $('#txt_time').val(item.time);
+
         $("#listtt").append(
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " > <label for="checkUser[]"> '+ item.name + ' </label> </div></span></li>').append()
+          
           // $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
-          $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
+          // $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });
+      $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
     },
     error: function(jqXHR, exception) {
       if (jqXHR.status === 0) {
@@ -354,10 +404,6 @@ $(".btnajax").click(function() {
 function addcart(e){
   var userId = $(e).attr('data-userId');
   var date = $(e).attr('data-date');
-  
-  console.log(userId);
-  console.log(date);
-
   var urlb = "http://localhost:9900";
 
 	data = [ ]
@@ -372,66 +418,19 @@ function addcart(e){
     beforeSend: function() {}, 
     success: function(result) {
 
-      data.push(result)
+      console.log(result);
 
-      if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
-		
-        products = JSON.parse(localStorage.getItem('productCompare')) //get old data
-        products.push(result)//set new data
-        localStorage.setItem('productCompare',JSON.stringify(products)) // add old data & new data
-        
-      }else{
-        //add localStorage
-        localStorage.setItem('productCompare',JSON.stringify(data))
-      }
+      if(result.typeaction == "insert"){
 
-      // show html
-      products2 = JSON.parse(localStorage.getItem('productCompare'))  
-      console.log('Get item:', products2);
-
-
-      var viewcompre2  =products2.reverse();
-
-      var Texthtml = ''
-      viewcompre2.map((data,key) => {
-
-        Texthtml+= '<div>';
-        Texthtml+= ''+data.use_name+'';
+        var Texthtml = '<div>';
+        Texthtml+= '';
         Texthtml+= '</div>';
-      
-      })
+        $('#menu-cart').append(Texthtml);					
 
-      $('#menu-compare').html(Texthtml);
-        
-
+      }
 
 	  },
   })
   
 
 }
-
-$(function() {
-
-	if(localStorage.getItem('productCompare') != null && localStorage.getItem('productCompare') != ''){
-		products = JSON.parse(localStorage.getItem('productCompare'))  
-	}else{
-		products = []
-	}
-
-	var viewcompre	=	products.reverse();
-
-	$('#total-item-compare').html(products.length);   
-
-	viewcompre.map((data,key) => {
-
-		//view compare | page quotationcart
-		var viewhtml = '<div>';
-		viewhtml+= ''+data.use_name+'';
-		viewhtml+= '</div>';
-
-		$('#menu-compare').append(viewhtml);
-
-	})
-
-})
