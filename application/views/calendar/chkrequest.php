@@ -97,7 +97,7 @@ function DateThai($meet_date)
                     <h5>ข้อมูลอาจารย์ขึ้นสอบปริญญานิพนธ์</h5>
                 </div>
                 <div class="ibox-content">
-
+                    
                     <?PHP if($meetHeadshow != 0) {?>
 
                         <?PHP if (count($listmeet) != 0){ ?>

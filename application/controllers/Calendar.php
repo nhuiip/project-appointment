@@ -87,15 +87,23 @@ class Calendar extends MX_Controller
 
                 $data = array();
                 $condition = array();
-                $condition['fide'] = "*";
+                $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id";
                 $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
                 $projectperson = $this->project->listjoinData($condition);
-                if(count($projectperson) == 0){
+
+                $project_id  = $projectperson[0]['project_id'];
+
+                $condition = array();
+                $condition['fide'] = "project_id";
+                $condition['where'] = array('project_id' => $project_id);
+                $projectrequest = $this->meet->listData($condition);
+
+                if(count($projectrequest) == ""){
                     $data['chkprojectrequest'] = 0;
                 }else{
                     $data['chkprojectrequest'] = 1;
                 }
-                
+
                 $condition = array();
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_subject.sub_type' => $sub_type);
@@ -376,11 +384,10 @@ class Calendar extends MX_Controller
 
         $condition = array();
         $condition['fide'] = "tb_meet.project_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.dmeet_head,tb_user.use_name";
-        $condition['where'] = array('tb_meet.project_id' => $meet_id);
+        $condition['where'] = array('tb_meet.meet_id' => $meet_id);
         $data['listmeet'] = $this->meet->listjoinData2($condition);
 
         foreach ($data['listmeet'] as $key => $value) {
-            
 
             if($value['dmeet_head'] == 1){
 
@@ -391,6 +398,7 @@ class Calendar extends MX_Controller
                 $data['meetHeadshow'] = 0;
 
             }
+
         }
 
         $data['formcrf'] = $this->tokens->token('formcrf');
