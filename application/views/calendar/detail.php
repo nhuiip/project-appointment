@@ -13,6 +13,7 @@ function DateThai($strDate)
 <?
 if (isset($listsubject) && count($listsubject) != 0) {
     foreach ($listsubject as $key => $student) {
+        $sub_id      = $student['sub_id'];
         $sub_name    = $student['sub_name'];
         $sub_code    = $student['sub_code'];
         $sub_setuse  = $student['sub_setuse'];
