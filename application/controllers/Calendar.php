@@ -231,52 +231,6 @@ class Calendar extends MX_Controller
         die;
     }
 
-
-    public function cart(){
-
-        $userId = $this->input->post('userId');
-
-        $k = 0;
-
-		if($k == 0){
-
-            $condition = array();
-            $condition['fide'] = "";
-            $condition['where'] = array('use_id' => $userId);
-            $listdata = $this->administrator->listData($condition);
-
-            $data = array(
-                'use_id'      	=> $listdata[0]['use_id'],
-                'use_name'      => $listdata[0]['use_name'],
-            );
-
-            $this->cart->insert($data);
-
-            $data['total'] = $this->cart->total_items();
-            $data['totalprice'] = $this->cart->total();
-            $data['typeaction'] = 'insert';
-            echo json_encode($data);
-			
-        }	
-        
-
-        // $userId = $this->input->post('userId');
-
-        // $condition = array();
-        // $condition['fide'] = "";
-        // $condition['where'] = array('use_id' => $userId);
-        // $listdata = $this->administrator->listData($condition);
-
-        // $data = array(
-        //     'use_id'      				=> $listdata[0]['use_id'],
-        //     'use_name'      				=> $listdata[0]['use_name'],
-        // );
-        // echo json_encode($data);
-                    
-        die;
-        
-    }
-
     public function request(){
 
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
@@ -339,12 +293,116 @@ class Calendar extends MX_Controller
                 $other['dmeet_head'] 		= 0;
                 $other['sec_id'] 		    = $sec_id;
 
-                $this->meet->insertDetail($other);
+                $dmeet_id  = $this->meet->insertDetail($other);
             }          
 
-            // redirect('calendar/chkrequest/'.$meetId);
+            // select detailmeet
+            $condition = array();
+            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.dmeet_status,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time,";
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meetId);
+            $listmeetdetail = $this->meet->listjoinData2($condition);
 
-            print_r('มากกว่า');
+            //select id subject in meet
+            $condition = array();
+            $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id";
+            $condition['where'] = array('tb_meet.meet_id' => $meetId);
+            $listmeetsub = $this->meet->listjoinData($condition);
+
+            //select subject type in tb_subject
+            $condition = array();
+            $condition['fide'] = "sub_id,sub_type";
+            $condition['where'] = array('sub_id' => $listmeetsub[0]['sub_id']);
+            $listprojectsubType = $this->subject->listData($condition);
+
+          
+
+            foreach ($listmeetdetail as $key => $value) {
+              
+                // echo $value['use_id'];
+                // echo '<br/>';
+                // echo $value['meet_date'];
+                // echo '<br/>';
+                // echo $value['meet_time'];
+                // echo '<br/>';
+                // echo $listprojectsubType[0]['sub_id'];
+                // echo '<br/>';
+
+                if($listprojectsubType[0]['sub_id'] == 1){
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_one' => $value['meet_time']);
+                    $listmeet = $this->section->listData($condition);
+                    
+                    // print_r('sec_time_one');
+
+                    foreach ($listmeet as $key => $values) {
+
+                        $othersection['sec_id'] 	    = $values['sec_id'];
+                        $othersection['sec_status'] 		= 0;
+
+                        $this->section->updateData($othersection);
+
+
+                    }
+
+                }else{
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_two' => $value['meet_time']);
+                    $listmeet = $this->section->listData($condition);
+                    
+                    // print_r('sec_time_two');
+
+                    foreach ($listmeet as $key => $values) {
+
+
+                        $othersection['sec_id'] 	    = $values['sec_id'];
+                        $othersection['sec_status'] 		= 0;
+
+                        $this->section->updateData($othersection);
+
+                            
+
+                    }
+
+                }
+
+                // $condition['fide'] = "*";
+                // $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date']);
+                // $listmeet = $this->section->listData($condition);
+                
+                // foreach ($listmeet as $key => $values) {
+
+                //     print_r($values['sec_id'] );
+
+                //         if($values['sec_time_one']  == $value['meet_time']){
+
+                //             $othersection['sec_id'] 	    = $values['sec_id'];
+                //             $othersection['sec_status'] 		= 0;
+
+                //             // $this->section->updateData($othersection);
+
+                //         }else{
+
+                //             $othersection['sec_id'] 	    = $values['sec_id'];
+                //             $othersection['sec_status'] 		= 0;
+
+                //             // $this->section->updateData($othersection);
+
+                //         }
+
+                // }
+
+
+                
+
+            }
+
+        //    die;
+
+            redirect('calendar/chkrequest/'.$meetId);
+
+            // print_r('มากกว่า');
 
         }else{
            
