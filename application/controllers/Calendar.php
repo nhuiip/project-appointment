@@ -155,7 +155,9 @@ class Calendar extends MX_Controller
         }
 
         echo json_encode($listJson);
-    }
+    }    
+
+    
 
     public function jsontimeT()
     {
