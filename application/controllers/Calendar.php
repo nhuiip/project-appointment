@@ -279,13 +279,13 @@ class Calendar extends MX_Controller
 
     public function request(){
 
-        // $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
-        // $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
-        // $time  =  $this->input->post('txt_time'); //เวลา
+        $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
+        $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
+        $time  =  $this->input->post('txt_time'); //เวลา
 
-        $date  =  '2019-10-07';//วันที่เลือกทำนัด
-        $type  =  1; //1: โครงการหนึ่ง, 2: โครงการสอง
-        $time  =  '10.00'; //เวลา
+        // $date  =  '2019-10-07';//วันที่เลือกทำนัด
+        // $type  =  1; //1: โครงการหนึ่ง, 2: โครงการสอง
+        // $time  =  '10.00'; //เวลา
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli')); //รหัสนักศึกษา
 
         $condition = array();
@@ -310,13 +310,12 @@ class Calendar extends MX_Controller
 
         $sub_setless  =  $listsubject[0]['sub_setless']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
+        // print_r($this->input->post('checkUser'));
+        // die;
+
        //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
-        if(count($this->input->post('checkUser')) <= $sub_setless){
+        if(count($this->input->post('checkUser')) >= $sub_setless){
 
-            print_r('น้อยกว่า');
-
-        }else{
-           
             // insert meet
             $data = array(
                 'set_id'             => $set_id,
@@ -347,6 +346,9 @@ class Calendar extends MX_Controller
             }          
 
             redirect('calendar/chkrequest/'.$meetId);
+        }else{
+           
+            print_r('น้อยกว่า');
 
         }
 
