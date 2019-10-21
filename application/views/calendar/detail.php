@@ -213,13 +213,18 @@ if (isset($listsubject) && count($listsubject) != 0) {
                             </div>
                         </div>
 
-                        <!-- <div class="ibox float-e-margins">
+                        <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <div class="alert alert-danger" style="margin-bottom: 0px;">
-                                    <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
+                                <div class="row">
+                                    <span class="badge badge-danger col-sm-2">สีแดง</span>
+                                    <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                    <span class="badge badge-warning col-sm-2">สีเหลือง</span>
+                                    <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
+                                    <span class="badge badge-default col-sm-2">สีเทา</span>
+                                    <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div> 
 
                     </ul>
                     <div class="todo-list  ui-sortable" id="listtts"></div>
@@ -299,6 +304,19 @@ if (isset($listsubject) && count($listsubject) != 0) {
                             <a href="<?= base_url('calendar/showcalendar/1'); ?>">
                                 <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
                             </a>
+
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <span class="badge badge-danger col-sm-2">สีแดง</span>
+                                        <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                        <span class="badge badge-warning col-sm-2">สีเหลือง</span>
+                                        <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
+                                        <span class="badge badge-default col-sm-2">สีเทา</span>
+                                        <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <?PHP } ?>
