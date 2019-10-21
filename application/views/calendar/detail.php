@@ -74,42 +74,38 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 $listt = $query->result_array();
                             } else
                                 ?>
-                    <div class="col-md-6">
-                        <div class="ibox">
-                            <div class="ibox-content product-box">
-                                <div class="product-desc">
-                                    <small class="text-muted" style="font-size:14px">เวลานัด</small>
-                                    <a href="#" class="product-name" style="font-size:32px"> <?= $value['one']; ?> น.</a>
-                                    <? if (count($meet) != 0) { ?>
-                                        <div class="small m-t-xs" style="font-size:14px">
-                                            <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                            <p><? foreach ($listt as $key => $v) { ?>
-                                                    <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
-                                                        <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                    <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                        <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
-                                                    <? } else { ?>
-                                                        <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
-                                                    <? } ?>
-                                                <? } ?></p>
-                                        </div>
-                                    <? } ?>
-                                    <? if (count($meet) == 0) { ?>
-                                        <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
-                                            <div class="m-t text-righ">
-                                                <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
-                                            </div>
-                                        <?PHP } else { ?>
-                                            <div class="m-t text-righ">
-                                                <button class="btn btn-xs btn-outline btn-danger"> ไม่สามารถทำนัดได้ </button>
+                        <div class="col-md-6">
+                            <div class="ibox">
+                                <div class="ibox-content product-box">
+                                    <div class="product-desc">
+                                        <small class="text-muted" style="font-size:14px">เวลานัด</small>
+                                        <a href="#" class="product-name" style="font-size:32px"> <?= $value['one']; ?> น.</a>
+                                        <? if (count($meet) != 0) { ?>
+                                            <div class="small m-t-xs" style="font-size:14px">
+                                                <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
+                                                <p><? foreach ($listt as $key => $v) { ?>
+                                                        <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
+                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                            <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                        <? } else { ?>
+                                                            <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                        <? } ?>
+                                                    <? } ?></p>
                                             </div>
                                         <? } ?>
+                                        <? if (count($meet) == 0) { ?>
+                                            <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
+                                                <div class="m-t text-righ">
+                                                    <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                </div>
+                                            <?PHP } ?>
 
-                                    <? } ?>
+                                        <? } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 <? } ?>
             <? } ?>
             <? if ($sub_type == 2) { ?>
@@ -156,6 +152,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         print_r($listt);
                                     }
                                     ?>
+
                         <div class="col-md-6">
                             <div class="ibox">
                                 <div class="ibox-content product-box">
@@ -178,7 +175,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <? } ?>
 
                                         <? if (count($meet) == 0) { ?>
-                                            <?PHP if (count($section_sub) != 0 && count($section_pro) != 0) { ?>
+                                          <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                                 <div class="m-t text-righ">
                                                     <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                 </div>
@@ -269,9 +266,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     $list_showrequest = $query_showrequest->result_array();
                                 }
 
-
-
-                                ?>
+                            ?>
 
                             <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">
