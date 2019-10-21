@@ -256,18 +256,11 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                 <h3 style="margin-top: 15px;">
                                                     <?= $value['file_name']; ?><br>
                                                 </h3>
-                                                <!-- <div class="tagfile tooltip-demo">
-                                                    <ul>
-                                                        <? foreach ($listtag as $key => $tag) { ?>
-                                                            <li data-toggle="tooltip" data-placement="bottom" title="<?= $tag['use_name']; ?>"><a href="#"><?= substr($tag['use_email'], 0, 1); ?></a></li>
-                                                        <? } ?>
-                                                    </ul>
-                                                </div> -->
                                             </div>
                                             <div class="col-sm-5" style="text-align: right;">
-                                                <a href="<?=base_url('uploads/fileproject/');?>" target="_blank"></a><button class="btn btn-white"><i class="fa fa-download"></i></i></i></button>
+                                                <a href="<?=base_url('uploads/fileproject/Project_'.$project_id.'/'.$value['file_name']);?>" target="_blank"><button class="btn btn-white"><i class="fa fa-download"></i></i></i></button></a>
                                                 <button class="btn btn-warning editfile" data-toggle="modal" data-target="#ProjectfileStd_Up" data-file_id="<?= $value['file_id']; ?>" data-file_name="<?= $value['file_name']; ?>"><i class="fa fa-refresh"></i></i></i></button>
-                                                <button class="btn btn-danger"><i class="fa fa-trash-o"></i></i></i></button>
+                                                <button class="btn btn-danger btn-alert" data-url="<?= site_url('student/stdprojectdelfile/' .$value['file_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash-o"></i></i></i></button>
                                             </div>
                                             <? if (count($listtag) != 0) { ?>
                                                 <div class="col-sm-12 tooltip-demo" style="background-color: aliceblue;padding-top: 5px;padding-bottom: 5px;">
