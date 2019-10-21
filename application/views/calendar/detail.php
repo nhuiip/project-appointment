@@ -34,7 +34,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-md-8">
             <? if ($sub_type == 1) { ?>
                 <? foreach ($time as $key => $value) { ?>
                     <?
@@ -99,7 +99,11 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                             <div class="m-t text-righ">
                                                 <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                             </div>
-                                        <?PHP } ?>
+                                        <?PHP } else { ?>
+                                            <div class="m-t text-righ">
+                                                <button class="btn btn-xs btn-outline btn-danger"> ไม่สามารถทำนัดได้ </button>
+                                            </div>
+                                        <? } ?>
 
                                     <? } ?>
                                 </div>
@@ -137,6 +141,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     $querys = $this->db->get();
                                     $meet = $querys->result_array();
 
+
+                                    print_r($meet);
+
                                     if (count($meet) != 0) {
                                         $this->db->select("*");
                                         $this->db->from('tb_meetdetail');
@@ -145,6 +152,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         $this->db->order_by("dmeet_head", "DESC");
                                         $querym = $this->db->get();
                                         $listt = $querym->result_array();
+
+                                        print_r($listt);
                                     }
                                     ?>
                         <div class="col-md-6">
@@ -169,13 +178,11 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <? } ?>
 
                                         <? if (count($meet) == 0) { ?>
-                                            <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
-
+                                            <?PHP if (count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                                 <div class="m-t text-righ">
                                                     <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                 </div>
-                                            <?PHP } ?>
-
+                                            <? } ?>
                                         <? } ?>
                                     </div>
                                 </div>
@@ -224,7 +231,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                     </ul>
                     <div class="todo-list  ui-sortable" id="listtts"></div>
@@ -300,8 +307,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
                             </div>
                         </div>
-                    </div> 
-                    
+                    </div>
+
                 <?PHP } ?>
             </form>
 
