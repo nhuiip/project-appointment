@@ -231,52 +231,6 @@ class Calendar extends MX_Controller
         die;
     }
 
-
-    public function cart(){
-
-        $userId = $this->input->post('userId');
-
-        $k = 0;
-
-		if($k == 0){
-
-            $condition = array();
-            $condition['fide'] = "";
-            $condition['where'] = array('use_id' => $userId);
-            $listdata = $this->administrator->listData($condition);
-
-            $data = array(
-                'use_id'      	=> $listdata[0]['use_id'],
-                'use_name'      => $listdata[0]['use_name'],
-            );
-
-            $this->cart->insert($data);
-
-            $data['total'] = $this->cart->total_items();
-            $data['totalprice'] = $this->cart->total();
-            $data['typeaction'] = 'insert';
-            echo json_encode($data);
-			
-        }	
-        
-
-        // $userId = $this->input->post('userId');
-
-        // $condition = array();
-        // $condition['fide'] = "";
-        // $condition['where'] = array('use_id' => $userId);
-        // $listdata = $this->administrator->listData($condition);
-
-        // $data = array(
-        //     'use_id'      				=> $listdata[0]['use_id'],
-        //     'use_name'      				=> $listdata[0]['use_name'],
-        // );
-        // echo json_encode($data);
-                    
-        die;
-        
-    }
-
     public function request(){
 
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
@@ -310,9 +264,6 @@ class Calendar extends MX_Controller
 
         $sub_setless  =  $listsubject[0]['sub_setless']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
-        // print_r($this->input->post('checkUser'));
-        // die;
-
        //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
         if(count($this->input->post('checkUser')) >= $sub_setless){
 
@@ -332,7 +283,7 @@ class Calendar extends MX_Controller
             
             $meetId = $this->meet->insertData($data);
             
-            //insert meetdetail
+            // insert meetdetail
             $other = array();
             for($i=0;$i<count($this->input->post('checkUser'));$i++){
 
@@ -342,10 +293,76 @@ class Calendar extends MX_Controller
                 $other['dmeet_head'] 		= 0;
                 $other['sec_id'] 		    = $sec_id;
 
-                $this->meet->insertDetail($other);
+                $dmeet_id  = $this->meet->insertDetail($other);
             }          
 
+            // select detailmeet
+            $condition = array();
+            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.dmeet_status,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time,";
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meetId);
+            $listmeetdetail = $this->meet->listjoinData2($condition);
+
+            //select id subject in meet
+            $condition = array();
+            $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id";
+            $condition['where'] = array('tb_meet.meet_id' => $meetId);
+            $listmeetsub = $this->meet->listjoinData($condition);
+
+            //select subject type in tb_subject
+            $condition = array();
+            $condition['fide'] = "sub_id,sub_type";
+            $condition['where'] = array('sub_id' => $listmeetsub[0]['sub_id']);
+            $listprojectsubType = $this->subject->listData($condition);
+
+          
+
+            //อัพเดตข้อมูลเวลาว่างของอาจารย์
+            foreach ($listmeetdetail as $key => $value) {
+
+                if($listprojectsubType[0]['sub_id'] == 1){
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_one' => $value['meet_time']);
+                    $listmeet = $this->section->listData($condition);
+                    
+                    // print_r('sec_time_one');
+
+                    foreach ($listmeet as $key => $values) {
+
+                        $othersection['sec_id'] 	    = $values['sec_id'];
+                        $othersection['sec_status'] 		= 0;
+
+                        $this->section->updateData($othersection);
+
+
+                    }
+
+                }else{
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_two' => $value['meet_time']);
+                    $listmeet = $this->section->listData($condition);
+                    
+                    // print_r('sec_time_two');
+
+                    foreach ($listmeet as $key => $values) {
+
+
+                        $othersection['sec_id'] 	    = $values['sec_id'];
+                        $othersection['sec_status'] 		= 0;
+
+                        $this->section->updateData($othersection);
+
+                            
+
+                    }
+
+                }
+
+            }
+
             redirect('calendar/chkrequest/'.$meetId);
+
         }else{
            
             print_r('น้อยกว่า');
@@ -396,6 +413,7 @@ class Calendar extends MX_Controller
 
         $project_id  =  $data['listshowproject'][0]['project_id'];
         $meet_id     =  $data['listshowproject'][0]['meet_id'];
+        $sub_id      =  $data['listshowproject'][0]['sub_id'];
         $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
         $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
 
@@ -430,6 +448,11 @@ class Calendar extends MX_Controller
 
         }
 
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+        $data['listsubject'] = $this->subject->listjoinData($condition);
+
         $data['formcrf'] = $this->tokens->token('formcrf');
         $this->template->backend('calendar/chkrequest',$data);
         
@@ -447,6 +470,7 @@ class Calendar extends MX_Controller
 
         $project_id  =  $data['listshowproject'][0]['project_id'];
         $meet_id     =  $data['listshowproject'][0]['meet_id'];
+        $sub_id      =  $data['listshowproject'][0]['sub_id'];
         $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
         $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
 
@@ -469,6 +493,11 @@ class Calendar extends MX_Controller
         $data['listmeet'] = $this->meet->listjoinData2($condition);
 
         $data['meetHeadshow'] = 1;
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+        $data['listsubject'] = $this->subject->listjoinData($condition);
 
         $data['formcrf'] = $this->tokens->token('formcrf');
         $this->template->backend('calendar/chkrequest',$data);

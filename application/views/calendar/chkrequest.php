@@ -12,6 +12,17 @@ if (isset($listshowproject) && count($listshowproject) != 0) {
     }
 }
 
+if (isset($listsubject) && count($listsubject) != 0) {
+    foreach ($listsubject as $key => $student) {
+        $sub_id      = $student['sub_id'];
+        $use_id      = $student['use_id'];
+        $sub_name    = $student['sub_name'];
+        $sub_code    = $student['sub_code'];
+        $sub_setuse  = $student['sub_setuse'];
+        $use_name    = $student['use_name'];
+    }
+}
+
 function DateThai($meet_date)
 {
     $strYear = date("Y", strtotime($meet_date)) + 543;
@@ -26,101 +37,63 @@ function DateThai($meet_date)
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-lg-4">
-
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์</h5>
+        <div class="col-lg-2"> </div>
+        <div class="col-lg-8 animated fadeInRight">
+            <div class="mail-box-header">
+                <div class="pull-right tooltip-demo">
+                    <!-- <a href="mail_compose.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Reply"><i class="fa fa-reply"></i> Reply</a>
+                    <a href="#" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Print email"><i class="fa fa-print"></i> </a>
+                    <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </a> -->
                 </div>
-                <div class="ibox-content">
+                <h2> <?=$project_name; ?>  </h2>
+                <div class="mail-tools tooltip-demo m-t-md">
+
                     <div class="row">
-                        <div class="col-sm-12">
-                            <p><strong>หัวข้อปริญญานิพนธ์ : </strong> <?=$project_name; ?></p>
+                        <div class="col-sm-8">
+                            <h4>
+                                <span class="font-noraml"><strong>รหัสวิชา : </strong> </span> <?=$sub_code; ?>
+                            </h4>
+                            <h4>
+                                <span class="font-noraml"><strong>รายวิชา : </strong> </span> <?=$sub_name; ?>
+                            </h4>
+                            <h4>
+                                <span class="font-noraml"><strong>อาจารย์ที่ปรึกษา : </strong> </span> <?=$teacher_fullname; ?>
+                            </h4>
                         </div>
-                        <div class="col-sm-12">
-                            <p><strong>อาจารย์ที่ปรึกษา : </strong> <?=$teacher_fullname; ?></p>
-                        </div>
-                        <div class="col-sm-12">
-                            <p><strong>ผู้จัดทำ : </strong>
-                                <? foreach ($listprojectperson as $key => $list) { ?>
-                                    <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
-                                <? } ?>
-                            </p>
-                        </div>
-                        <div class="col-sm-12">
-                            <p>
-                                <strong>เพิ่มข้อมูล :
-                                <?= $project_create_name; ?>&nbsp;&nbsp;
-                                <small class="text-muted">
-                                    <i class="fa fa-clock-o"></i>
-                                    <?= date('d/m/Y h:i A', strtotime($project_create_date)); ?>
-                                </small>
-                            <p>
-                        </div>
-                        <div class="col-sm-12">
-                            <p>
-                                <strong>แก้ไขล่าสุด :
-                                <?= $project_lastedit_name; ?>&nbsp;&nbsp;
-                                <small class="text-muted">
-                                    <i class="fa fa-clock-o"></i>
-                                    <?= date('d/m/Y h:i A', strtotime($project_lastedit_date)); ?>
-                                </small>
-                            <p>
+                        <div class="col-sm-4">
+                            <h4><strong>วันที่ขอขึ้นสอบ : </strong> <?= DateThai($meet_date); ?></h4>
+                        
+                            <h4><strong>ช่วงเวลาที่ขอขึ้นสอบ : </strong> <?=$meet_time;?> นาฬิกา</h4>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class="col-lg-4">
-
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5><i class="fa fa-book"></i> ข้อมูลการขอขึ้นสอบปริญญานิพนธ์</h5>
-                </div>
-                <div class="ibox-content">
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <p><strong>วันที่ทำการขอขึ้นสอบ : </strong> <?= DateThai($meet_date); ?></p>
-                        </div>
-                        <div class="col-sm-12">
-                            <p><strong>ช่วงเวลาที่ขอขึ้นสอบ : </strong> <?=$meet_time;?> นาฬิกา</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>ข้อมูลอาจารย์ขึ้นสอบปริญญานิพนธ์</h5>
-                </div>
-                <div class="ibox-content">
+            <div class="mail-box">
+                <div class="mail-body">
                     
-                    <?PHP if($meetHeadshow != 0) {?>
 
-                        <?PHP if (count($listmeet) != 0){ ?>
-                            <?PHP foreach ($listmeet as $key => $value) { ?>
+                <?PHP if($meetHeadshow != 0) {?>
 
-                                <div>
-                                    <label><?=$value['use_name'];?> </label> 
-                                    <?PHP if($value['dmeet_head'] == 1){?>
-                                        <span class="badge badge-danger">ประธานการสอบ</span>
-                                    <?PHP } ?>
-                                </div>
+                    <h3>รายชื่ออาจารย์ที่ทำการขึ้นสอบปริญญานิพนธ์</h3>
+                    <div class="row">
+                    <?PHP if (count($listmeet) != 0){ ?>
+                        <?PHP foreach ($listmeet as $key => $value) { ?>
+                            <div class="col-sm-2">
+                                <?PHP if($value['dmeet_head'] == 1){?>
+                                    <b>ประธานการสอบ</b>
+                                <?PHP } else{?>
+                                    <b>กรรมการสอบ</b>
+                                <?PHP } ?>
+                            </div>
+                            <div class="col-sm-10"> <?=$value['use_name'];?> </div>
 
-                            <?PHP } ?>
                         <?PHP } ?>
-                        <br/>
-                        <form action="<?=base_url('calendar/sandrequest');?>" name="" id="" method="post" class="form-horizontal" novalidate>
+                    <?PHP } ?>
+                    </div>
 
-                            <button type="submit" class="btn btn-block btn-outline btn-primary">ส่งคำขอเพื่อขึ้นสอบปริญญานิพนธ์</button>
+                <?PHP } else { ?>
 
-                        </form>
-
-                    <?PHP } else { ?>
-
+                    <div class="alert alert-danger">
                         <label>กรุณาเลือกประธานสำหรับขึ้นสอบปริญญานิพนธ์</label>
                         <br/>
 
@@ -134,15 +107,38 @@ function DateThai($meet_date)
 
                             <?PHP } ?>
                         <?PHP } ?>
+                    </div>
 
-                    <?PHP } ?>
+                <?PHP } ?>
 
-                    
-                    <!-- <br/>
-                    <button type="submit" class="btn btn-block btn-outline btn-primary">ยืนยันข้อมูล</button> -->
                 </div>
-            </div>
+                <!-- <div class="mail-attachment">
+                    <p>
+                        <center>
+                            มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์ วิทยาเขตวังไกลกังวล คณะอุตสาหกรรมและเทคโนโลยี สาขาเทคโนโลยีสารสนเทศ<br>
+                            ถนนเพชรเกษม ตำบล หนองแก อำเภอหัวหิน ประจวบคีรีขันธ์ 7711
+                        </center>
+                    </p>
 
+                    <div class="clearfix"></div>
+                </div> -->
+                <?PHP if($meetHeadshow != 0) {?>
+                <div class="mail-body text-right tooltip-demo">
+                    <!-- <a class="btn btn-sm btn-white" href="mail_compose.html"><i class="fa fa-reply"></i> Reply</a> -->
+                    <form action="<?=base_url('calendar/sandrequest');?>" name="" id="" method="post" class="form-horizontal" novalidate>
+
+                        <button type="submit" class="btn btn-outline btn-primary"> <i class="fa fa-arrow-right"></i> ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>
+
+                    </form>
+                    <!-- <a class="btn btn-sm btn-white" href="mail_compose.html"><i class="fa fa-arrow-right"></i> ส่งคำขอขึ้นสอบปริญญานิพนธ์</a> -->
+                    <!-- <button title="" data-placement="top" data-toggle="tooltip" type="button" data-original-title="Print" class="btn btn-sm btn-white"><i class="fa fa-print"></i> Print</button> -->
+                    <!-- <button title="" data-placement="top" data-toggle="tooltip" data-original-title="Trash" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i> Remove</button> -->
+                </div>
+                <?PHP } ?>
+                <div class="clearfix"></div>
+            </div>
         </div>
+        <div class="col-lg-2"> </div>
+
     </div>
 </div>

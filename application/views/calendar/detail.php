@@ -196,7 +196,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <div class="ibox-content">
                     <div>รหัสวิชา : <?= $sub_code; ?></div>
                     <div>อาจารย์ประจำวิชา : <?= $use_name; ?></div>
-                    <div>อาจารย์ขึ้นสอบอย่างน้อย : <?= $sub_setuse; ?> คน</div>
+                    <div>จำนวนอาจารย์ขึ้นสอบ : <?= $sub_setuse; ?> คน</div>
                 </div>
             </div>
 
@@ -282,9 +282,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 </div>
                             <? } ?>
 
-                            <a href="<?= base_url('calendar/showcalendar/1'); ?>">
+                            <!-- <a href="<?= base_url('calendar/showcalendar/1'); ?>">
                                 <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
-                            </a>
+                            </a> -->
 
                         </div>
                     </div>
