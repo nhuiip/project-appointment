@@ -14,7 +14,7 @@
             <?PHP foreach ($listsubject as $key => $value) { ?>
 
                 <div class="col-md-6">
-                    <a href="<?=base_url('calendar/detail/'.$value['sub_type']."/".$date);?>">
+                    <a href="<?=base_url('calendar/detail/'.$value['sub_id']."/".$value['sub_type']."/".$date);?>">
                         <div class="ibox">
                             <div class="ibox-content product-box">
                                 <div class="product-desc">
