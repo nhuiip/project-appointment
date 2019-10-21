@@ -361,7 +361,7 @@ $(".btnajax").click(function() {
     },
     success: function(result) {
 
-      // console.log(result);
+      console.log(result);
 
       $("#listtt").empty();
       $("#listtts").empty();
@@ -372,7 +372,7 @@ $(".btnajax").click(function() {
       $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +'> <label for="checkUser[]"> '+ item.name + ' </label> </div></span></li>').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +'> <label for="checkUser[]"> '+ item.name + ' </label> </div></span></li> '+item.checkuserHidden+'').append()
           
       //     <div class="checkbox checkbox-success checkbox-inline">
       //     <input type="checkbox" id="inlineCheckbox2" value="option1" checked="">
