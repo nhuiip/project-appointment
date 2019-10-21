@@ -360,7 +360,9 @@ $(".btnajax").click(function() {
       sub: sub,
     },
     success: function(result) {
+
       // console.log(result);
+
       $("#listtt").empty();
       $("#listtts").empty();
 
@@ -370,8 +372,13 @@ $(".btnajax").click(function() {
       $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " > <label for="checkUser[]"> '+ item.name + ' </label> </div></span></li>').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +'> <label for="checkUser[]"> '+ item.name + ' </label> </div></span></li>').append()
           
+      //     <div class="checkbox checkbox-success checkbox-inline">
+      //     <input type="checkbox" id="inlineCheckbox2" value="option1" checked="">
+      //     <label for="inlineCheckbox2"> Inline Two </label>
+      // </div>
+
           // $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
           // $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()

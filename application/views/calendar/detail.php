@@ -134,6 +134,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                                     <? } ?></p>
                                             </div>
                                         <? } ?>
+
                                         <? if (count($meet) == 0) { ?>
                                             <?PHP  if($chkprojectrequest == 0){ ?>
                                                 <div class="m-t text-righ">
@@ -168,18 +169,83 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <input type="hidden" name="txt_type" id="txt_type" value="<?= $sub_type; ?>" />
                 <input type="hidden" name="txt_time" id="txt_time" value="" />
 
-                <ul class="todo-list  ui-sortable" id="listtt">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <div class="alert alert-danger" style="margin-bottom: 0px;">
-                                <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
+                <?PHP  if($chkprojectrequest == 0){ ?>
+                    <ul class="todo-list  ui-sortable" id="listtt">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <div class="alert alert-danger" style="margin-bottom: 0px;">
+                                    <center>ยังไม่เลือกเวลาสำหรับนัดหมาย</center>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ul>
-                <div class="todo-list  ui-sortable" id="listtts"></div>
-                <br />
+                    </ul>
+                    <div class="todo-list  ui-sortable" id="listtts"></div>
+                    <br />
+                <?PHP }else{ ?>
+                    <div class="ibox float-e-margins">
+                        <!-- <div class="ibox-title">
+                            <h5>Headings</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div> -->
 
+                        <div class="ibox-content">
+
+                            <?PHP
+
+                                $this->db->select("tb_projectperson.std_id,tb_projectperson.project_id");
+                                $this->db->from('tb_projectperson');
+                                $this->db->where('tb_projectperson.std_id' ,$this->encryption->decrypt($this->input->cookie('sysli')));
+                                $query_projectperson = $this->db->get();
+                                $projectperson = $query_projectperson->result_array();
+
+                                $project_id  = $projectperson[0]['project_id'];
+
+                                $this->db->select("*");
+                                $this->db->from('tb_meet');
+                                $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
+                                $this->db->where('tb_meet.project_id', $project_id);
+                                $this->db->where('meet_status !=', 0);
+                                $querys = $this->db->get();
+                                $meet = $querys->result_array();
+                            ?>
+
+                            <? if (count($meet) != 0) { ?>
+                                <div class="small m-t-xs" style="font-size:14px">
+                                    <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
+                                    <p><? foreach ($listt as $key => $v) { ?>
+                                            <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
+                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                            <? } else { ?>
+                                                <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                            <? } ?>
+                                        <? } ?></p>
+                                </div>
+                            <? } ?>
+
+                            <a href="<?=base_url('calendar/showcalendar/1');?>">
+                            <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
+                            </a>
+                        </div>
+                    </div>
+                <?PHP } ?>
             </form>
 
         </div>

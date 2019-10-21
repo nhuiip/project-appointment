@@ -80,7 +80,7 @@ class Calendar extends MX_Controller
         }
     }
 
-    public function detail($sub_type ="" ,$date = "")
+    public function detail($sub_id = "", $sub_type ="" ,$date = "")
     {
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
             if (!empty($sub_type) && $sub_type != '' || !empty($date) && $date != '') {
@@ -106,7 +106,7 @@ class Calendar extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('tb_subject.sub_type' => $sub_type);
+                $condition['where'] = array('tb_subject.sub_id' => $sub_id);
                 $data['listsubject'] = $this->subject->listjoinData($condition);
 
                 $time = array();
@@ -194,11 +194,32 @@ class Calendar extends MX_Controller
             $listsec = $this->section->listjoinData($condition);
         } 
 
+        //เช็คอาจารย์ประจำวิชา
+        $condition = array();
+        $condition['fide'] = "";
+        $condition['where'] = array('sub_id' => $sub_type);
+        $listdatasubject = $this->subject->listData($condition);
+
+        //เช็คอาจารย์ที่ปรึกษา
+        $condition = array();
+        $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id,tb_project.use_id";
+        $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+        $projectperson = $this->project->listjoinData($condition);
+
         $listJson = array();
         foreach ($listsec as $key => $value) {
             $listJson[$key]['id'] = $value['use_id'];
             $listJson[$key]['name'] = $value['use_name'];
             $listJson[$key]['time'] = $time;
+            //อาจารย์ประจำวิชา
+            if($listdatasubject[0]['use_id'] == $value['use_id'] ){
+                $listJson[$key]['subjectUserId'] = 'checked=""  readonly';
+            }
+            //เช็คอาจารย์ที่ปรึกษา
+            if($projectperson[0]['use_id'] == $value['use_id'] ){
+                $listJson[$key]['subjectUserId'] = 'checked=""  readonly';
+            }
+
         }
         echo json_encode($listJson);
         die;
