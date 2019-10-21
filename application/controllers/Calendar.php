@@ -168,13 +168,24 @@ class Calendar extends MX_Controller
         $data['listdata'] = $this->setting->listData($condition);
 
         $condition['fide'] = "tb_section.use_id, tb_user.use_name, sec_time_one,sec_time_two";
-        $condition['where'] = array(
-            'tb_section.set_id' => $data['listdata'][0]['set_id'],
-            'sec_date' => $date,
-            'sec_time_one' => $time,
-            'sec_status'   => '1'
-        );
-        $listsec = $this->section->listjoinData($condition);
+        if($sub_type == 1){
+            $condition['where'] = array(
+                'tb_section.set_id' => $data['listdata'][0]['set_id'],
+                'sec_date' => $date,
+                'sec_time_one' => $time,
+                'sec_status'   => '1'
+            );
+            $listsec = $this->section->listjoinData($condition);
+        } elseif($sub_type == 2){
+            $condition['where'] = array(
+                'tb_section.set_id' => $data['listdata'][0]['set_id'],
+                'sec_date' => $date,
+                'sec_time_two' => $time,
+                'sec_status'   => '1'
+            );
+            $listsec = $this->section->listjoinData($condition);
+        } 
+
         $listJson = array();
         foreach ($listsec as $key => $value) {
             $listJson[$key]['id'] = $value['use_id'];

@@ -41,8 +41,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                             $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
                             $this->db->where('meet_date', $date);
                             $this->db->where('meet_status !=', 0);
-                            $this->db->where('meet_time', $value['one']);
-                            // $this->db->where("(meet_time =" . $value['one'] . "OR meet_time =" . $value['two'] . ")", NULL, FALSE);
+                            $this->db->where("(meet_time=" . $value['one'] . "OR meet_time=" . $value['two'] . ")", NULL, FALSE);
+
                             $query = $this->db->get();
                             $meet = $query->result_array();
                             if (count($meet) != 0) {
@@ -95,24 +95,25 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <? foreach ($time as $key => $value) { ?>
                     <? if ($value['two'] != '12.00' && $value['two'] != '16.00') { ?>
                         <?
-                            $this->db->select("*");
-                            $this->db->from('tb_meet');
-                            $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
-                            $this->db->where('meet_date', $date);
-                            $this->db->where('meet_status !=', 0);
-                            $this->db->where('meet_time', $value['two']);
-                            $query = $this->db->get();
-                            $meet = $query->result_array();
-                            if (count($meet) != 0) {
-                                $this->db->select("*");
-                                $this->db->from('tb_detailmeet');
-                                $this->db->join('tb_user', 'tb_user.use_id = tb_detailmeet.use_id');
-                                $this->db->where(array('meet_id' => $meet[0]['meet_id'], 'dmeet_status =!' => 0));
-                                $this->db->order_by("dmeet_head", "DESC");
-                                $query = $this->db->get();
-                                $listt = $query->result_array();
-                            }
-                        ?>
+                                    $this->db->select("*");
+                                    $this->db->from('tb_meet');
+                                    $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
+                                    $this->db->where('meet_date', $date);
+                                    $this->db->where('meet_status !=', 0);
+                                    $this->db->where("(meet_time=" . $value['one'] . "OR meet_time=" . $value['two'] . ")", NULL, FALSE);
+                                    $querys = $this->db->get();
+                                    $meet = $querys->result_array();
+
+                                    if (count($meet) != 0) {
+                                        $this->db->select("*");
+                                        $this->db->from('tb_meetdetail');
+                                        $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                                        $this->db->where(array('meet_id' => $meet[0]['meet_id'], 'dmeet_status !=' => 0));
+                                        $this->db->order_by("dmeet_head", "DESC");
+                                        $querym = $this->db->get();
+                                        $listt = $querym->result_array();
+                                    }
+                                    ?>
                         <div class="col-md-6">
                             <div class="ibox">
                                 <div class="ibox-content product-box">
@@ -139,6 +140,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                                     <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                 </div>
                                             <?PHP } ?>
+
                                         <? } ?>
                                     </div>
                                 </div>
