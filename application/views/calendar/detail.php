@@ -137,9 +137,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     $querys = $this->db->get();
                                     $meet = $querys->result_array();
 
-
-                                    print_r($meet);
-
                                     if (count($meet) != 0) {
                                         $this->db->select("*");
                                         $this->db->from('tb_meetdetail');
@@ -148,8 +145,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         $this->db->order_by("dmeet_head", "DESC");
                                         $querym = $this->db->get();
                                         $listt = $querym->result_array();
-
-                                        print_r($listt);
                                     }
                                     ?>
 
@@ -178,6 +173,10 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                           <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                                 <div class="m-t text-righ">
                                                     <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                </div>
+                                            <? } elseif($chkprojectrequest == 0 && count($section_sub) == 0 && count($section_pro) == 0) { ?>
+                                                <div class="m-t text-righ">
+                                                    <button class="btn btn-xs btn-outline btn-danger"> ไม่สามารถทำนัดได้ <i class="fa fa-long-arrow-right"></i> </button>
                                                 </div>
                                             <? } ?>
                                         <? } ?>
