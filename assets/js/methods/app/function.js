@@ -40,14 +40,42 @@ define(["jquery", "jqueryForm", "toastr", "sweetalert"], function(
           toastr.error(result.title, result.msg);
         } else {
           toastr.success(result.title, result.msg);
-          setTimeout(function() {
-            location.href = result.url;
-          }, 1000);
+          // console.log(result.url);
+          if(result.url == 'reload'){
+            setTimeout(function() {
+              location.reload();
+            }, 1000);
+          } else{
+            setTimeout(function() {
+              location.href = result.url;
+            }, 1000);
+          }
         }
       }
     });
   };
 
+  // methods.dataReload = function(form) {
+  //   $(form).ajaxSubmit({
+  //     dataType: "json",
+  //     success: function(result) {
+  //       toastr.options = {
+  //         closeButton: true,
+  //         progressBar: true,
+  //         showMethod: "slideDown",
+  //         timeOut: 4000
+  //       };
+  //       if (result.error === true) {
+  //         toastr.error(result.title, result.msg);
+  //       } else {
+  //         toastr.success(result.title, result.msg);
+  //         setTimeout(function() {
+  //           location.href = location.reload();
+  //         }, 1000);
+  //       }
+  //     }
+  //   });
+  // };
 
   return methods;
 });
