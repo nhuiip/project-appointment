@@ -1,6 +1,6 @@
 requirejs.config({
   baseUrl: "http://localhost:9900/assets/js/lib",
-
+  
   // baseUrl: 'http://min-yota.com/assets/inspinia/js/lib',
   paths: {
     jquery: "jquery-2.1.1",
@@ -163,7 +163,7 @@ $(".timechecks").change(function() {
         location.reload();
       }
     }
-  );
+  ); 
 });
 
 // sweetalert ckeck
@@ -349,7 +349,7 @@ $(".btnajax").click(function() {
   var time = $(this).attr("data-time");
   var sub = $(this).attr("data-sub");
   var url = $(this).attr("data-url");
-
+ 
   $.ajax({
     method: "POST",
     dataType: "json",
@@ -361,7 +361,7 @@ $(".btnajax").click(function() {
     },
     success: function(result) {
 
-      // console.log(result);
+      console.log(result);
 
       $("#listtt").empty();
       $("#listtts").empty();
@@ -369,11 +369,15 @@ $(".btnajax").click(function() {
 
       $.each(result, function(index, item) {
 
+       
+       
       $('#txt_time').val(item.time);
 
-        $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +'> <label for="checkUser[]"> '+ item.name + ' </label> </div></span></li> '+item.checkuserHidden+'').append()
+  
 
+        $("#listtt").append(
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser'+ item.id +' " value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
+          
       //     <div class="checkbox checkbox-success checkbox-inline">
       //     <input type="checkbox" id="inlineCheckbox2" value="option1" checked="">
       //     <label for="inlineCheckbox2"> Inline Two </label>
@@ -384,8 +388,8 @@ $(".btnajax").click(function() {
           // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
         );
       });
-      // $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
       $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+      // $("#listtts").append('<a data-toggle="modal" class="btn btn-block btn-w-m btn-info" href="#modal-form">ส่งคำขอขึ้นสอบปริญญานิพนธ์</a>');
     },
     // error: function(jqXHR, exception) {
     //   if (jqXHR.status === 0) {
@@ -415,7 +419,7 @@ function addcart(e){
   var urlb = "http://localhost:9900";
 
 	data = [ ]
-
+		
 	$.ajax({
     method: 'POST',
     dataType: 'json',
@@ -423,7 +427,7 @@ function addcart(e){
     data: {
       userId: userId,
     },
-    beforeSend: function() {},
+    beforeSend: function() {}, 
     success: function(result) {
 
       console.log(result);
@@ -433,13 +437,13 @@ function addcart(e){
         var Texthtml = '<div>';
         Texthtml+= '';
         Texthtml+= '</div>';
-        $('#menu-cart').append(Texthtml);
+        $('#menu-cart').append(Texthtml);					
 
       }
 
 	  },
   })
 
-
+  
 
 }

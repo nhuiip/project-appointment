@@ -71,6 +71,11 @@
                                                 <ul class="dropdown-menu" style="width:100%">
                                                     <? if ($value['use_id'] == $this->encryption->decrypt($this->input->cookie('sysli')) || $this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ') { ?>
                                                         <li><a href="#" data-toggle="modal" data-target="#U-update" class="update" data-sub_id="<?= $value['sub_id']; ?>" data-sub_name="<?= $value['sub_name']; ?>" data-sub_code="<?= $value['sub_code']; ?>" data-use_id="<?= $value['use_id']; ?>" data-sub_setuse="<?= $value['sub_setuse']; ?>" data-sub_setless="<?= $value['sub_setless']; ?>" data-sub_type="<?= $value['sub_type']; ?>"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+                                                        <?PHP if($value['sub_status'] != 0){ ?>
+                                                        <li><a class="btn-alert" href="#" data-url="<?=site_url('subject/updateclose/' . $value['sub_id']); ?>" data-title="ต้องการปิดรายวิชา?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดรายวิชา</a></li>
+                                                        <?PHP }else{?>
+                                                            <li><a class="btn-alert" href="#" data-url="<?=site_url('subject/updateopen/' . $value['sub_id']); ?>" data-title="ต้องการเปิดรายวิชา?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;เปิดรายวิชา</a></li>   
+                                                        <?PHP } ?>
                                                         <li><a href="#" class="btn-alert" data-url="<?= site_url('subject/delete/' . $value['sub_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                                                     <? } ?>
                                                 </ul>
@@ -88,9 +93,9 @@
                                         <td width="10%">
                                             <center>
                                                 <? if ($value['sub_status'] == 0) { ?>
-                                                    <span class="badge badge-danger">ปิด</span>
+                                                    <span class="badge badge-danger">ปิดรายวิชา</span>
                                                 <? } elseif ($value['sub_status'] == 1) { ?>
-                                                    <span class="badge badge-warning">เปิดสอนอยู๋</span>
+                                                    <span class="badge badge-warning">เปิดสอนอยู่</span>
                                                 <? } ?>
                                             </center>
                                         </td>
@@ -116,7 +121,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <!-- model insert -->
 <div class="modal fade" id="U-insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -272,12 +276,12 @@
                         </div>
                     </div>
                     <!--*/form-group-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                <button type="submit" class="btn btn-primary">บันทึก</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>

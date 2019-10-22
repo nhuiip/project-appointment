@@ -23,6 +23,18 @@ if (isset($listsubject) && count($listsubject) != 0) {
 }
 ?>
 
+<style>
+.mystyle {
+  width: 100%;
+  padding: 25px;
+  background-color: coral;
+  color: white;
+  font-size: 25px;
+  box-sizing: border-box;
+  display: unset ;
+}
+</style>
+
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="row">
@@ -286,6 +298,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
                             </a> -->
 
+
                         </div>
                     </div>
 
@@ -308,3 +321,4 @@ if (isset($listsubject) && count($listsubject) != 0) {
         </div>
     </div>
 </div>
+
