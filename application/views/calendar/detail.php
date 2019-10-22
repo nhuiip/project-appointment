@@ -97,9 +97,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                                 <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
                                                 <p><? foreach ($listt as $key => $v) { ?>
                                                         <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
-                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
                                                             <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
                                                         <? } else { ?>
                                                             <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
                                                         <? } ?>
@@ -171,9 +171,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                                 <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
                                                 <p><? foreach ($listt as $key => $v) { ?>
                                                         <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
-                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
                                                             <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
                                                         <? } else { ?>
                                                             <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
                                                         <? } ?>
@@ -231,9 +231,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
                                 <div class="row">
-                                    <span class="badge badge-danger col-sm-2" style="margin-bottom: 5px;">สีแดง</span>
+                                    <span class="badge badge-warning col-sm-2" style="margin-bottom: 5px;">สีเหลือง</span>
                                     <div class="col-sm-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                    <span class="badge badge-warning col-sm-2"style="margin-bottom: 5px;">สีเหลือง</span>
+                                    <span class="badge badge-danger col-sm-2"style="margin-bottom: 5px;">สีแดง</span>
                                     <div class="col-sm-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
                                     <span class="badge badge-default col-sm-2"style="margin-bottom: 5px;">สีเทา</span>
                                     <div class="col-sm-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
@@ -303,14 +303,15 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     </div>
 
                     <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <div class="row">
-                                <span class="badge badge-danger col-xs-2" style="margin-bottom: 5px;">สีแดง</span>
-                                <div class="col-xs-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                <span class="badge badge-warning col-xs-2"style="margin-bottom: 5px;">สีเหลือง</span>
-                                <div class="col-xs-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
-                                <span class="badge badge-default col-xs-2"style="margin-bottom: 5px;">สีเทา</span>
-                                <div class="col-xs-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <span class="badge badge-warning col-sm-2" style="margin-bottom: 5px;">สีเหลือง</span>
+                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                    <span class="badge badge-danger col-sm-2"style="margin-bottom: 5px;">สีแดง</span>
+                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
+                                    <span class="badge badge-default col-sm-2"style="margin-bottom: 5px;">สีเทา</span>
+                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
+                                </div>
                             </div>
                         </div>
                     </div>
