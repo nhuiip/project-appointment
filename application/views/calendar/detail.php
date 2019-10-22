@@ -219,12 +219,12 @@ if (isset($listsubject) && count($listsubject) != 0) {
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
                                 <div class="row">
-                                    <span class="badge badge-danger col-sm-2">สีแดง</span>
-                                    <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                    <span class="badge badge-warning col-sm-2">สีเหลือง</span>
-                                    <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
-                                    <span class="badge badge-default col-sm-2">สีเทา</span>
-                                    <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
+                                    <span class="badge badge-danger col-sm-2" style="margin-bottom: 5px;">สีแดง</span>
+                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                    <span class="badge badge-warning col-sm-2"style="margin-bottom: 5px;">สีเหลือง</span>
+                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
+                                    <span class="badge badge-default col-sm-2"style="margin-bottom: 5px;">สีเทา</span>
+                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +269,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
 
                             <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">
-                                    <p><strong>รายการ</strong> : <?= $listdata_meet[0]['project_name']; ?></p>
+                                    <p><strong><?= $listdata_meet[0]['project_name']; ?></strong> </p>
                                     <p><? foreach ($list_showrequest as $key => $v) { ?>
                                             <? if ($v['use_id'] == $listdata_meet[0]['use_id']) { ?>
                                                 <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
@@ -289,16 +289,15 @@ if (isset($listsubject) && count($listsubject) != 0) {
                         </div>
                     </div>
 
-
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
                             <div class="row">
-                                <span class="badge badge-danger col-sm-2">สีแดง</span>
-                                <div class="col-sm-10">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                <span class="badge badge-warning col-sm-2">สีเหลือง</span>
-                                <div class="col-sm-10">คือ อาจารย์ประจำวิชา</div>
-                                <span class="badge badge-default col-sm-2">สีเทา</span>
-                                <div class="col-sm-10">คือ กรรมการขึ้นปริญยานิพนธ์</div>
+                                <span class="badge badge-danger col-xs-2" style="margin-bottom: 5px;">สีแดง</span>
+                                <div class="col-xs-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                <span class="badge badge-warning col-xs-2"style="margin-bottom: 5px;">สีเหลือง</span>
+                                <div class="col-xs-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
+                                <span class="badge badge-default col-xs-2"style="margin-bottom: 5px;">สีเทา</span>
+                                <div class="col-xs-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
                             </div>
                         </div>
                     </div>
