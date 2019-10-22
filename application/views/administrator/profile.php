@@ -82,6 +82,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 					</div>
 				</div>
 				<div class="ibox-content">
+					<?PHP if(!empty($listsubject )){ ?>
 					<div class="form-group row">
 						<label class="col-md-12">ชื่อวิชา <span class="text-muted" style="color:#c0392b">*</span></label>
 						<div class="col-md-12">
@@ -109,15 +110,24 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 							<button type="submit" class="btn btn-outline btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;อัพเดตข้อมูล</button>
 						</div>
 					</div>
+					<?PHP }else{ ?>
+						<div class="form-group row">
+							<label class="col-md-12"> ยังไม่มีรายวิชาที่เปิดสอน </label>
+						</div>
+					<?PHP }?>
 				</div>
+			</div>
+			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>เอกสารประกอบ</h5>
+					<? if (!empty($listatt)  && count($listatt) != 0 ){ ?>
 					<div class="ibox-tools">
 						<button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#upfile"><i class="fa fa-plus"></i></button>
 					</div>
+					<? } ?>
 				</div>
 				<div class="ibox-content">
-					<? if (count($listatt) != 0) { ?>
+					<? if (!empty($listatt)  && count($listatt) != 0 ){ ?>
 						<div class="table-responsive">
 							<table class="table table-bordered table-hover" width="100%">
 								<thead>
@@ -160,39 +170,44 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 					<h5>จัดการเวลา</h5>
 				</div>
 				<div class="ibox-content inspinia-timeline">
-
-					<? foreach ($listsec as $key => $value) { ?>
-						<div class="timeline-item">
-							<div class="row">
-								<div class="col-md-4 date">
-									<i class="fa fa-calendar"></i>
-									<?= DateThai($value['sec_date']); ?>
-									<br>
-									<small class="text-navy">this active</small>
-								</div>
-								<?
-									$this->db->select("*");
-									$this->db->where(array(
-										'set_id' => $set_id,
-										'sec_date' => $value['sec_date'],
-										'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))
-									));
-									$query = $this->db->get('tb_section');
-									$listusersec = $query->result_array();
-									?>
-								<div class="col-md-8 content no-top-border">
-									<? foreach ($listusersec as $key => $v) { ?>
-										<div class="col-md-2 timecheck">
-											<label class="onoff"><input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {
-																																																																	echo 'checked';
-																																																																} ?>><label for="sectione-<?= $v['sec_id']; ?>"></label></label>
-											<p><?= $v['sec_time_one']; ?> น.</p>
-										</div>
-									<? } ?>
+					<?PHP if(!empty($listsec) && count($listsec) != 0) { ?>
+						<? foreach ($listsec as $key => $value) { ?>
+							<div class="timeline-item">
+								<div class="row">
+									<div class="col-md-4 date">
+										<i class="fa fa-calendar"></i>
+										<?= DateThai($value['sec_date']); ?>
+										<br>
+										<small class="text-navy">this active</small>
+									</div>
+									<?
+										$this->db->select("*");
+										$this->db->where(array(
+											'set_id' => $set_id,
+											'sec_date' => $value['sec_date'],
+											'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))
+										));
+										$query = $this->db->get('tb_section');
+										$listusersec = $query->result_array();
+										?>
+									<div class="col-md-8 content no-top-border">
+										<? foreach ($listusersec as $key => $v) { ?>
+											<div class="col-md-2 timecheck">
+												<label class="onoff"><input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {
+																																																																		echo 'checked';
+																																																																	} ?>><label for="sectione-<?= $v['sec_id']; ?>"></label></label>
+												<p><?= $v['sec_time_one']; ?> น.</p>
+											</div>
+										<? } ?>
+									</div>
 								</div>
 							</div>
-						</div>
-					<? } ?>
+						<? } ?>
+					<? }else{ ?>
+						<center>
+							<h3>ระบบยังไม่เปิดให้ทำการขึ้นสอบปริญญานิพนธ์</h3>
+						</center>
+					<?PHP } ?>
 
 				</div>
 			</div>
@@ -265,7 +280,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 						</div>
 					</div>
 					<!--*/form-group-->
-				</div>
+				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
 					<button type="submit" class="btn btn-primary">เพิ่มเอกสาร</button>
