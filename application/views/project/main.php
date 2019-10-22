@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <h2>ข้อมูลปริญญานิพนธ์</h2>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('project/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>">หน้าแรก</a></li>
+            <li><a href="<?= site_url('dashboard/index');?>">หน้าแรก</a></li>
             <li class="active"><strong>ข้อมูลปริญญานิพนธ์</strong></li>
         </ol>
     </div>
@@ -21,67 +21,95 @@
                 <div class="ibox-content">
                     <!-- table ------------------------------------------------------------------------------------------------------->
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-export" data-colexport="0,1,2,3,4" data-filename="export-project" width="100%">
+                        <table class="table table-striped table-bordered table-hover dataTables-export" data-colexport="1,2,3,4,5" data-filename="export-project" width="100%">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>รหัสปริญญานิพนธ์</th>
                                     <th>ชื่อปริญญานิพนธ์</th>
+                                    <th>อาจารย์ที่ปรึกษา</th>
                                     <th>ผู้จัดทำปริญญานิพนธ์</th>
-                                    <th>สถานะปริญญานิพนธ์</th>
-                                    <th>วันที่สร้าง</th>
+                                    <th>
+                                        <center>สถานะปริญญานิพนธ์</center>
+                                    </th>
+                                    <th></th>
+                                    <th class="none">วันที่สร้าง</th>
+                                    <th class="none">แก้ไขล่าสุด</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?PHP foreach ($listdata as $key => $value) { ?>
-                                    <tr class="gradeX">
-                                        <td width="5%" style="vertical-align:top"><strong><?= "PRO" . str_pad($value['project_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
-                                        <td width="10%" style="vertical-align:top"><?= $value['project_name'] ?></td>
-                                        <td width="15%" style="vertical-align:top">
-                                            <?PHP
-                                                if ($value['std_id']  != '') {
-                                                    $stypesVal = explode(",", $value['std_id']);
-                                                } else {
-                                                    $stypesVal = '';
-                                                }
+                                <?PHP foreach ($listdata as $key => $value) {
+                                    $this->db->select('*');
+                                    $this->db->from('tb_projectperson');
+                                    $this->db->join('tb_student', 'tb_student.std_id = tb_projectperson.std_id');
+                                    $this->db->join('tb_project', 'tb_project.project_id = tb_projectperson.project_id');
+                                    $this->db->where(array('tb_projectperson.project_id' => $value['project_id']));
+                                    $query = $this->db->get();
+                                    $projectperson = $query->result_array();
+                                    switch ($value['project_status']) {
+                                        case 0:
+                                            $status_text = '<span class="badge badge-danger">&nbsp;&nbsp;ยกเลิกโปรเจค&nbsp;&nbsp;</span>';
+                                            break;
+                                        case 1:
+                                            $status_text = '<span class="badge">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
+                                            break;
+                                        case 2:
+                                            $status_text = '<span class="badge badge-primary">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 1&nbsp;&nbsp;</span>';
+                                            break;
+                                        case 3:
+                                            $status_text = '<span class="badge badge-warning">&nbsp;&nbsp;ติดแก้ไขโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                            break;
+                                        case 4:
+                                            $status_text = '<span class="badge badge-primary">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                            break;
+                                        case 5:
+                                            $status_text = '<span class="badge badge-info">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2 (conference)&nbsp;&nbsp;</span>';
+                                            break;
+                                    }
+                                    ?>
+                                        <tr class="gradeX">
+                                            <td width="1%"></td>
+                                            <td width="9%"><strong><?= "PRO" . str_pad($value['project_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
+                                            <td width="30%"><?= $value['project_name'] ?></td>
+                                            <td width="15%"><?= $value['use_name']; ?></td>
+                                            <td width="25%">
+                                                <?PHP foreach ($projectperson as $key => $list) { ?>
+                                                    <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
+                                                <? } ?>
+                                            </td>
+                                            <td width="15%">
+                                                <center><?= $status_text ?></center>
+                                            </td>
+                                            <td width="5%">
+                                                <center class="tooltip-demo">
+                                                    <a href="<?= site_url('project/detail/'.$value['project_id']); ?>">
+                                                        <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ข้อมูลเพิ่มเติม">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </button>
+                                                    </a>
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <?= $value['project_create_name']; ?>
+                                                <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['project_create_date'])); ?></small>
+                                            </td>
+                                            <td>
+                                                <?= $value['project_lastedit_name']; ?>
+                                                <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['project_lastedit_date'])); ?></small>
+                                            </td>
 
-                                                if (count($stypesVal) != 0) {
-                                                    foreach ($stypesVal as $key => $values) {
-
-                                                        $this->db->select('std_id,std_number,std_title,std_fname,std_lname');
-                                                        $this->db->where(array('std_id' => $values));
-                                                        $query_student = $this->db->get('tb_student');
-                                                        $liststudent = $query_student->result_array();
-                                                        ?>
-                                                    <div class="form-group">
-                                                        <label><?= $liststudent[0]['std_number'] ?> <?= $liststudent[0]['std_title'] ?><?= $liststudent[0]['std_fname'] ?> <?= $liststudent[0]['std_lname'] ?></label>
-                                                    </div>
-                                            <?PHP
-                                                    }
-                                                }
-                                                ?>
-                                        </td>
-                                        <td width="10%" style="vertical-align:top">
-                                            <?PHP if ($value['project_status'] == 1) { ?>
-                                                ยังไม่สอบโครงงานหนึ่ง
-                                            <?PHP } else if ($value['project_status'] == 2) { ?>
-                                                ผ่านโครงงานหนึ่ง
-                                            <?PHP } else if ($value['project_status'] == 3) { ?>
-                                                สอบโครงงานสองแล้วติดแก้ไข
-                                            <?PHP } else if ($value['project_status'] == 4) { ?>
-                                                สอบโครงงานสองผ่าน
-                                            <?PHP } else if ($value['project_status'] == 0) { ?>
-                                                เปลี่ยนหัวข้อปริญญานิพนธ์
-                                            <?PHP } ?>
-                                        </td>
-                                        <td width="10%" style="vertical-align:top"><?= $value['project_create_name'] ?><br /><?= $value['project_create_date'] ?></td>
-                                    </tr>
-                                <?PHP } ?>
+                                        </tr>
+                                    <?PHP } ?>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th></th>
+                                    <th></th>
                                     <th class="ftinput">ปริญญานิพนธ์</th>
-                                    <th class="ftinput">ชื่อ-สกุล นักศึกษา</th>
+                                    <th class="ftinput">อาจารย์ที่ปรึกษา</th>
+                                    <th class="ftinput">ผู้จัดทำ</th>
+                                    <th class="ftinput">สถานะปริญญานิพนธ์</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
