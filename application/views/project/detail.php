@@ -20,7 +20,8 @@ if (isset($listProject) && count($listProject) != 0) {
         <h2>ข้อมูล :: <?= $project_name; ?></h2>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('dashboard/index') ?>">หน้าแรก</a></li>
-            <li class="active"><strong>รายปริญญานิพนธ์</strong></li>
+            <li><a href="<?= site_url('project/index') ?>">ข้อมูลปริญญานิพนธ์</a></li>
+            <li class="active"><strong>รายละเอียดปริญญานิพนธ์</strong></li>
         </ol>
     </div>
 </div>
@@ -38,6 +39,9 @@ if (isset($listProject) && count($listProject) != 0) {
                         <li class="list-group-item">
                             <?
                             switch ($project_status) {
+                                case 0:
+                                    $status_text = '<span class="badge badge-danger">&nbsp;&nbsp;ยกเลิกโปรเจค&nbsp;&nbsp;</span>';
+                                    break;
                                 case 1:
                                     $status_text = '<span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
                                     break;
@@ -112,11 +116,6 @@ if (isset($listProject) && count($listProject) != 0) {
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ข้อมูลเอกสาร</h5>
-
-                    <div class="ibox-tools">
-                        <button class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#ProjectfileStd_Add">เพิ่มเอกสาร</button>
-                    </div>
-
                 </div>
                 <div class="ibox-content">
                     <? if (count($listFile) != 0) { ?>
@@ -148,7 +147,9 @@ if (isset($listProject) && count($listProject) != 0) {
                                                 </button>
                                             <? } ?>
                                             <? if ($position == 'ผู้ดูแลระบบ') { ?>
-                                                <a href="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>"></a>
+                                                <a href="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>">
+                                                    <button class="btn btn-white"><i class="fa fa-download"></i></button>
+                                                </a>
                                             <? } ?>
                                         </div>
                                         <? if (count($listtag) != 0) { ?>
