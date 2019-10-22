@@ -52,12 +52,12 @@
 
                                         </td>
                                         <td width="10%">
-                                            <?if($value['std_create_name'] != '0') { ?>
-                                            <?= $value['std_create_name']; ?><? } ?><br />
-                                            <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['std_create_date'])); ?></small>
+                                            <? if ($value['std_create_name'] != '0') { ?>
+                                                <?= $value['std_create_name']; ?><? } ?><br />
+                                                <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['std_create_date'])); ?></small>
                                         </td>
                                         <td width="10%">
-                                            <?if($value['std_lastedit_name'] != '0') { ?>
+                                            <? if ($value['std_lastedit_name'] != '0') { ?>
                                                 <?= $value['std_lastedit_name']; ?>
                                             <? } ?>
                                             <br />
@@ -179,10 +179,9 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                     <button type="submit" class="btn btn-primary">บันทึก</button>
                 </div>
-</form>
-</div>
-</div>
-</div>
+            </div>
+        </div>
+    </div>
 </form>
 <!-- model changemail -->
 <form action="<?= base_url('student/changemailstd'); ?>" method="post" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>
@@ -208,12 +207,10 @@
         </div>
     </div>
 </form>
-
 <!-- model changepassword -->
 <form action="<?= base_url('student/changepasswordstd'); ?>" method="post" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
     <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?= $formcrfpassword; ?>">
     <input type="hidden" name="Id2" id="Id2" value="<?= $value['std_id']; ?>">
-
     <div class="modal fade" id="passwordUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -230,8 +227,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                     <button type="submit" class="btn btn-primary">บันทึก</button>
                 </div>
-</form>
-</div>
-</div>
-</div>
+            </div>
+        </div>
+    </div>
 </form>

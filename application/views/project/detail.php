@@ -1,299 +1,174 @@
-<?PHP
-//แสดงข้อมูล project
-if (isset($showproject) && count($showproject) != 0) {
-    foreach ($showproject as $key => $value) {
-        $project_id         = $value['project_id'];
-        $project_name       = $value['project_name'];
-        $project_status     = $value['project_status'];
-        $subject_Id         = $value['sub_id'];
-        $subject_code       = $value['sub_code'];
-        $subject_name       = $value['sub_name'];
-        $subject_type       = $value['sub_type'];
+<?
+//ค้นหาโปรเจคที่นักศึกษาสร้างไว้
+if (isset($listProject) && count($listProject) != 0) {
+    foreach ($listProject as $key => $value) {
+        $project_id             = $value['project_id'];
+        $project_name           = $value['project_name'];
+        $project_status         = $value['project_status'];
+        $teacher_fullname       = $value['use_name'];
+        $teacher_id             = $value['use_id'];
+        $project_create_name    = $value['project_create_name'];
+        $project_create_date    = $value['project_create_date'];
+        $project_lastedit_name  = $value['project_lastedit_name'];
+        $project_lastedit_date  = $value['project_lastedit_date'];
     }
-} 
-
-//แสดงข้อมูลอาจารย์ผู้สอน
-$this->db->select('*');
-$this->db->from('tb_subject');
-$this->db->join('tb_user', 'tb_user.use_id = tb_subject.use_id');
-$this->db->where(array('tb_subject.sub_id' => $subject_Id));
-$query_showteacher= $this->db->get();
-$listteacher = $query_showteacher->result_array();
-
-$teacher_fullname  =  $listteacher[0]['use_name'];
-
-//แสดงข้อมูลอาจารย์ที่ปรึกษา
-$this->db->select('*');
-$this->db->from('tb_project');
-$this->db->join('tb_user', 'tb_user.use_id = tb_project.use_id');
-$this->db->where(array('tb_project.project_id' => $project_id));
-$query_projectteacher= $this->db->get();
-$listprojectteacher = $query_projectteacher->result_array();
-
-$projectteacher_fullname  =  $listprojectteacher[0]['use_name'];
-
-//แสดงข้อมูลนักศึกษาที่ทำ project
-if (isset($showproject2) && count($showproject2) != 0) {
-    foreach ($showproject2 as $key => $value) {
-        $project_studentId       = $value['std_id'];
-    }
-} 
-
-
+}
 ?>
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
-        <h2>ข้อมูลปริญญานิพนธ์</h2>
+        <h2>ข้อมูล :: <?= $project_name; ?></h2>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('project/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>">หน้าแรก</a></li>
-            <li>ข้อมูลปริญญานิพนธ์</li>
-            <li class="active"><strong><?=$project_name;?></strong></li>
+            <li><a href="<?= site_url('dashboard/index') ?>">หน้าแรก</a></li>
+            <li class="active"><strong>รายปริญญานิพนธ์</strong></li>
         </ol>
     </div>
 </div>
 <!-- End breadcrumb for page -->
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-lg-7">
-            
+        <div class="col-md-6">
+            <!-- now project -->
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><i class="fa fa-book"></i> ข้อมูลปริญญานิพนธ์ </h5>
+                    <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ข้อมูลปริญญานิพนธ์</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>หัวข้อปริญญานิพนธ์</label>
-                        <label><?=$project_name;?></label>
-                    </div>
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>รหัสวิชา</label>
-                        <label><?=$subject_code;?></label>
-                    </div>
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>รายวิชาที่ลงทะเบียน</label>
-                        <label><?=$subject_name;?></label>
-                    </div>
-                    <?PHP if($teacher_fullname == $projectteacher_fullname){ ?>
-                        <div class="form-group-mgTB grid-two-show-subject">
-                            <label>อาจารย์ผู้สอน / อาจารย์ที่ปรึกษา</label>
-                            <label><?=$teacher_fullname;?></label>
-                        </div>
-                    <?PHP }else{ ?>
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>อาจารย์ผู้สอน</label>
-                        <label><?=$teacher_fullname;?></label>
-                    </div>
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>อาจารย์ที่ปรึกษา</label>
-                        <label><?=$projectteacher_fullname;?></label>
-                    </div>
-                    <?PHP } ?>
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>สถานะปริญญานิพนธ์</label>
-                        <?PHP if($project_status == 1){ ?>
-                            <p><span class="label label-info" style="font-size: 13px;">ยังไม่สอบโครงงานหนึ่ง</span></p>
-                        <?PHP } else if($project_status == 2){ ?>
-                            <p><span class="label label-primary" style="font-size: 13px;">ผ่านโครงงานหนึ่ง</span></p>
-                        <?PHP } else if($project_status == 3){ ?>
-                            <p><span class="label label-warning" style="font-size: 13px;">สอบโครงงานสองแล้วติดแก้ไข</span></p>
-                        <?PHP } else if($project_status == 4){ ?>
-                            <p><span class="label label-success" style="font-size: 13px;">สอบโครงงานสองผ่าน</span></p>
-                        <?PHP } else if($project_status == 0){ ?>
-                            <p><span class="label label-danger" style="font-size: 12px;">เปลี่ยนหัวข้อปริญญานิพนธ์</span></p>
-                        <?PHP } ?>
-                    </div>
-                    <div class="form-group-mgTB grid-two-show-subject">
-                        <label>ผู้จัดทำปริญญานิพนธ์</label>
-                        <div>
-                            <!-- ================================================================ แตกสตริงออกเป็นสตริงย่อย ผลลัพธ์ที่คืนกลับมาจะเป็นรูปแบบ array -->
-                            <?PHP
-                        if($project_studentId != ''){
-                            $stypesVal = explode(",", $project_studentId);
-                        } else {
-                            $stypesVal = '';
-                        }
-
-                        $i = 1;
-                        if (count($stypesVal) != 0) {
-                            foreach ($stypesVal as $key => $value) { 
-
-                            $this->db->select('std_id,std_number,std_title,std_fname,std_lname');
-                            $this->db->where(array('std_id' => $value));
-                            $query_student = $this->db->get('tb_student');
-                            $liststudent = $query_student->result_array();
-                        ?>
-                            <div class="form-group">
-                                <label><?=$i;?>. <?=$liststudent[0]['std_number']?> <?=$liststudent[0]['std_title']?><?=$liststudent[0]['std_fname']?>  <?=$liststudent[0]['std_lname']?></label>
-                            </div>
-                        <?PHP
-                            $i++; } 
-                        } 
-                        ?>
-                        <!-- ================================================================ ./แตกสตริงออกเป็นสตริงย่อย ผลลัพธ์ที่คืนกลับมาจะเป็นรูปแบบ array -->
-                        </div>
-                    </div>
-                    <div class="form-group-mgTB">
-                        <a href="<?= site_url('project/index/'.$this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><button type="button" class="btn btn-outline btn-danger">ย้อนกลับหน้าหลัก</button></a>
-                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <?
+                            switch ($project_status) {
+                                case 1:
+                                    $status_text = '<span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
+                                    break;
+                                case 2:
+                                    $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 1&nbsp;&nbsp;</span>';
+                                    break;
+                                case 3:
+                                    $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;ติดแก้ไขโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                    break;
+                                case 4:
+                                    $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                    break;
+                                case 5:
+                                    $status_text = '<span class="badge badge-info" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2 (conference)&nbsp;&nbsp;</span>';
+                                    break;
+                            }
+                            ?>
+                                <?= $status_text ?>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p><strong>หัวข้อปริญญานิพนธ์ : </strong> <?= $project_name; ?></p>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p><strong>อาจารย์ที่ปรึกษา : </strong> <?= $teacher_fullname; ?></p>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p><strong>ผู้จัดทำ : </strong>
+                                            <? foreach ($listPerson as $key => $list) { ?>
+                                                <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
+                                            <? } ?>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p><strong>เพิ่มข้อมูล :
+                                                <?= $project_create_name; ?>&nbsp;&nbsp;
+                                                <small class="text-muted">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <?= date('d/m/Y h:i A', strtotime($project_create_date)); ?>
+                                                </small>
+                                                <p>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p><strong>แก้ไขล่าสุด :
+                                                <?= $project_lastedit_name; ?>&nbsp;&nbsp;
+                                                <small class="text-muted">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <?= date('d/m/Y h:i A', strtotime($project_lastedit_date)); ?>
+                                                </small>
+                                                <p>
+                                    </div>
+                                </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
+            <!-- conference data -->
+            <? if ($project_status == 5) { ?>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><i class="fa fa-book"></i> &nbsp;&nbsp;Conference</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <? } ?>
         </div>
-        <div class="col-lg-5">
+        <div class="col-md-6">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><i class="fa fa-file"></i>  เอกสารปริญญานิพนธ์</h5>
+                    <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ข้อมูลเอกสาร</h5>
+
+                    <div class="ibox-tools">
+                        <button class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#ProjectfileStd_Add">เพิ่มเอกสาร</button>
+                    </div>
+
                 </div>
                 <div class="ibox-content">
-                    <div class="row">
-                        <label class="col-sm-5 control-label">หน้าปกภาษาไทยและภาษาอังกฤษ</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filecov)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filecov);?>"><?=$project_filecov;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">ใบรับรองปริญญานิพนธ์</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filecer)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filecer);?>"><?=$project_filecer;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">บทคัดย่อ</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_fileabs)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_fileabs);?>"><?=$project_fileabs;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">กิตติกรรมประกาศ</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_fileack)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_fileack);?>"><?=$project_fileack;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">สารบัญ, สารบัญตาราง, สารบัญภาพ</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filetbc)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filetbc);?>"><?=$project_filetbc;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">บทที่ 1</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filechone)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filechone);?>"><?=$project_filechone;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">บทที่ 2</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filechtwo)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filechtwo);?>"><?=$project_filechtwo;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">บทที่ 3</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filechthree)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filechthree);?>"><?=$project_filechthree;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <?PHP if($subject_type == 2){ ?>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">บทที่ 4</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filechfour)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filechfour);?>"><?=$project_filechfour;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                            <input type="hidden" class="form-control" name="txt_06_ch04" id="txt_06_ch04" value="<?=$project_filechfour;?>">
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">บทที่ 5</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filechfive)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filechfive);?>"><?=$project_filechfive;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">เอกสารอ้างอิงหรือบรรณานุกรม</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_fileref)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_fileref);?>"><?=$project_fileref;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">ภาคผนวก</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_fileappone)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_fileappone);?>"><?=$project_fileappone;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    <?PHP } ?>
-                    <div class="row"><div class="col-sm-12"><div class="hr-line-dashed"></div></div></div>
-                    <div class="row">
-                        <label class="col-sm-5 control-label">ประวัติผู้จัดทำ</label>
-                        <div class="col-sm-6">
-                            <?PHP if(!empty($project_filebio)){?>
-                                <a target="_bank" href="<?=base_url('uploads/fileproject/'.$project_id.'/'.$project_filebio);?>"><?=$project_filebio;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <?PHP }else{?>
-                                ยังไม่มีการอัพโหลดไฟล์
-                            <?PHP } ?>
-                        </div>
-                    </div>
-                    
+                    <? if (count($listFile) != 0) { ?>
+                        <ul class="list-group">
+                            <? foreach ($listFile as $key => $value) {
+                                    $this->db->select('*');
+                                    $this->db->from('tb_trace');
+                                    $this->db->join('tb_projectfile', 'tb_projectfile.file_id = tb_trace.file_id');
+                                    $this->db->join('tb_user', 'tb_user.use_id = tb_trace.use_id');
+                                    $this->db->where(array('tb_trace.file_id' => $value['file_id']));
+                                    $query_tag = $this->db->get();
+                                    $listtag = $query_tag->result_array();
+
+                                    $position = $this->encryption->decrypt($this->input->cookie('sysp'));
+                                    $useid = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+                                    ?>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <h3 style="margin-top: 15px;">
+                                                <?= $value['file_name']; ?><br>
+                                            </h3>
+                                        </div>
+                                        <div class="col-sm-5" style="text-align: right;">
+                                            <? if ($position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
+                                                <button class="btn btn-white btn-trace" data-geturl="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>" data-url="<?= site_url('project/loadfile/' . $value['file_id'] . '/' . $useid); ?>">
+                                                    <i class="fa fa-download"></i>
+                                                </button>
+                                            <? } ?>
+                                            <? if ($position == 'ผู้ดูแลระบบ') { ?>
+                                                <a href="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>"></a>
+                                            <? } ?>
+                                        </div>
+                                        <? if (count($listtag) != 0) { ?>
+                                            <div class="col-sm-12 tooltip-demo" style="background-color: aliceblue;padding-top: 5px;padding-bottom: 5px;">
+                                                <? foreach ($listtag as $key => $tag) { ?>
+                                                    <span class="label label-success" style="text-transform: uppercase;margin-right:3px" data-toggle="tooltip" data-placement="bottom" title="<?= $tag['use_name']; ?>">
+                                                        <?= substr($tag['use_email'], 0, 1); ?>
+                                                    </span>
+                                                <? } ?>
+                                            </div>
+                                        <? } ?>
+                                    </div>
+                                </li>
+                            <? } ?>
+                        </ul>
+                    <? } else { ?>
+                        <center>ไม่พบเอกสาร</center>
+                    <? } ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

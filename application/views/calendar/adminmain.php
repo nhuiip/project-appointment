@@ -38,6 +38,7 @@ function DateThai($strDate)
                         $this->db->select("*");
                         $this->db->from('tb_meet');
                         $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
+                        $this->db->join('tb_subject', 'tb_subject.sub_id = tb_meet.sub_id');
                         $this->db->where('meet_date', $sec_date);
                         $this->db->where('meet_status !=', 0);
                         $this->db->where("(meet_time=" . $value['one'] . "OR meet_time=" . $value['two'] . ")", NULL, FALSE);
@@ -62,8 +63,9 @@ function DateThai($strDate)
                                 <a href="#" class="product-name" style="font-size:16px"> <?= $value['one']; ?> น. , <?= $value['two']; ?> น.</a>
                                 <? if (count($meet) != 0) { ?>
                                     <div class="small m-t-xs" style="font-size:14px">
-                                        <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                        <p><strong>เวลา</strong> : <?= $meet[0]['meet_time'];?> น.</p>
+                                        <p style="margin: 0 0 0;"></p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
+                                        <p style="margin: 0 0 0;"><strong>เวลา</strong> : <?= $meet[0]['meet_time'];?> น.</p>
+                                        <p style="margin: 0 0 5px;"><strong>วิชา</strong> : <?= $meet[0]['sub_code'].' '.$meet[0]['sub_name'];?> น.</p>
                                         <p><? foreach ($listt as $key => $v) { ?>
                                                 <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
                                                     <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>

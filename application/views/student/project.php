@@ -14,8 +14,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
         $project_lastedit_date  = $value['project_lastedit_date'];
     }
 }
-
-
 ?>
 
 <div class="wrapper wrapper-content animated fadeInRight">
