@@ -143,6 +143,40 @@ class Subject extends MX_Controller
         }
     }
 
+    public function updateclose($sub_id = "")
+    {
+        if($sub_id == ""){
+            show_404();
+        }else{
+            $data = array(
+                'sub_id'            => $sub_id,
+                'sub_status'          => 0,
+                'sub_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'sub_lastedit_date' => date('Y-m-d H:i:s'),
+            );
+            $this->subject->updateData($data);
+            header("location:" . site_url('subject/index'));
+        }
+           
+    }
+
+    public function updateopen($sub_id = "")
+    {
+        if($sub_id == ""){
+            show_404();
+        }else{
+            $data = array(
+                'sub_id'            => $sub_id,
+                'sub_status'          => 1,
+                'sub_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'sub_lastedit_date' => date('Y-m-d H:i:s'),
+            );
+            $this->subject->updateData($data);
+            header("location:" . site_url('subject/index'));
+        }
+           
+    }
+
     public function delete($id = '')
     {
         $data = array(

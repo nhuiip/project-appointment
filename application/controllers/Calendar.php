@@ -218,13 +218,30 @@ class Calendar extends MX_Controller
             //อาจารย์ประจำวิชา
             if($listdatasubject[0]['use_id'] == $value['use_id'] ){
                 $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
-                $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="'.$value['use_id'].'" name="checkUser[]" id="checkUser"/>';
+                $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="'.$value['use_id'].'" name="checkUser[]" id="checkUser"/> ';
+            }else{
+                $listJson[$key]['subjectUserId'] = '';
+                $listJson[$key]['checkuserHidden'] = '';
             }
+
             //เช็คอาจารย์ที่ปรึกษา
             if($projectperson[0]['use_id'] == $value['use_id'] ){
                 $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
                 $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="'.$value['use_id'].'" name="checkUser[]" id="checkUser"/>';
             }
+
+            //เลือกประธาน
+            if($projectperson[0]['use_id'] != $value['use_id'] ){
+
+                $listJson[$key]['rediouserHidden'] = ' <div id="myDIV"  style="display:none;" ><br/>  &nbsp;&nbsp;<input type="radio" checked="" value="'.$value['use_id'].' " id="optionsRadios1" name="optionsRadios">&nbsp;&nbsp; เลือกเป็นประธานขึ้นสอบ </div>';
+            
+            }else{
+
+                $listJson[$key]['rediouserHidden'] = '';
+                
+            }
+
+            
 
         }
         echo json_encode($listJson);

@@ -10,6 +10,7 @@ class Setting extends CI_Controller
         $this->load->model("holiday_model", "holiday");
         $this->load->model("section_model", "section");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("subject_model", "subject");
         $this->load->helper('fileexist');
     }
 
@@ -238,4 +239,26 @@ class Setting extends CI_Controller
         $this->setting->updateData($data);
         header("location:" . site_url('setting/index'));
     }
+
+    public function updatesetting($set_id = "")
+    {
+        
+
+        if($set_id == ""){
+            show_404();
+        }else{
+
+            $data = array(
+                'set_id'            => $set_id,
+                'set_status'        => 0,
+                'set_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'set_lastedit_date' => date('Y-m-d H:i:s'),
+            );
+            $this->setting->updateData($data);
+
+            header("location:".site_url('setting/index'));
+        }
+
+    }
+
 }

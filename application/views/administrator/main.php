@@ -1,10 +1,10 @@
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-12">
-    <h2>ผู้ดูแลระบบ</h2>
+    <h2>จัดการข้อมูลผู้ใช้</h2>
     <ol class="breadcrumb">
       <li><a href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a></li>
-      <li class="active"><strong>ผู้ดูแลระบบ</strong></li>
+      <li class="active"><strong>จัดการข้อมูลผู้ใช้</strong></li>
     </ol>
   </div>
 </div>
