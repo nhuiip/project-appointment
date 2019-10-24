@@ -525,7 +525,7 @@ class Calendar extends MX_Controller
     {
 
         $burl = site_url('student/showdetailproject/' . $data['project_id'] . '/' . $userid);
-        $html = file_get_contents("assets/template_email/meet-email.html");
+        $html = file_get_contents("assets/template_email/teac-meet-email.html");
         $html = str_replace('[DATA-LINK]', $burl, $html);
         $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
         $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
@@ -619,7 +619,7 @@ class Calendar extends MX_Controller
                     $message = $this->message_verify($data,$value['use_id'],$use_fullname);
 
                     $mail->MsgHTML($message);
-                    
+                    $mail->send();
                 }
             }
 
@@ -673,7 +673,7 @@ class Calendar extends MX_Controller
                 }
                 $result = array(
                     'error' => false,
-                    'msg' => 'เปลี่ยนที่อยู่อีเมล์สำเร็จ',
+                    'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
                     'url' =>  site_url('calendar/succeedrequest')
                 );
                 echo json_encode($result);
@@ -682,8 +682,6 @@ class Calendar extends MX_Controller
                 show_404();
             }
 
-            // echo '<script>document.location.href = "' . site_url("calendar/succeedrequest") . '";</script>';
-            // die;
         } else {
             show_404();
         }
