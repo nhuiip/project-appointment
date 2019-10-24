@@ -263,7 +263,7 @@ class Calendar extends MX_Controller
     public function request(){
 
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
-        $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
+        $sub_id  =  $this->input->post('txt_subId'); //1: โครงการหนึ่ง, 2: โครงการสอง
         $time  =  $this->input->post('txt_time'); //เวลา
 
         // $date  =  '2019-10-07';//วันที่เลือกทำนัด
@@ -288,7 +288,7 @@ class Calendar extends MX_Controller
 
         $condition = array();
         $condition['fide'] = "*";
-        $condition['where'] = array('sub_id' => $type);
+        $condition['where'] = array('sub_id' => $sub_id);
         $listsubject = $this->subject->listData($condition);
 
         $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
@@ -301,7 +301,7 @@ class Calendar extends MX_Controller
                 $data = array(
                     'set_id'             => $set_id,
                     'project_id'         => $project_id,
-                    'sub_id'             => $type,
+                    'sub_id'             => $sub_id,
                     'meet_date'          => $date,
                     'meet_time'          => $time,
                     'meet_status'        => 1,

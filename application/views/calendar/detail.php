@@ -217,7 +217,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
             <form action="<?= base_url('calendar/request'); ?>" method="post" name="formCalendarrequest" id="formCalendarrequest" class="form-horizontal" novalidate>
                 <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
                 <input type="hidden" name="txt_date" id="txt_date" value="<?= $date; ?>" />
-                <input type="hidden" name="txt_type" id="txt_type" value="<?= $sub_type; ?>" />
+                <input type="hidden" name="txt_subId" id="txt_subId" value="<?=$sub_id; ?>" />
                 <input type="hidden" name="txt_time" id="txt_time" value="" />
 
                 <?PHP if ($chkprojectrequest == 0) { ?>
