@@ -17,7 +17,6 @@ requirejs.config({
     sweetalert: "plugins/sweetalert/sweetalert.min",
     clipboard: "plugins/clipboard/clipboard.min",
     moment: "plugins/fullcalendar/moment.min",
-    // iCheck: "plugins/iCheck/icheck.min",
     fullcalendar: "plugins/fullcalendar/fullcalendar.min",
     datepicker: "plugins/datapicker/bootstrap-datepicker",
     daterange: "plugins/daterangepicker/daterangepicker",
@@ -60,7 +59,8 @@ requirejs.config({
     select2: {
       deps: ["jquery"]
     },
-    'chosen': {
+
+    chosen: {
 			deps: ['jquery'],
 			exports : "chosen"
 		},
@@ -139,6 +139,30 @@ $(".btn-alert").click(function() {
     function(isConfirm) {
       if (isConfirm) {
         location.href = url;
+      }
+    }
+  );
+});
+
+// sweetalert trace
+$(".btn-trace").click(function() {
+  var url = $(this).attr("data-url");
+  var geturl = $(this).attr("data-geturl");
+  var title = $(this).attr("data-title");
+  swal(
+    {
+      title: title,
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c0392b",
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ยกเลิก",
+      closeOnConfirm: false
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        location.href = url;
+        window.open("geturl");
       }
     }
   );

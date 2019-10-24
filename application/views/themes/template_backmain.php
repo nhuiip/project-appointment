@@ -50,9 +50,13 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 	<link href="<?= base_url('assets/css/plugins/datapicker/datepicker3.css'); ?>" rel="stylesheet">
 	<!-- script js -->
 	<script src="<?= base_url('assets/js/lib/jquery-2.1.1.js'); ?>"></script>
-	<!-- <script src="<?= base_url('assets/js/lib/plugins/fullcalendar/fullcalendar.min.js'); ?>"></script> -->
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/datatables.min.js'); ?>"></script>
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
+	<?PHP
+	if (!empty($js)) {
+		echo $js;
+	}
+	?>
 	<script data-main="<?= base_url('assets/js/app.js'); ?>" src="<?= base_url('assets/js/require.js'); ?>"></script>
 
 	<style>

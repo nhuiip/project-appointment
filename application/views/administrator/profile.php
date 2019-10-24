@@ -183,9 +183,17 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 								<div class="col-md-8 content no-top-border">
 									<? foreach ($listusersec as $key => $v) { ?>
 										<div class="col-md-2 timecheck">
-											<label class="onoff"><input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {
-																																																																	echo 'checked';
-																																																																} ?>><label for="sectione-<?= $v['sec_id']; ?>"></label></label>
+											<?if($v['sec_status'] != 2){ ?>
+											<label class="onoff">
+												<input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {echo 'checked';} ?>>
+												<label for="sectione-<?= $v['sec_id']; ?>"></label>
+											</label>
+											<? } else { ?>
+												<label class="secmeet">
+												<input type="checkbox" class="timechecks" disabled>
+												<label for="sectione-<?= $v['sec_id']; ?>"></label>
+											</label>
+											<? } ?>
 											<p><?= $v['sec_time_one']; ?> น.</p>
 										</div>
 									<? } ?>
