@@ -231,12 +231,12 @@ if (isset($listsubject) && count($listsubject) != 0) {
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
                                 <div class="row">
-                                    <span class="badge badge-warning col-sm-2" style="margin-bottom: 5px;">สีเหลือง</span>
-                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                    <span class="badge badge-danger col-sm-2"style="margin-bottom: 5px;">สีแดง</span>
-                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
-                                    <span class="badge badge-default col-sm-2"style="margin-bottom: 5px;">สีเทา</span>
-                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
+                                    <span class="badge badge-warning col-xs-2" style="margin-bottom: 5px;">สีเหลือง</span>
+                                    <div class="col-xs-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                    <span class="badge badge-danger col-xs-2"style="margin-bottom: 5px;">สีแดง</span>
+                                    <div class="col-xs-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
+                                    <span class="badge badge-default col-xs-2"style="margin-bottom: 5px;">สีเทา</span>
+                                    <div class="col-xs-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
                                 </div>
                             </div>
                         </div>
@@ -284,15 +284,16 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     <p><strong><?= $listdata_meet[0]['project_name']; ?></strong> </p>
                                     <p><? foreach ($list_showrequest as $key => $v) { ?>
                                             <? if ($v['use_id'] == $listdata_meet[0]['use_id']) { ?>
-                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
                                                 <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
                                             <? } else { ?>
                                                 <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
                                             <? } ?>
                                         <? } ?></p>
                                 </div>
                             <? } ?>
+
 
                             <!-- <a href="<?= base_url('calendar/showcalendar/1'); ?>">
                                 <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
@@ -317,6 +318,44 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     </div>
 
                 <?PHP } ?>
+
+
+                <!-- <hr />
+                <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
+                <div class="comment_box">
+                    <form action="path/to/insert_reply.php" method="POST">
+                        <textarea name="reply" cols="47" rows="4"></textarea>
+                        <input type="submit" name="submit" value="Post Reply" />
+                    </form>
+                </div>
+                <hr />
+                <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
+                <div class="comment_box">
+                    <form action="path/to/insert_reply.php" method="POST">
+                        <textarea name="reply" cols="47" rows="4"></textarea>
+                        <input type="submit" name="submit" value="Post Reply" />
+                    </form>
+                </div>
+                <hr />
+                <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
+                <div class="comment_box">
+                    <form action="path/to/insert_reply.php" method="POST">
+                        <textarea name="reply" cols="47" rows="4"></textarea>
+                        <input type="submit" name="submit" value="Post Reply" />
+                    </form>
+                </div> -->
+
+                <!-- hide / show -->
+                <!-- <label for="chkPassport">
+                    <input type="checkbox" id="chkPassport" />
+                    Do you have Passport?
+                </label>
+                <hr />
+                <div id="dvPassport" style="display: none">
+                    Passport Number:
+                    <input type="text" id="txtPassportNumber" />
+                </div> -->
+
             </form>
 
         </div>

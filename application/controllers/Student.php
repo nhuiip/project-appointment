@@ -984,4 +984,10 @@ class Student extends MX_Controller
     //         echo 'send';
     //     }
     // }
+
+    public function showdetailproject($project_id = '')
+    {
+        
+    }
+
 }
