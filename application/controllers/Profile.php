@@ -35,25 +35,35 @@ class Profile extends MX_Controller
                 $condition = array();
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1);
-                $data['listsubject'] = $this->subject->listjoinData($condition);
+                $listsubject = $this->subject->listjoinData($condition);
 
-                $condition = array();
-                $condition['fide'] = "*";
-                $condition['where'] = array('sub_id' => $data['listsubject'][0]['sub_id']);
-                $condition['orderby'] = "att_id ASC ";
-                $data['listatt'] = $this->attached->listData($condition);
+                if(count($listsubject) != 0){
 
-                $condition = array();
-                $condition['fide'] = "*";
-                $condition['where'] = array('set_status' => 2);
-                $listdata = $this->setting->listData($condition);
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1);
+                    $data['listsubject'] = $this->subject->listjoinData($condition);
 
-                $condition['fide'] = "*";
-                $condition['where'] = array('set_id' => $listdata[0]['set_id']);
-                $condition['groupby'] = "sec_date";
-                $data['listsec'] = $this->section->listData($condition);
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('sub_id' => $data['listsubject'][0]['sub_id']);
+                    $condition['orderby'] = "att_id ASC ";
+                    $data['listatt'] = $this->attached->listData($condition);
 
-                $data['set_id'] = $listdata[0]['set_id'];
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('set_status' => 2);
+                    $listdata = $this->setting->listData($condition);
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('set_id' => $listdata[0]['set_id']);
+                    $condition['groupby'] = "sec_date";
+                    $data['listsec'] = $this->section->listData($condition);
+
+                    $data['set_id'] = $listdata[0]['set_id'];
+
+                }
+                    
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('administrator/profile', $data);
             } else {

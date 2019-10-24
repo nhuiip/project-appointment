@@ -393,23 +393,14 @@ $(".btnajax").click(function() {
 
       $.each(result, function(index, item) {
 
-       
-       
-      $('#txt_time').val(item.time);
+   
 
-  
+        // console.log('dvPassport'+ item.id);
+
+        $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser'+ item.id +' " value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
-          
-      //     <div class="checkbox checkbox-success checkbox-inline">
-      //     <input type="checkbox" id="inlineCheckbox2" value="option1" checked="">
-      //     <label for="inlineCheckbox2"> Inline Two </label>
-      // </div>
-
-          // $('<li><span class="m-l-xs">' + item.name + "</span></li>").append()
-          // $('<li><a href="#" onclick="addcart(this)" data-userId=" '+ item.id +' ><span class="m-l-xs">' + item.name + "</span></a></li>").append()
-          // $('<option value="'+item.type_id+'">'+item.type_name_th+' | '+item.type_name_en+'</option>').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
         );
       });
       $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
@@ -436,38 +427,19 @@ $(".btnajax").click(function() {
 });
 
 
+//hide / show
 
-function addcart(e){
-  var userId = $(e).attr('data-userId');
-  var date = $(e).attr('data-date');
-  var urlb = "http://localhost:9900";
+// $('.comment_box').hide().prev('div').on('click', function(){
+//   $(this).next('.comment_box').toggle();
+// });
 
-	data = [ ]
-		
-	$.ajax({
-    method: 'POST',
-    dataType: 'json',
-    url: urlb+'/calendar/cart',
-    data: {
-      userId: userId,
-    },
-    beforeSend: function() {}, 
-    success: function(result) {
+// $(function () {
+//   $("#chkPassport").click(function () {
+//       if ($(this).is(":checked")) {
+//           $("#dvPassport").show();
+//       } else {
+//           $("#dvPassport").hide();
+//       }
+//   });
+// });
 
-      console.log(result);
-
-      if(result.typeaction == "insert"){
-
-        var Texthtml = '<div>';
-        Texthtml+= '';
-        Texthtml+= '</div>';
-        $('#menu-cart').append(Texthtml);					
-
-      }
-
-	  },
-  })
-
-  
-
-}
