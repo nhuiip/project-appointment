@@ -256,7 +256,7 @@ class Calendar extends MX_Controller
         // if()
 
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
-        $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
+        $sub_id  =  $this->input->post('txt_subId'); //1: โครงการหนึ่ง, 2: โครงการสอง
         $time  =  $this->input->post('txt_time'); //เวลา
 
         // $date  =  '2019-10-07';//วันที่เลือกทำนัด
@@ -281,7 +281,7 @@ class Calendar extends MX_Controller
 
         $condition = array();
         $condition['fide'] = "*";
-        $condition['where'] = array('sub_id' => $type);
+        $condition['where'] = array('sub_id' => $sub_id);
         $listsubject = $this->subject->listData($condition);
 
         $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
@@ -294,7 +294,7 @@ class Calendar extends MX_Controller
                 $data = array(
                     'set_id'             => $set_id,
                     'project_id'         => $project_id,
-                    'sub_id'             => $type,
+                    'sub_id'             => $sub_id,
                     'meet_date'          => $date,
                     'meet_time'          => $time,
                     'meet_status'        => 1,
@@ -527,21 +527,28 @@ class Calendar extends MX_Controller
         $burl = site_url('student/showdetailproject/' . $data['project_id'] . '/' . $userid);
         $html = file_get_contents("assets/template_email/meet-email.html");
         $html = str_replace('[DATA-LINK]', $burl, $html);
-        $html = str_replace('[DATA-PROJECNAME]', $data['project_name'], $html);
-        $html = str_replace('[DATA-PROJECTNAME]', $use_name, $html);
+        $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
+        $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
-        $html = str_replace('[DATA-D]', $data['strDay'], $html);
-        $html = str_replace('[DATA-M]', $data['strMonth'], $html);
-        $html = str_replace('[DATA-Y]', $data['strYear'], $html);
+        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
         $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
         // $html = str_replace('[DATA-USERID]', $userid, $html);
         return $html;
     }
 
-    public function loaddingpage()
+    public function messagestd_verify($data,$userid,$use_name)
     {
 
-        $this->load->view('calendar/loaddingpage');
+        $burl = site_url('student/showdetailproject/'.$data['project_id'].'/'.$userid);
+        $html = file_get_contents("assets/template_email/std-meet-email.html");
+        $html = str_replace('[DATA-LINK]', $burl, $html);
+        $html = str_replace('[DATA-PROJECTNAME]', $data['project_name'], $html);
+        $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
+        $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
+        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
+        $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
+        // $html = str_replace('[DATA-USERID]', $userid, $html);
+        return $html;
     }
 
     public function sandrequest($meetId = "")
@@ -584,16 +591,14 @@ class Calendar extends MX_Controller
                 $data = array(
                     'project_id'      => $project_id,
                     'project_name'    => $project_name,
-                    'meet_time'       => $meet_time . '&nbsp; น.',
-                    'strDay'          => $strDay,
-                    'strMonth'        => $strMonthThai,
-                    'strYear'         => $strYear,
-                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้ส่งคำขอขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" . $project_name . "ในวันที่&nbsp;" . $strDay . "&nbsp;" . $strMonthThai . "&nbsp;" . $strYear . "&nbsp;เวลา&nbsp;" . $meet_time . "&nbsp; น.&nbsp; คุณสามารถคลิกที่ รายละเอียด เพื่อดูคำขอขึ้นสอบปริญญานิพนธ์ของคุณได้",
+                    'meet_time'       => $meet_time,
+                    'strDay'          => $strDay.'&nbsp;'.$strMonthThai.'&nbsp;'.$strYear,
+                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้ส่งคำขอขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" .$project_name. "ในวันที่&nbsp;" .$strDay."&nbsp;".$strMonthThai."&nbsp;".$strYear."&nbsp;เวลา&nbsp;".$meet_time."&nbsp; น.&nbsp; คุณสามารถคลิกที่ รายละเอียด เพื่อดูคำขอขึ้นสอบปริญญานิพนธ์ของคุณได้",
                 );
 
                 foreach ($listemailstd as $key => $value) {
 
-                    $std_fullname   = 'สวัสดี&nbsp;' . $value['std_title'] . '' . $value['std_fname'] . '&nbsp;&nbsp;' . $value['std_lname'];
+                    $std_fullname   = '&nbsp;'.$value['std_title'].''.$value['std_fname'].'&nbsp;&nbsp;'.$value['std_lname'];
 
                     require_once APPPATH . 'third_party/class.phpmailer.php';
                     require_once APPPATH . 'third_party/class.smtp.php';
@@ -622,10 +627,6 @@ class Calendar extends MX_Controller
 
                     $mail->MsgHTML($message);
                     $mail->send();
-
-                    //===================================================================
-                    // print_r($message);
-                    // die;
                 }
                 $result = array(
                     'error' => false,
