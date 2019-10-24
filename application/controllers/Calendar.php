@@ -293,120 +293,124 @@ class Calendar extends MX_Controller
 
         $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
-       //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
-        if(count($this->input->post('checkUser')) == $sub_setuse){
+        if ($this->tokens->verify('formcrf')) {
+        //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
+            if(count($this->input->post('checkUser')) == $sub_setuse){
 
-            // insert meet
-            $data = array(
-                'set_id'             => $set_id,
-                'project_id'         => $project_id,
-                'sub_id'             => $type,
-                'meet_date'          => $date,
-                'meet_time'          => $time,
-                'meet_status'        => 1,
-                'meet_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
-                'meet_create_date'   => date('Y-m-d H:i:s'),
-                'meet_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-                'meet_lastedit_date' => date('Y-m-d H:i:s'),
-            );
-            
-            $meetId = $this->meet->insertData($data);
-            
-            // insert meetdetail
-            $other = array();
-            for($i=0;$i<count($this->input->post('checkUser'));$i++){
-
-                $other['meet_id'] 	        = $meetId;
-                $other['use_id'] 		    = $this->input->post('checkUser')[$i];
-                $other['dmeet_status'] 		= 1;
-                $other['dmeet_head'] 		= 0;
-                $other['sec_id'] 		    = $sec_id;
-
-                $dmeet_id  = $this->meet->insertDetail($other);
+                // insert meet
+                $data = array(
+                    'set_id'             => $set_id,
+                    'project_id'         => $project_id,
+                    'sub_id'             => $type,
+                    'meet_date'          => $date,
+                    'meet_time'          => $time,
+                    'meet_status'        => 1,
+                    'meet_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+                    'meet_create_date'   => date('Y-m-d H:i:s'),
+                    'meet_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                    'meet_lastedit_date' => date('Y-m-d H:i:s'),
+                );
                 
-            }          
-
-            
-            $condition = array();
-            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head";
-            $condition['where'] = array('tb_meetdetail.use_id' => $this->input->post('radioHeadproject'));
-            $listmeetdetail = $this->meet->listjoinData2($condition);
-
-            $datas = array(
-                'dmeet_id'            => $listmeetdetail[0]['dmeet_id'],
-                'dmeet_head'          => 1,
-            );
-            $this->meet->updateDetail($datas);
+                $meetId = $this->meet->insertData($data);
                 
-            // select detailmeet
-            $condition = array();
-            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.dmeet_status,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time,";
-            $condition['where'] = array('tb_meetdetail.meet_id' => $meetId);
-            $listmeetdetail = $this->meet->listjoinData2($condition);
+                // insert meetdetail
+                $other = array();
+                for($i=0;$i<count($this->input->post('checkUser'));$i++){
 
-            //select id subject in meet
-            $condition = array();
-            $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id";
-            $condition['where'] = array('tb_meet.meet_id' => $meetId);
-            $listmeetsub = $this->meet->listjoinData($condition);
+                    $other['meet_id'] 	        = $meetId;
+                    $other['use_id'] 		    = $this->input->post('checkUser')[$i];
+                    $other['dmeet_status'] 		= 1;
+                    $other['dmeet_head'] 		= 0;
+                    $other['sec_id'] 		    = $sec_id;
 
-            //select subject type in tb_subject
-            $condition = array();
-            $condition['fide'] = "sub_id,sub_type";
-            $condition['where'] = array('sub_id' => $listmeetsub[0]['sub_id']);
-            $listprojectsubType = $this->subject->listData($condition);
-
-            //อัพเดตข้อมูลเวลาว่างของอาจารย์
-            foreach ($listmeetdetail as $key => $value) {
-
-                if($listprojectsubType[0]['sub_id'] == 1){
-
-                    $condition['fide'] = "*";
-                    $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_one' => $value['meet_time']);
-                    $listmeet = $this->section->listData($condition);
+                    $dmeet_id  = $this->meet->insertDetail($other);
                     
-                    // print_r('sec_time_one');
+                }          
 
-                    foreach ($listmeet as $key => $values) {
+                
+                $condition = array();
+                $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head";
+                $condition['where'] = array('tb_meetdetail.use_id' => $this->input->post('radioHeadproject'));
+                $listmeetdetail = $this->meet->listjoinData2($condition);
 
-                        $othersection['sec_id'] 	    = $values['sec_id'];
-                        $othersection['sec_status'] 		= 0;
-
-                        $this->section->updateData($othersection);
-
-
-                    }
-
-                }else{
-
-                    $condition['fide'] = "*";
-                    $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_two' => $value['meet_time']);
-                    $listmeet = $this->section->listData($condition);
+                $datas = array(
+                    'dmeet_id'            => $listmeetdetail[0]['dmeet_id'],
+                    'dmeet_head'          => 1,
+                );
+                $this->meet->updateDetail($datas);
                     
-                    // print_r('sec_time_two');
+                // select detailmeet
+                $condition = array();
+                $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.dmeet_status,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time,";
+                $condition['where'] = array('tb_meetdetail.meet_id' => $meetId);
+                $listmeetdetail = $this->meet->listjoinData2($condition);
 
-                    foreach ($listmeet as $key => $values) {
+                //select id subject in meet
+                $condition = array();
+                $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id";
+                $condition['where'] = array('tb_meet.meet_id' => $meetId);
+                $listmeetsub = $this->meet->listjoinData($condition);
+
+                //select subject type in tb_subject
+                $condition = array();
+                $condition['fide'] = "sub_id,sub_type";
+                $condition['where'] = array('sub_id' => $listmeetsub[0]['sub_id']);
+                $listprojectsubType = $this->subject->listData($condition);
+
+                //อัพเดตข้อมูลเวลาว่างของอาจารย์
+                foreach ($listmeetdetail as $key => $value) {
+
+                    if($listprojectsubType[0]['sub_id'] == 1){
+
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_one' => $value['meet_time']);
+                        $listmeet = $this->section->listData($condition);
+                        
+                        // print_r('sec_time_one');
+
+                        foreach ($listmeet as $key => $values) {
+
+                            $othersection['sec_id'] 	    = $values['sec_id'];
+                            $othersection['sec_status'] 		= 0;
+
+                            $this->section->updateData($othersection);
 
 
-                        $othersection['sec_id'] 	    = $values['sec_id'];
-                        $othersection['sec_status'] 		= 0;
+                        }
 
-                        $this->section->updateData($othersection);
+                    }else{
 
-                            
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('use_id' => $value['use_id'],'sec_date' => $value['meet_date'],'sec_time_two' => $value['meet_time']);
+                        $listmeet = $this->section->listData($condition);
+                        
+                        // print_r('sec_time_two');
+
+                        foreach ($listmeet as $key => $values) {
+
+
+                            $othersection['sec_id'] 	    = $values['sec_id'];
+                            $othersection['sec_status'] 		= 0;
+
+                            $this->section->updateData($othersection);
+
+                                
+
+                        }
 
                     }
 
                 }
 
+                // redirect('calendar/sandrequest');
+                $this->sandrequest();
+
+
+            }else{
+            
+                print_r('น้อยกว่า');
+
             }
-
-            redirect('calendar/sandrequest');
-
-        }else{
-           
-            print_r('น้อยกว่า');
-
         }
 
     }
@@ -561,9 +565,14 @@ class Calendar extends MX_Controller
         return $html;
     }
 
-    public function sandrequest(){
+    public function loaddingpage(){
 
         $this->load->view('calendar/loaddingpage');
+
+    }
+
+    public function sandrequest(){
+
 
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
@@ -648,12 +657,12 @@ class Calendar extends MX_Controller
         //         die;
 
         //         $mail->MsgHTML($message);
-        //         $mail->send();
-        //         // $result = array(
-        //         //     'error' => false,
-        //         //     'msg' => 'ลงทะเบียนสำเร็จ',
-        //         //     'url' => site_url('student/succeedreg')
-        //         // );
+                // $mail->send();
+                // // $result = array(
+                // //     'error' => false,
+                // //     'msg' => 'ลงทะเบียนสำเร็จ',
+                // //     'url' => site_url('student/succeedreg')
+                // // );
         //     }
         // }
 
@@ -701,39 +710,59 @@ class Calendar extends MX_Controller
                 $mail->Username = "support@webpaplern.com";
                 $mail->Password = "ka6sTato";
                 $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
-                $mail->AddAddress($value['std_email']);
+                // $mail->AddAddress($value['std_email']);
+                $mail->AddAddress('yui.napassorn.s@gmail.com');
                 $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                                 
                 $message = $this->message_verify($data,$value['std_id'],$std_fullname);
 
+                $mail->MsgHTML($message);
                 // print_r($message);
                 // die;
 
-                $mail->MsgHTML($message);
-                $mail->send();
-                // $result = array(
-                //     'error' => false,
-                //     'msg' => 'ลงทะเบียนสำเร็จ',
-                //     'url' => site_url('student/succeedreg')
-                // );
+               
+                // if (!$mail->send()) {
+                //     $result = array(
+                //         'error' => true,
+                //         'msg' => $mail->ErrorInfo,
+                //     );
+                //     echo json_encode($result);
+                //     die;
+                // } else {
+                //     $result = array(
+                //         'error' => false,
+                //         'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
+                //         'url' =>  site_url('student/succeedreg')
+                //     );
+                //     echo json_encode($result);
+                //     die;
+                // }
             }
         }
 
-        redirect('calendar/succeedrequest');
+        // $mail->MsgHTML($message);
+        // if (!$mail->send()) {
+        //     echo $mail->ErrorInfo;
+        // } else {
+        //     echo '<script>document.location.href = "' . site_url("calendar/succeedrequest") . '";</script>';
+        //     die;
+        // }
 
-        // print_r('<pre>');
-        // print_r($listproject);
-        // print_r('</pre>');
-
-        die;
+        // redirect('calendar/succeedrequest');
+        $this->succeedrequest();
+    
 
     }
 
 
     public function succeedrequest()
     {
-        $this->load->view('page/succeed-request').'?std='.$this->encryption->decrypt($this->input->cookie('sysli'));
-        // redirect('page/succeed-request/'.$this->encryption->decrypt($this->input->cookie('sysli')));
+        $this->load->view('page/succeed-request');
     }
+
+    // public function succeedrequest()
+    // {
+    //     $this->load->view('page/succeed-request').'?std='.$this->encryption->decrypt($this->input->cookie('sysli'));
+    // }
    
 }
