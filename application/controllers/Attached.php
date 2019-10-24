@@ -54,6 +54,8 @@ class Attached extends MX_Controller
 		}
 	}
 
+
+	
 	public function delete($file, $id)
 	{
 		$data = array(
