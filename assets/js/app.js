@@ -224,6 +224,7 @@ $(".btn-check").click(function() {
   );
 });
 
+
 $(".btn-checkuserHead").click(function() {
   var url = $(this).attr("data-url");
   var title = $(this).attr("data-title");
@@ -389,22 +390,15 @@ $(".btnajax").click(function() {
 
       $("#listtt").empty();
       $("#listtts").empty();
-
-
+      
       $.each(result, function(index, item) {
-
-   
-
-        // console.log('dvPassport'+ item.id);
-
         $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility('+ item.id +')" class="showredio" data-id="'+ item.id +'" type="checkbox" name="checkUser[]" id="checkUser'+ item.id +'" value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
         );
       });
       $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
-      // $("#listtts").append('<a data-toggle="modal" class="btn btn-block btn-w-m btn-info" href="#modal-form">ส่งคำขอขึ้นสอบปริญญานิพนธ์</a>');
     },
     // error: function(jqXHR, exception) {
     //   if (jqXHR.status === 0) {
@@ -426,20 +420,44 @@ $(".btnajax").click(function() {
   });
 });
 
+function toggle_visibility(id) {
+  var e = document.getElementById(id);
+  if(e.style.display == 'block')
+     e.style.display = 'none';
+  else
+     e.style.display = 'block';
+}
 
-//hide / show
+function btnchkredio() {
 
-// $('.comment_box').hide().prev('div').on('click', function(){
-//   $(this).next('.comment_box').toggle();
-// });
+  // var id = $(this).attr("data-id");
+  var id = $(".showredio").val();
+  
+  console.log(id);
 
-// $(function () {
-//   $("#chkPassport").click(function () {
-//       if ($(this).is(":checked")) {
-//           $("#dvPassport").show();
-//       } else {
-//           $("#dvPassport").hide();
-//       }
-//   });
-// });
+  
+  // var x = document.getElementById(id);
+  // if (x.style.display === "none") {
+  //   x.style.display = "block";
+  // } else {
+  //   x.style.display = "none";
+  // }
+
+  //  var element = document.getElementById("chkheadProject");
+
+  // if (element.classList) { 
+  //   element.classList.toggle("mystyle");
+  // } else {
+  //   var classes = element.className.split(" ");
+  //   var i = classes.indexOf("mystyle");
+
+  //   if (i >= 0) 
+  //     classes.splice(i, 1);
+  //   else 
+  //     classes.push("mystyle");
+  //     element.className = classes.join(" "); 
+  // }
+
+};
+
 

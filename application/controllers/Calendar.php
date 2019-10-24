@@ -238,7 +238,7 @@ class Calendar extends MX_Controller
 
                     // $checked = "checked";
 
-                    $listJson[$key]['rediouserHidden'] = '<div id="dvPassport' . $value['use_id'] . '" class="radio" >&nbsp;<input  type="radio" name="radioHeadproject" id="radio' . $value['use_id'] . '" value="' . $value['use_id'] . '" ><label for="radio' . $value['use_id'] . '">เลือกเป็นประธานขึ้นสอบ </label></<div>';
+                    $listJson[$key]['rediouserHidden'] = '<div id="'.$value['use_id'].'" class="radio chkheadProject" style="display: none;" >&nbsp;<input  type="radio" name="radioHeadproject" id="radio' . $value['use_id'] . '" value="' . $value['use_id'] . '" ><label for="radio' . $value['use_id'] . '">เลือกเป็นประธานขึ้นสอบ </label></<div>';
                 } else {
                     $listJson[$key]['rediouserHidden'] = '';
                 }

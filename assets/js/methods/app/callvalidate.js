@@ -808,7 +808,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         },
         messages: {
           radioHeadproject: {
-            required: "กรุณาเลือกประธานการสอบ."
+            required: ""
           },
         },
         submitHandler: function(form) {
