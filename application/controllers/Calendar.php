@@ -253,6 +253,7 @@ class Calendar extends MX_Controller
 
     public function request()
     {
+        // if()
 
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
         $type  =  $this->input->post('txt_type'); //1: โครงการหนึ่ง, 2: โครงการสอง
