@@ -551,23 +551,30 @@ class Calendar extends MX_Controller
     {
 
         $burl = site_url('student/showdetailproject/'.$data['project_id'].'/'.$userid);
-        $html = file_get_contents("assets/template_email/meet-email.html");
+        $html = file_get_contents("assets/template_email/teac-meet-email.html");
         $html = str_replace('[DATA-LINK]', $burl, $html);
-        $html = str_replace('[DATA-PROJECNAME]', $data['project_name'], $html);
-        $html = str_replace('[DATA-PROJECTNAME]', $use_name, $html);
+        $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
+        $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
-        $html = str_replace('[DATA-D]', $data['strDay'], $html);
-        $html = str_replace('[DATA-M]', $data['strMonth'], $html);
-        $html = str_replace('[DATA-Y]', $data['strYear'], $html);
+        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
         $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
         // $html = str_replace('[DATA-USERID]', $userid, $html);
         return $html;
     }
 
-    public function loaddingpage(){
+    public function messagestd_verify($data,$userid,$use_name)
+    {
 
-        $this->load->view('calendar/loaddingpage');
-
+        $burl = site_url('student/showdetailproject/'.$data['project_id'].'/'.$userid);
+        $html = file_get_contents("assets/template_email/std-meet-email.html");
+        $html = str_replace('[DATA-LINK]', $burl, $html);
+        $html = str_replace('[DATA-PROJECTNAME]', $data['project_name'], $html);
+        $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
+        $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
+        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
+        $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
+        // $html = str_replace('[DATA-USERID]', $userid, $html);
+        return $html;
     }
 
     public function sandrequest($meetId= "" ){
@@ -598,22 +605,18 @@ class Calendar extends MX_Controller
             $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
             $listemailuser = $this->meet->listjoinData2($condition);
 
-            // print_r($listemailuser);
-            // die;
             // if(count($listemailuser) != 0){ 
             //     $data = array(
             //         'project_id'      => $project_id,
             //         'project_name'    => $project_name,
-            //         'meet_time'       => $meet_time.'&nbsp; น.',
-            //         'strDay'          => $strDay,
-            //         'strMonth'        => $strMonthThai,
-            //         'strYear'         => $strYear,
+            //         'meet_time'       => $meet_time.'&nbsp;',
+            //         'strDay'          => $strDay.'&nbsp;'.$strMonthThai.'&nbsp;'.$strYear,
             //         'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้รับคำขอให้ขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" .$project_name. "ในวันที่&nbsp;" .$strDay."&nbsp;".$strMonthThai."&nbsp;".$strYear."&nbsp;เวลา&nbsp;".$meet_time."&nbsp; น.&nbsp; คุณสามารถตรวจสอบรายละเอียดของปริญญานิพนธ์ โดยคลิกที่ รายละเอียด เพื่อตรวจสอบข้อมูลก่อนกดยืนยันเพื่อตอบรับคำขอของนักศึกษา",
             //     );
 
             //     foreach ($listemailuser as $key => $value) {
 
-                        // $use_fullname   =   "เรียน&nbsp;".$value['use_name'];
+            //             $use_fullname   =   "เรียน&nbsp;".$value['use_name'];
             //         require_once APPPATH . 'third_party/class.phpmailer.php';
             //         require_once APPPATH . 'third_party/class.smtp.php';
             //         $mail = new PHPMailer;
@@ -639,16 +642,13 @@ class Calendar extends MX_Controller
                                     
             //         $message = $this->message_verify($data,$value['use_id'],$use_fullname);
 
-            //         print_r($message);
-            //         die;
-
             //         $mail->MsgHTML($message);
-                    // $mail->send();
-                    // // $result = array(
-                    // //     'error' => false,
-                    // //     'msg' => 'ลงทะเบียนสำเร็จ',
-                    // //     'url' => site_url('student/succeedreg')
-                    // // );
+            //         $mail->send();
+            //         // $result = array(
+            //         //     'error' => false,
+            //         //     'msg' => 'ลงทะเบียนสำเร็จ',
+            //         //     'url' => site_url('student/succeedreg')
+            //         // );
             //     }
             // }
 
@@ -663,16 +663,14 @@ class Calendar extends MX_Controller
                 $data = array(
                     'project_id'      => $project_id,
                     'project_name'    => $project_name,
-                    'meet_time'       => $meet_time.'&nbsp; น.',
-                    'strDay'          => $strDay,
-                    'strMonth'        => $strMonthThai,
-                    'strYear'         => $strYear,
+                    'meet_time'       => $meet_time,
+                    'strDay'          => $strDay.'&nbsp;'.$strMonthThai.'&nbsp;'.$strYear,
                     'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้ส่งคำขอขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" .$project_name. "ในวันที่&nbsp;" .$strDay."&nbsp;".$strMonthThai."&nbsp;".$strYear."&nbsp;เวลา&nbsp;".$meet_time."&nbsp; น.&nbsp; คุณสามารถคลิกที่ รายละเอียด เพื่อดูคำขอขึ้นสอบปริญญานิพนธ์ของคุณได้",
                 );
 
                 foreach ($listemailstd as $key => $value) {
 
-                    $std_fullname   = 'สวัสดี&nbsp;'.$value['std_title'].''.$value['std_fname'].'&nbsp;&nbsp;'.$value['std_lname'];
+                    $std_fullname   = '&nbsp;'.$value['std_title'].''.$value['std_fname'].'&nbsp;&nbsp;'.$value['std_lname'];
 
                     require_once APPPATH . 'third_party/class.phpmailer.php';
                     require_once APPPATH . 'third_party/class.smtp.php';
@@ -697,22 +695,24 @@ class Calendar extends MX_Controller
                     $mail->AddAddress('yui.napassorn.s@gmail.com');
                     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                                     
-                    $message = $this->message_verify($data,$value['std_id'],$std_fullname);
+                    $message = $this->messagestd_verify($data,$value['std_id'],$std_fullname);
+
+                    //===================================================================
+                    print_r($message);
+                    die;
 
                     $mail->MsgHTML($message);
                     $mail->send();
-
-                    //===================================================================
-                    // print_r($message);
-                    // die;
                 }
                 
-            }
 
 
             echo '<script>document.location.href = "' . site_url("calendar/succeedrequest") . '";</script>';
             die;
-            
+
+            }
+
+
             // $this->succeedrequest();
         } else{
             show_404();
