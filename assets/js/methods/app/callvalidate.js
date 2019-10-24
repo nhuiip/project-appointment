@@ -743,7 +743,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           }
         },
         submitHandler: function(form) {
-          $('.loading').show();
+          
           fun.dataSubmit(form);
           return false;
         }
@@ -799,7 +799,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
-
     if ($("#formCalendarrequest").length) {
       $("#formCalendarrequest").validate({
         rules: {
@@ -814,34 +813,11 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         },
         submitHandler: function(form) {
           $('.loading').show();
-          $.ajax({
-            url: $("#formCalendarrequest").attr("action"),
-            data: $("#formCalendarrequest").serialize(),
-            type: 'POST',
-            dataType: "json",
-            success: function(result) {
-              toastr.options = {
-                closeButton: true,
-                progressBar: true,
-                positionClass: "toast-top-center",
-                showMethod: "slideDown",
-                timeOut: 1000
-              };
-              if (result.error === true) {
-                toastr.warning(result.title, result.msg);
-                console.log(result.msg);
-              } else {
-                toastr.success(result.title, result.msg);
-                setTimeout(function() {
-                  location.href = result.url;
-                }, 1000);
-              }
-            }
-          });
+          fun.dataSubmit(form);
+          return false;
         }
       });
     }
-
   };
   return methods;
 });

@@ -24,15 +24,15 @@ if (isset($listsubject) && count($listsubject) != 0) {
 ?>
 
 <style>
-.mystyle {
-  width: 100%;
-  padding: 25px;
-  background-color: coral;
-  color: white;
-  font-size: 25px;
-  box-sizing: border-box;
-  display: unset ;
-}
+    .mystyle {
+        width: 100%;
+        padding: 25px;
+        background-color: coral;
+        color: white;
+        font-size: 25px;
+        box-sizing: border-box;
+        display: unset;
+    }
 </style>
 
 <div class="loading">Loading&#8230;</div>
@@ -87,39 +87,45 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 $query = $this->db->get();
                                 $listt = $query->result_array();
                             }
-                                ?>
-                        <div class="col-md-6">
-                            <div class="ibox">
-                                <div class="ibox-content product-box">
-                                    <div class="product-desc">
-                                        <small class="text-muted" style="font-size:14px">เวลานัด</small>
-                                        <a href="#" class="product-name" style="font-size:32px"> <?= $value['one']; ?> น.</a>
-                                        <? if (count($meet) != 0) { ?>
-                                            <div class="small m-t-xs" style="font-size:14px">
-                                                <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                                <p><? foreach ($listt as $key => $v) { ?>
-                                                        <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
-                                                            <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
-                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                        <? } else { ?>
-                                                            <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
-                                                        <? } ?>
-                                                    <? } ?></p>
-                                            </div>
-                                        <? } ?>
-                                        <? if (count($meet) == 0) { ?>
-                                            <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
+
+                            ?>
+                    <div class="col-md-6">
+                        <div class="ibox">
+                            <div class="ibox-content product-box">
+                                <div class="product-desc">
+                                    <small class="text-muted" style="font-size:14px">เวลานัด</small>
+                                    <a href="#" class="product-name" style="font-size:32px"> <?= $value['one']; ?> น.</a>
+                                    <? if (count($meet) != 0) { ?>
+                                        <div class="small m-t-xs" style="font-size:14px">
+                                            <p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
+                                            <p><? foreach ($listt as $key => $v) { ?>
+                                                    <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
+                                                        <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                    <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                        <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                    <? } else { ?>
+                                                        <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                    <? } ?>
+                                                <? } ?></p>
+                                        </div>
+                                    <? } ?>
+                                    <? if (count($meet) == 0) { ?>
+                                        <? if ($chkprojectrequest == 0) { ?>
+                                            <? if (count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                                 <div class="m-t text-righ">
                                                     <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['one']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                 </div>
-                                            <?PHP } ?>
-
+                                            <? } else { ?>
+                                                <div class="m-t text-righ">
+                                                    <button class="btn btn-xs btn-outline btn-danger"> ไม่สามารถทำนัดได้ <i class="fa fa-long-arrow-right"></i> </button>
+                                                </div>
+                                            <? } ?>
                                         <? } ?>
-                                    </div>
+                                    <? } ?>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 <? } ?>
             <? } ?>
             <? if ($sub_type == 2) { ?>
@@ -184,14 +190,16 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <? } ?>
 
                                         <? if (count($meet) == 0) { ?>
-                                          <?PHP if ($chkprojectrequest == 0 && count($section_sub) != 0 && count($section_pro) != 0) { ?>
-                                                <div class="m-t text-righ">
-                                                    <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
-                                                </div>
-                                            <? } elseif($chkprojectrequest == 0 && count($section_sub) == 0 && count($section_pro) == 0) { ?>
-                                                <div class="m-t text-righ">
-                                                    <button class="btn btn-xs btn-outline btn-danger"> ไม่สามารถทำนัดได้ <i class="fa fa-long-arrow-right"></i> </button>
-                                                </div>
+                                            <? if ($chkprojectrequest == 0) { ?>
+                                                <? if (count($section_sub) != 0 && count($section_pro) != 0) { ?>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                <? } else { ?>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-danger"> ไม่สามารถทำนัดได้ <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                <? } ?>
                                             <? } ?>
                                         <? } ?>
                                     </div>
@@ -234,11 +242,11 @@ if (isset($listsubject) && count($listsubject) != 0) {
                             <div class="ibox-content">
                                 <div class="row">
                                     <span class="badge badge-warning col-xs-2" style="margin-bottom: 5px;">สีเหลือง</span>
-                                    <div class="col-xs-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                    <span class="badge badge-danger col-xs-2"style="margin-bottom: 5px;">สีแดง</span>
-                                    <div class="col-xs-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
-                                    <span class="badge badge-default col-xs-2"style="margin-bottom: 5px;">สีเทา</span>
-                                    <div class="col-xs-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
+                                    <div class="col-xs-10" style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                    <span class="badge badge-danger col-xs-2" style="margin-bottom: 5px;">สีแดง</span>
+                                    <div class="col-xs-10" style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
+                                    <span class="badge badge-default col-xs-2" style="margin-bottom: 5px;">สีเทา</span>
+                                    <div class="col-xs-10" style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +287,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                     $list_showrequest = $query_showrequest->result_array();
                                 }
 
-                            ?>
+                                ?>
 
                             <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">
@@ -306,23 +314,23 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     </div>
 
                     <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <span class="badge badge-warning col-sm-2" style="margin-bottom: 5px;">สีเหลือง</span>
-                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                                    <span class="badge badge-danger col-sm-2"style="margin-bottom: 5px;">สีแดง</span>
-                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
-                                    <span class="badge badge-default col-sm-2"style="margin-bottom: 5px;">สีเทา</span>
-                                    <div class="col-sm-10"style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
-                                </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <span class="badge badge-warning col-sm-2" style="margin-bottom: 5px;">สีเหลือง</span>
+                                <div class="col-sm-10" style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
+                                <span class="badge badge-danger col-sm-2" style="margin-bottom: 5px;">สีแดง</span>
+                                <div class="col-sm-10" style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
+                                <span class="badge badge-default col-sm-2" style="margin-bottom: 5px;">สีเทา</span>
+                                <div class="col-sm-10" style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
                             </div>
                         </div>
                     </div>
+        </div>
 
-                <?PHP } ?>
+    <?PHP } ?>
 
 
-                <!-- <hr />
+    <!-- <hr />
                 <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
                 <div class="comment_box">
                     <form action="path/to/insert_reply.php" method="POST">
@@ -347,8 +355,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     </form>
                 </div> -->
 
-                <!-- hide / show -->
-                <!-- <label for="chkPassport">
+    <!-- hide / show -->
+    <!-- <label for="chkPassport">
                     <input type="checkbox" id="chkPassport" />
                     Do you have Passport?
                 </label>
@@ -358,8 +366,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     <input type="text" id="txtPassportNumber" />
                 </div> -->
 
-            </form>
+    </form>
 
-        </div>
     </div>
+</div>
 </div>
