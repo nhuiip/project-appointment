@@ -9,8 +9,11 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function index(){
-        // echo 'login ss';
-        // die;
+        $this->template->js(array(
+			base_url('assets/js/lib/plugins/flot/jquery.flot'),
+			base_url('assets/js/lib/plugins/flot/jquery.flot.pie'),
+			base_url('assets/js/lib/plugins/sparkline/jquery.sparkline.min'),
+		));
         $this->template->backend('dashboard/main');
     }
 }

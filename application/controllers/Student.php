@@ -376,6 +376,7 @@ class Student extends MX_Controller
 
     public function changemailstd()
     {
+        // echo '<script>$(".loading").show();</script>';
         $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 

@@ -82,52 +82,50 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 					</div>
 				</div>
 				<div class="ibox-content">
-					<?PHP if(!empty($listsubject )){ ?>
-					<div class="form-group row">
-						<label class="col-md-12">ชื่อวิชา <span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-md-12">
-							<input type="text" class="form-control" value="<?= $sub_name; ?>" name="sub_name" id="sub_name">
+					<?PHP if (!empty($listsubject)) { ?>
+						<div class="form-group row">
+							<label class="col-md-12">ชื่อวิชา <span class="text-muted" style="color:#c0392b">*</span></label>
+							<div class="col-md-12">
+								<input type="text" class="form-control" value="<?= $sub_name; ?>" name="sub_name" id="sub_name">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-md-12">รหัสวิชา <span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-md-12">
-							<input type="text" class="form-control" value="<?= $sub_code; ?>" name="sub_code" id="sub_code">
+						<div class="form-group row">
+							<label class="col-md-12">รหัสวิชา <span class="text-muted" style="color:#c0392b">*</span></label>
+							<div class="col-md-12">
+								<input type="text" class="form-control" value="<?= $sub_code; ?>" name="sub_code" id="sub_code">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-md-12">จำนวนอาจารย์ขึ้นสอบ <span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-md-12">
-							<input type="text" class="form-control" value="<?= $sub_setuse; ?>" name="sub_setuse" id="sub_setuse">
+						<div class="form-group row">
+							<label class="col-md-12">จำนวนอาจารย์ขึ้นสอบ <span class="text-muted" style="color:#c0392b">*</span></label>
+							<div class="col-md-12">
+								<input type="text" class="form-control" value="<?= $sub_setuse; ?>" name="sub_setuse" id="sub_setuse">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-md-12">อาจารย์ขึ้นสอบอย่างน้อย <span class="text-muted" style="color:#c0392b">*</span></label>
-						<div class="col-md-8">
-							<input type="text" class="form-control" value="<?= $sub_setless; ?>" name="sub_setless" id="sub_setless">
+						<div class="form-group row">
+							<label class="col-md-12">อาจารย์ขึ้นสอบอย่างน้อย <span class="text-muted" style="color:#c0392b">*</span></label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" value="<?= $sub_setless; ?>" name="sub_setless" id="sub_setless">
+							</div>
+							<div class="col-md-4">
+								<button type="submit" class="btn btn-outline btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;อัพเดตข้อมูล</button>
+							</div>
 						</div>
-						<div class="col-md-4">
-							<button type="submit" class="btn btn-outline btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;อัพเดตข้อมูล</button>
-						</div>
-					</div>
-					<?PHP }else{ ?>
+					<?PHP } else { ?>
 						<div class="form-group row">
 							<label class="col-md-12"> ยังไม่มีรายวิชาที่เปิดสอน </label>
 						</div>
-					<?PHP }?>
+					<?PHP } ?>
 				</div>
 			</div>
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>เอกสารประกอบ</h5>
-					<? if (!empty($listatt)  && count($listatt) != 0 ){ ?>
 					<div class="ibox-tools">
 						<button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#upfile"><i class="fa fa-plus"></i></button>
 					</div>
-					<? } ?>
 				</div>
 				<div class="ibox-content">
-					<? if (!empty($listatt)  && count($listatt) != 0 ){ ?>
+					<? if (!empty($listatt)  && count($listatt) != 0) { ?>
 						<div class="table-responsive">
 							<table class="table table-bordered table-hover" width="100%">
 								<thead>
@@ -170,7 +168,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 					<h5>จัดการเวลา</h5>
 				</div>
 				<div class="ibox-content inspinia-timeline">
-					<?PHP if(!empty($listsec) && count($listsec) != 0) { ?>
+					<? if (count($listsec) != 0) { ?>
 						<? foreach ($listsec as $key => $value) { ?>
 							<div class="timeline-item">
 								<div class="row">
@@ -181,111 +179,119 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 										<small class="text-navy">this active</small>
 									</div>
 									<?
-										$this->db->select("*");
-										$this->db->where(array(
-											'set_id' => $set_id,
-											'sec_date' => $value['sec_date'],
-											'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))
-										));
-										$query = $this->db->get('tb_section');
-										$listusersec = $query->result_array();
-										?>
+											$this->db->select("*");
+											$this->db->where(array(
+												'set_id' => $set_id,
+												'sec_date' => $value['sec_date'],
+												'use_id' => $this->encryption->decrypt($this->input->cookie('sysli'))
+											));
+											$query = $this->db->get('tb_section');
+											$listusersec = $query->result_array();
+											?>
 									<div class="col-md-8 content no-top-border">
 										<? foreach ($listusersec as $key => $v) { ?>
 											<div class="col-md-2 timecheck">
-												<label class="onoff"><input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {
-																																																																		echo 'checked';
-																																																																	} ?>><label for="sectione-<?= $v['sec_id']; ?>"></label></label>
+												<? if ($v['sec_status'] != 2) { ?>
+													<label class="onoff">
+														<input type="checkbox" value="1" id="sectione-<?= $v['sec_id']; ?>" name="sectione-<?= $v['sec_id']; ?>" class="timechecks" data-url="<?= site_url('section/timecheck/' . $v['sec_id']); ?>" <? if ($v['sec_status'] == 1) {
+																																																																			echo 'checked';
+																																																																		} ?>>
+														<label for="sectione-<?= $v['sec_id']; ?>"></label>
+													</label>
+												<? } else { ?>
+													<label class="secmeet">
+														<input type="checkbox" class="timechecks" disabled>
+														<label for="sectione-<?= $v['sec_id']; ?>"></label>
+													</label>
+												<? } ?>
 												<p><?= $v['sec_time_one']; ?> น.</p>
 											</div>
 										<? } ?>
 									</div>
 								</div>
+							<? } ?>
+						<? } else { ?>
+							<center>
+								<h3>ระบบยังไม่เปิดให้ทำการขึ้นสอบปริญญานิพนธ์</h3>
+							</center>
+						<?PHP } ?>
 							</div>
-						<? } ?>
-					<? }else{ ?>
-						<center>
-							<h3>ระบบยังไม่เปิดให้ทำการขึ้นสอบปริญญานิพนธ์</h3>
-						</center>
-					<?PHP } ?>
-
 				</div>
 			</div>
+
 		</div>
-
 	</div>
-</div>
 
-<!-- model REPASS -->
-<div class="modal fade" id="REPASS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">เปลี่ยนรหัสผ่าน</h4>
+	<!-- model REPASS -->
+	<div class="modal fade" id="REPASS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">เปลี่ยนรหัสผ่าน</h4>
+				</div>
+				<form action="<?= site_url('administrator/changepassword'); ?>" method="post" enctype="multipart/form-data" name="formRepass" id="formRepass" class="form-horizontal" novalidate>
+					<div class="modal-body">
+						<input type="hidden" name="formcrf" id="formcrf2" value="<?= $formcrf; ?>">
+						<input type="hidden" name="Id" id="use_id2" value="<?= $use_id ?>">
+						<input type="hidden" name="type" id="type" value="T">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">รหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
+							<div class="col-sm-9">
+								<input type="password" name="use_pass" id="use_pass" class="form-control">
+							</div>
+						</div>
+						<!--*/form-group-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label">ยืนยันรหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
+							<div class="col-sm-9">
+								<input type="password" name="use_confirmPassword" id="use_confirmPassword" class="form-control">
+							</div>
+						</div>
+						<!--*/form-group-->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+						<button type="submit" class="btn btn-primary">เปลี่ยนรหัสผ่าน</button>
+					</div>
+				</form>
 			</div>
-			<form action="<?= site_url('administrator/changepassword'); ?>" method="post" enctype="multipart/form-data" name="formRepass" id="formRepass" class="form-horizontal" novalidate>
-				<div class="modal-body">
-					<input type="hidden" name="formcrf" id="formcrf2" value="<?= $formcrf; ?>">
-					<input type="hidden" name="Id" id="use_id2" value="<?= $use_id ?>">
-					<input type="hidden" name="type" id="type" value="T">
-					<div class="form-group">
-						<label class="col-sm-3 control-label">รหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
-						<div class="col-sm-9">
-							<input type="password" name="use_pass" id="use_pass" class="form-control">
-						</div>
-					</div>
-					<!--*/form-group-->
-					<div class="form-group">
-						<label class="col-sm-3 control-label">ยืนยันรหัสผ่าน<span class="text-muted" style="color:#FF0000">*</span></label>
-						<div class="col-sm-9">
-							<input type="password" name="use_confirmPassword" id="use_confirmPassword" class="form-control">
-						</div>
-					</div>
-					<!--*/form-group-->
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-					<button type="submit" class="btn btn-primary">เปลี่ยนรหัสผ่าน</button>
-				</div>
-			</form>
 		</div>
 	</div>
-</div>
 
-<div class="modal fade" id="upfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">เพิ่มเอกสาร</h4>
-			</div>
-			<form action="<?= site_url('attached/create'); ?>" method="post" enctype="multipart/form-data" name="formAttached" id="formAttached" class="form-horizontal" novalidate>
-				<div class="modal-body">
-					<input type="hidden" name="formcrf" id="formcrf3" value="<?= $formcrf; ?>">
-					<input type="hidden" name="sub_id" id="sub_id" value="<?= $sub_id ?>">
-					<input type="hidden" name="use_id" value="<?= $use_id ?>">
-					<div class="form-group">
-						<label class="col-sm-3 control-label">ชื่อไฟล์<span class="text-muted" style="color:#FF0000">*</span></label>
-						<div class="col-sm-9">
-							<input type="text" name="att_name" id="att_name" class="form-control">
-						</div>
-					</div>
-					<!--*/form-group-->
-					<div class="hr-line-dashed"></div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label">เลือกไฟล์<span class="text-muted" style="color:#FF0000">*</span></label>
-						<div class="col-sm-9">
-							<input type="file" name="att_filename" id="att_filename" class="form-control">
-						</div>
-					</div>
-					<!--*/form-group-->
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-					<button type="submit" class="btn btn-primary">เพิ่มเอกสาร</button>
+	<div class="modal fade" id="upfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">เพิ่มเอกสาร</h4>
 				</div>
-			</form>
+				<form action="<?= site_url('attached/create'); ?>" method="post" enctype="multipart/form-data" name="formAttached" id="formAttached" class="form-horizontal" novalidate>
+					<div class="modal-body">
+						<input type="hidden" name="formcrf" id="formcrf3" value="<?= $formcrf; ?>">
+						<input type="hidden" name="sub_id" id="sub_id" value="<?= $sub_id ?>">
+						<input type="hidden" name="use_id" value="<?= $use_id ?>">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">ชื่อไฟล์<span class="text-muted" style="color:#FF0000">*</span></label>
+							<div class="col-sm-9">
+								<input type="text" name="att_name" id="att_name" class="form-control">
+							</div>
+						</div>
+						<!--*/form-group-->
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">เลือกไฟล์<span class="text-muted" style="color:#FF0000">*</span></label>
+							<div class="col-sm-9">
+								<input type="file" name="att_filename" id="att_filename" class="form-control">
+							</div>
+						</div>
+						<!--*/form-group-->
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+							<button type="submit" class="btn btn-primary">เพิ่มเอกสาร</button>
+						</div>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
