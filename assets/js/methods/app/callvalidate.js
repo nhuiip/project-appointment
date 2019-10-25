@@ -805,14 +805,10 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           radioHeadproject: {
             required: true
           },
-          "checkUser[]": { minlength: 4 },
         },
         messages: {
           radioHeadproject: {
             required: "กรุณาเลือกประธานการสอบ."
-          },
-          "checkUser[]": {
-            minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
           },
         },
         showErrors: function(errorMap, errorList) {
@@ -836,6 +832,8 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         //   $("#formError").removeClass("hide");
         // },
         submitHandler: function(form) {
+          // var arr = $(".checkUser").toArray();
+          // console.log(arr);
           $('.loading').show();
           fun.dataSubmit(form);
           return false;

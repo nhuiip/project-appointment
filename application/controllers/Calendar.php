@@ -251,10 +251,26 @@ class Calendar extends MX_Controller
         die;
     }
 
+    // public function checkuse($id)
+	// {
+	// 	$checkUser = $this->input->post('checkUser');
+	// 	if (!empty($checkUser)) {
+	// 		$condition = array();
+    //         $condition['fide'] = "*";
+    //         $condition['where'] = array('sub_id' => $id);
+    //         $listsubject = $this->subject->listData($condition);
+	// 		if (count($listsubject) == $listsubject[0]['sub_setuse']) {
+	// 			echo "true";
+	// 		} else {
+	// 			echo "false";
+	// 		}
+	// 	}
+    // }
+    
     public function request()
     {
         // if()
-        
+
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
         $sub_id  =  $this->input->post('txt_subId'); //1: โครงการหนึ่ง, 2: โครงการสอง
         $time  =  $this->input->post('txt_time'); //เวลา
@@ -269,7 +285,7 @@ class Calendar extends MX_Controller
                 'title' => "Error",
                 'msg'  => "เลือกให้ครบ",
                );
-            echo json_encode($result);
+               echo json_encode($result);
             die;
         }
 
