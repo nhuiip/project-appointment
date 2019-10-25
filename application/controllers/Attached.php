@@ -62,7 +62,7 @@ class Attached extends MX_Controller
 			'att_id'            => $id,
 		);
 		$this->attached->deleteData($data);
-        unlink('./uploads/attached/' . $file);
+        @unlink('./uploads/attached/' . $file);
 		header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
 	}
 

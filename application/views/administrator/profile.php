@@ -43,10 +43,20 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 <div class="wrapper wrapper-content">
 	<div class="row">
 		<div class="col-lg-4 animated fadeInRight">
+			<!-- data profile -->
 			<div class="ibox float-e-margins" style="margin-bottom: 15px;">
 				<div class="ibox-title">
+					<h5>ข้อมูลส่วนตัว</h5>
 					<div class="ibox-tools">
-						<button type="button" class="btn btn-outline btn-warning btn-sm" data-toggle="modal" data-target="#REPASS"><i class="fa fa-lock"></i>&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</button>
+						<a class="collapse-link">
+							<i class="fa fa-chevron-up"></i>
+						</a>
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							<i class="fa fa-gears"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-user">
+							<li><a href="#" data-toggle="modal" data-target="#REPASS"><i class="fa fa-undo"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
+						</ul>
 					</div>
 				</div>
 				<div class="ibox-content">
@@ -74,15 +84,26 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 				</div>
 			</div>
 
+			<!-- subject now -->
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>วิชาที่เปิดสอน</h5>
 					<div class="ibox-tools">
-						<button type="button" class="btn btn-outline btn-sm btn-default">รายการขึ้นสอบ</button>
+						<a class="collapse-link">
+							<i class="fa fa-chevron-up"></i>
+						</a>
+						<?PHP if (count($listdata) != 0) { ?>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="fa fa-gears"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a href="#"><i class="fa fa-tasks"></i>&nbsp;&nbsp;&nbsp;รายการขึ้นสอบ</a></li>
+							</ul>
+						<? } ?>
 					</div>
 				</div>
 				<div class="ibox-content">
-					<?PHP if (!empty($listsubject)) { ?>
+					<?PHP if (count($listdata) != 0) { ?>
 						<div class="form-group row">
 							<label class="col-md-12">ชื่อวิชา <span class="text-muted" style="color:#c0392b">*</span></label>
 							<div class="col-md-12">
@@ -112,60 +133,77 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 						</div>
 					<?PHP } else { ?>
 						<div class="form-group row">
-							<label class="col-md-12"> ยังไม่มีรายวิชาที่เปิดสอน </label>
+							<label class="col-md-12">ไม่มีรายวิชาที่เปิดสอน </label>
 						</div>
 					<?PHP } ?>
 				</div>
 			</div>
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>เอกสารประกอบ</h5>
-					<div class="ibox-tools">
-						<button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#upfile"><i class="fa fa-plus"></i></button>
+			<!-- file -->
+			<?PHP if (count($listdata) != 0) { ?>
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>เอกสารประกอบ</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link">
+								<i class="fa fa-chevron-up"></i>
+							</a>
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="fa fa-gears"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a href="#" data-toggle="modal" data-target="#upfile"><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;เพิ่มเอกสาร</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<? if (!empty($listatt)  && count($listatt) != 0) { ?>
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover" width="100%">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>ชื่อไฟล์</th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<? $numrows = 1;
+												foreach ($listatt as $key => $value) { ?>
+
+											<tr>
+												<td style="width:10%"><?= $numrows; ?></td>
+												<td style="width:70%"><?= $value['att_name']; ?></td>
+												<td style="width:10%">
+													<button type="button" class="btn btn-sm btn-white"><i class="fa fa-download"></i></button>
+												</td>
+												<td style="width:10%">
+													<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_name'] . '/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>
+												</td>
+											</tr>
+										<? $numrows++;
+												} ?>
+									</tbody>
+								</table>
+							</div>
+						<? } else { ?>
+							<center>ไม่พบไฟล์</center>
+						<? } ?>
 					</div>
 				</div>
-				<div class="ibox-content">
-					<? if (!empty($listatt)  && count($listatt) != 0) { ?>
-						<div class="table-responsive">
-							<table class="table table-bordered table-hover" width="100%">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>ชื่อไฟล์</th>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<? $numrows = 1;
-										foreach ($listatt as $key => $value) { ?>
-
-										<tr>
-											<td style="width:10%"><?= $numrows; ?></td>
-											<td style="width:70%"><?= $value['att_name']; ?></td>
-											<td style="width:10%">
-												<button type="button" class="btn btn-sm btn-white"><i class="fa fa-download"></i></button>
-											</td>
-											<td style="width:10%">
-												<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_name'] . '/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>
-											</td>
-										</tr>
-									<? $numrows++;
-										} ?>
-								</tbody>
-							</table>
-						</div>
-					<? } else { ?>
-						<center>ไม่พบไฟล์</center>
-					<? } ?>
-				</div>
-			</div>
+			<? } ?>
 		</div>
 
 		<div class="col-lg-8 animated fadeInRight">
+			<!-- time -->
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>จัดการเวลา</h5>
+					<div class="ibox-tools">
+						<a class="collapse-link">
+							<i class="fa fa-chevron-up"></i>
+						</a>
+					</div>
 				</div>
 				<div class="ibox-content inspinia-timeline">
 					<? if (count($listsec) != 0) { ?>
@@ -218,7 +256,6 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 							</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 

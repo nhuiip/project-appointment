@@ -536,10 +536,10 @@ class Calendar extends MX_Controller
         return $html;
     }
 
-    public function messagestd_verify($data,$userid,$use_name)
+    public function messagestd_verify($data, $userid, $use_name)
     {
 
-        $burl = site_url('student/showdetailproject/'.$data['project_id'].'/'.$userid);
+        $burl = site_url('student/showdetailproject/' . $data['project_id'] . '/' . $userid);
         $html = file_get_contents("assets/template_email/std-meet-email.html");
         $html = str_replace('[DATA-LINK]', $burl, $html);
         $html = str_replace('[DATA-PROJECTNAME]', $data['project_name'], $html);
@@ -580,18 +580,18 @@ class Calendar extends MX_Controller
             $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
             $listemailuser = $this->meet->listjoinData2($condition);
 
-            if(count($listemailuser) != 0){ 
+            if (count($listemailuser) != 0) {
                 $data = array(
                     'project_id'      => $project_id,
                     'project_name'    => $project_name,
-                    'meet_time'       => $meet_time.'&nbsp;',
-                    'strDay'          => $strDay.'&nbsp;'.$strMonthThai.'&nbsp;'.$strYear,
-                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้รับคำขอให้ขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" .$project_name. "ในวันที่&nbsp;" .$strDay."&nbsp;".$strMonthThai."&nbsp;".$strYear."&nbsp;เวลา&nbsp;".$meet_time."&nbsp; น.&nbsp; คุณสามารถตรวจสอบรายละเอียดของปริญญานิพนธ์ โดยคลิกที่ รายละเอียด เพื่อตรวจสอบข้อมูลก่อนกดยืนยันเพื่อตอบรับคำขอของนักศึกษา",
+                    'meet_time'       => $meet_time . '&nbsp;',
+                    'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้รับคำขอให้ขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" . $project_name . "ในวันที่&nbsp;" . $strDay . "&nbsp;" . $strMonthThai . "&nbsp;" . $strYear . "&nbsp;เวลา&nbsp;" . $meet_time . "&nbsp; น.&nbsp; คุณสามารถตรวจสอบรายละเอียดของปริญญานิพนธ์ โดยคลิกที่ รายละเอียด เพื่อตรวจสอบข้อมูลก่อนกดยืนยันเพื่อตอบรับคำขอของนักศึกษา",
                 );
 
                 foreach ($listemailuser as $key => $value) {
 
-                    $use_fullname   =   "เรียน&nbsp;".$value['use_name'];
+                    $use_fullname   =   "เรียน&nbsp;" . $value['use_name'];
 
                     require_once APPPATH . 'third_party/class.phpmailer.php';
                     require_once APPPATH . 'third_party/class.smtp.php';
@@ -607,19 +607,32 @@ class Calendar extends MX_Controller
                     $mail->IsSMTP();
                     $mail->SMTPDebug = 0;
                     $mail->SMTPAuth = true;
+
+                    // $mail->Host = "27.254.131.201";
+                    // $mail->Port = 25;
+                    // $mail->Username = "system@owlsiam.com";
+                    // $mail->Password = "Ew%9NjEG";
+                    // $mail->SetFrom("system@owlsiam.com", "Appoint-IT");
+
                     $mail->Host = "smtp.hostinger.in.th";
                     $mail->Port = 587;
                     $mail->Username = "support@webpaplern.com";
                     $mail->Password = "ka6sTato";
                     $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
                     $mail->AddAddress($value['use_email']);
-                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
+
+                    $mail->AddAddress('preedarat.jut@gmail.com');
                     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                                    
-                    $message = $this->message_verify($data,$value['use_id'],$use_fullname);
+
+                    $message = $this->message_verify($data, $value['use_id'], $use_fullname);
 
                     $mail->MsgHTML($message);
-                    $mail->send();
+                    // $mail->send();
+                    if (!$mail->send()) {
+                        echo $mail->ErrorInfo . '<br>';
+                    } else {
+                        echo 'Send<br>';
+                    }
                 }
             }
 
@@ -635,13 +648,13 @@ class Calendar extends MX_Controller
                     'project_id'      => $project_id,
                     'project_name'    => $project_name,
                     'meet_time'       => $meet_time,
-                    'strDay'          => $strDay.'&nbsp;'.$strMonthThai.'&nbsp;'.$strYear,
-                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้ส่งคำขอขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" .$project_name. "ในวันที่&nbsp;" .$strDay."&nbsp;".$strMonthThai."&nbsp;".$strYear."&nbsp;เวลา&nbsp;".$meet_time."&nbsp; น.&nbsp; คุณสามารถคลิกที่ รายละเอียด เพื่อดูคำขอขึ้นสอบปริญญานิพนธ์ของคุณได้",
+                    'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้ส่งคำขอขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" . $project_name . "ในวันที่&nbsp;" . $strDay . "&nbsp;" . $strMonthThai . "&nbsp;" . $strYear . "&nbsp;เวลา&nbsp;" . $meet_time . "&nbsp; น.&nbsp; คุณสามารถคลิกที่ รายละเอียด เพื่อดูคำขอขึ้นสอบปริญญานิพนธ์ของคุณได้",
                 );
 
                 foreach ($listemailstd as $key => $value) {
 
-                    $std_fullname   = '&nbsp;'.$value['std_title'].''.$value['std_fname'].'&nbsp;&nbsp;'.$value['std_lname'];
+                    $std_fullname   = '&nbsp;' . $value['std_title'] . '' . $value['std_fname'] . '&nbsp;&nbsp;' . $value['std_lname'];
 
                     require_once APPPATH . 'third_party/class.phpmailer.php';
                     require_once APPPATH . 'third_party/class.smtp.php';
@@ -657,31 +670,42 @@ class Calendar extends MX_Controller
                     $mail->IsSMTP();
                     $mail->SMTPDebug = 0;
                     $mail->SMTPAuth = true;
+
+                    // $mail->Host = "27.254.131.201";
+                    // $mail->Port = 25;
+                    // $mail->Username = "system@owlsiam.com";
+                    // $mail->Password = "Ew%9NjEG";
+                    // $mail->SetFrom("system@owlsiam.com", "Appoint-IT");
+
                     $mail->Host = "smtp.hostinger.in.th";
                     $mail->Port = 587;
                     $mail->Username = "support@webpaplern.com";
                     $mail->Password = "ka6sTato";
-                    // $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
-                    $mail->AddAddress($value['std_email']);
-                    $mail->AddAddress('yui.napassorn.s@gmail.com');
-                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+                    $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
 
+                    // $mail->AddAddress($value['std_email']);
+                    $mail->AddAddress('preedarat.jut@gmail.com');
+                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                     $message = $this->message_verify($data, $value['std_id'], $std_fullname);
 
                     $mail->MsgHTML($message);
-                    $mail->send();
+                    // $mail->send();
+                    if (!$mail->send()) {
+                        echo $mail->ErrorInfo . '<br>';
+                    } else {
+                        echo 'Send<br>';
+                    }
                 }
-                $result = array(
-                    'error' => false,
-                    'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
-                    'url' =>  site_url('calendar/succeedrequest')
-                );
-                echo json_encode($result);
+                // $result = array(
+                //     'error' => false,
+                //     'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
+                //     'url' =>  site_url('calendar/succeedrequest')
+                // );
+                // echo json_encode($result);
                 die;
             } else {
                 show_404();
             }
-
         } else {
             show_404();
         }
