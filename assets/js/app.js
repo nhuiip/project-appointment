@@ -235,6 +235,7 @@ $(".btn-check").click(function() {
   );
 });
 
+
 $(".btn-checkuserHead").click(function() {
   var url = $(this).attr("data-url");
   var title = $(this).attr("data-title");
@@ -400,22 +401,21 @@ $(".btnajax").click(function() {
 
       $("#listtt").empty();
       $("#listtts").empty();
+      
+                        
+                    
+                    
 
-
+      $("#listttbutton").append('<div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333"> กรุณาเลือกประธานสำหรับการขอขึ้นสอบ <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> </div>');
+      
       $.each(result, function(index, item) {
-
-   
-
-        // console.log('dvPassport'+ item.id);
-
         $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input type="checkbox" name="checkUser[]" id="checkUser" value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility('+ item.id +')"  type="checkbox" name="checkUser[]" id="checkUser'+ item.id +'" value="'+ item.id +' " '+ item.subjectUserId +'  > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
         );
       });
       $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
-      // $("#listtts").append('<a data-toggle="modal" class="btn btn-block btn-w-m btn-info" href="#modal-form">ส่งคำขอขึ้นสอบปริญญานิพนธ์</a>');
     },
     // error: function(jqXHR, exception) {
     //   if (jqXHR.status === 0) {
@@ -437,20 +437,13 @@ $(".btnajax").click(function() {
   });
 });
 
+function toggle_visibility(id) {
+  var e = document.getElementById(id);
+  if(e.style.display == 'block')
+     e.style.display = 'none';
+  else
+     e.style.display = 'block';
+}
 
-//hide / show
 
-// $('.comment_box').hide().prev('div').on('click', function(){
-//   $(this).next('.comment_box').toggle();
-// });
-
-// $(function () {
-//   $("#chkPassport").click(function () {
-//       if ($(this).is(":checked")) {
-//           $("#dvPassport").show();
-//       } else {
-//           $("#dvPassport").hide();
-//       }
-//   });
-// });
 

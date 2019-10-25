@@ -236,9 +236,9 @@ class Calendar extends MX_Controller
 
                 if ($projectperson[0]['use_id'] != $value['use_id']) {
 
-                    // $checked = "checked";
+                    $checked = "checked";
 
-                    $listJson[$key]['rediouserHidden'] = '<div id="dvPassport' . $value['use_id'] . '" class="radio" >&nbsp;<input  type="radio" name="radioHeadproject" id="radio' . $value['use_id'] . '" value="' . $value['use_id'] . '" ><label for="radio' . $value['use_id'] . '">เลือกเป็นประธานขึ้นสอบ </label></<div>';
+                    $listJson[$key]['rediouserHidden'] = '<div id="'.$value['use_id'].'" class="radio chkheadProject" style="display: none;" >&nbsp;<input  type="radio" name="radioHeadproject" id="radio' . $value['use_id'] . '" value="' . $value['use_id'] . '" ><label for="radio' . $value['use_id'] . '">เลือกเป็นประธานขึ้นสอบ </label></<div>';
                 } else {
                     $listJson[$key]['rediouserHidden'] = '';
                 }
@@ -715,5 +715,12 @@ class Calendar extends MX_Controller
     public function succeedrequest()
     {
         $this->load->view('page/succeed-request');
+    }
+
+    public function chkheadproject()
+    {
+       
+        $listJson == 1;
+        echo json_encode($listJson);
     }
 }

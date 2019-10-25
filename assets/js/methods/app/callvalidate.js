@@ -803,7 +803,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           radioHeadproject: {
             required: true
-          }
+          },
           // "checkUser[]": { minlength: 4 },
         },
         messages: {

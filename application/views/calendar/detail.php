@@ -24,16 +24,13 @@ if (isset($listsubject) && count($listsubject) != 0) {
 ?>
 
 <style>
-    .mystyle {
-        width: 100%;
-        padding: 25px;
-        background-color: coral;
-        color: white;
-        font-size: 25px;
-        box-sizing: border-box;
-        display: unset;
-    }
+label.error {
+    color: #cc5965;
+    display: none !important;
+    margin-left: 5px;
+}
 </style>
+
 
 <div class="loading">Loading&#8230;</div>
 
@@ -229,6 +226,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <input type="hidden" name="txt_time" id="txt_time" value="" />
 
                 <?PHP if ($chkprojectrequest == 0) { ?>
+                    <div class="todo-list  ui-sortable" id="listttbutton"></div>
                     <ul class="todo-list  ui-sortable" id="listtt">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
@@ -255,6 +253,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     <div class="todo-list  ui-sortable" id="listtts"></div>
                     <br />
                 <?PHP } else { ?>
+
+
                     <div class="ibox float-e-margins">
 
                         <div class="ibox-content">
@@ -289,6 +289,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
 
                                 ?>
 
+                            
+                    
+
                             <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">
                                     <p><strong><?= $listdata_meet[0]['project_name']; ?></strong> </p>
@@ -303,12 +306,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                         <? } ?></p>
                                 </div>
                             <? } ?>
-
-
-                            <!-- <a href="<?= base_url('calendar/showcalendar/1'); ?>">
-                                <button type="button" class="btn btn-block btn-outline btn-warning">ส่งคำขอขึ้นสอบปริญญานิพนธ์แล้ว </button>
-                            </a> -->
-
 
                         </div>
                     </div>
@@ -328,43 +325,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
         </div>
 
     <?PHP } ?>
-
-
-    <!-- <hr />
-                <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
-                <div class="comment_box">
-                    <form action="path/to/insert_reply.php" method="POST">
-                        <textarea name="reply" cols="47" rows="4"></textarea>
-                        <input type="submit" name="submit" value="Post Reply" />
-                    </form>
-                </div>
-                <hr />
-                <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
-                <div class="comment_box">
-                    <form action="path/to/insert_reply.php" method="POST">
-                        <textarea name="reply" cols="47" rows="4"></textarea>
-                        <input type="submit" name="submit" value="Post Reply" />
-                    </form>
-                </div>
-                <hr />
-                <div style="border:1px solid #999; width:200px;">Click Here to Show Reply Form</div>
-                <div class="comment_box">
-                    <form action="path/to/insert_reply.php" method="POST">
-                        <textarea name="reply" cols="47" rows="4"></textarea>
-                        <input type="submit" name="submit" value="Post Reply" />
-                    </form>
-                </div> -->
-
-    <!-- hide / show -->
-    <!-- <label for="chkPassport">
-                    <input type="checkbox" id="chkPassport" />
-                    Do you have Passport?
-                </label>
-                <hr />
-                <div id="dvPassport" style="display: none">
-                    Passport Number:
-                    <input type="text" id="txtPassportNumber" />
-                </div> -->
 
     </form>
 
