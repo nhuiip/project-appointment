@@ -805,15 +805,15 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           radioHeadproject: {
             required: true
           },
-          // "checkUser[]": { minlength: 4 },
+          "checkUser[]": { minlength: 4 },
         },
         messages: {
           radioHeadproject: {
             required: "กรุณาเลือกประธานการสอบ."
           },
-          // "checkUser[]": {
-          //   minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
-          // },
+          "checkUser[]": {
+            minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
+          },
         },
         showErrors: function(errorMap, errorList) {
           submitted = true;
