@@ -805,11 +805,16 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           radioHeadproject: {
             required: true
           },
+          
         },
         messages: {
           radioHeadproject: {
-            required: ""
+            required: "กรุณาเลือกประธานการสอบ."
           },
+        },
+        errorPlacement: function() {
+          $("#formError").slideDown();
+          $("#formError").removeClass("hide");
         },
         submitHandler: function(form) {
           $('.loading').show();

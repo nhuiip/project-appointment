@@ -24,16 +24,13 @@ if (isset($listsubject) && count($listsubject) != 0) {
 ?>
 
 <style>
-    .mystyle {
-        width: 100%;
-        padding: 25px;
-        background-color: coral;
-        color: white;
-        font-size: 25px;
-        box-sizing: border-box;
-        display: unset ;
-    }
+label.error {
+    color: #cc5965;
+    display: none !important;
+    margin-left: 5px;
+}
 </style>
+
 
 <div class="loading">Loading&#8230;</div>
 
@@ -229,6 +226,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                 <input type="hidden" name="txt_time" id="txt_time" value="" />
 
                 <?PHP if ($chkprojectrequest == 0) { ?>
+                    <div class="todo-list  ui-sortable" id="listttbutton"></div>
                     <ul class="todo-list  ui-sortable" id="listtt">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
@@ -255,6 +253,8 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     <div class="todo-list  ui-sortable" id="listtts"></div>
                     <br />
                 <?PHP } else { ?>
+
+
                     <div class="ibox float-e-margins">
 
                         <div class="ibox-content">
@@ -288,6 +288,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                 }
 
                                 ?>
+
+                            
+                    
 
                             <? if (count($listdata_meet) != 0) { ?>
                                 <div class="small m-t-xs" style="font-size:14px">

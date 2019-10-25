@@ -391,11 +391,17 @@ $(".btnajax").click(function() {
       $("#listtt").empty();
       $("#listtts").empty();
       
+                        
+                    
+                    
+
+      $("#listttbutton").append('<div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333"> กรุณาเลือกประธานสำหรับการขอขึ้นสอบ <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> </div>');
+      
       $.each(result, function(index, item) {
         $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility('+ item.id +')" class="showredio" data-id="'+ item.id +'" type="checkbox" name="checkUser[]" id="checkUser'+ item.id +'" value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility('+ item.id +')"  type="checkbox" name="checkUser[]" id="checkUser'+ item.id +'" value="'+ item.id +' " '+ item.subjectUserId +' > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
         );
       });
       $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
@@ -428,36 +434,5 @@ function toggle_visibility(id) {
      e.style.display = 'block';
 }
 
-function btnchkredio() {
-
-  // var id = $(this).attr("data-id");
-  var id = $(".showredio").val();
-  
-  console.log(id);
-
-  
-  // var x = document.getElementById(id);
-  // if (x.style.display === "none") {
-  //   x.style.display = "block";
-  // } else {
-  //   x.style.display = "none";
-  // }
-
-  //  var element = document.getElementById("chkheadProject");
-
-  // if (element.classList) { 
-  //   element.classList.toggle("mystyle");
-  // } else {
-  //   var classes = element.className.split(" ");
-  //   var i = classes.indexOf("mystyle");
-
-  //   if (i >= 0) 
-  //     classes.splice(i, 1);
-  //   else 
-  //     classes.push("mystyle");
-  //     element.className = classes.join(" "); 
-  // }
-
-};
 
 
