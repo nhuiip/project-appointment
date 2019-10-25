@@ -5,7 +5,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
         $project_id             = $value['project_id'];
         $project_name           = $value['project_name'];
         $project_status         = $value['project_status'];
-        $project_studentId      = $value['std_id'];
         $teacher_fullname       = $value['use_name'];
         $teacher_id             = $value['use_id'];
         $project_create_name    = $value['project_create_name'];
@@ -25,7 +24,12 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     <input type="hidden" name="formcrfaddproject" id="formcrfaddproject" value="<?= $formcrfaddproject; ?>">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5><i class="fa fa-book"></i> &nbsp;&nbsp;เพิ่มข้อมูลปริญญานิพนธ์</h5>
+                            <h5>เพิ่มข้อมูลปริญญานิพนธ์</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
                         </div>
                         <div class="ibox-content">
                             <div class="form-group">
@@ -68,13 +72,19 @@ if (isset($searchProject) && count($searchProject) != 0) {
             <?PHP if (count($searchProject) != 0) { ?>
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ข้อมูลปริญญานิพนธ์</h5>
-
+                        <h5>ข้อมูลปริญญานิพนธ์</h5>
                         <div class="ibox-tools">
-                            <button class="btn btn-outline btn-warning btn-sm" data-toggle="modal" data-target="#ProjectStd_Up">แก้ไขข้อมูล</button>
-                            <button class="btn btn-outline btn-danger btn-sm btn-alert" data-url="<?= site_url('student/stdprojectdel/' . $project_id); ?>" data-title="ต้องการยกเลิกหัวข้อปริญญานิพนธ์ ?">ลบข้อมูล</button>
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-gears"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#" data-toggle="modal" data-target="#ProjectStd_Up"><i class="fa fa-undo"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+                                <li><a class="btn-alert" data-url="<?= site_url('student/stdprojectdel/' . $project_id); ?>" data-title="ต้องการยกเลิกหัวข้อปริญญานิพนธ์ ?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                            </ul>
                         </div>
-
                     </div>
                     <div class="ibox-content">
                         <ul class="list-group">
@@ -138,10 +148,15 @@ if (isset($searchProject) && count($searchProject) != 0) {
                 </div>
             <?PHP } ?>
             <!-- conference data -->
-            <? if ($project_status == 5) { ?>
+            <? if ((isset($searchProject) && count($searchProject) != 0) && $project_status == 5) { ?>
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5><i class="fa fa-book"></i> &nbsp;&nbsp;Conference</h5>
+                        <h5>Conference</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <ul class="list-group">
@@ -155,12 +170,17 @@ if (isset($searchProject) && count($searchProject) != 0) {
             <? if (count($lastProject) != 0) { ?>
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ประวัติปริญญานิพนธ์</h5>
+                        <h5>ประวัติปริญญานิพนธ์</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <ul class="list-group">
                             <?PHP foreach ($lastProject as $key => $v) {
-                                    $this->db->select('*');
+                                    $this->db->select('std_title, std_fname, std_lname');
                                     $this->db->from('tb_projectperson');
                                     $this->db->join('tb_student', 'tb_student.std_id = tb_projectperson.std_id');
                                     $this->db->join('tb_project', 'tb_project.project_id = tb_projectperson.project_id');
@@ -212,21 +232,27 @@ if (isset($searchProject) && count($searchProject) != 0) {
         </div>
         <?PHP if (count($searchProject) != 0) { ?>
             <!-- file project -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ข้อมูลเอกสาร</h5>
-
+                        <h5>ข้อมูลเอกสาร</h5>
                         <div class="ibox-tools">
-                            <button class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#ProjectfileStd_Add">เพิ่มเอกสาร</button>
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-gears"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#" data-toggle="modal" data-target="#ProjectfileStd_Add"><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;เพิ่มเอกสาร</a></li>
+                            </ul>
                         </div>
-
                     </div>
                     <div class="ibox-content">
                         <? if (count($listfile) != 0) { ?>
                             <ul class="list-group">
                                 <? foreach ($listfile as $key => $value) {
-                                            $this->db->select('*');
+                                            $this->db->select('use_name, use_email');
                                             $this->db->from('tb_trace');
                                             $this->db->join('tb_projectfile', 'tb_projectfile.file_id = tb_trace.file_id');
                                             $this->db->join('tb_user', 'tb_user.use_id = tb_trace.use_id');
@@ -236,12 +262,12 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                             ?>
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-6">
                                                 <h3 style="margin-top: 15px;">
                                                     <?= $value['file_name']; ?><br>
                                                 </h3>
                                             </div>
-                                            <div class="col-sm-5" style="text-align: right;">
+                                            <div class="col-sm-6" style="text-align: right;">
                                                 <a href="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>" target="_blank"><button class="btn btn-white"><i class="fa fa-download"></i></i></i></button></a>
                                                 <button class="btn btn-warning editfile" data-toggle="modal" data-target="#ProjectfileStd_Up" data-file_id="<?= $value['file_id']; ?>" data-file_name="<?= $value['file_name']; ?>"><i class="fa fa-refresh"></i></i></i></button>
                                                 <button class="btn btn-danger btn-alert" data-url="<?= site_url('student/stdprojectdelfile/' . $value['file_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash-o"></i></i></i></button>
@@ -265,24 +291,29 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     </div>
                 </div>
             </div>
-            <!-- histoty meet -->
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <!-- now meet -->
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ประวัติการขึ้นสอบ</h5>
+                        <h5>ข้อมูลนัดหมาย</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <? if (count($listmeetnow) == 0) { ?>
-                            <center>ไม่พบประวัติการขึ้นสอบ</center>
+                            <center>ไม่พบข้อมูลการนัดหมาย</center>
                         <? } else { ?>
                             <ul class="list-group">
                                 <? foreach ($listmeetnow as $key => $value) { ?>
                                     <?
-                                                $this->db->select("*");
+                                                $this->db->select("tb_user.use_name, tb_meetdetail.use_id, tb_meetdetail.dmeet_head");
                                                 $this->db->from('tb_meetdetail');
                                                 $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
                                                 $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
-                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status' => 2));
+                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
                                                 $this->db->order_by("dmeet_head", "DESC");
                                                 $query = $this->db->get();
                                                 $listt = $query->result_array();
@@ -298,7 +329,72 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                 }
                                                 ?>
                                         <li class="list-group-item" style="text-align: right;">
-                                                <?= $status_text ?>
+                                            <?= $status_text ?>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <p>
+                                                        <? foreach ($listt as $key => $v) { ?>
+                                                            <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                                <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                            <? } else { ?>
+                                                                <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                            <? } ?>
+                                                        <? } ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <? } ?>
+                            </ul>
+                        <? } ?>
+                    </div>
+                </div>
+                <!-- history meet -->
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>ประวัติการขึ้นสอบ</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <? if (count($listmeethis) == 0) { ?>
+                            <center>ไม่พบประวัติการขึ้นสอบ</center>
+                        <? } else { ?>
+                            <ul class="list-group">
+                                <? foreach ($listmeethis as $key => $value) { ?>
+                                    <?
+                                                $this->db->select("*");
+                                                $this->db->from('tb_meetdetail');
+                                                $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                                                $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
+                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status=' => 0));
+                                                $this->db->order_by("dmeet_head", "DESC");
+                                                $query = $this->db->get();
+                                                $listt = $query->result_array();
+                                                ?>
+                                    <?
+                                                switch ($project_status) {
+                                                    case 1:
+                                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
+                                                        break;
+                                                    case 2:
+                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ 1&nbsp;&nbsp;</span>';
+                                                        break;
+                                                }
+                                                ?>
+                                        <li class="list-group-item" style="text-align: right;">
+                                            <?= $status_text ?>
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
@@ -396,7 +492,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             <select name="proformat_name" id="proformat_name" class="form-control">
                                 <option value="">กรุณาเลือกชื่อไฟล์</option>
                                 <?PHP foreach ($listformat as $key => $value) { ?>
-                                    <option value="<?= $value['proformat_name']; ?>"><?= $value['proformat_name']; ?></option>
+                                    <option value="<?= $value['proformat_name']; ?>"><?= $value['proformat_name']; ?> [ <?=$value['proformat_detail'];?> ]</option>
                                 <? } ?>
                             </select>
                         </div>

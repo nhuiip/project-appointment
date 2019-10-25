@@ -7,6 +7,24 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 } else {
 	$loginimg = 'noimage.png';
 }
+$this->db->select('tb_meetdetail.use_id');
+$this->db->from('tb_meet');
+$this->db->join('tb_settings', 'tb_settings.set_id = tb_meet.set_id');
+$this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
+$this->db->join('tb_subject', 'tb_subject.sub_id = tb_meet.sub_id');
+$this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
+$this->db->where(array(
+	'tb_settings.set_status' => 2, 
+	'tb_meetdetail.use_id' => $loginid,
+	'tb_meetdetail.dmeet_status' => 2,
+));
+$query_meet = $this->db->get();
+$listmeet = $query_meet->result_array();
+
+// echo '<pre>';
+// print_r($listmeet);
+// echo '</pre>';
+// die;
 
 ?>
 <!DOCTYPE html>
@@ -238,12 +256,12 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 									<a href="<?= site_url('dashboard/index'); ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">หน้าแรก</span></a>
 								</li>
 								<li>
-									<a href="<?= site_url('amcalendar/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
+									<a href="<?= site_url('amcalendar/index/' . $loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 								</li>
 							<? } ?>
 							<? if ($position != 'ผู้ดูแลระบบ' && $position != 'ฉุกเฉิน') { ?>
 								<li>
-									<a href="<?= site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
+									<a href="<?= site_url('profile/index/' . $loginid); ?>"><i class="fa fa-user"></i> <span class="nav-label">ข้อมูลส่วนตัว</span></a>
 								</li>
 							<? } ?>
 							<? if ($position != 'นักศึกษา' && $position != 'ฉุกเฉิน') { ?>
@@ -267,6 +285,13 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 								<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
 							</div>
 							<ul class="nav navbar-top-links navbar-right">
+								<? if (($position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') && count($listmeet) != 0) { ?>
+									<li>
+										<a class="dropdown-toggle count-info" href="<?=site_url('amcalendar/request/'.$loginid);?>">
+											<i class="fa fa-envelope"></i> <span class="label label-danger"><?=count($listmeet);?></span>
+										</a>
+									</li>
+								<? } ?>
 								<li>
 									<span class="m-r-sm text-muted welcome-message"><?= $loginname; ?></span>
 								</li>
@@ -304,10 +329,6 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 									<li>
 										<a href="<?= site_url('student/stdproject/' . $loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
 									</li>
-									<!-- <li>
-										<a href="<?= site_url('student/stdprofile/' . $loginid) ?>"><i class="fa fa-user"></i><span class="nav-label">ข้อมูลส่วนตัว</span></a>
-									</li> -->
-
 								</ul>
 								<ul class="nav navbar-top-links navbar-right">
 									<style>
@@ -476,7 +497,8 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 <? } ?>
 
 <script>
-    $('.loading').hide();
+	$('.loading').hide();
+
 	function readURL(input) {
 		if (input.files && input.files[0]) {
 			const reader = new FileReader({

@@ -168,11 +168,11 @@ class Student extends MX_Controller
             $mail->IsSMTP();
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
-            $mail->Host = "smtp.hostinger.in.th";
-            $mail->Port = 587;
-            $mail->Username = "support@webpaplern.com";
-            $mail->Password = "ka6sTato";
-            $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
+            $mail->Host = "27.254.131.201";
+            $mail->Port = 25;
+            $mail->Username = "sys@preedarat-cv.com";
+            $mail->Password = "br%9CPF7";
+            $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_verify($data);
@@ -264,11 +264,11 @@ class Student extends MX_Controller
             $mail->IsSMTP();
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
-            $mail->Host = "smtp.hostinger.in.th";
-            $mail->Port = 587;
-            $mail->Username = "support@webpaplern.com";
-            $mail->Password = "ka6sTato";
-            $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
+            $mail->Host = "27.254.131.201";
+            $mail->Port = 25;
+            $mail->Username = "sys@preedarat-cv.com";
+            $mail->Password = "br%9CPF7";
+            $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
             $mail->AddAddress($datamail['email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_repass($datamail);
@@ -626,10 +626,10 @@ class Student extends MX_Controller
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
             $mail->Host = "smtp.hostinger.in.th";
-            $mail->Port = 587;
-            $mail->Username = "support@webpaplern.com";
-            $mail->Password = "ka6sTato";
-            $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
+            $mail->Port = 25;
+            $mail->Username = "sys@preedarat-cv.com";
+            $mail->Password = "br%9CPF7";
+            $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_verify($data);
@@ -657,8 +657,6 @@ class Student extends MX_Controller
     }
     public function stdchangepassword()
     {
-
-        // if ($this->tokens->verify('formcrfpassword')) {
         $data = array(
             'std_id'         => $this->input->post('Id2'),
             'std_pass'       => md5($this->input->post('std_password'))
@@ -682,14 +680,6 @@ class Student extends MX_Controller
             echo json_encode($result);
         }
         die;
-        // } else {
-        //     $result = array(
-        //         'error' => true,
-        //         'title' => "ล้มเหลว",
-        //         'msg' => "อัพเดตข้อมูลไม่สำเร็จ"
-        //     );
-        //     echo json_encode($result);
-        // }
     }
     public function stdproject($id = '')
     {
@@ -714,27 +704,35 @@ class Student extends MX_Controller
             } else {
                 //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
                 $condition = array();
-                $condition['fide'] = "*";
+                $condition['fide'] = "
+                tb_project.project_id, project_name, project_status, 
+                project_create_name, project_create_date, project_lastedit_name, project_lastedit_date, 
+                tb_user.use_name, tb_user.use_id";
                 $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status !=' => 0);
                 $data['searchProject'] = $this->project->listjoinData($condition);
                 if (count($data['searchProject']) != 0) {
                     $project_id = $data['searchProject'][0]['project_id'];
 
                     $condition = array();
-                    $condition['fide'] = "*";
+                    $condition['fide'] = "std_title, std_fname, std_lname";
                     $condition['where'] = array('tb_projectperson.project_id' => $project_id);
                     $data['listprojectperson'] = $this->project->listperson($condition);
 
                     $condition = array();
-                    $condition['fide'] = "*";
+                    $condition['fide'] = "file_id, file_name";
                     $condition['where'] = array('tb_projectfile.project_id' => $project_id);
                     $condition['orderby'] = "tb_projectfile.file_name ASC";
                     $data['listfile'] = $this->projectfile->listjoinData($condition);
 
                     $condition = array();
                     $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id";
-                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0);
+                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 2);
                     $data['listmeetnow'] = $this->meet->listjoinData($condition);
+
+                    $condition = array();
+                    $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id";
+                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 0);
+                    $data['listmeethis'] = $this->meet->listjoinData($condition);
                 }
 
                 $condition = array();
@@ -744,12 +742,14 @@ class Student extends MX_Controller
                 //แสดงอาจารญ์ทั้งหมด
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('position_id !=' => 1);
+                // $condition['where_in'] = array('position_id !=' => 1, 'position_id !=' => 5);
+                $condition['where_in']['filde'] = 'position_id';
+                $condition['where_in']['value'] = ['2', '3'];
                 $data['listuser'] = $this->administrator->listData($condition);
 
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('std_status !=' => 1);
+                $condition['where'] = array('std_status' => 0, 'std_checkmail' => 1);
                 $data['liststd'] = $this->student->listData($condition);
 
                 $condition = array();
@@ -946,48 +946,39 @@ class Student extends MX_Controller
     //     // echo '</pre>';
     // }
 
-    // public function testmail()
-    // {
-    //     require_once APPPATH . 'third_party/class.phpmailer.php';
-    //     require_once APPPATH . 'third_party/class.smtp.php';
-    //     $mail = new PHPMailer;
-    //     $mail->SMTPOptions = array(
-    //         'ssl' => array(
-    //             'verify_peer' => false,
-    //             'verify_peer_name' => false,
-    //             'allow_self_signed' => true
-    //         )
-    //     );
-    //     $mail->CharSet = "utf-8";
-    //     $mail->IsSMTP();
-    //     $mail->SMTPDebug = 0;
-    //     $mail->SMTPAuth = true;
-
-    //     // $mail->Host = "27.254.131.201";
-    //     // $mail->Port = 25;
-    //     // $mail->Username = "system@owlsiam.com";
-    //     // $mail->Password = "Ew%9NjEG";
-    //     // $mail->SetFrom("system@owlsiam.com", "Appoint-IT");
-
-    //     $mail->Host = "smtp.hostinger.in.th";
-    //     $mail->Port = 587;
-    //     $mail->Username = "support@webpaplern.com";
-    //     $mail->Password = "1s1F]59H";
-    //     $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
-
-    //     $mail->AddAddress('preedarat.jut@gmail.com');
-    //     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-    //     $mail->MsgHTML('test');
-    //     if (!$mail->send()) {
-    //         echo $mail->ErrorInfo;
-    //     } else {
-    //         echo 'send';
-    //     }
-    // }
-
-    public function showdetailproject($project_id = '')
+    public function testmail()
     {
-        
+        require_once APPPATH . 'third_party/class.phpmailer.php';
+        require_once APPPATH . 'third_party/class.smtp.php';
+        $mail = new PHPMailer;
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+        $mail->CharSet = "utf-8";
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 2;
+        $mail->SMTPAuth = true;
+
+        $mail->Host = "mail.preedarat-cv.com";
+        $mail->Port = 25;
+        $mail->Username = "sys@preedarat-cv.com";
+        $mail->Password = "br%9CPF7";
+        $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
+
+        $mail->AddAddress('preedarat.jut@gmail.com');
+        $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+        $mail->MsgHTML('test');
+        if (!$mail->send()) {
+            echo $mail->ErrorInfo;
+        } else {
+            echo 'send';
+        }
     }
 
+    public function showdetailproject($project_id = '')
+    { }
 }
