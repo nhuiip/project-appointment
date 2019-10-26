@@ -55,27 +55,24 @@ define(["jquery", "jqueryForm", "toastr", "sweetalert"], function(
     });
   };
 
-  // methods.dataReload = function(form) {
-  //   $(form).ajaxSubmit({
-  //     dataType: "json",
-  //     success: function(result) {
-  //       toastr.options = {
-  //         closeButton: true,
-  //         progressBar: true,
-  //         showMethod: "slideDown",
-  //         timeOut: 4000
-  //       };
-  //       if (result.error === true) {
-  //         toastr.error(result.title, result.msg);
-  //       } else {
-  //         toastr.success(result.title, result.msg);
-  //         setTimeout(function() {
-  //           location.href = location.reload();
-  //         }, 1000);
-  //       }
-  //     }
-  //   });
-  // };
+  methods.jsontimes = function(e) {
+    var type = $('#text_type').val();
+    var time1 = ["9.00", "10.00", "11.00", "13.00", "14.00", "15.00"];
+    var time2 = ["9.00", "10.30", "13.00", "14.30"];
+    if(type == 1){
+      $.each(time1, function(index, item) {
+        $("#text_time").append(
+          '<option value="' + item + '">' + item + "น.</option>"
+        );
+      });
+    } else if(type == 2) {
+      $.each(time2, function(index, item) {
+        $("#text_time").append(
+          '<option value="' + item + '">' + item + "น.</option>"
+        );
+      });
+    }
+  };
 
   return methods;
 });

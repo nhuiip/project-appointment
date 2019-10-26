@@ -30,6 +30,11 @@ class Section_model extends CI_Model {
 		$this->db->insert("tb_section",$data);
 		return $this->db->insert_id();
 	}
+	// Insert data
+	public function insertEx($sec = array()){
+		$this->db->insert("tb_section",$sec);
+		return $this->db->insert_id();
+	}
 	public function updateData($data = array()){
 		$this->db->where(array('sec_id' => $data['sec_id']));
 		$this->db->update("tb_section",$data);

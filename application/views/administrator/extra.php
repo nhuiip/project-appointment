@@ -15,14 +15,23 @@
       <div class="ibox float-e-margins">
         <div class="ibox-title">
           <div class="ibox-tools">
-            <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#U-insert">
-              <i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล
-            </button>
+            <? if ($checkinsert == 'no') { ?>
+              <a class="btn btn-outline btn-white btn-bitbucket">
+                <i class="fa fa-times" style="color:#ed5565"></i> &nbsp;&nbsp;ระบบยังไม่เปิดใช้งานไม่สามารถเพิ่มข้อมูลได้
+              </a>
+            <? } ?>
+            <? if ($checkinsert == 'no') { ?>
+              <button type="button" class="btn btn-outline btn-primary" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
+            <? } else { ?>
+              <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#U-insert">
+                <i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล
+              </button>
+            <? } ?>
           </div>
         </div>
         <div class="ibox-content">
           <!-- table ------------------------------------------------------------------------------------------------------->
-          <?if(count($listdata) != 0) { ?>
+          <? if (count($listdata) != 0) { ?>
             <table class="table table-striped table-bordered table-hover dataTables" width="100%">
               <thead>
                 <tr>
@@ -77,9 +86,11 @@
                 </tr>
               </tfoot>
             </table>
-                      <? } else { ?>
-                         <center><h4>ไม่ข้อมูล</h4></center>
-                      <? } ?>
+          <? } else { ?>
+            <center>
+              <h4>ไม่ข้อมูล</h4>
+            </center>
+          <? } ?>
           <!-- */table ----------------------------------------------------------------------------------------------------->
         </div>
       </div>
@@ -96,12 +107,48 @@
         <h4 class="modal-title" id="myModalLabel">เพิ่มข้อมูลผู้ใช้</h4>
       </div>
       <div class="modal-body">
-        <form action="<?= site_url('extra/create'); ?>" method="post" enctype="multipart/form-data" name="formAdministrators_C" id="formAdministrators_C" class="form-horizontal" novalidate>
+        <form action="<?= site_url('extra/create'); ?>" method="post" enctype="multipart/form-data" name="formExtra_C" id="formExtra_C" class="form-horizontal" novalidate>
           <input type="hidden" name="formcrf" id="formcrfinsert" value="<?= $formcrf; ?>">
+          <input type="hidden" name="set_id" id="set_id" value="<? if (isset($set_id)) {echo $set_id;} ?>">
+          <div class="alert alert-danger" role="alert">
+            วันเเวลารายการนี้จะไม่สามารถแก้ไขภายหลังได้ <br>กรุณาตรวจสอบวันเวลาขึ้นสอบให้ถูกต้องก่อนเพิ่มข้อมูล <strong>**</strong>
+          </div>
           <div class="form-group row">
             <label class="col-sm-12">ชื่อเต็ม<span class="text-muted" style="color:#c0392b">*</span></label>
             <div class="col-sm-12">
-              <input type="text" name="use_name" value="" class="form-control">
+              <input type="text" name="use_name" id="use_name" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-12">ขึ้นสอบวิชา<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <select class="form-control" name="text_type" id="text_type">
+                <option value="">กรุณาเลือกข้อมูล</option>
+                <?PHP foreach ($listsubject as $key => $value) { ?>
+                  <option value="<?= $value['sub_type'] ?>"><?= $value['sub_name'] ?></option>
+                <?PHP } ?>
+              </select>
+            </div>
+          </div>
+          <?if($checkinsert == 'yes'){ ?>
+            <div class="form-group row">
+              <label class="col-sm-12">วันขึ้นสอบ<span class="text-muted" style="color:#c0392b">*</span></label>
+              <div class="col-sm-12">
+                <select class="form-control" name="sec_date" id="sec_date">
+                  <option value="">กรุณาเลือกข้อมูล</option>
+                  <?PHP foreach ($listsec as $key => $value) { ?>
+                    <option value="<?= $value['sec_date'] ?>"><?= $value['sec_date'] ?></option>
+                  <?PHP } ?>
+                </select>
+              </div>
+            </div>
+          <? } ?>
+          <div class="form-group row">
+            <label class="col-sm-12">เวลาขึ้นสอบ<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <select class="form-control" name="text_time" id="text_time">
+                <option value="">กรุณาเลือกข้อมูล</option>
+              </select>
             </div>
           </div>
       </div>

@@ -116,6 +116,9 @@ requirejs(
       $(".btn-reload").click(function () {
         location.reload();
       });
+      $('#text_type').change(function () {
+				fun.jsontimes(this);
+			});
     });
   }
 );

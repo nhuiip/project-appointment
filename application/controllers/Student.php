@@ -745,7 +745,6 @@ class Student extends MX_Controller
                 //แสดงอาจารญ์ทั้งหมด
                 $condition = array();
                 $condition['fide'] = "*";
-                // $condition['where_in'] = array('position_id !=' => 1, 'position_id !=' => 5);
                 $condition['where_in']['filde'] = 'position_id';
                 $condition['where_in']['value'] = ['2', '3'];
                 $data['listuser'] = $this->administrator->listData($condition);

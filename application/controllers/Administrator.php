@@ -36,12 +36,14 @@ class Administrator extends MX_Controller
 			$data = array();
 			$condition = array();
 			$condition['fide'] = "*";
-			$condition['where'] = array('tb_position.position_id !=' => 4);
+			$condition['where_in']['filde'] = 'tb_user.position_id';
+			$condition['where_in']['value'] = ['1', '2', '3'];
 			$data['listdata'] = $this->administrator->listjoinData($condition);
 
 			$condition = array();
 			$condition['fide'] = "position_id,position_name";
-			$condition['where'] = array('position_id !=' => 4);
+			$condition['where_in']['filde'] = 'position_id';
+			$condition['where_in']['value'] = ['1', '2', '3'];
 			$data['listposition'] = $this->administrator->listDataPosition($condition);
 
 			$data['formcrf'] = $this->tokens->token('formcrf');
