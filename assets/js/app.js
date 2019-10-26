@@ -186,8 +186,9 @@ $(".btn-trace").click(function () {
             if (result.error === true) {
               swal(result.title, result.msg, "error");
             } else {
-              location.href = geturl;
-              // window.open(geturl, '_blank', '');
+              // location.href = geturl;
+              window.open(geturl, '_blank', '');
+              location.reload();
             }
           }
         });
