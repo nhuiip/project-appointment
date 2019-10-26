@@ -400,7 +400,7 @@ $(".btnajax").click(function () {
     },
     success: function (result) {
 
-      console.log(result);
+      // console.log(result);
 
       $("#listtt").empty();
       $("#listtts").empty();
@@ -415,7 +415,7 @@ $(".btnajax").click(function () {
         $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility(' + item.id + ')"  type="checkbox" name="checkUser[]" class="charr" id="checkUser' + item.id + '" value="' + item.id + ' " ' + item.subjectUserId + '  > <label for="checkUser' + item.id + ' "> ' + item.name + ' ' + item.subjectUserstatus + ' </label> </div></span>' + item.checkuserHidden + ' ' + item.rediouserHidden + '</li> ').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility(' + item.id + ')"  type="checkbox" name="checkUser[]" class="charr" id="checkUser' + item.id + '" value="' + item.id + ' " ' + item.subjectUserId + '  > <label for="checkUser' + item.id + ' "> ' + item.name + ' ' + item.subjectUserstatus + ' '+item.subjectPositionstatus+'</label> </div></span>' + item.checkuserHidden + ' ' + item.rediouserHidden + '</li> ').append()
         );
       });
       

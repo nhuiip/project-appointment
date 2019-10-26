@@ -171,7 +171,7 @@ class Student extends MX_Controller
             $mail->Host = "27.254.131.201";
             $mail->Port = 25;
             $mail->Username = "admin@preedarat-cv.com";
-            $mail->Password = "8$hW2W1A";
+            $mail->Password = "M!1p1H79";
             $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -267,7 +267,7 @@ class Student extends MX_Controller
             $mail->Host = "27.254.131.201";
             $mail->Port = 25;
             $mail->Username = "admin@preedarat-cv.com";
-            $mail->Password = "8$hW2W1A";
+            $mail->Password = "M!1p1H79";
             $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
             $mail->AddAddress($datamail['email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -628,7 +628,7 @@ class Student extends MX_Controller
             $mail->Host = "smtp.hostinger.in.th";
             $mail->Port = 25;
             $mail->Username = "admin@preedarat-cv.com";
-            $mail->Password = "8$hW2W1A";
+            $mail->Password = "M!1p1H79";
             $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -968,7 +968,7 @@ class Student extends MX_Controller
         $mail->Host = "mail.preedarat-cv.com";
         $mail->Port = 25;
         $mail->Username = "admin@preedarat-cv.com";
-        $mail->Password = "8$hW2W1A";
+        $mail->Password = "M!1p1H79";
         $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
         $mail->AddAddress('preedarat.jut@gmail.com');

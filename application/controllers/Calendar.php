@@ -177,7 +177,7 @@ class Calendar extends MX_Controller
         $condition['where'] = array('set_status' => 2);
         $data['listdata'] = $this->setting->listData($condition);
 
-        $condition['fide'] = "tb_section.use_id, tb_user.use_name, sec_time_one,sec_time_two";
+        $condition['fide'] = "tb_section.use_id, tb_user.use_name, sec_time_one,sec_time_two,tb_user.position_id";
         if ($sub_type == 1) {
             $condition['where'] = array(
                 'tb_section.set_id' => $data['listdata'][0]['set_id'],
@@ -198,13 +198,13 @@ class Calendar extends MX_Controller
 
         //เช็คอาจารย์ประจำวิชา
         $condition = array();
-        $condition['fide'] = "";
+        $condition['fide'] = "*";
         $condition['where'] = array('sub_id' => $sub_type);
         $listdatasubject = $this->subject->listData($condition);
 
         //เช็คอาจารย์ที่ปรึกษา
         $condition = array();
-        $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id,tb_project.use_id";
+        $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id,tb_project.use_id,tb_user.position_id";
         $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
         $projectperson = $this->project->listjoinData($condition);
 
@@ -213,22 +213,36 @@ class Calendar extends MX_Controller
             $listJson[$key]['id'] = $value['use_id'];
             $listJson[$key]['name'] = $value['use_name'];
             $listJson[$key]['time'] = $time;
-            //อาจารย์ประจำวิชา
+            
             if ($listdatasubject[0]['use_id'] == $value['use_id']) {
+
+                //อาจารย์ประจำวิชา
+
                 $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
                 $listJson[$key]['subjectUserstatus'] = '&nbsp;[อาจารย์ประจำวิชา]';
                 $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="' . $value['use_id'] . '" name="checkUser[]" id="checkUser"/> ';
-            } else {
+            } else{
                 $listJson[$key]['subjectUserId'] = '';
                 $listJson[$key]['checkuserHidden'] = '';
                 $listJson[$key]['subjectUserstatus'] = '';
             }
 
-            //เช็คอาจารย์ที่ปรึกษา
             if ($projectperson[0]['use_id'] == $value['use_id']) {
+
+                //เช็คอาจารย์ที่ปรึกษา
+
                 $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
                 $listJson[$key]['subjectUserstatus'] = '&nbsp;[อาจารย์ที่ปรึกษา]';
                 $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="' . $value['use_id'] . '" name="checkUser[]" id="checkUser"/>';
+            }
+
+            //เช็คอาจารย์พิเศษ
+            if ($value['position_id'] == 5) {
+                
+                $listJson[$key]['subjectPositionstatus'] = '&nbsp;[อาจารย์พิเศษ]';
+
+            }else{
+                $listJson[$key]['subjectPositionstatus'] = '';
             }
 
             //เลือกประธาน
@@ -242,6 +256,13 @@ class Calendar extends MX_Controller
                 } else {
                     $listJson[$key]['rediouserHidden'] = '';
                 }
+
+                if ($value['position_id'] == 5) {
+                
+                    $listJson[$key]['rediouserHidden'] = '';
+    
+                }
+
             } else {
 
                 $listJson[$key]['rediouserHidden'] = '';
@@ -250,22 +271,6 @@ class Calendar extends MX_Controller
         echo json_encode($listJson);
         die;
     }
-
-    // public function checkuse($id)
-	// {
-	// 	$checkUser = $this->input->post('checkUser');
-	// 	if (!empty($checkUser)) {
-	// 		$condition = array();
-    //         $condition['fide'] = "*";
-    //         $condition['where'] = array('sub_id' => $id);
-    //         $listsubject = $this->subject->listData($condition);
-	// 		if (count($listsubject) == $listsubject[0]['sub_setuse']) {
-	// 			echo "true";
-	// 		} else {
-	// 			echo "false";
-	// 		}
-	// 	}
-    // }
     
     public function request()
     {
@@ -411,9 +416,6 @@ class Calendar extends MX_Controller
                 }
 
                 $this->sandrequest($meetId);
-            } else {
-
-                print_r('น้อยกว่า');
             }
         }
     }
@@ -634,9 +636,9 @@ class Calendar extends MX_Controller
 
             //         $mail->Host = "27.254.131.201";
             //         $mail->Port = 25;
-            //         $mail->Username = "sys@preedarat-cv.com";
-            //         $mail->Password = "br%9CPF7";
-            //         $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
+            //         $mail->Username = "admin@preedarat-cv.com";
+            //         $mail->Password = "M!1p1H79";
+            //         $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
             //         // $mail->AddAddress($value['use_email']);
 
@@ -692,9 +694,9 @@ class Calendar extends MX_Controller
 
                     $mail->Host = "27.254.131.201";
                     $mail->Port = 25;
-                    $mail->Username = "sys@preedarat-cv.com";
-                    $mail->Password = "br%9CPF7";
-                    $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
+                    $mail->Username = "admin@preedarat-cv.com";
+                    $mail->Password = "M!1p1H79";
+                    $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
                     // $mail->AddAddress($value['std_email']);
                     $mail->AddAddress('yui.napassorn.s@gmail.com');
