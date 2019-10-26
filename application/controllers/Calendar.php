@@ -605,56 +605,56 @@ class Calendar extends MX_Controller
             $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
             $listemailuser = $this->meet->listjoinData2($condition);
 
-            if (count($listemailuser) != 0) {
-                $data = array(
-                    'project_id'      => $project_id,
-                    'project_name'    => $project_name,
-                    'meet_time'       => $meet_time . '&nbsp;',
-                    'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
-                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้รับคำขอให้ขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" . $project_name . "ในวันที่&nbsp;" . $strDay . "&nbsp;" . $strMonthThai . "&nbsp;" . $strYear . "&nbsp;เวลา&nbsp;" . $meet_time . "&nbsp; น.&nbsp; คุณสามารถตรวจสอบรายละเอียดของปริญญานิพนธ์ โดยคลิกที่ รายละเอียด เพื่อตรวจสอบข้อมูลก่อนกดยืนยันเพื่อตอบรับคำขอของนักศึกษา",
-                );
+            // if (count($listemailuser) != 0) {
+            //     $data = array(
+            //         'project_id'      => $project_id,
+            //         'project_name'    => $project_name,
+            //         'meet_time'       => $meet_time . '&nbsp;',
+            //         'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+            //     );
 
-                foreach ($listemailuser as $key => $value) {
+            //     foreach ($listemailuser as $key => $value) {
 
-                    $use_fullname   =   "เรียน&nbsp;" . $value['use_name'];
+            //         $use_fullname   =   "เรียน&nbsp;" . $value['use_name'];
 
-                    require_once APPPATH . 'third_party/class.phpmailer.php';
-                    require_once APPPATH . 'third_party/class.smtp.php';
-                    $mail = new PHPMailer;
-                    $mail->SMTPOptions = array(
-                        'ssl' => array(
-                            'verify_peer' => false,
-                            'verify_peer_name' => false,
-                            'allow_self_signed' => true
-                        )
-                    );
-                    $mail->CharSet = "utf-8";
-                    $mail->IsSMTP();
-                    $mail->SMTPDebug = 0;
-                    $mail->SMTPAuth = true;
+            //         require_once APPPATH . 'third_party/class.phpmailer.php';
+            //         require_once APPPATH . 'third_party/class.smtp.php';
+            //         $mail = new PHPMailer;
+            //         $mail->SMTPOptions = array(
+            //             'ssl' => array(
+            //                 'verify_peer' => false,
+            //                 'verify_peer_name' => false,
+            //                 'allow_self_signed' => true
+            //             )
+            //         );
+            //         $mail->CharSet = "utf-8";
+            //         $mail->IsSMTP();
+            //         $mail->SMTPDebug = 0;
+            //         $mail->SMTPAuth = true;
 
-                    $mail->Host = "27.254.131.201";
-                    $mail->Port = 25;
-                    $mail->Username = "sys@preedarat-cv.com";
-                    $mail->Password = "br%9CPF7";
-                    $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
+            //         $mail->Host = "27.254.131.201";
+            //         $mail->Port = 25;
+            //         $mail->Username = "sys@preedarat-cv.com";
+            //         $mail->Password = "br%9CPF7";
+            //         $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
 
-                    // $mail->AddAddress($value['use_email']);
+            //         // $mail->AddAddress($value['use_email']);
 
-                    $mail->AddAddress('preedarat.jut@gmail.com');
-                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+            //         // $mail->AddAddress('preedarat.jut@gmail.com');
+            //         $mail->AddAddress('yui.napassorn.s@gmail.com');
+            //         $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
 
-                    $message = $this->message_verify($data, $value['use_id'], $use_fullname);
+            //         $message = $this->message_verify($data, $value['use_id'], $use_fullname);
 
-                    $mail->MsgHTML($message);
-                    // $mail->send();
-                    if (!$mail->send()) {
-                        echo $mail->ErrorInfo . '<br>';
-                    } else {
-                        echo 'Send<br>';
-                    }
-                }
-            }
+            //         $mail->MsgHTML($message);
+            //         // $mail->send();
+            //         if (!$mail->send()) {
+            //             echo $mail->ErrorInfo . '<br>';
+            //         } else {
+            //             echo 'Send<br>';
+            //         }
+            //     }
+            // }
 
             //sand std project
             $condition = array();
@@ -669,7 +669,6 @@ class Calendar extends MX_Controller
                     'project_name'    => $project_name,
                     'meet_time'       => $meet_time,
                     'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
-                    'detail'          => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คุณได้ส่งคำขอขึ้นสอบปริญญานิพนธ์ หัวข้อ&nbsp;" . $project_name . "ในวันที่&nbsp;" . $strDay . "&nbsp;" . $strMonthThai . "&nbsp;" . $strYear . "&nbsp;เวลา&nbsp;" . $meet_time . "&nbsp; น.&nbsp; คุณสามารถคลิกที่ รายละเอียด เพื่อดูคำขอขึ้นสอบปริญญานิพนธ์ของคุณได้",
                 );
 
                 foreach ($listemailstd as $key => $value) {
@@ -698,9 +697,10 @@ class Calendar extends MX_Controller
                     $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
 
                     // $mail->AddAddress($value['std_email']);
-                    $mail->AddAddress('preedarat.jut@gmail.com');
+                    $mail->AddAddress('yui.napassorn.s@gmail.com');
+                    // $mail->AddAddress('preedarat.jut@gmail.com');
                     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                    $message = $this->message_verify($data, $value['std_id'], $std_fullname);
+                    $message = $this->messagestd_verify($data, $value['std_id'], $std_fullname);
 
                     $mail->MsgHTML($message);
                     // $mail->send();
@@ -731,10 +731,4 @@ class Calendar extends MX_Controller
         $this->load->view('page/succeed-request');
     }
 
-    public function chkheadproject()
-    {
-       
-        $listJson == 1;
-        echo json_encode($listJson);
-    }
 }

@@ -121,6 +121,7 @@
             </div>
         </div>
     </div>
+    </div>
 
 <!-- model insert -->
 <div class="modal fade" id="U-insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
