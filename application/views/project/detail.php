@@ -142,9 +142,9 @@ if (isset($listProject) && count($listProject) != 0) {
                                         </div>
                                         <div class="col-sm-5" style="text-align: right;">
                                             <? if ($position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
-                                                <button class="btn btn-white btn-trace" data-geturl="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>" data-url="<?= site_url('project/loadfile/' . $value['file_id'] . '/' . $useid); ?>">
+                                                <a class="btn btn-white btn-trace" data-geturl="<?= site_url('uploads/fileproject/Project_' . $value['project_id'] . '/' . $value['file_name']); ?>"  data-title="ยืนยันการดาวน์โหลดไฟล์เอกสาร" data-url="<?= site_url('project/loadfile/' . $value['file_id'] . '/' . $useid); ?>">
                                                     <i class="fa fa-download"></i>
-                                                </button>
+                                                </a>
                                             <? } ?>
                                             <? if ($position == 'ผู้ดูแลระบบ') { ?>
                                                 <a href="<?= base_url('uploads/fileproject/Project_' . $project_id . '/' . $value['file_name']); ?>">

@@ -65,4 +65,46 @@ class Project extends MX_Controller
         }
         
     }
+    
+    public function loadfile($file_id = "", $useid = ""){
+
+
+        //เช็คว่าในตาราง tb_trace มี use_id นี้อยู่ไหม & file_id นี้อยู่ไหม
+        $condition = array();
+        $condition['fide'] = "tb_trace.use_id,tb_projectfile.file_id,tb_projectfile.file_name,tb_projectfile.project_id";
+        $condition['where'] = array('tb_trace.use_id' => $useid,'tb_projectfile.file_id' => $file_id);
+        $listproject = $this->projectfile->listjointrace($condition);
+
+        //หากยังไม่มีการดาวน์โหลด ให้เพิ่มลงไป
+        if(count($listproject) == 0){
+
+            $data = array(
+                'file_id'          => $file_id,
+                'use_id'           => $useid,
+                'trace_datetime'   => date('Y-m-d H:i:s'),
+            );
+            $this->projectfile->insertFiletrace($data);
+        
+        }else if($listproject[0]['use_id'] != $useid){
+            //เช็คค่าซ้ำ หากไม่ซ้ำ use_id ให้เพิ่มลงไป
+            $data = array(
+                'file_id'          => $file_id,
+                'use_id'           => $useid,
+                'trace_datetime'   => date('Y-m-d H:i:s'),
+            );
+            $this->projectfile->insertFiletrace($data);
+
+        }
+
+        // select ชื่อไฟล์ และ โฟลเดอร์
+        $condition = array();
+        $condition['fide'] = "tb_projectfile.file_id,tb_projectfile.file_name,tb_projectfile.project_id";
+        $condition['where'] = array('tb_projectfile.file_id' => $file_id);
+        $listproject = $this->projectfile->listData($condition);
+
+        // redirect('uploads/fileproject/Project_' . $listproject[0]['project_id'] . '/' . $listproject[0]['file_name']);
+
+        echo json_encode($listproject);
+
+    }
 }
