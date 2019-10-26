@@ -175,8 +175,23 @@ $(".btn-trace").click(function () {
     },
     function (isConfirm) {
       if (isConfirm) {
-        location.href = url;
-        window.open("geturl");
+
+        // location.href = url;
+
+        $.ajax({
+          method: "POST",
+          dataType: "json",
+          url: url,
+          success: function (result) {
+            if (result.error === true) {
+              swal(result.title, result.msg, "error");
+            } else {
+              location.href = geturl;
+              // window.open(geturl, '_blank', '');
+            }
+          }
+        });
+
       }
     }
   );
