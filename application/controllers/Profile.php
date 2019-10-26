@@ -59,10 +59,14 @@ class Profile extends MX_Controller
                 $condition['where'] = array('set_status' => 2);
                 $listdata = $this->setting->listData($condition);
 
-                $data['set_id'] = $listdata[0]['set_id'];
+                if(count($listdata) != 0){
+                    $data['set_id'] = $listdata[0]['set_id'];
+                }else{
+                    $data['set_id'] = "";
+                }
                     
                 $condition['fide'] = "*";
-                $condition['where'] = array('set_id' => $listdata[0]['set_id']);
+                $condition['where'] = array('set_id' => $data['set_id']);
                 $condition['groupby'] = "sec_date";
                 $data['listsec'] = $this->section->listData($condition);
 
