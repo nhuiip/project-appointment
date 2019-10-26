@@ -960,7 +960,7 @@ class Student extends MX_Controller
         );
         $mail->CharSet = "utf-8";
         $mail->IsSMTP();
-        $mail->SMTPDebug = 2;
+        $mail->SMTPDebug = 2; 
         $mail->SMTPAuth = true;
 
         $mail->Host = "mail.preedarat-cv.com";
@@ -972,6 +972,7 @@ class Student extends MX_Controller
         $mail->AddAddress('preedarat.jut@gmail.com');
         $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
         $mail->MsgHTML('test');
+
         if (!$mail->send()) {
             echo $mail->ErrorInfo;
         } else {
