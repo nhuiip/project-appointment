@@ -135,7 +135,6 @@
                 <div class="modal-body">
                     <form action="<?= site_url('subject/create'); ?>" method="post" enctype="multipart/form-data" name="formSubject" id="formSubject" class="form-horizontal" novalidate>
                         <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-                        <input type="hidden" name="set_id" id="set_id" value="<? if(isset($set_id)){echo $set_id;} ?>">
                         <div class="form-group row">
                             <label class="col-sm-12">ชื่อวิชา<span class="text-muted" style="color:#c0392b">*</span></label>
                             <div class="col-sm-12">

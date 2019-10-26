@@ -28,7 +28,6 @@ class Subject extends MX_Controller
 
             if (count($checkinsert) == 1) {
                 $data['checkinsert'] = 'yes';
-                $data['set_id'] = $checkinsert[0]['set_id'];
                 
                 $arrposition = array(2, 3);
                 $condition = array();
@@ -58,12 +57,6 @@ class Subject extends MX_Controller
             $condition['where_in']['value'] = $arrposition;
             $data['user'] = $this->administrator->listData($condition);
 
-            $condition = array();
-            $condition['fide'] = "set_id";
-            $condition['where'] = array('set_status' => 2);
-            $setting = $this->setting->listData($condition);
-
-            $data['set_id'] = $setting[0]['set_id'];
             $data['formcrf'] = $this->tokens->token('formcrf');
 
             // edit form
@@ -99,7 +92,6 @@ class Subject extends MX_Controller
                 'sub_name'          => $this->input->post('sub_name'),
                 'sub_code'          => $this->input->post('sub_code'),
                 'use_id'            => $this->input->post('use_id'),
-                'set_id'            => $this->input->post('set_id'),
                 'sub_setuse'        => $this->input->post('sub_setuse'),
                 'sub_setless'       => $this->input->post('sub_setless'),
                 'sub_type'          => $this->input->post('sub_type'),
