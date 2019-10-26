@@ -220,10 +220,12 @@ label.error {
             </div>
 
             <form action="<?= base_url('calendar/request'); ?>" method="post" name="formCalendarrequest" id="formCalendarrequest" class="form-horizontal" novalidate>
+            <!-- <form action="#" method="post" name="formCalendarrequest" id="formCalendarrequest" class="form-horizontal" novalidate> -->
                 <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
                 <input type="hidden" name="txt_date" id="txt_date" value="<?= $date; ?>" />
                 <input type="hidden" name="txt_subId" id="txt_subId" value="<?=$sub_id; ?>" />
                 <input type="hidden" name="txt_time" id="txt_time" value="" />
+                <input type="hidden" name="checkuse" id="checkuse" value="<?=$sub_setuse;?>"/>
 
                 <?PHP if ($chkprojectrequest == 0) { ?>
                     <div class="todo-list  ui-sortable" id="listttbutton"></div>

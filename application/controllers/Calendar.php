@@ -251,6 +251,22 @@ class Calendar extends MX_Controller
         die;
     }
 
+    // public function checkuse($id)
+	// {
+	// 	$checkUser = $this->input->post('checkUser');
+	// 	if (!empty($checkUser)) {
+	// 		$condition = array();
+    //         $condition['fide'] = "*";
+    //         $condition['where'] = array('sub_id' => $id);
+    //         $listsubject = $this->subject->listData($condition);
+	// 		if (count($listsubject) == $listsubject[0]['sub_setuse']) {
+	// 			echo "true";
+	// 		} else {
+	// 			echo "false";
+	// 		}
+	// 	}
+    // }
+    
     public function request()
     {
         // if()
@@ -258,6 +274,21 @@ class Calendar extends MX_Controller
         $date  =  $this->input->post('txt_date'); //วันที่เลือกทำนัด
         $sub_id  =  $this->input->post('txt_subId'); //1: โครงการหนึ่ง, 2: โครงการสอง
         $time  =  $this->input->post('txt_time'); //เวลา
+
+        $condition = array();
+        $condition['fide'] = "*";
+        $condition['where'] = array('sub_id' => $sub_id);
+        $listsubject = $this->subject->listData($condition);
+        if(count($this->input->post('checkUser')) != $listsubject[0]['sub_setuse']){
+            $result = array(
+                'error' => true,
+                'title' => "Error",
+                'msg'  => "เลือกให้ครบ",
+               );
+               echo json_encode($result);
+            die;
+        }
+
 
         // $date  =  '2019-10-07';//วันที่เลือกทำนัด
         // $type  =  1; //1: โครงการหนึ่ง, 2: โครงการสอง
@@ -278,12 +309,6 @@ class Calendar extends MX_Controller
         $liststudent = $this->project->listjoinData($condition);
 
         $project_id  =  $liststudent[0]['project_id']; //รหัสโปรเจค
-
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('sub_id' => $sub_id);
-        $listsubject = $this->subject->listData($condition);
-
         $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
         if ($this->tokens->verify('formcrf')) {

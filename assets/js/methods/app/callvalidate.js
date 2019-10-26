@@ -468,7 +468,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           proformat_name: {
             required: true
-          }
+          },
         },
         messages: {
           file_name: {
@@ -489,12 +489,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           file_name: {
             required: true
-          }
+          },
         },
         messages: {
           file_name: {
             required: "กรุณาเลือกไฟล์เอกสาร."
-          }
+          },
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -743,6 +743,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           }
         },
         submitHandler: function(form) {
+
           fun.dataSubmit(form);
           return false;
         }
@@ -804,15 +805,14 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           radioHeadproject: {
             required: true
           },
-          "checkUser[]": { minlength: 4 },
         },
         messages: {
           radioHeadproject: {
             required: "กรุณาเลือกประธานการสอบ."
           },
-          "checkUser[]": {
-            minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
-          },
+          // "checkUser[]": {
+          //   minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
+          // },
         },
         showErrors: function(errorMap, errorList) {
           submitted = true;
@@ -835,7 +835,9 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         //   $("#formError").removeClass("hide");
         // },
         submitHandler: function(form) {
-          $(".loading").show();
+          // var arr = $(".checkUser").toArray();
+          // console.log(arr);
+          $('.loading').show();
           fun.dataSubmit(form);
           return false;
         }

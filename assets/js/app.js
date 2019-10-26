@@ -1,6 +1,6 @@
 requirejs.config({
   baseUrl: "http://localhost:9900/assets/js/lib",
-  
+
   // baseUrl: 'http://min-yota.com/assets/inspinia/js/lib',
   paths: {
     jquery: "jquery-2.1.1",
@@ -61,9 +61,9 @@ requirejs.config({
     },
 
     chosen: {
-			deps: ['jquery'],
-			exports : "chosen"
-		},
+      deps: ['jquery'],
+      exports: "chosen"
+    },
     TouchSpin: {
       deps: ["jquery"]
     },
@@ -97,9 +97,9 @@ requirejs(
     "clipboard",
     "inspinia"
   ],
-  function($) {
+  function ($) {
     // @ts-ignore
-    require(["function", "callplugins", "callvalidate", "clipboard"], function(
+    require(["function", "callplugins", "callvalidate", "clipboard"], function (
       fun,
       plug,
       vali,
@@ -113,7 +113,7 @@ requirejs(
       plug.TouchSpin();
       plug.fullcalendar();
       plug.chosen();
-      $(".btn-reload").click(function() {
+      $(".btn-reload").click(function () {
         location.reload();
       });
     });
@@ -132,7 +132,7 @@ $('.collapse-link').click(function () {
   }, 50);
 });
 // sweetalert none
-$(".btn-alert").click(function() {
+$(".btn-alert").click(function () {
   var url = $(this).attr("data-url");
   var title = $(this).attr("data-title");
   var text = $(this).attr("data-text");
@@ -147,7 +147,7 @@ $(".btn-alert").click(function() {
       cancelButtonText: "ยกเลิก",
       closeOnConfirm: false
     },
-    function(isConfirm) {
+    function (isConfirm) {
       if (isConfirm) {
         location.href = url;
       }
@@ -156,7 +156,7 @@ $(".btn-alert").click(function() {
 });
 
 // sweetalert trace
-$(".btn-trace").click(function() {
+$(".btn-trace").click(function () {
   var url = $(this).attr("data-url");
   var geturl = $(this).attr("data-geturl");
   var title = $(this).attr("data-title");
@@ -170,7 +170,7 @@ $(".btn-trace").click(function() {
       cancelButtonText: "ยกเลิก",
       closeOnConfirm: false
     },
-    function(isConfirm) {
+    function (isConfirm) {
       if (isConfirm) {
         location.href = url;
         window.open("geturl");
@@ -179,7 +179,7 @@ $(".btn-trace").click(function() {
   );
 });
 
-$(".timechecks").change(function() {
+$(".timechecks").change(function () {
   var url = $(this).attr("data-url");
   swal(
     {
@@ -191,18 +191,18 @@ $(".timechecks").change(function() {
       cancelButtonText: "ยกเลิก",
       closeOnConfirm: false
     },
-    function(isConfirm) {
+    function (isConfirm) {
       if (isConfirm) {
         location.href = url;
       } else {
         location.reload();
       }
     }
-  ); 
+  );
 });
 
 // sweetalert ckeck
-$(".btn-check").click(function() {
+$(".btn-check").click(function () {
   var url = $(this).attr("data-url");
   var urlCheck = $(e).attr("data-urlCheck");
   var title = $(this).attr("data-text");
@@ -216,13 +216,13 @@ $(".btn-check").click(function() {
       cancelButtonText: "ยกเลิก",
       closeOnConfirm: false
     },
-    function(isConfirm) {
+    function (isConfirm) {
       if (isConfirm) {
         $.ajax({
           method: "POST",
           dataType: "json",
           url: urlCheck,
-          success: function(result) {
+          success: function (result) {
             if (result.error === true) {
               swal(result.title, result.msg, "error");
             } else {
@@ -236,7 +236,7 @@ $(".btn-check").click(function() {
 });
 
 
-$(".btn-checkuserHead").click(function() {
+$(".btn-checkuserHead").click(function () {
   var url = $(this).attr("data-url");
   var title = $(this).attr("data-title");
   var text = $(this).attr("data-text");
@@ -254,7 +254,7 @@ $(".btn-checkuserHead").click(function() {
       cancelButtonText: "ยกเลิก",
       closeOnConfirm: false
     },
-    function(isConfirm) {
+    function (isConfirm) {
       if (isConfirm) {
         $.ajax({
           method: "POST",
@@ -264,10 +264,10 @@ $(".btn-checkuserHead").click(function() {
             id: id,
             meetId: meetId
           },
-          success: function(result) {
+          success: function (result) {
 
             $meetId = result.meet_id;
-            location.href = '/calendar/showcalendar/'+$meetId+'';
+            location.href = '/calendar/showcalendar/' + $meetId + '';
 
           }
         });
@@ -278,13 +278,13 @@ $(".btn-checkuserHead").click(function() {
 });
 
 // datatable-export
-$(".dataTables-export tfoot th").each(function() {
+$(".dataTables-export tfoot th").each(function () {
   var title = $(this).text();
   if ($(this).hasClass("ftinput")) {
     $(this).html(
       '<input type="text" class= "form-control ftsearch" placeholder="ค้นหา ' +
-        title +
-        '" />'
+      title +
+      '" />'
     );
   }
 });
@@ -325,9 +325,9 @@ var table = $(".dataTables-export").DataTable({
   ]
 });
 // Apply the search
-table.columns().every(function() {
+table.columns().every(function () {
   var that = this;
-  $("input", this.footer()).on("keyup change", function() {
+  $("input", this.footer()).on("keyup change", function () {
     if (that.search() !== this.value) {
       that.search(this.value).draw();
     }
@@ -335,13 +335,13 @@ table.columns().every(function() {
 });
 
 // datatable-basic
-$(".dataTables tfoot th").each(function() {
+$(".dataTables tfoot th").each(function () {
   var titles = $(this).text();
   if ($(this).hasClass("ftinput")) {
     $(this).html(
       '<input type="text" class= "form-control ftsearch" placeholder="ค้นหา ' +
-        titles +
-        '" />'
+      titles +
+      '" />'
     );
   }
 });
@@ -366,9 +366,9 @@ var tables = $(".dataTables").DataTable({
 });
 
 // Apply the search
-tables.columns().every(function() {
+tables.columns().every(function () {
   var that = this;
-  $("input", this.footer()).on("keyup change", function() {
+  $("input", this.footer()).on("keyup change", function () {
     if (that.search() !== this.value) {
       that.search(this.value).draw();
     }
@@ -377,7 +377,7 @@ tables.columns().every(function() {
 
 // DataTable end
 
-$(".btnajax").click(function() {
+$(".btnajax").click(function () {
 
   // window.localStorage.removeItem('productCompare');
 
@@ -385,7 +385,7 @@ $(".btnajax").click(function() {
   var time = $(this).attr("data-time");
   var sub = $(this).attr("data-sub");
   var url = $(this).attr("data-url");
- 
+
   $.ajax({
     method: "POST",
     dataType: "json",
@@ -395,27 +395,27 @@ $(".btnajax").click(function() {
       time: time,
       sub: sub,
     },
-    success: function(result) {
+    success: function (result) {
 
       console.log(result);
 
       $("#listtt").empty();
       $("#listtts").empty();
-      
-                        
-                    
-                    
+
+
+
+
 
       $("#listttbutton").append('<div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333"> กรุณาเลือกประธานสำหรับการขอขึ้นสอบ <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> </div>');
-      
-      $.each(result, function(index, item) {
+
+      $.each(result, function (index, item) {
         $('#txt_time').val(item.time);
 
         $("#listtt").append(
-          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility('+ item.id +')"  type="checkbox" name="checkUser[]" id="checkUser'+ item.id +'" value="'+ item.id +' " '+ item.subjectUserId +'  > <label for="checkUser'+ item.id +' "> '+ item.name + ' '+item.subjectUserstatus+' </label> </div></span>'+item.checkuserHidden+' '+item.rediouserHidden+'</li> ').append()
+          $('<li><span class="m-l-xs"><div class="checkbox checkbox-primary checkbox-inline"> <input onclick="toggle_visibility(' + item.id + ')"  type="checkbox" name="checkUser[]" class="charr" id="checkUser' + item.id + '" value="' + item.id + ' " ' + item.subjectUserId + '  > <label for="checkUser' + item.id + ' "> ' + item.name + ' ' + item.subjectUserstatus + ' </label> </div></span>' + item.checkuserHidden + ' ' + item.rediouserHidden + '</li> ').append()
         );
       });
-      $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+      
     },
     // error: function(jqXHR, exception) {
     //   if (jqXHR.status === 0) {
@@ -438,11 +438,24 @@ $(".btnajax").click(function() {
 });
 
 function toggle_visibility(id) {
+  // var arr = this.toArray();
+  var num = $('#checkuse').val();
+  var arr = Array();
+  // $(".charr").each(function () {
+  $("input:checkbox[class=charr]:checked").each(function () {
+    arr.push($(this).val());
+  });
+  if(arr.length == num){
+    // console.log('ss');
+    // $('#btnsubsmit').show();
+    $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info" id="btnsubsmit">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+  }
+  // console.log(arr);
   var e = document.getElementById(id);
-  if(e.style.display == 'block')
-     e.style.display = 'none';
+  if (e.style.display == 'block')
+    e.style.display = 'none';
   else
-     e.style.display = 'block';
+    e.style.display = 'block';
 }
 
 
