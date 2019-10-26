@@ -76,7 +76,7 @@
                                                         <?PHP }else{?>
                                                             <li><a class="btn-alert" href="#" data-url="<?=site_url('subject/updateopen/' . $value['sub_id']); ?>" data-title="ต้องการเปิดรายวิชา?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;เปิดรายวิชา</a></li>   
                                                         <?PHP } ?>
-                                                        <li><a href="#" class="btn-alert" data-url="<?= site_url('subject/delete/' . $value['sub_id']); ?>" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                                                        <li><a href="#" class="btn-alert" data-url="<?= site_url('subject/delete/' . $value['sub_id']); ?>" data-title="" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                                                     <? } ?>
                                                 </ul>
                                             </div>
@@ -120,7 +120,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 <!-- model insert -->
