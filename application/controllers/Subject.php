@@ -26,10 +26,12 @@ class Subject extends MX_Controller
             $condition['where'] = array('set_status' => 2);
             $checkinsert = $this->setting->listData($condition);
 
+            
+
             if (count($checkinsert) == 1) {
                 $data['checkinsert'] = 'yes';
                 $data['set_id'] = $checkinsert[0]['set_id'];
-                
+
                 $arrposition = array(2, 3);
                 $condition = array();
                 $condition['fide'] = "*";
