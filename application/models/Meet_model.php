@@ -47,6 +47,11 @@ class Meet_model extends CI_Model {
 		$this->db->update("tb_meet",$data);
 		return $data['sec_id'];
 	}
+	public function updateData2($data = array()){
+		$this->db->where(array('meet_id' => $data['meet_id']));
+		$this->db->update("tb_meet",$data);
+		return $data['meet_id'];
+	}
 
 	// Insert data
 	public function insertDetail($data = array()){
