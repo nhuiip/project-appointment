@@ -633,18 +633,13 @@ class Calendar extends MX_Controller
                     $mail->SMTPDebug = 0;
                     $mail->SMTPAuth = true;
 
-                    // $mail->Host = "27.254.131.201";
-                    // $mail->Port = 25;
-                    // $mail->Username = "system@owlsiam.com";
-                    // $mail->Password = "Ew%9NjEG";
-                    // $mail->SetFrom("system@owlsiam.com", "Appoint-IT");
+                    $mail->Host = "27.254.131.201";
+                    $mail->Port = 25;
+                    $mail->Username = "sys@preedarat-cv.com";
+                    $mail->Password = "br%9CPF7";
+                    $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
 
-                    $mail->Host = "smtp.hostinger.in.th";
-                    $mail->Port = 587;
-                    $mail->Username = "support@webpaplern.com";
-                    $mail->Password = "ka6sTato";
-                    $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
-                    $mail->AddAddress($value['use_email']);
+                    // $mail->AddAddress($value['use_email']);
 
                     $mail->AddAddress('preedarat.jut@gmail.com');
                     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -696,17 +691,11 @@ class Calendar extends MX_Controller
                     $mail->SMTPDebug = 0;
                     $mail->SMTPAuth = true;
 
-                    // $mail->Host = "27.254.131.201";
-                    // $mail->Port = 25;
-                    // $mail->Username = "system@owlsiam.com";
-                    // $mail->Password = "Ew%9NjEG";
-                    // $mail->SetFrom("system@owlsiam.com", "Appoint-IT");
-
-                    $mail->Host = "smtp.hostinger.in.th";
-                    $mail->Port = 587;
-                    $mail->Username = "support@webpaplern.com";
-                    $mail->Password = "ka6sTato";
-                    $mail->setFrom('support@webpaplern.com', 'Appoint-IT');
+                    $mail->Host = "27.254.131.201";
+                    $mail->Port = 25;
+                    $mail->Username = "sys@preedarat-cv.com";
+                    $mail->Password = "br%9CPF7";
+                    $mail->setFrom('sys@preedarat-cv.com', 'Appoint-IT');
 
                     // $mail->AddAddress($value['std_email']);
                     $mail->AddAddress('preedarat.jut@gmail.com');
