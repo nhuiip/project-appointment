@@ -743,7 +743,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           }
         },
         submitHandler: function(form) {
-          
+
           fun.dataSubmit(form);
           return false;
         }
@@ -810,6 +810,9 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           radioHeadproject: {
             required: "กรุณาเลือกประธานการสอบ."
           },
+          // "checkUser[]": {
+          //   minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
+          // },
         },
         // showErrors: function(errorMap, errorList) {
         //   submitted = true;

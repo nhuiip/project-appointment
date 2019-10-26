@@ -963,7 +963,9 @@ class Student extends MX_Controller
         );
         $mail->CharSet = "utf-8";
         $mail->IsSMTP();
+
         $mail->SMTPDebug = 0; 
+
         $mail->SMTPAuth = true;
 
         $mail->Host = "mail.preedarat-cv.com";
