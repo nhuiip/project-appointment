@@ -416,14 +416,10 @@ $(".btnajax").click(function () {
     },
     success: function (result) {
 
-      // console.log(result);
+      console.log(result);
 
       $("#listtt").empty();
       $("#listtts").empty();
-
-
-
-
 
       $("#listttbutton").append('<div class="alert alert-warning alert-dismissable hide" id="formError" style="color:#333"> กรุณาเลือกประธานสำหรับการขอขึ้นสอบ <a class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </a> </div>');
 
