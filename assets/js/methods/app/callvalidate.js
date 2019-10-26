@@ -113,6 +113,34 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formExtra_C").length) {
+      $("#formExtra_C").validate({
+        rules: {
+          use_name: { required: true },
+          text_type: { required: true },
+          sec_date: { required: true },
+          text_time: { required: true },
+        },
+        messages: {
+          use_name: {
+            required: "กรุณากรอกชื่อเต็ม."
+          },
+          text_type: {
+            required: "กรุณาเลือกระดับผู้ใช้."
+          },
+          sec_date: {
+            required: "กรุณาเลือกวันที่ขึ้นสอบ."
+          },
+          text_time: {
+            required: "กรุณาเลือกเวลาขึ้นสอบ"
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
     if ($("#formRepass").length) {
       $("#formRepass").validate({
         rules: {
