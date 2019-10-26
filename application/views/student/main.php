@@ -73,7 +73,7 @@
                                                 <ul class="dropdown-menu" style="width:100%">
                                                     <li><a href="#" data-toggle="modal" data-target="#studentUpdate" class="update" data-stdid="<?= $value['std_id']; ?>" data-number="<?= $value['std_number']; ?>" data-tel="<?= $value['std_tel']; ?>" data-emailstd="<?= $value['std_email']; ?>" data-fname="<?= $value['std_fname']; ?>" data-lname="<?= $value['std_lname']; ?>"><i class="fa fa-edit"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูลนักศึกษา</a></li>
                                                     <li><a href="#" data-toggle="modal" data-target="#emailUpdate" class="updateemail" data-stdid="<?= $value['std_id']; ?>" data-email="<?= $value['std_email']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนที่อยู่อีเมล์</a></li>
-                                                    <li><a href="#" data-toggle="modal" data-target="#passwordUpdate" class="updatepass" data-stdid="<?= $value['std_id']; ?>"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#passwordUpdate" class="updatepass" data-stdid="<?= $value['std_id']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -113,7 +113,9 @@
 
     $('.updatepass').click(function() {
         var stdid = $(this).attr('data-stdid');
+        var fullname = $(this).attr('data-fullname');
         $("#Id2").val(stdid);
+        $("#text_fullname").html(fullname);
     });
 
     $('.update').click(function() {
@@ -210,13 +212,13 @@
 <!-- model changepassword -->
 <form action="<?= base_url('student/changepasswordstd'); ?>" method="post" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
     <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?= $formcrfpassword; ?>">
-    <input type="hidden" name="Id2" id="Id2" value="<?= $value['std_id']; ?>">
+    <input type="hidden" name="Id2" id="Id2" value="">
     <div class="modal fade" id="passwordUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">เปลี่ยนรหัสผ่าน : <?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?></h4>
+                    <h4 class="modal-title" id="myModalLabel">เปลี่ยนรหัสผ่าน : <span id="text_fullname"></span></h4>
                 </div>
                 <div class="modal-body">
                     <br />

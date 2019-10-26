@@ -123,7 +123,7 @@
 	</div>
 </div>
 
-<form action="<?= site_url('subject/create'); ?>" method="post" enctype="multipart/form-data" name="formSubject" id="formSubject111" class="form-horizontal" novalidate>
+<form action="<?= site_url('subject/create'); ?>" method="post" enctype="multipart/form-data" name="formSubject" id="formSubject" class="form-horizontal" novalidate>
 <!-- model insert -->
     <div class="modal fade" id="U-insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
