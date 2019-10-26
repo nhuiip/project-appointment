@@ -810,33 +810,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           radioHeadproject: {
             required: "กรุณาเลือกประธานการสอบ."
           },
-          // "checkUser[]": {
-          //   minlength: "กรุณาเลือกอาจารย์ขึ้นสอบจำนวน 4 คน."
-          // },
         },
-        showErrors: function(errorMap, errorList) {
-          submitted = true;
-          if (submitted) {
-            var summary =
-              '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>';
-            $.each(errorList, function() {
-              summary +=
-                ' <font color="#FF0000">*</font> ' + this.message + "<br/>";
-            });
-            $("#formError").html(summary);
-            $("#formError").slideDown();
-            $("#formError").removeClass("hide");
-            submitted = false;
-          }
-          this.defaultShowErrors();
+        errorPlacement: function() {
+          $("#formError").slideDown();
+          $("#formError").removeClass("hide");
         },
-        // errorPlacement: function() {
-        //   $("#formError").slideDown();
-        //   $("#formError").removeClass("hide");
-        // },
         submitHandler: function(form) {
-          // var arr = $(".checkUser").toArray();
-          // console.log(arr);
           $('.loading').show();
           fun.dataSubmit(form);
           return false;

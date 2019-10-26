@@ -686,6 +686,9 @@ class Student extends MX_Controller
         // echo 'stdproject';
         // die;
         //ไม่ login ให้ show 404
+        if(empty($id)){
+            show_404();
+        }
         if (empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
             show_404();
         }
@@ -705,8 +708,8 @@ class Student extends MX_Controller
                 //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
                 $condition = array();
                 $condition['fide'] = "
-                tb_project.project_id, project_name, project_status, 
-                project_create_name, project_create_date, project_lastedit_name, project_lastedit_date, 
+                tb_project.project_id, project_name, project_status,
+                project_create_name, project_create_date, project_lastedit_name, project_lastedit_date,
                 tb_user.use_name, tb_user.use_id";
                 $condition['where'] = array('tb_projectperson.std_id' => $id, 'tb_project.project_status !=' => 0);
                 $data['searchProject'] = $this->project->listjoinData($condition);
@@ -960,7 +963,7 @@ class Student extends MX_Controller
         );
         $mail->CharSet = "utf-8";
         $mail->IsSMTP();
-        $mail->SMTPDebug = 0; 
+        $mail->SMTPDebug = 0;
         $mail->SMTPAuth = true;
 
         $mail->Host = "mail.preedarat-cv.com";
