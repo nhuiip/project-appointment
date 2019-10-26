@@ -92,6 +92,7 @@ class Extra extends MX_Controller
 		}
 	}
 
+	
 	public function update()
 	{
 		if ($this->tokens->verify('formcrf')) {
