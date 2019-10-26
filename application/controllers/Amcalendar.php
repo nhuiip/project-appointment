@@ -44,4 +44,21 @@ class Amcalendar extends MX_Controller
             show_404();
         }
     }
+
+    public function request(){
+
+        $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
+        $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
+
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+          
+            $data = array();
+           
+
+            $data['formcrf'] = $this->tokens->token('formcrf');
+            $this->template->backend('calendar/request', $data);
+            
+        }
+
+    }
 }
