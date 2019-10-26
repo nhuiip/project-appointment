@@ -82,7 +82,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li><a href="#" data-toggle="modal" data-target="#ProjectStd_Up"><i class="fa fa-undo"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
-                                <li><a class="btn-alert" data-url="<?= site_url('student/stdprojectdel/' . $project_id); ?>" data-title="ต้องการยกเลิกหัวข้อปริญญานิพนธ์ ?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                                <li><a class="btn-alert" data-url="<?= site_url('student/stdprojectdel/' . $project_id); ?>" data-title="ต้องการเปลี่ยนหัวข้อปริญญานิพนธ์ ?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนหัวข้อปริญญานิพนธ์</a></li>
                             </ul>
                         </div>
                     </div>
