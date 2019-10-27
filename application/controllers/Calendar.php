@@ -97,8 +97,8 @@ class Calendar extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "tb_meet.project_id";
-                $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0);
-                $projectrequest = $this->meet->listData($condition);
+                $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 2);
+                $projectrequest = $this->meet->listjoinData($condition);
 
                 if (count($projectrequest) == "") {
                     $data['chkprojectrequest'] = 0;
@@ -161,6 +161,7 @@ class Calendar extends MX_Controller
 
     public function jsontimeT()
     {
+        $sub_id = $this->input->post('subid');
         $sub_type = $this->input->post('sub');
         $date = $this->input->post('date');
         $time = $this->input->post('time');
@@ -199,13 +200,13 @@ class Calendar extends MX_Controller
         //เช็คอาจารย์ประจำวิชา
         $condition = array();
         $condition['fide'] = "*";
-        $condition['where'] = array('sub_id' => $sub_type);
+        $condition['where'] = array('sub_id' => $sub_id);
         $listdatasubject = $this->subject->listData($condition);
 
         //เช็คอาจารย์ที่ปรึกษา
         $condition = array();
         $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id,tb_project.use_id,tb_user.position_id";
-        $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+        $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')),'project_status !=' => 0);
         $projectperson = $this->project->listjoinData($condition);
 
         $listJson = array();
@@ -579,7 +580,7 @@ class Calendar extends MX_Controller
         $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
-        $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
+        // $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
         // $html = str_replace('[DATA-USERID]', $userid, $html);
         return $html;
     }
@@ -594,7 +595,7 @@ class Calendar extends MX_Controller
         $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
-        $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
+        // $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
         // $html = str_replace('[DATA-USERID]', $userid, $html);
         return $html;
     }
@@ -720,18 +721,12 @@ class Calendar extends MX_Controller
                     $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
                     // $mail->AddAddress($value['std_email']);
-                    $mail->AddAddress('yui.napassorn.s@gmail.com');
-                    // $mail->AddAddress('preedarat.jut@gmail.com');
+                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
+                    $mail->AddAddress('preedarat.jut@gmail.com');
                     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                     $message = $this->messagestd_verify($data, $value['std_id'], $std_fullname);
-
                     $mail->MsgHTML($message);
-                    // $mail->send();
-                    if (!$mail->send()) {
-                        echo $mail->ErrorInfo . '<br>';
-                    } else {
-                        echo 'Send<br>';
-                    }
+                    $mail->send();
                 }
                 $result = array(
                     'error' => false,

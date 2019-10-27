@@ -403,6 +403,7 @@ $(".btnajax").click(function () {
   var date = $(this).attr("data-date");
   var time = $(this).attr("data-time");
   var sub = $(this).attr("data-sub");
+  var subid = $(this).attr("data-subid");
   var url = $(this).attr("data-url");
 
   $.ajax({
@@ -413,6 +414,7 @@ $(".btnajax").click(function () {
       date: date,
       time: time,
       sub: sub,
+      subid: subid,
     },
     success: function (result) {
 
@@ -461,9 +463,10 @@ function toggle_visibility(id) {
     arr.push($(this).val());
   });
   if(arr.length == num ){
-    // console.log('ss');
-    // $('#btnsubsmit').show();
     $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info" id="btnsubsmit">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');
+  } else{
+    $("#listtts").empty();
+
   }
   // console.log(arr);
   var e = document.getElementById(id);

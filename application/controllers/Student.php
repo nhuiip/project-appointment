@@ -731,7 +731,7 @@ class Student extends MX_Controller
 
                     $condition = array();
                     $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id, tb_meet.meet_status , tb_meet.meet_date, tb_meet.meet_time,tb_settings.set_status";
-                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 2);
+                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_settings.set_status' => 2);
                     $data['listmeetnow'] = $this->meet->listjoinData($condition);
 
                     $condition = array();

@@ -79,7 +79,8 @@ class Amcalendar extends MX_Controller
         );
         $this->meet->updateDetail($data);
 
-        //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 0 เท่ากับไม่ว่าง
+        //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 0 เท่ากับไม่ว่าง (ของยุ้ย)
+        //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 2 เท่ากับมีนัดแล้ว (หนุ่ยแก้)
         $condition = array();
         $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time";
         $condition['where'] = array('tb_meetdetail.dmeet_id' => $dmeet_id);
@@ -102,7 +103,7 @@ class Amcalendar extends MX_Controller
 
             $data = array(
                 'sec_id'         => $selectsection[0]['sec_id'],
-                'sec_status'     => 0,
+                'sec_status'     => 2,
             );
             $this->section->updateData($data);
 
@@ -110,7 +111,7 @@ class Amcalendar extends MX_Controller
 
             $data = array(
                 'sec_id'         => $selectsection[0]['sec_id'],
-                'sec_status'     => 0,
+                'sec_status'     => 2,
             );
             $this->section->updateData($data);
 

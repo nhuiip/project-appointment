@@ -402,28 +402,23 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                     $this->db->from('tb_meetdetail');
                                                     $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
                                                     $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
-                                                    $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
+                                                    $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id']));
                                                     $this->db->order_by("dmeet_head", "DESC");
                                                     $query = $this->db->get();
                                                     $listt = $query->result_array();
                                                     ?>
                                             <?
-                                                    switch ($project_status) {
+                                                    switch ($value['meet_status']) {
+                                                        case 0:
+                                                            $status_text = '<span class="badge badge-danger" style="margin-bottom: 15px;">&nbsp;&nbsp;ไม่สำเร็จ&nbsp;&nbsp;</span>';
+                                                            break;
                                                         case 1:
-                                                            $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
+                                                            $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ&nbsp;&nbsp;</span>';
                                                             break;
                                                         case 2:
-                                                            $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ 1&nbsp;&nbsp;</span>';
+                                                            $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
                                                             break;
                                                     }
-
-                                                    // if($project_status == 0){
-                                                    //     $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;นัดหมายล้มเหลว&nbsp;&nbsp;</span>';
-                                                    // }else  if($project_status == 1){
-                                                    //     $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;นัดหมายสำเร็จ&nbsp;&nbsp;</span>';
-                                                    // }else if($project_status == 2){
-                                                    //     $status_text = '<span class="badge badge-danger" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
-                                                    // }
                                             ?>
 
                                             <li class="list-group-item" style="text-align: right;">
