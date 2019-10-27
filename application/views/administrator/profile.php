@@ -98,7 +98,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 									<i class="fa fa-gears"></i>
 								</a>
 								<ul class="dropdown-menu dropdown-user">
-									<li><a href="#"><i class="fa fa-tasks"></i>&nbsp;&nbsp;&nbsp;รายการขึ้นสอบ</a></li>
+									<li><a href="<?=site_url('project/projectmeet/'.$listsubject[0]['sub_id']);?>"><i class="fa fa-tasks"></i>&nbsp;&nbsp;&nbsp;รายการขึ้นสอบ</a></li>
 								</ul>
 							<? } ?>
 						</div>
@@ -160,7 +160,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 					<div class="ibox-content">
 						<? if (!empty($listatt)  && count($listatt) != 0) { ?>
 							<div class="table-responsive">
-								<table class="table table-bordered table-hover" width="100%">
+								<table class="table table-hover" width="100%">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -325,7 +325,6 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 						</div>
 					</div>
 					<!--*/form-group-->
-
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
 						<button type="submit" class="btn btn-primary">เพิ่มเอกสาร</button>

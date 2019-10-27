@@ -29,8 +29,8 @@
 				</div>
 				<div class="ibox-content">
 					<!-- table ------------------------------------------------------------------------------------------------------->
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover dataTables" width="100%">
+					<!-- <div class="table-responsive"> -->
+						<table class="table table-striped table-hover dataTables" width="100%">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -115,7 +115,7 @@
 								</tr>
 							</tfoot>
 						</table>
-					</div>
+					<!-- </div> -->
 					<!-- */table ----------------------------------------------------------------------------------------------------->
 				</div>
 			</div>

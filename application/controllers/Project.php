@@ -10,6 +10,7 @@ class Project extends MX_Controller
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("student_model", "student");
         $this->load->model("subject_model", "subject");
+        $this->load->model("meet_model", "meet");
         $this->load->model("administrator_model", "administrator");
     }
 
@@ -32,16 +33,16 @@ class Project extends MX_Controller
 
     public function detail($id = "")
     {
-        if(!empty($id)){
+        if (!empty($id)) {
             $permission = array("ผู้ดูแลระบบ", "หัวหน้าสาขา", "อาจารย์ผู้สอน");
             if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
                 $data = array();
-    
+
                 $condition = array();
                 $condition['fide'] = "*";
                 $condition['where'] = array('tb_project.project_id' => $id);
                 $data['listProject'] = $this->project->listjoinData2($condition);
-                if(count($data['listProject']) != 0){
+                if (count($data['listProject']) != 0) {
                     $condition = array();
                     $condition['fide'] = "*";
                     $condition['where'] = array('tb_projectperson.project_id' => $id);
@@ -55,7 +56,7 @@ class Project extends MX_Controller
                 } else {
                     show_404();
                 }
-    
+
                 $this->template->backend('project/detail', $data);
             } else {
                 $this->load->view('errors/html/error_403');
@@ -63,20 +64,20 @@ class Project extends MX_Controller
         } else {
             show_404();
         }
-        
     }
-    
-    public function loadfile($file_id = "", $useid = ""){
+
+    public function loadfile($file_id = "", $useid = "")
+    {
 
 
         //เช็คว่าในตาราง tb_trace มี use_id นี้อยู่ไหม & file_id นี้อยู่ไหม
         $condition = array();
         $condition['fide'] = "tb_trace.use_id,tb_projectfile.file_id,tb_projectfile.file_name,tb_projectfile.project_id";
-        $condition['where'] = array('tb_trace.use_id' => $useid,'tb_projectfile.file_id' => $file_id);
+        $condition['where'] = array('tb_trace.use_id' => $useid, 'tb_projectfile.file_id' => $file_id);
         $listproject = $this->projectfile->listjointrace($condition);
 
         //หากยังไม่มีการดาวน์โหลด ให้เพิ่มลงไป
-        if(count($listproject) == 0){
+        if (count($listproject) == 0) {
 
             $data = array(
                 'file_id'          => $file_id,
@@ -84,8 +85,7 @@ class Project extends MX_Controller
                 'trace_datetime'   => date('Y-m-d H:i:s'),
             );
             $this->projectfile->insertFiletrace($data);
-        
-        }else if($listproject[0]['use_id'] != $useid){
+        } else if ($listproject[0]['use_id'] != $useid) {
             //เช็คค่าซ้ำ หากไม่ซ้ำ use_id ให้เพิ่มลงไป
             $data = array(
                 'file_id'          => $file_id,
@@ -93,7 +93,6 @@ class Project extends MX_Controller
                 'trace_datetime'   => date('Y-m-d H:i:s'),
             );
             $this->projectfile->insertFiletrace($data);
-
         }
 
         // select ชื่อไฟล์ และ โฟลเดอร์
@@ -105,6 +104,36 @@ class Project extends MX_Controller
         // redirect('uploads/fileproject/Project_' . $listproject[0]['project_id'] . '/' . $listproject[0]['file_name']);
 
         echo json_encode($listproject);
+    }
+    public function projectmeet($id = "")
+    {
+        $permission = array("หัวหน้าสาขา", "อาจารย์ผู้สอน");
+        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+            if (!empty($id)) {
+                $condition = array();
+                $condition['fide'] = "use_id, sub_name, sub_code";
+                $condition['where'] = array('sub_id' => $id);
+                $data['subject'] = $this->subject->listData($condition);
+                if (count($data['subject']) != 0) {
+                    if ($this->encryption->decrypt($this->input->cookie('sysli')) == $data['subject'][0]['use_id']) {
+                        $condition = array();
+                        $condition['fide'] = "meet_id, tb_meet.project_id, project_name, project_status, meet_time, meet_date";
+                        $condition['where'] = array('tb_meet.sub_id' => $id, 'tb_meet.meet_status' => 1);
+                        $data['listmeet'] = $this->meet->listjoinData($condition);
 
+                        $data['sub_type'] = $data['subject'][0]['sub_type'];
+                        $this->template->backend('project/projectmeet', $data);
+                    } else {
+                        $this->load->view('errors/html/error_403');
+                    }
+                } else {
+                    show_404();
+                }
+            } else {
+                show_404();
+            }
+        } else {
+            $this->load->view('errors/html/error_403');
+        }
     }
 }

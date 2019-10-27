@@ -23,7 +23,7 @@
         <div class="ibox-content">
           <!-- table ------------------------------------------------------------------------------------------------------->
           <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover dataTables" width="100%">
+            <table class="table table-striped table-hover dataTables" width="100%">
               <thead>
                 <tr>
                   <th>#</th>
