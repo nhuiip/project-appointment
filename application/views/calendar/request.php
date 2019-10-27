@@ -64,7 +64,7 @@ label.error {
                                         $this->db->select("*");
                                         $this->db->from('tb_meetdetail');
                                         $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
-                                        $this->db->where(array('meet_id' => $vmeet['meet_id'], 'dmeet_status' => 2));
+                                        $this->db->where(array('meet_id' => $vmeet['meet_id']));
                                         $this->db->order_by("dmeet_head", "DESC");
                                         $querym = $this->db->get();
                                         $listt = $querym->result_array();
@@ -87,8 +87,8 @@ label.error {
                                     </div>
                                     <div class="m-t text-righ">
                                         <!-- <button class="btn btn-xs btn-outline btn-danger"> ยืนยันการทำนัด <i class="fa fa-long-arrow-right"></i> </button> -->
-                                        <a href="#" type="button" class="btn btn-outline btn-danger btn-alert" data-url="<?=base_url('amcalendar/cancel/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันยกเลิกการทำนัด">ยกเลิกการทำนัด</a>
-                                        <button type="button" class="btn btn-outline btn-success">ยืนยันการทำนัด</button>
+                                        <a href="#" type="button" class="btn btn-outline btn-danger btn-alert" data-url="<?=base_url('amcalendar/cancel/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันยกเลิกการทำนัด" data-text="<?=$vmeet['project_name']; ?>">ยกเลิกการทำนัด</a>
+                                        <a href="#" type="button" class="btn btn-outline btn-success btn-alert" data-url="<?=base_url('amcalendar/submit/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันการทำนัดหมายนี้" data-text="<?=$vmeet['project_name']; ?>">ยืนยันการทำนัด</a>
                                         <a href="<?=base_url('project/detail/'.$vmeet['project_id']);?>" target="_bank" button type="button" class="btn btn-outline btn-primary">รายละเอียดเพิ่มเติม</a>
                                         
                                     </div>

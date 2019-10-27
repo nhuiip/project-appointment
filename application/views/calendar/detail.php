@@ -185,7 +185,6 @@ label.error {
                                                     <? } ?></p>
                                             </div>
                                         <? } ?>
-
                                         <? if (count($meet) == 0) { ?>
                                             <? if ($chkprojectrequest == 0) { ?>
                                                 <? if (count($section_sub) != 0 && count($section_pro) != 0) { ?>

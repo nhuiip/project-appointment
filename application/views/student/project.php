@@ -1,3 +1,15 @@
+<?php
+function DateThai($strDate)
+{
+    $strYear = date("Y", strtotime($strDate)) + 543;
+    $strMonth = date("n", strtotime($strDate));
+    $strDay = date("j", strtotime($strDate));
+    $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+    $strMonthThai = $strMonthCut[$strMonth];
+    return "$strDay $strMonthThai $strYear";
+}
+?>
+
 <?
 //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
 if (isset($searchProject) && count($searchProject) != 0) {
@@ -17,6 +29,39 @@ if (isset($searchProject) && count($searchProject) != 0) {
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
+
+        <!-- <?PHP if($project_status == 0){ ?>
+            <div class="col-md-12">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <center>
+                            <h1><strong>คำขอนัดหมายขึ้นสอบปริญญานิพนธ์ของคุณล้มเหลว</strong></h1>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        <?PHP } else if($project_status == 1){ ?>
+            <div class="col-md-12">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <center>
+                            <h1><strong>คุณมีนัดหมายสอบปริญญานิพนธ์</strong></h1>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        <?PHP }else{ ?>
+            <div class="col-md-12">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <center>
+                            <h1><strong>คุณมีนัดหมายสอบปริญญานิพนธ์</strong></h1>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        <?PHP } ?> -->
+
         <!-- add new project -->
         <?PHP if (count($searchProject) == 0) { ?>
             <div class="col-md-7">
@@ -306,54 +351,69 @@ if (isset($searchProject) && count($searchProject) != 0) {
                         <? if (count($listmeetnow) == 0) { ?>
                             <center>ไม่พบข้อมูลการนัดหมาย</center>
                         <? } else { ?>
-                            <ul class="list-group">
-                                <? foreach ($listmeetnow as $key => $value) { ?>
-                                    <?
-                                                $this->db->select("tb_user.use_name, tb_meetdetail.use_id, tb_meetdetail.dmeet_head");
-                                                $this->db->from('tb_meetdetail');
-                                                $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
-                                                $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
-                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
-                                                $this->db->order_by("dmeet_head", "DESC");
-                                                $query = $this->db->get();
-                                                $listt = $query->result_array();
-                                                ?>
-                                    <?
-                                                switch ($project_status) {
-                                                    case 1:
-                                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
-                                                        break;
-                                                    case 2:
-                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ 1&nbsp;&nbsp;</span>';
-                                                        break;
-                                                }
-                                                ?>
-                                        <li class="list-group-item" style="text-align: right;">
-                                            <?= $status_text ?>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <p>
-                                                        <? foreach ($listt as $key => $v) { ?>
-                                                            <? if ($v['use_id'] == $value['use_id']) { ?>
-                                                                <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
-                                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                            <? } else { ?>
-                                                                <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                           
+                                <ul class="list-group">
+                                    <? foreach ($listmeetnow as $key => $value) { ?>
+                                        <?
+                                                    $this->db->select("tb_user.use_name, tb_meetdetail.use_id, tb_meetdetail.dmeet_head");
+                                                    $this->db->from('tb_meetdetail');
+                                                    $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                                                    $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
+                                                    $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
+                                                    $this->db->order_by("dmeet_head", "DESC");
+                                                    $query = $this->db->get();
+                                                    $listt = $query->result_array();
+                                                    ?>
+                                            <?
+                                                    // switch ($project_status) {
+                                                    //     case 1:
+                                                    //         $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
+                                                    //         break;
+                                                    //     case 2:
+                                                    //         $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ 1&nbsp;&nbsp;</span>';
+                                                    //         break;
+                                                    // }
+
+                                                    if($project_status == 0){
+                                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;นัดหมายล้มเหลว&nbsp;&nbsp;</span>';
+                                                    }else  if($project_status == 1){
+                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;นัดหมายสำเร็จ&nbsp;&nbsp;</span>';
+                                                    }else{
+                                                        $status_text = '<span class="badge badge-danger" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
+                                                    }
+                                            ?>
+                                            
+                                            <li class="list-group-item" style="text-align: right;">
+                                                <?= $status_text ?>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
+                                                    </div>
+                                                    <?PHP if($project_status == 1){ ?>
+                                                        <div class="col-sm-12">
+                                                            <p><strong>วันที่สอบ : <?= DateThai($value['meet_date']) ; ?> เวลา : </strong> <?= $value['meet_time']; ?> น.</p>
+                                                        </div>
+                                                    <?PHP } ?>
+                                                    <div class="col-sm-12">
+                                                        <p>
+                                                            <? foreach ($listt as $key => $v) { ?>
+                                                                <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                                    <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                                <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                                    <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                                <? } else { ?>
+                                                                    <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                                <? } ?>
                                                             <? } ?>
-                                                        <? } ?>
-                                                    </p>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    <? } ?>
-                            </ul>
+                                            </li>
+                                        <? } ?>
+                                </ul>
                         <? } ?>
                     </div>
                 </div>
@@ -383,7 +443,9 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                 $query = $this->db->get();
                                                 $listt = $query->result_array();
                                                 ?>
-                                    <?
+                                    <?PHP
+
+                                        
                                                 switch ($project_status) {
                                                     case 1:
                                                         $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
