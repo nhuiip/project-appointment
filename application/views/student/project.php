@@ -389,7 +389,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                         $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
                                                         break;
                                                     case 2:
-                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ 1&nbsp;&nbsp;</span>';
+                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ &nbsp;&nbsp;</span>';
                                                         break;
                                                 }
                                                 ?>

@@ -279,6 +279,7 @@ class Calendar extends MX_Controller
         $sub_id  =  $this->input->post('txt_subId'); //1: โครงการหนึ่ง, 2: โครงการสอง
         $time  =  $this->input->post('txt_time'); //เวลา
 
+        //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
         $condition = array();
         $condition['fide'] = "*";
         $condition['where'] = array('sub_id' => $sub_id);
@@ -317,7 +318,7 @@ class Calendar extends MX_Controller
         $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
         if ($this->tokens->verify('formcrf')) {
-            //เช็คว่าค่าที่เลือกมาน้อยกว่าที่กำหนดหรือไม่
+            
             if (count($this->input->post('checkUser')) == $sub_setuse) {
 
                 // insert meet
@@ -327,7 +328,7 @@ class Calendar extends MX_Controller
                     'sub_id'             => $sub_id,
                     'meet_date'          => $date,
                     'meet_time'          => $time,
-                    'meet_status'        => 1,
+                    'meet_status'        => 2,
                     'meet_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
                     'meet_create_date'   => date('Y-m-d H:i:s'),
                     'meet_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
@@ -342,14 +343,14 @@ class Calendar extends MX_Controller
 
                     $other['meet_id']             = $meetId;
                     $other['use_id']             = $this->input->post('checkUser')[$i];
-                    $other['dmeet_status']         = 1;
+                    $other['dmeet_status']         = 2;
                     $other['dmeet_head']         = 0;
                     $other['sec_id']             = $sec_id;
 
                     $dmeet_id  = $this->meet->insertDetail($other);
                 }
 
-
+                //update head project
                 $condition = array();
                 $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head";
                 $condition['where'] = array('tb_meetdetail.use_id' => $this->input->post('radioHeadproject'));
@@ -360,6 +361,26 @@ class Calendar extends MX_Controller
                     'dmeet_head'          => 1,
                 );
                 $this->meet->updateDetail($datas);
+
+                //update status อาจารย์พิเศษต้องเท่ากับ 1
+                for ($i = 0; $i < count($this->input->post('checkUser')); $i++) {
+        
+                    $condition = array();
+                    $condition['fide'] = "tb_user.use_id,tb_user.position_id,tb_meetdetail.dmeet_id";
+                    $condition['where'] = array('tb_user.use_id' => $this->input->post('checkUser')[$i]);
+                    $listuser = $this->meet->listjoinData2($condition);
+        
+                    
+                    if($listuser[0]['position_id'] == 5){
+        
+                        $datas = array(
+                            'dmeet_id'            => $listuser[0]['dmeet_id'],
+                            'dmeet_status'          => 1,
+                        );
+                        $this->meet->updateDetail($datas);
+        
+                    }
+                }
 
                 // select detailmeet
                 $condition = array();
@@ -604,7 +625,7 @@ class Calendar extends MX_Controller
             //select email user
             $condition = array();
             $condition['fide'] = "tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_user.use_email,tb_user.use_name";
-            $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id,'tb_user.position_id !=' => 5);
             $listemailuser = $this->meet->listjoinData2($condition);
 
             // if (count($listemailuser) != 0) {
@@ -712,12 +733,12 @@ class Calendar extends MX_Controller
             //             echo 'Send<br>';
             //         }
             //     }
-            //     // $result = array(
-            //     //     'error' => false,
-            //     //     'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
-            //     //     'url' =>  site_url('calendar/succeedrequest')
-            //     // );
-            //     // echo json_encode($result);
+            //     $result = array(
+            //         'error' => false,
+            //         'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
+            //         'url' =>  site_url('calendar/succeedrequest')
+            //     );
+            //     echo json_encode($result);
             //     die;
             // } else {
             //     show_404();
