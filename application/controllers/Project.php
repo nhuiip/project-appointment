@@ -55,6 +55,15 @@ class Project extends MX_Controller
                     $condition['orderby'] = "tb_projectfile.file_name ASC";
                     $data['listFile'] = $this->projectfile->listjoinData($condition);
 
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('tb_conference.project_id' => $id);
+                    $data['listCon'] = $this->conference->listjoinData($condition);
+
+                    $condition = array();
+                    $condition['fide'] = "*";
+                    $data['listType'] = $this->conference->listtypeData($condition);
+
                     $data['status'] = array();
                     $data['status'][0] = array('project_status' => 1, 'text' => 'เริ่มต้น');
                     $data['status'][1] = array('project_status' => 2, 'text' => 'ผ่านโครงการสารสนเทศ 1');

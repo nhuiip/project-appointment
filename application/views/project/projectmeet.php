@@ -161,7 +161,7 @@ function DateThai($strDate)
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลรายวิชา</h4>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลปริญญานิพนธ์</h4>
             </div>
             <div class="modal-body">
                 <form action="<?= site_url('project/updateData'); ?>" method="post" enctype="multipart/form-data" name="formProject_Up" id="formProject_Up" class="form-horizontal" novalidate>

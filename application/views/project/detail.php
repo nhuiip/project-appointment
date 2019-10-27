@@ -121,25 +121,70 @@ if (isset($listProject) && count($listProject) != 0) {
                                 <i class="fa fa-gears"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#" data-toggle="modal" data-target="#ProjectfileStd_Add"><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;เพิ่มข้อมูล conference</a></li>
+                                <? if (isset($listCon) && count($listCon) == 0) { ?>
+                                    <li>
+                                        <a href="#" class="ChooseType" data-toggle="modal" data-target="#ChooseType" data-project="<?=$project_id;?>">
+                                            <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;เพิ่มข้อมูล conference
+                                        </a>
+                                    </li>
+                                <? } ?>
                             </ul>
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                            </li>
-                        </ul>
-                        <table class="table table-striped table-hover" width="100%">
-                            <thead>
-                                <th>ผู้จัดทำ</th>
-                                <th>ลำดับ</th>
-                            </thead>
-                            <tbody>
-                                <td width="80%"></td>
-                                <td width="20%"></td>
-                            </tbody>
-                        </table>
+                        <? if (isset($listCon) && count($listCon) != 0) {
+                                foreach ($listCon as $key => $value) {
+                                    $conf_id            = $value['conf_id'];
+                                    $conftype_id        = $value['conftype_id'];
+                                    $conf_year          = $value['conf_year'];
+                                    $conf_title         = $value['conf_title'];
+                                    $conf_subtitle      = $value['conf_subtitle'];
+                                    $conf_number        = $value['conf_number'];
+                                    $conf_datepresent   = $value['conf_datepresent'];
+                                    $conf_nopage        = $value['conf_nopage'];
+                                    $conf_weight        = $value['conf_weight'];
+                                    $conf_data          = $value['conf_data'];
+                                    $conf_place         = $value['conf_place'];
+                                    $conf_publisher     = $value['conf_publisher'];
+                                }
+
+                                $conf_year_text         = 'ปีที่พิมพ์';
+                                $conf_weight_text       = 'ค่าน้ำหนัก';
+                                $conf_publisher_text    = 'สำนักพิมพ์';
+                            if($conftype_id == 1 || $conftype_id == 2){
+                                $conf_title_text        = 'ชื่อบทความ';
+                                $conf_subtitle_text     = 'ชื่อวารสาร';
+                                $conf_number_text       = 'ปีที่ (ฉบับที่)';
+                                $conf_datepresent_text  = 'เดือน ปี';
+                                $conf_nopage_text       = 'เลขหน้า';
+                                $conf_data_text         = 'ฐานข้อมูล';
+                            } elseif ($conftype_id == 3 || $conftype_id == 4) {
+                                $conf_title_text        = 'ชื่อเรื่อง';
+                                $conf_subtitle_text     = 'ชื่อการประชุม';
+                                $conf_datepresent_text  = 'วัน เดือน ปี ที่นำเสนอ';
+                                $conf_nopage_text       = 'เลขหน้า';
+                                $conf_place_text        = 'สถานที่จัด';
+                            } elseif ($conftype_id == 5) {
+                                $conf_title_text        = 'ชื่อหนังสือ';
+                                $conf_number_text       = 'ครั้งที่พิมพ์';
+                                $conf_nopage_text       = 'จำนานหน้า';
+                                $conf_place_text        = 'สถานที่พิมพ์';
+                                $conf_publisher_text    = 'สำนักพิมพ์';
+                            } elseif ($conftype_id == 6) {
+                                $conf_title_text        = 'ชื่อผลงาน';
+                                $conf_datepresent_text  = 'เดือน ปี';
+                                $conf_data_text         = 'แหล่งเผยแพร่ผลงาน';
+                                $conf_place_text         = 'สถานที่เผยแพร่ผลงาน';
+                            }
+                        ?>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                </li>
+                            </ul>
+                        <? } else { ?>
+                            <center>ไม่พบข้อมูล Conference</center>
+                        <? } ?>
+
                     </div>
                 </div>
             <? } ?>
@@ -221,7 +266,7 @@ if (isset($listProject) && count($listProject) != 0) {
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลรายวิชา</h4>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลปริญญานิพนธ์</h4>
             </div>
             <div class="modal-body">
                 <form action="<?= site_url('project/updateData'); ?>" method="post" enctype="multipart/form-data" name="formProject_Up" id="formProject_Up" class="form-horizontal" novalidate>
@@ -241,6 +286,43 @@ if (isset($listProject) && count($listProject) != 0) {
                                 <option value="">กรุณาเลือกข้อมูล</option>
                                 <?PHP foreach ($status as $key => $value) { ?>
                                     <option value="<?= $value['project_status'] ?>"><?= $value['text'] ?></option>
+                                <?PHP } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.ChooseType').click(function() {
+        var project = $(this).attr('data-project');
+        $("#project_id_2").val(project);
+    });
+</script>
+<div class="modal fade" id="ChooseType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">เพิ่มข้อมูล Conference</h4>
+            </div>
+            <div class="modal-body">
+                <form action="<?= site_url('conference/insertData'); ?>" method="post" enctype="multipart/form-data" name="formChooseType" id="formChooseType" class="form-horizontal" novalidate>
+                    <input type="hidden" name="project_id" id="project_id_2">
+                    <div class="form-group row">
+                        <label class="col-sm-12">ประเภท Conference<span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <select class="form-control" name="project_status" id="project_status">
+                                <option value="">กรุณาเลือกประเภท Conference</option>
+                                <?PHP foreach ($listType as $key => $value) { ?>
+                                    <option value="<?= $value['conftype_id'] ?>"><?= $value['conftype_name'] ?></option>
                                 <?PHP } ?>
                             </select>
                         </div>
