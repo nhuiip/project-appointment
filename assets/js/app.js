@@ -460,7 +460,7 @@ function toggle_visibility(id) {
   $("input:checkbox[class=charr]:checked").each(function () {
     arr.push($(this).val());
   });
-  if(arr.length == num){
+  if(arr.length == num ){
     // console.log('ss');
     // $('#btnsubsmit').show();
     $("#listtts").append('<button type="submit" class="btn btn-block btn-w-m btn-info" id="btnsubsmit">ส่งคำขอขึ้นสอบปริญญานิพนธ์</button>');

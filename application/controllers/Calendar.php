@@ -97,7 +97,7 @@ class Calendar extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "tb_meet.project_id";
-                $condition['where'] = array('tb_meet.project_id' => $project_id);
+                $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0);
                 $projectrequest = $this->meet->listData($condition);
 
                 if (count($projectrequest) == "") {
@@ -680,69 +680,69 @@ class Calendar extends MX_Controller
             // }
 
             //sand std project
-            // $condition = array();
-            // $condition['fide'] = "tb_projectperson.project_id,tb_student.std_id,tb_student.std_title,tb_student.std_fname,tb_student.std_lname,tb_student.std_email";
-            // $condition['where'] = array('tb_projectperson.project_id' => $project_id);
-            // $listemailstd = $this->project->listjoinData($condition);
+            $condition = array();
+            $condition['fide'] = "tb_projectperson.project_id,tb_student.std_id,tb_student.std_title,tb_student.std_fname,tb_student.std_lname,tb_student.std_email";
+            $condition['where'] = array('tb_projectperson.project_id' => $project_id);
+            $listemailstd = $this->project->listjoinData($condition);
 
-            // if (count($listemailstd) != 0) {
+            if (count($listemailstd) != 0) {
 
-            //     $data = array(
-            //         'project_id'      => $project_id,
-            //         'project_name'    => $project_name,
-            //         'meet_time'       => $meet_time,
-            //         'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
-            //     );
+                $data = array(
+                    'project_id'      => $project_id,
+                    'project_name'    => $project_name,
+                    'meet_time'       => $meet_time,
+                    'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                );
 
-            //     foreach ($listemailstd as $key => $value) {
+                foreach ($listemailstd as $key => $value) {
 
-            //         $std_fullname   = '&nbsp;' . $value['std_title'] . '' . $value['std_fname'] . '&nbsp;&nbsp;' . $value['std_lname'];
+                    $std_fullname   = '&nbsp;' . $value['std_title'] . '' . $value['std_fname'] . '&nbsp;&nbsp;' . $value['std_lname'];
 
-            //         require_once APPPATH . 'third_party/class.phpmailer.php';
-            //         require_once APPPATH . 'third_party/class.smtp.php';
-            //         $mail = new PHPMailer;
-            //         $mail->SMTPOptions = array(
-            //             'ssl' => array(
-            //                 'verify_peer' => false,
-            //                 'verify_peer_name' => false,
-            //                 'allow_self_signed' => true
-            //             )
-            //         );
-            //         $mail->CharSet = "utf-8";
-            //         $mail->IsSMTP();
-            //         $mail->SMTPDebug = 0;
-            //         $mail->SMTPAuth = true;
+                    require_once APPPATH . 'third_party/class.phpmailer.php';
+                    require_once APPPATH . 'third_party/class.smtp.php';
+                    $mail = new PHPMailer;
+                    $mail->SMTPOptions = array(
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    );
+                    $mail->CharSet = "utf-8";
+                    $mail->IsSMTP();
+                    $mail->SMTPDebug = 0;
+                    $mail->SMTPAuth = true;
 
-            //         $mail->Host = "27.254.131.201";
-            //         $mail->Port = 25;
-            //         $mail->Username = "admin@preedarat-cv.com";
-            //         $mail->Password = "M!1p1H79";
-            //         $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+                    $mail->Host = "27.254.131.201";
+                    $mail->Port = 25;
+                    $mail->Username = "admin@preedarat-cv.com";
+                    $mail->Password = "M!1p1H79";
+                    $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
-            //         // $mail->AddAddress($value['std_email']);
-            //         $mail->AddAddress('yui.napassorn.s@gmail.com');
-            //         // $mail->AddAddress('preedarat.jut@gmail.com');
-            //         $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-            //         $message = $this->messagestd_verify($data, $value['std_id'], $std_fullname);
+                    // $mail->AddAddress($value['std_email']);
+                    $mail->AddAddress('yui.napassorn.s@gmail.com');
+                    // $mail->AddAddress('preedarat.jut@gmail.com');
+                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+                    $message = $this->messagestd_verify($data, $value['std_id'], $std_fullname);
 
-            //         $mail->MsgHTML($message);
-            //         // $mail->send();
-            //         if (!$mail->send()) {
-            //             echo $mail->ErrorInfo . '<br>';
-            //         } else {
-            //             echo 'Send<br>';
-            //         }
-            //     }
-            //     $result = array(
-            //         'error' => false,
-            //         'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
-            //         'url' =>  site_url('calendar/succeedrequest')
-            //     );
-            //     echo json_encode($result);
-            //     die;
-            // } else {
-            //     show_404();
-            // }
+                    $mail->MsgHTML($message);
+                    // $mail->send();
+                    if (!$mail->send()) {
+                        echo $mail->ErrorInfo . '<br>';
+                    } else {
+                        echo 'Send<br>';
+                    }
+                }
+                $result = array(
+                    'error' => false,
+                    'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
+                    'url' =>  site_url('calendar/succeedrequest')
+                );
+                echo json_encode($result);
+                die;
+            } else {
+                show_404();
+            }
         } else {
             show_404();
         }
