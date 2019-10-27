@@ -20,8 +20,8 @@
                 </div>
                 <div class="ibox-content">
                     <!-- table ------------------------------------------------------------------------------------------------------->
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-export" data-colexport="0,1,2,3,4" data-filename="export-student" width="100%">
+                    <!-- <div class="table-responsive"> -->
+                        <table class="table table-striped table-hover dataTables-export" data-colexport="0,1,2,3,4" data-filename="export-student" width="100%">
                             <thead>
                                 <tr>
                                     <th>รหัสนักศึกษา</th>
@@ -93,7 +93,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    <!-- </div> -->
                     <!-- */table ----------------------------------------------------------------------------------------------------->
                 </div>
             </div>

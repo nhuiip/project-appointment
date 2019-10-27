@@ -31,7 +31,7 @@
 				<div class="ibox-content">
 					<!-- table ------------------------------------------------------------------------------------------------------->
 					<!-- <div class="table-responsive"> -->
-						<table class="table table-striped table-bordered table-hover dataTables-export" data-colexport="0,1,2,3,4,6" data-filename="export-setting" width="100%">
+						<table class="table table-striped table-hover dataTables-export" data-colexport="0,1,2,3,4,6" data-filename="export-setting" width="100%">
 							<thead>
 								<tr>
 									<th>#</th>

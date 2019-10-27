@@ -530,6 +530,24 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formProject_Up").length) {
+      $("#formProject_Up").validate({
+        rules: {
+          project_status: {
+            required: true
+          },
+        },
+        messages: {
+          project_status: {
+            required: "กรุณาเลือกสถานะ."
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
 
     //################################################################## yui
     if ($("#formStudentProfile").length) {
