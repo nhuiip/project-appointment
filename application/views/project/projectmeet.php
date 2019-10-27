@@ -92,7 +92,7 @@ function DateThai($strDate)
 											<td width="55%"><?= $value['project_name'] ?></td>
 											<td width="15%">
 												<?= DateThai($value['meet_date']); ?><br>
-												<small class="text-muted"><i class="fa fa-clock-o"></i> <?= $value['meet_time']; ?></small>
+												<small class="text-muted"><i class="fa fa-clock-o"></i> <?= $value['meet_time']; ?> น.</small>
 											</td>
 											<td width="15%">
 												<center><?= $status_text; ?></center>
@@ -147,7 +147,7 @@ function DateThai($strDate)
 </div>
 <!-- model update -->
 <script>
-    $('.update').click(function() {
+    $('.upstatus').click(function() {
         var project_id = $(this).attr('data-project_id');
         var project_name = $(this).attr('data-project_name');
         var project_status = $(this).attr('data-project_status');
@@ -156,7 +156,7 @@ function DateThai($strDate)
         $("#project_status").val(project_status);
     });
 </script>
-<div class="modal fade" id="U-update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -164,56 +164,25 @@ function DateThai($strDate)
                 <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลรายวิชา</h4>
             </div>
             <div class="modal-body">
-                <form action="<?= site_url('project/update'); ?>" method="post" enctype="multipart/form-data" name="formSubject_Up" id="formSubject_Up" class="form-horizontal" novalidate>
+                <form action="<?= site_url('project/updateData'); ?>" method="post" enctype="multipart/form-data" name="formProject_Up" id="formProject_Up" class="form-horizontal" novalidate>
                     <input type="hidden" name="type" id="type" value="projectmeet">
-                    <input type="hidden" name="Id" id="Id" value="">
+                    <input type="hidden" name="sub_id" id="sub_id" value="<?=$sub_id;?>">
+                    <input type="hidden" name="project_id" id="project_id">
                     <div class="form-group row">
-                        <label class="col-sm-12">ชื่อวิชา<span class="text-muted" style="color:#c0392b">*</span></label>
+                        <label class="col-sm-12">ชื่อปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">
-                            <input type="text" name="sub_name" id="sub_name" value="" class="form-control sub_name" maxlength="255">
+                            <input type="text" name="project_name" id="project_name" class="form-control" readonly>
                         </div>
                     </div>
                     <!--*/form-group-->
                     <div class="form-group row">
-                        <label class="col-sm-12">รหัสวิชา<span class="text-muted" style="color:#c0392b">*</span></label>
+                        <label class="col-sm-12">สถานะปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">
-                            <input type="text" name="sub_code" id="sub_code" value="" class="form-control sub_code" maxlength="255">
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="form-group row">
-                        <label class="col-sm-12">อาจารย์ผู้สอน<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <select class="form-control use_id" name="use_id" id="use_id">
+                            <select class="form-control" name="project_status" id="project_status">
                                 <option value="">กรุณาเลือกข้อมูล</option>
-                                <?PHP foreach ($user as $key => $value) { ?>
-                                    <option value="<?= $value['use_id'] ?>"><?= $value['use_name'] ?></option>
+                                <?PHP foreach ($status as $key => $value) { ?>
+                                    <option value="<?= $value['project_status'] ?>"><?= $value['text'] ?></option>
                                 <?PHP } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="form-group row">
-                        <label class="col-sm-12">จำนวนอาจารย์ขึ้นสอบ<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <input class="form-control sub_setuse" type="number" name="sub_setuse" id="sub_setuse" value="">
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="form-group row">
-                        <label class="col-sm-12">อาจารย์ขึ้นสอบอย่างน้อย<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <input class="form-control sub_setless" type="number" name="sub_setless" id="sub_setless" value="">
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="form-group row">
-                        <label class="col-sm-12">ประเภทวิชา<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <select class="form-control sub_type" name="sub_type" id="sub_type">
-                                <option value="">กรุณาเลือกข้อมูล</option>
-                                <option value="1">โครงการ 1</option>
-                                <option value="2">โครงการ 2</option>
                             </select>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ class Project extends MX_Controller
         $this->load->model("subject_model", "subject");
         $this->load->model("meet_model", "meet");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("conference_model", "conference");
     }
 
     public function index()
@@ -53,6 +54,13 @@ class Project extends MX_Controller
                     $condition['where'] = array('tb_projectfile.project_id' => $id);
                     $condition['orderby'] = "tb_projectfile.file_name ASC";
                     $data['listFile'] = $this->projectfile->listjoinData($condition);
+
+                    $data['status'] = array();
+                    $data['status'][0] = array('project_status' => 1, 'text' => 'เริ่มต้น');
+                    $data['status'][1] = array('project_status' => 2, 'text' => 'ผ่านโครงการสารสนเทศ 1');
+                    $data['status'][2] = array('project_status' => 3, 'text' => 'ติดแก้ไขโครงการสารสนเทศ 2');
+                    $data['status'][3] = array('project_status' => 4, 'text' => 'ผ่านโครงการสารสนเทศ 2');
+                    $data['status'][4] = array('project_status' => 5, 'text' => 'ผ่านโครงการสารสนเทศ 2 (conference)');
                 } else {
                     show_404();
                 }
@@ -111,7 +119,7 @@ class Project extends MX_Controller
         if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
             if (!empty($id)) {
                 $condition = array();
-                $condition['fide'] = "use_id, sub_name, sub_code";
+                $condition['fide'] = "use_id, sub_id, sub_name, sub_code, sub_type";
                 $condition['where'] = array('sub_id' => $id);
                 $data['subject'] = $this->subject->listData($condition);
                 if (count($data['subject']) != 0) {
@@ -121,7 +129,14 @@ class Project extends MX_Controller
                         $condition['where'] = array('tb_meet.sub_id' => $id, 'tb_meet.meet_status' => 1);
                         $data['listmeet'] = $this->meet->listjoinData($condition);
 
-                        $data['sub_type'] = $data['subject'][0]['sub_type'];
+                        $data['status'] = array();
+                        $data['status'][0] = array('project_status' => 1, 'text' => 'เริ่มต้น');
+                        $data['status'][1] = array('project_status' => 2, 'text' => 'ผ่านโครงการสารสนเทศ 1');
+                        $data['status'][2] = array('project_status' => 3, 'text' => 'ติดแก้ไขโครงการสารสนเทศ 2');
+                        $data['status'][3] = array('project_status' => 4, 'text' => 'ผ่านโครงการสารสนเทศ 2');
+                        $data['status'][4] = array('project_status' => 5, 'text' => 'ผ่านโครงการสารสนเทศ 2 (conference)');
+
+                        $data['sub_id'] = $data['subject'][0]['sub_id'];
                         $this->template->backend('project/projectmeet', $data);
                     } else {
                         $this->load->view('errors/html/error_403');
@@ -135,5 +150,51 @@ class Project extends MX_Controller
         } else {
             $this->load->view('errors/html/error_403');
         }
+    }
+    public function updateData()
+    {
+        $data = array(
+            'project_id'        => $this->input->post('project_id'),
+            'project_status'    => $this->input->post('project_status'),
+            'project_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+            'project_lastedit_date' => date('Y-m-d H:i:s'),
+        );
+        $this->project->updateData($data);
+
+        $condition = array();
+        $condition['fide'] = "tb_projectperson.std_id";
+        $condition['where'] = array('tb_projectperson.project_id' => $this->input->post('project_id'));
+        $person = $this->project->listjoinData($condition);
+
+        if($this->input->post('project_status') == 4 || $this->input->post('project_status') == 5){
+            foreach ($person as $key => $value){
+                $data = array(
+                    'std_id' => $value['std_id'],
+                    'std_status' => 1
+                );
+                $this->student->updateData($data);
+            }
+        } else {
+            foreach ($person as $key => $value){
+                $data = array(
+                    'std_id' => $value['std_id'],
+                    'std_status' => 0
+                );
+                $this->student->updateData($data);
+            }
+        }
+
+        if($this->input->post('type') == 'projectmeet'){
+            $url = site_url('project/projectmeet/'.$this->input->post('sub_id'));
+        } elseif ($this->input->post('type') == 'projectdetail') {
+            $url = site_url('project/detail/'.$this->input->post('project_id'));
+        }
+        $result = array(
+            'error' => false,
+            'msg' => 'แก้ไขข้อมูลสำเร็จ',
+            'url' => $url
+        );
+        echo json_encode($result);
+
     }
 }

@@ -33,6 +33,17 @@ if (isset($listProject) && count($listProject) != 0) {
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><i class="fa fa-book"></i> &nbsp;&nbsp;ข้อมูลปริญญานิพนธ์</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-gears"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#" class="upstatus" data-project_id="<?= $project_id ?>" data-project_name="<?= $project_name ?>" data-project_status="<?= $project_status ?>" data-toggle="modal" data-target="#Update"><i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp;แก้ไขสถานะ</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <ul class="list-group">
@@ -98,16 +109,37 @@ if (isset($listProject) && count($listProject) != 0) {
                 </div>
             </div>
             <!-- conference data -->
-            <? if ($project_status == 5) { ?>
+            <? if (isset($project_status) && $project_status == 5) { ?>
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><i class="fa fa-book"></i> &nbsp;&nbsp;Conference</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-gears"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#" data-toggle="modal" data-target="#ProjectfileStd_Add"><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;เพิ่มข้อมูล conference</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <ul class="list-group">
                             <li class="list-group-item">
                             </li>
                         </ul>
+                        <table class="table table-striped table-hover" width="100%">
+                            <thead>
+                                <th>ผู้จัดทำ</th>
+                                <th>ลำดับ</th>
+                            </thead>
+                            <tbody>
+                                <td width="80%"></td>
+                                <td width="20%"></td>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             <? } ?>
@@ -142,7 +174,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                         </div>
                                         <div class="col-sm-5" style="text-align: right;">
                                             <? if ($position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') { ?>
-                                                <a class="btn btn-white btn-trace" data-geturl="<?= site_url('uploads/fileproject/Project_' . $value['project_id'] . '/' . $value['file_name']); ?>"  data-title="ยืนยันการดาวน์โหลดไฟล์เอกสาร" data-url="<?= site_url('project/loadfile/' . $value['file_id'] . '/' . $useid); ?>">
+                                                <a class="btn btn-white btn-trace" data-geturl="<?= site_url('uploads/fileproject/Project_' . $value['project_id'] . '/' . $value['file_name']); ?>" data-title="ยืนยันการดาวน์โหลดไฟล์เอกสาร" data-url="<?= site_url('project/loadfile/' . $value['file_id'] . '/' . $useid); ?>">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             <? } ?>
@@ -169,6 +201,56 @@ if (isset($listProject) && count($listProject) != 0) {
                         <center>ไม่พบเอกสาร</center>
                     <? } ?>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model update -->
+<script>
+    $('.upstatus').click(function() {
+        var project_id = $(this).attr('data-project_id');
+        var project_name = $(this).attr('data-project_name');
+        var project_status = $(this).attr('data-project_status');
+        $("#project_id").val(project_id);
+        $("#project_name").val(project_name);
+        $("#project_status").val(project_status);
+    });
+</script>
+<div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลรายวิชา</h4>
+            </div>
+            <div class="modal-body">
+                <form action="<?= site_url('project/updateData'); ?>" method="post" enctype="multipart/form-data" name="formProject_Up" id="formProject_Up" class="form-horizontal" novalidate>
+                    <input type="hidden" name="type" id="type" value="projectdetail">
+                    <input type="hidden" name="project_id" id="project_id">
+                    <div class="form-group row">
+                        <label class="col-sm-12">ชื่อปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="text" name="project_name" id="project_name" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="form-group row">
+                        <label class="col-sm-12">สถานะปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <select class="form-control" name="project_status" id="project_status">
+                                <option value="">กรุณาเลือกข้อมูล</option>
+                                <?PHP foreach ($status as $key => $value) { ?>
+                                    <option value="<?= $value['project_status'] ?>"><?= $value['text'] ?></option>
+                                <?PHP } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

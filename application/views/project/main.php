@@ -18,7 +18,7 @@
 
                     </div>
                 </div>
-                < class="ibox-content">
+                <div class="ibox-content">
                     <!-- table ------------------------------------------------------------------------------------------------------->
                     <? if (count($listdata) != 0) { ?>
                         <table class="table table-striped table-hover dataTables-export" data-colexport="1,2,3,4,5" data-filename="export-project" width="100%">
@@ -119,8 +119,8 @@
                         <center>ไม่พบข้อมูล</center>
                     <? } ?>
                     <!-- */table ----------------------------------------------------------------------------------------------------->
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
