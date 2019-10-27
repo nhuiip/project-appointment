@@ -123,8 +123,30 @@ if (isset($listProject) && count($listProject) != 0) {
                             <ul class="dropdown-menu dropdown-user">
                                 <? if (isset($listCon) && count($listCon) == 0) { ?>
                                     <li>
-                                        <a href="#" class="ChooseType" data-toggle="modal" data-target="#ChooseType" data-project="<?=$project_id;?>">
-                                            <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;เพิ่มข้อมูล conference
+                                        <a href="#" class="ChooseType" data-toggle="modal" data-target="#ChooseType" data-project="<?= $project_id; ?>">
+                                            <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;เพิ่มข้อมูล Conference
+                                        </a>
+                                    </li>
+                                <? } ?>
+                                <? if (isset($listCon) && count($listCon) == 1) { ?>
+                                    <li>
+                                        <a href="#" class="UpType" data-toggle="modal" data-target="#UpdateType" data-project="<?= $project_id; ?>">
+                                            <i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;&nbsp;แก้ไขประเภท Conference
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="modal" data-target="#UpdateCon">
+                                            <i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp;อัพเดตข้อมูล Conference
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="modal" data-target="#AddPreson">
+                                            <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;เพิ่มผู้จัดทำ
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="btn-alert" data-title="ต้องการลบข้อมูล?" data-url="<?= site_url('conference/deleteData/' .$project_id); ?>">
+                                            <i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล Conference
                                         </a>
                                     </li>
                                 <? } ?>
@@ -136,6 +158,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                 foreach ($listCon as $key => $value) {
                                     $conf_id            = $value['conf_id'];
                                     $conftype_id        = $value['conftype_id'];
+                                    $conftype_name      = $value['conftype_name'];
                                     $conf_year          = $value['conf_year'];
                                     $conf_title         = $value['conf_title'];
                                     $conf_subtitle      = $value['conf_subtitle'];
@@ -151,36 +174,98 @@ if (isset($listProject) && count($listProject) != 0) {
                                 $conf_year_text         = 'ปีที่พิมพ์';
                                 $conf_weight_text       = 'ค่าน้ำหนัก';
                                 $conf_publisher_text    = 'สำนักพิมพ์';
-                            if($conftype_id == 1 || $conftype_id == 2){
-                                $conf_title_text        = 'ชื่อบทความ';
-                                $conf_subtitle_text     = 'ชื่อวารสาร';
-                                $conf_number_text       = 'ปีที่ (ฉบับที่)';
-                                $conf_datepresent_text  = 'เดือน ปี';
-                                $conf_nopage_text       = 'เลขหน้า';
-                                $conf_data_text         = 'ฐานข้อมูล';
-                            } elseif ($conftype_id == 3 || $conftype_id == 4) {
-                                $conf_title_text        = 'ชื่อเรื่อง';
-                                $conf_subtitle_text     = 'ชื่อการประชุม';
-                                $conf_datepresent_text  = 'วัน เดือน ปี ที่นำเสนอ';
-                                $conf_nopage_text       = 'เลขหน้า';
-                                $conf_place_text        = 'สถานที่จัด';
-                            } elseif ($conftype_id == 5) {
-                                $conf_title_text        = 'ชื่อหนังสือ';
-                                $conf_number_text       = 'ครั้งที่พิมพ์';
-                                $conf_nopage_text       = 'จำนานหน้า';
-                                $conf_place_text        = 'สถานที่พิมพ์';
-                                $conf_publisher_text    = 'สำนักพิมพ์';
-                            } elseif ($conftype_id == 6) {
-                                $conf_title_text        = 'ชื่อผลงาน';
-                                $conf_datepresent_text  = 'เดือน ปี';
-                                $conf_data_text         = 'แหล่งเผยแพร่ผลงาน';
-                                $conf_place_text         = 'สถานที่เผยแพร่ผลงาน';
-                            }
-                        ?>
+                                if ($conftype_id == 1 || $conftype_id == 2) {
+                                    $conf_title_text        = 'ชื่อบทความ';
+                                    $conf_subtitle_text     = 'ชื่อวารสาร';
+                                    $conf_number_text       = 'ปีที่ (ฉบับที่)';
+                                    $conf_datepresent_text  = 'เดือน ปี';
+                                    $conf_nopage_text       = 'เลขหน้า';
+                                    $conf_data_text         = 'ฐานข้อมูล';
+                                } elseif ($conftype_id == 3 || $conftype_id == 4) {
+                                    $conf_title_text        = 'ชื่อเรื่อง';
+                                    $conf_subtitle_text     = 'ชื่อการประชุม';
+                                    $conf_datepresent_text  = 'วัน เดือน ปี ที่นำเสนอ';
+                                    $conf_nopage_text       = 'เลขหน้า';
+                                    $conf_place_text        = 'สถานที่จัด';
+                                } elseif ($conftype_id == 5) {
+                                    $conf_title_text        = 'ชื่อหนังสือ';
+                                    $conf_number_text       = 'ครั้งที่พิมพ์';
+                                    $conf_nopage_text       = 'จำนานหน้า';
+                                    $conf_place_text        = 'สถานที่พิมพ์';
+                                    $conf_publisher_text    = 'สำนักพิมพ์';
+                                } elseif ($conftype_id == 6) {
+                                    $conf_title_text        = 'ชื่อผลงาน';
+                                    $conf_datepresent_text  = 'เดือน ปี';
+                                    $conf_data_text         = 'แหล่งเผยแพร่ผลงาน';
+                                    $conf_place_text         = 'สถานที่เผยแพร่ผลงาน';
+                                }
+                                ?>
+                            <p align="right"><span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;<?=$conftype_name;?>&nbsp;&nbsp;</span></p>
                             <ul class="list-group">
                                 <li class="list-group-item">
+
+                                    <h3 style="line-height: 25px;">
+                                        <? if (isset($listConPerson) && count($listConPerson) != 0) { ?>
+                                            <? foreach ($listConPerson as $key => $value) { ?>
+                                                <?= $value['confpos_name']; ?><? if ($key == (count($listConPerson) - 2)) { ?> และ<? } elseif ($key == (count($listConPerson) - 1)) { ?><? } else { ?>, <? } ?>
+                                        <? } ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2))) { ?>
+                                        <?= $conf_year; ?> <?= $conf_title; ?> <?= $conf_subtitle; ?> <?= $conf_number; ?>
+                                        <?= $conf_datepresent; ?> <?= $conf_nopage; ?> <?= $conf_weight; ?> <?= $conf_data; ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(3, 4))) { ?>
+
+                                        <?= $conf_year; ?> <?= $conf_title; ?> <?= $conf_subtitle; ?>
+                                        <?= $conf_datepresent; ?> <?= $conf_nopage; ?> <?= $conf_place; ?> <?= $conf_weight; ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && $conftype_id == 5) { ?>
+                                        <?= $conf_year; ?> <?= $conf_title; ?> <?= $conf_number; ?>
+                                        <?= $conf_place; ?> <?= $conf_publisher; ?> <?= $conf_nopage; ?> <?= $conf_weight; ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && $conftype_id == 6) { ?>
+                                        <?= $conf_datepresent; ?> <?= $conf_title; ?> <?= $conf_data; ?>
+                                        <?= $conf_place; ?> <?= $conf_weight; ?>
+                                    <? } ?>
+                                    </h3>
                                 </li>
                             </ul>
+                            <? if (isset($listConPerson) && count($listConPerson) != 0) { ?>
+                                <table class="table table-striped table-hover" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ชื่อผู้จัดทำ</th>
+                                            <th>
+                                                <center>ลำดับ</center>
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <? foreach ($listConPerson as $key => $value) { ?>
+                                            <tr>
+                                                <td width="70%"><?= $value['confpos_name']; ?></td>
+                                                <td width="10%">
+                                                    <center><?= $value['confpos_sort']; ?></center>
+                                                </td>
+                                                <td width="10%">
+                                                    <button class="btn btn-warning UpPreson" data-toggle="modal" data-target="#UpPreson" data-confpos_id="<?= $value['confpos_id']; ?>" data-confpos_name="<?= $value['confpos_name']; ?>" data-confpos_sort="<?= $value['confpos_sort']; ?>">
+                                                        <i class="fa fa-pencil-square-o"></i>
+                                                    </button>
+                                                </td>
+                                                <td width="10%">
+                                                    <button class="btn btn-danger btn-alert" data-title="ต้องการลบข้อมูล?" data-url="<?= site_url('conference/deletePerson/' .$project_id.'/'.$value['confpos_id']); ?>">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <? } ?>
+                                    </tbody>
+                                </table>
+                            <? } else { ?>
+                                <center>ไม่พบข้อมูลผู้จัดทำ</center>
+                            <? } ?>
                         <? } else { ?>
                             <center>ไม่พบข้อมูล Conference</center>
                         <? } ?>
@@ -250,7 +335,7 @@ if (isset($listProject) && count($listProject) != 0) {
         </div>
     </div>
 </div>
-<!-- model update -->
+<!-- model update project_status -->
 <script>
     $('.upstatus').click(function() {
         var project_id = $(this).attr('data-project_id');
@@ -300,6 +385,7 @@ if (isset($listProject) && count($listProject) != 0) {
         </div>
     </div>
 </div>
+<!-- model ChooseType -->
 <script>
     $('.ChooseType').click(function() {
         var project = $(this).attr('data-project');
@@ -319,12 +405,258 @@ if (isset($listProject) && count($listProject) != 0) {
                     <div class="form-group row">
                         <label class="col-sm-12">ประเภท Conference<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">
-                            <select class="form-control" name="project_status" id="project_status">
+                            <select class="form-control" name="conftype_id" id="conftype_id">
                                 <option value="">กรุณาเลือกประเภท Conference</option>
                                 <?PHP foreach ($listType as $key => $value) { ?>
                                     <option value="<?= $value['conftype_id'] ?>"><?= $value['conftype_name'] ?></option>
                                 <?PHP } ?>
                             </select>
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model Update TypeConference -->
+<div class="modal fade" id="UpdateType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขประเภท Conference</h4>
+            </div>
+            <div class="modal-body">
+                <form action="<?= site_url('conference/updateType'); ?>" method="post" enctype="multipart/form-data" name="formUpdateType" id="formUpdateType" class="form-horizontal" novalidate>
+                    <input type="hidden" name="conf_id" value="<? if (isset($conf_id)) {
+                                                                    echo $conf_id;
+                                                                } ?>">
+                    <input type="hidden" name="project_id" value="<? if (isset($project_id)) {
+                                                                        echo $project_id;
+                                                                    } ?>">
+                    <div class="form-group row">
+                        <label class="col-sm-12">ประเภท Conference<span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <select class="form-control" name="conftype_id" id="conftype_id">
+                                <option value="">กรุณาเลือกประเภท Conference</option>
+                                <?PHP foreach ($listType as $key => $value) { ?>
+                                    <option value="<?= $value['conftype_id'] ?>" <?PHP if (isset($conftype_id) && $conftype_id == $value['conftype_id']) {
+                                                                                            echo 'selected';
+                                                                                        } ?>><?= $value['conftype_name'] ?></option>
+                                <?PHP } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model Update Conference -->
+<div class="modal fade" id="UpdateCon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลปริญญานิพนธ์</h4>
+            </div>
+            <div class="modal-body">
+                <form action="<?= site_url('conference/updateData'); ?>" method="post" enctype="multipart/form-data" name="formUpdateCon" id="formUpdateCon" class="form-horizontal" novalidate>
+                    <input type="hidden" name="conf_id" id="conf_id" value="<? if (isset($conf_id)) {
+                                                                                echo $conf_id;
+                                                                            } ?>">
+                    <input type="hidden" name="project_id" id="project_id" value="<? if (isset($project_id)) {
+                                                                                        echo $project_id;
+                                                                                    } ?>">
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2, 3, 4, 5))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_year_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_year" id="conf_year" class="form-control" value="<? if (isset($conf_year)) {
+                                                                                                                        echo $conf_year;
+                                                                                                                    } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <div class="form-group row">
+                        <label class="col-sm-12"><?= $conf_title_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="text" name="conf_title" id="conf_title" class="form-control" value="<? if (isset($conf_title)) {
+                                                                                                                    echo $conf_title;
+                                                                                                                } ?>">
+                        </div>
+                    </div>
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2, 3, 4))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_subtitle_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_subtitle" id="conf_subtitle" class="form-control" value="<? if (isset($conf_subtitle)) {
+                                                                                                                                echo $conf_subtitle;
+                                                                                                                            } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2, 5))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_number_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_number" id="conf_number" class="form-control" value="<? if (isset($conf_number)) {
+                                                                                                                            echo $conf_number;
+                                                                                                                        } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2, 3, 4, 6))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_datepresent_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_datepresent" id="conf_datepresent" class="form-control" value="<? if (isset($conf_datepresent)) {
+                                                                                                                                        echo $conf_datepresent;
+                                                                                                                                    } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2, 3, 4, 5))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_nopage_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_nopage" id="conf_nopage" class="form-control" value="<? if (isset($conf_nopage)) {
+                                                                                                                            echo $conf_nopage;
+                                                                                                                        } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <div class="form-group row">
+                        <label class="col-sm-12"><?= $conf_weight_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="text" name="conf_weight" id="conf_weight" class="form-control" value="<? if (isset($conf_weight)) {
+                                                                                                                    echo $conf_weight;
+                                                                                                                } ?>">
+                        </div>
+                    </div>
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2, 6))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_data_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_data" id="conf_data" class="form-control" value="<? if (isset($conf_data)) {
+                                                                                                                        echo $conf_data;
+                                                                                                                    } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(3, 4, 5, 6))) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_place_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_place" id="conf_place" class="form-control" value="<? if (isset($conf_place)) {
+                                                                                                                            echo $conf_place;
+                                                                                                                        } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <? if (isset($conftype_id) && $conftype_id == 5) { ?>
+                        <div class="form-group row">
+                            <label class="col-sm-12"><?= $conf_publisher_text; ?><span class="text-muted" style="color:#c0392b">*</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" name="conf_publisher" id="conf_publisher" class="form-control" value="<? if (isset($conf_publisher)) {
+                                                                                                                                    echo $conf_publisher;
+                                                                                                                                } ?>">
+                            </div>
+                        </div>
+                    <? } ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model Add Preson Conference -->
+<div class="modal fade" id="AddPreson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">เพิ่มผู้จัดทำ</h4>
+            </div>
+            <div class="modal-body">
+                <form action="<?= site_url('conference/insertPerson'); ?>" method="post" enctype="multipart/form-data" name="formAddPreson" id="formAddPreson" class="form-horizontal" novalidate>
+                    <input type="hidden" name="conf_id" id="conf_id_2" value="<? if (isset($conf_id)) {
+                                                                                    echo $conf_id;
+                                                                                } ?>">
+                    <input type="hidden" name="project_id" value="<? if (isset($project_id)) {
+                                                                        echo $project_id;
+                                                                    } ?>">
+                    <div class="form-group row">
+                        <label class="col-sm-12">ชื่อ-นามสกุล <span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="text" name="confpos_name" id="confpos_name" class="form-control">
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="form-group row">
+                        <label class="col-sm-12">ลำดับการแสดงผล <span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="number" name="confpos_sort" id="confpos_sort" class="form-control">
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model Update Preson Conference -->
+<script>
+    $('.UpPreson').click(function() {
+        var confpos_id = $(this).attr('data-confpos_id');
+        var confpos_name = $(this).attr('data-confpos_name');
+        var confpos_sort = $(this).attr('data-confpos_sort');
+        $(".confpos_id").val(confpos_id);
+        $(".confpos_name").val(confpos_name);
+        $(".confpos_sort").val(confpos_sort);
+    });
+</script>
+<div class="modal fade" id="UpPreson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">เพิ่มผู้จัดทำ</h4>
+            </div>
+            <div class="modal-body">
+                <form action="<?= site_url('conference/updatePerson'); ?>" method="post" enctype="multipart/form-data" name="formUpPreson" id="formUpPreson" class="form-horizontal" novalidate>
+                    <input type="hidden" name="confpos_id" id="confpos_id" class="confpos_id">
+                    <input type="hidden" name="project_id" value="<? if (isset($project_id)) {
+                                                                        echo $project_id;
+                                                                    } ?>">
+                    <div class="form-group row">
+                        <label class="col-sm-12">ชื่อ-นามสกุล <span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="text" name="confpos_name" id="confpos_name" class="form-control confpos_name">
+                        </div>
+                    </div>
+                    <!--*/form-group-->
+                    <div class="form-group row">
+                        <label class="col-sm-12">ลำดับการแสดงผล <span class="text-muted" style="color:#c0392b">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="number" name="confpos_sort" id="confpos_sort" class="form-control confpos_sort">
                         </div>
                     </div>
                     <!--*/form-group-->

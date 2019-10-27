@@ -180,7 +180,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 													<button type="button" class="btn btn-sm btn-white"><i class="fa fa-download"></i></button>
 												</td>
 												<td style="width:10%">
-													<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_name'] . '/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>
+													<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>
 												</td>
 											</tr>
 										<? $numrows++;

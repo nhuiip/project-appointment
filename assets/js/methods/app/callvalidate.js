@@ -548,6 +548,106 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formChooseType").length) {
+      $("#formChooseType").validate({
+        rules: {
+          conftype_id: {
+            required: true
+          },
+        },
+        messages: {
+          conftype_id: {
+            required: "กรุณาเลือกประเภท Conference."
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formUpdateType").length) {
+      $("#formUpdateType").validate({
+        rules: {
+          conftype_id: {
+            required: true
+          },
+        },
+        messages: {
+          conftype_id: {
+            required: "กรุณาเลือกประเภท Conference."
+          },
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formUpdateCon").length) {
+      $("#formUpdateCon").validate({
+        rules: {
+          conf_year: { required: true },
+          conf_title: { required: true },
+          conf_subtitle: { required: true },
+          conf_number: { required: true },
+          conf_datepresent: { required: true },
+          conf_nopage: { required: true },
+          conf_weight: { required: true },
+          conf_data: { required: true },
+          conf_place: { required: true },
+          conf_publisher: { required: true },
+        },
+        messages: {
+          conf_year: { required: "กรุณากรอกข้อมูล."},
+          conf_title: { required: "กรุณากรอกข้อมูล."},
+          conf_subtitle: { required: "กรุณากรอกข้อมูล."},
+          conf_number: { required: "กรุณากรอกข้อมูล."},
+          conf_datepresent: { required: "กรุณากรอกข้อมูล."},
+          conf_nopage: { required: "กรุณากรอกข้อมูล."},
+          conf_weight: { required: "กรุณากรอกข้อมูล."},
+          conf_data: { required: "กรุณากรอกข้อมูล."},
+          conf_place: { required: "กรุณากรอกข้อมูล."},
+          conf_publisher: { required: "กรุณากรอกข้อมูล."},
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formAddPreson").length) {
+      $("#formAddPreson").validate({
+        rules: {
+          confpos_name: {required: true},
+          confpos_sort: {required: true},
+        },
+        messages: {
+          confpos_name: {required: "กรุณากรอกข้อมูล."},
+          confpos_sort: {required: "กรุณากรอกข้อมูล."},
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#formUpPreson").length) {
+      $("#formUpPreson").validate({
+        rules: {
+          confpos_name: {required: true},
+          confpos_sort: {required: true},
+        },
+        messages: {
+          confpos_name: {required: "กรุณากรอกข้อมูล."},
+          confpos_sort: {required: "กรุณากรอกข้อมูล."},
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
 
     //################################################################## yui
     if ($("#formStudentProfile").length) {

@@ -243,7 +243,6 @@ class Setting extends CI_Controller
     public function updatesetting($set_id = "")
     {
         
-
         if($set_id == ""){
             show_404();
         }else{

@@ -60,6 +60,14 @@ class Project extends MX_Controller
                     $condition['where'] = array('tb_conference.project_id' => $id);
                     $data['listCon'] = $this->conference->listjoinData($condition);
 
+                    if (count($data['listCon']) != 0) {
+                        $condition = array();
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('conf_id' => $data['listCon'][0]['conf_id']);
+                        $condition['orderby'] = "confpos_sort ASC";
+                        $data['listConPerson'] = $this->conference->listPresonData($condition);
+                    }
+
                     $condition = array();
                     $condition['fide'] = "*";
                     $data['listType'] = $this->conference->listtypeData($condition);
@@ -175,8 +183,8 @@ class Project extends MX_Controller
         $condition['where'] = array('tb_projectperson.project_id' => $this->input->post('project_id'));
         $person = $this->project->listjoinData($condition);
 
-        if($this->input->post('project_status') == 4 || $this->input->post('project_status') == 5){
-            foreach ($person as $key => $value){
+        if ($this->input->post('project_status') == 4 || $this->input->post('project_status') == 5) {
+            foreach ($person as $key => $value) {
                 $data = array(
                     'std_id' => $value['std_id'],
                     'std_status' => 1
@@ -184,7 +192,7 @@ class Project extends MX_Controller
                 $this->student->updateData($data);
             }
         } else {
-            foreach ($person as $key => $value){
+            foreach ($person as $key => $value) {
                 $data = array(
                     'std_id' => $value['std_id'],
                     'std_status' => 0
@@ -193,10 +201,10 @@ class Project extends MX_Controller
             }
         }
 
-        if($this->input->post('type') == 'projectmeet'){
-            $url = site_url('project/projectmeet/'.$this->input->post('sub_id'));
+        if ($this->input->post('type') == 'projectmeet') {
+            $url = site_url('project/projectmeet/' . $this->input->post('sub_id'));
         } elseif ($this->input->post('type') == 'projectdetail') {
-            $url = site_url('project/detail/'.$this->input->post('project_id'));
+            $url = site_url('project/detail/' . $this->input->post('project_id'));
         }
         $result = array(
             'error' => false,
@@ -204,6 +212,5 @@ class Project extends MX_Controller
             'url' => $url
         );
         echo json_encode($result);
-
     }
 }

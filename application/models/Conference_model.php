@@ -30,6 +30,15 @@ class Conference_model extends CI_Model {
 		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
 		$query = $this->db->get('tb_conferencetype');
 		return $query->result_array();
+    }
+
+    public function listPresonData($data = array()){
+		$this->db->select($data['fide']);
+		if(!empty($data['where'])){$this->db->where($data['where']);}
+		if(!empty($data['orderby'])){$this->db->order_by($data['orderby']);}
+		if(!empty($data['limit'])){$this->db->limit($data['limit'][0],$data['limit'][1]);}
+		$query = $this->db->get('tb_conferenceperson');
+		return $query->result_array();
 	}
 
     // Insert data
@@ -44,6 +53,7 @@ class Conference_model extends CI_Model {
 	}
 	public function deleteData($data = array()){
 		$this->db->delete('tb_conference', array('conf_id' => $data['conf_id']));
+		$this->db->delete('tb_conferenceperson', array('conf_id' => $data['conf_id']));
     }
     
     // Insert Preson

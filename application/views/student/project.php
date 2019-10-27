@@ -1,3 +1,14 @@
+<?php
+function DateThai($strDate)
+{
+    $strYear = date("Y", strtotime($strDate)) + 543;
+    $strMonth = date("n", strtotime($strDate));
+    $strDay = date("j", strtotime($strDate));
+    $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+    $strMonthThai = $strMonthCut[$strMonth];
+    return "$strDay $strMonthThai $strYear";
+}
+?>
 <?
 //ค้นหาโปรเจคที่นักศึกษาสร้างไว้
 if (isset($searchProject) && count($searchProject) != 0) {
@@ -159,10 +170,54 @@ if (isset($searchProject) && count($searchProject) != 0) {
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                            </li>
-                        </ul>
+                        <? if (isset($listCon) && count($listCon) != 0) {
+                                foreach ($listCon as $key => $value) {
+                                    $conf_id            = $value['conf_id'];
+                                    $conftype_id        = $value['conftype_id'];
+                                    $conftype_name      = $value['conftype_name'];
+                                    $conf_year          = $value['conf_year'];
+                                    $conf_title         = $value['conf_title'];
+                                    $conf_subtitle      = $value['conf_subtitle'];
+                                    $conf_number        = $value['conf_number'];
+                                    $conf_datepresent   = $value['conf_datepresent'];
+                                    $conf_nopage        = $value['conf_nopage'];
+                                    $conf_weight        = $value['conf_weight'];
+                                    $conf_data          = $value['conf_data'];
+                                    $conf_place         = $value['conf_place'];
+                                    $conf_publisher     = $value['conf_publisher'];
+                                } ?>
+                            <p align="right"><span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;<?= $conftype_name; ?>&nbsp;&nbsp;</span></p>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h3 style="line-height: 25px;">
+                                        <? if (isset($listConPerson) && count($listConPerson) != 0) { ?>
+                                            <? foreach ($listConPerson as $key => $value) { ?>
+                                                <?= $value['confpos_name']; ?><? if ($key == (count($listConPerson) - 2)) { ?> และ<? } elseif ($key == (count($listConPerson) - 1)) { ?><? } else { ?>, <? } ?>
+                                        <? } ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(1, 2))) { ?>
+                                        <?= $conf_year; ?> <?= $conf_title; ?> <?= $conf_subtitle; ?> <?= $conf_number; ?>
+                                        <?= $conf_datepresent; ?> <?= $conf_nopage; ?> <?= $conf_weight; ?> <?= $conf_data; ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && in_array($conftype_id, $arr = array(3, 4))) { ?>
+
+                                        <?= $conf_year; ?> <?= $conf_title; ?> <?= $conf_subtitle; ?>
+                                        <?= $conf_datepresent; ?> <?= $conf_nopage; ?> <?= $conf_place; ?> <?= $conf_weight; ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && $conftype_id == 5) { ?>
+                                        <?= $conf_year; ?> <?= $conf_title; ?> <?= $conf_number; ?>
+                                        <?= $conf_place; ?> <?= $conf_publisher; ?> <?= $conf_nopage; ?> <?= $conf_weight; ?>
+                                    <? } ?>
+                                    <? if (isset($conftype_id) && $conftype_id == 6) { ?>
+                                        <?= $conf_datepresent; ?> <?= $conf_title; ?> <?= $conf_data; ?>
+                                        <?= $conf_place; ?> <?= $conf_weight; ?>
+                                    <? } ?>
+                                    </h3>
+                                </li>
+                            </ul>
+                        <? } else { ?>
+                            <center>ไม่พบข้อมูล Conference</center>
+                        <? } ?>
                     </div>
                 </div>
             <? } ?>
@@ -372,52 +427,49 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             <center>ไม่พบประวัติการขึ้นสอบ</center>
                         <? } else { ?>
                             <ul class="list-group">
+                                <!-- <?
+                                                echo '<pre>';
+                                                print_r($listmeethis);
+                                                echo '</pre>';
+                                                ?> -->
                                 <? foreach ($listmeethis as $key => $value) { ?>
                                     <?
                                                 $this->db->select("*");
                                                 $this->db->from('tb_meetdetail');
                                                 $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
                                                 $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
-                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status=' => 0));
+                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id'], 'tb_meetdetail.dmeet_status=' => 1));
                                                 $this->db->order_by("dmeet_head", "DESC");
                                                 $query = $this->db->get();
                                                 $listt = $query->result_array();
                                                 ?>
-                                    <?
-                                                switch ($project_status) {
-                                                    case 1:
-                                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
-                                                        break;
-                                                    case 2:
-                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ &nbsp;&nbsp;</span>';
-                                                        break;
-                                                }
-                                                ?>
-                                        <li class="list-group-item" style="text-align: right;">
-                                            <?= $status_text ?>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <p>
-                                                        <? foreach ($listt as $key => $v) { ?>
-                                                            <? if ($v['use_id'] == $value['use_id']) { ?>
-                                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                                <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
-                                                            <? } else { ?>
-                                                                <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
-                                                            <? } ?>
-                                                        <? } ?>
-                                                    </p>
-                                                </div>
+                                    <li class="list-group-item" style="text-align: right;">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
                                             </div>
-                                        </li>
-                                    <? } ?>
+                                            <div class="col-sm-12">
+                                                <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p><strong>วันที่ : </strong> <?= DateThai($value['meet_date']); ?> เวลา: <?= $value['meet_time']; ?> น.</p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p>
+                                                    <? foreach ($listt as $key => $v) { ?>
+                                                        <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                            <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                            <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                        <? } else { ?>
+                                                            <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                        <? } ?>
+                                                    <? } ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <? } ?>
                             </ul>
                         <? } ?>
                     </div>
@@ -492,7 +544,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             <select name="proformat_name" id="proformat_name" class="form-control">
                                 <option value="">กรุณาเลือกชื่อไฟล์</option>
                                 <?PHP foreach ($listformat as $key => $value) { ?>
-                                    <option value="<?= $value['proformat_name']; ?>"><?= $value['proformat_name']; ?> [ <?=$value['proformat_detail'];?> ]</option>
+                                    <option value="<?= $value['proformat_name']; ?>"><?= $value['proformat_name']; ?> [ <?= $value['proformat_detail']; ?> ]</option>
                                 <? } ?>
                             </select>
                         </div>

@@ -13,6 +13,8 @@ class Student extends MX_Controller
         $this->load->model("meet_model", "meet");
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("conference_model", "conference");
+
     }
 
     // อาจารย์ && ผู้ดูแล
@@ -686,7 +688,7 @@ class Student extends MX_Controller
         // echo 'stdproject';
         // die;
         //ไม่ login ให้ show 404
-        if(empty($id)){
+        if (empty($id)) {
             show_404();
         }
         if (empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
@@ -733,9 +735,25 @@ class Student extends MX_Controller
                     $data['listmeetnow'] = $this->meet->listjoinData($condition);
 
                     $condition = array();
-                    $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id";
+                    // $condition['fide'] = "*";
+                    $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id, meet_time, meet_date";
                     $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 0);
                     $data['listmeethis'] = $this->meet->listjoinData($condition);
+
+                    if ($data['searchProject'][0]['project_status'] == 5) {
+                        $condition = array();
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('tb_conference.project_id' => $id);
+                        $data['listCon'] = $this->conference->listjoinData($condition);
+
+                        if (count($data['listCon']) != 0) {
+                            $condition = array();
+                            $condition['fide'] = "*";
+                            $condition['where'] = array('conf_id' => $data['listCon'][0]['conf_id']);
+                            $condition['orderby'] = "confpos_sort ASC";
+                            $data['listConPerson'] = $this->conference->listPresonData($condition);
+                        }
+                    }
                 }
 
                 $condition = array();
