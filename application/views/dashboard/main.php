@@ -16,7 +16,7 @@ function DateThai($strDate)
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
-        <h2>หน้าแรก</h2>
+        <h2>หน้าแรก</h2>  
         <ol class="breadcrumb">
             <li class="active"><strong>หน้าแรก</strong></li>
         </ol>
