@@ -167,7 +167,7 @@ class Amcalendar extends MX_Controller
 
                     $data = array(
                         'sec_id'         => $selectsection[0]['sec_id'],
-                        'sec_status'     => 0,
+                        'sec_status'     => 2,
                     );
                     $this->section->updateData($data);
 
@@ -175,7 +175,7 @@ class Amcalendar extends MX_Controller
 
                     $data = array(
                         'sec_id'         => $selectsection[0]['sec_id'],
-                        'sec_status'     => 0,
+                        'sec_status'     => 2,
                     );
                     $this->section->updateData($data);
 
@@ -183,7 +183,7 @@ class Amcalendar extends MX_Controller
 
             }
 
-            //อัพเดตสถานะนัดเป็น 0
+            //อัพเดตสถานะนัดเป็น 1
             $data = array(
                 'meet_id'         => $selectmeetuser[0]['meet_id'],
                 'meet_status'    => 1,
