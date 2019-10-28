@@ -658,9 +658,9 @@ class Calendar extends MX_Controller
 
             //         $mail->Host = "27.254.131.201";
             //         $mail->Port = 25;
-            //         $mail->Username = "admin@preedarat-cv.com";
-            //         $mail->Password = "M!1p1H79";
-            //         $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+            //         $mail->Username = "system@preedarat-cv.com";
+            //         $mail->Password = "r4c!H3w0";
+            //         $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
 
             //         // $mail->AddAddress($value['use_email']);
 
@@ -716,9 +716,9 @@ class Calendar extends MX_Controller
 
                     $mail->Host = "27.254.131.201";
                     $mail->Port = 25;
-                    $mail->Username = "admin@preedarat-cv.com";
-                    $mail->Password = "M!1p1H79";
-                    $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+                    $mail->Username = "system@preedarat-cv.com";
+                    $mail->Password = "r4c!H3w0";
+                    $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
 
                     // $mail->AddAddress($value['std_email']);
                     $mail->AddAddress('yui.napassorn.s@gmail.com');
