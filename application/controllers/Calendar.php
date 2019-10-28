@@ -721,8 +721,8 @@ class Calendar extends MX_Controller
                     $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
                     // $mail->AddAddress($value['std_email']);
-                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
-                    $mail->AddAddress('preedarat.jut@gmail.com');
+                    $mail->AddAddress('yui.napassorn.s@gmail.com');
+                    // $mail->AddAddress('preedarat.jut@gmail.com');
                     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                     $message = $this->messagestd_verify($data, $value['std_id'], $std_fullname);
                     $mail->MsgHTML($message);
