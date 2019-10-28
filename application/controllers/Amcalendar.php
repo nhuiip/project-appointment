@@ -236,8 +236,8 @@ class Amcalendar extends MX_Controller
         $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
         // $mail->AddAddress($selectuser[0]['use_email']);
-        $mail->AddAddress('yui.napassorn.s@gmail.com');
-        // $mail->AddAddress('preedarat.jut@gmail.com');
+        // $mail->AddAddress('yui.napassorn.s@gmail.com');
+        $mail->AddAddress('preedarat.jut@gmail.com');
         $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
         $message = $this->messageteacsubmit_verify($data,$selectuser[0]['use_name']);
 
@@ -284,8 +284,8 @@ class Amcalendar extends MX_Controller
             $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
 
             // $mail->AddAddress($value['std_email']);
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
-            // $mail->AddAddress('preedarat.jut@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
+            $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messageteacsubmit_verify($datastd, $std_fullname);
 
