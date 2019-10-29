@@ -167,7 +167,7 @@ class Amcalendar extends MX_Controller
 
                     $data = array(
                         'sec_id'         => $selectsection[0]['sec_id'],
-                        'sec_status'     => 0,
+                        'sec_status'     => 2,
                     );
                     $this->section->updateData($data);
 
@@ -175,7 +175,7 @@ class Amcalendar extends MX_Controller
 
                     $data = array(
                         'sec_id'         => $selectsection[0]['sec_id'],
-                        'sec_status'     => 0,
+                        'sec_status'     => 2,
                     );
                     $this->section->updateData($data);
 
@@ -183,7 +183,7 @@ class Amcalendar extends MX_Controller
 
             }
 
-            //อัพเดตสถานะนัดเป็น 0
+            //อัพเดตสถานะนัดเป็น 1
             $data = array(
                 'meet_id'         => $selectmeetuser[0]['meet_id'],
                 'meet_status'    => 1,
@@ -231,9 +231,9 @@ class Amcalendar extends MX_Controller
 
         $mail->Host = "27.254.131.201";
         $mail->Port = 25;
-        $mail->Username = "admin@preedarat-cv.com";
-        $mail->Password = "M!1p1H79";
-        $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+        $mail->Username = "system@preedarat-cv.com";
+        $mail->Password = "r4c!H3w0";
+        $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
 
         // $mail->AddAddress($selectuser[0]['use_email']);
         // $mail->AddAddress('yui.napassorn.s@gmail.com');
@@ -279,13 +279,13 @@ class Amcalendar extends MX_Controller
 
             $mail->Host = "27.254.131.201";
             $mail->Port = 25;
-            $mail->Username = "admin@preedarat-cv.com";
-            $mail->Password = "M!1p1H79";
-            $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+            $mail->Username = "system@preedarat-cv.com";
+            $mail->Password = "r4c!H3w0";
+            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
 
-            // $mail->AddAddress($value['std_email']);
+            $mail->AddAddress($value['std_email']);
             // $mail->AddAddress('yui.napassorn.s@gmail.com');
-            $mail->AddAddress('preedarat.jut@gmail.com');
+            // $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messageteacsubmit_verify($datastd, $std_fullname);
 
@@ -470,13 +470,13 @@ class Amcalendar extends MX_Controller
 
         $mail->Host = "27.254.131.201";
         $mail->Port = 25;
-        $mail->Username = "admin@preedarat-cv.com";
-        $mail->Password = "M!1p1H79";
-        $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+        $mail->Username = "system@preedarat-cv.com";
+        $mail->Password = "r4c!H3w0";
+        $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
 
-        // $mail->AddAddress($selectuser[0]['use_email']);
+        $mail->AddAddress($selectuser[0]['use_email']);
         // $mail->AddAddress('yui.napassorn.s@gmail.com');
-        $mail->AddAddress('preedarat.jut@gmail.com');
+        // $mail->AddAddress('preedarat.jut@gmail.com');
         $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
         $message = $this->messagetea_verify($data, $use_id, $selectuser[0]['use_name']);
 
@@ -521,9 +521,9 @@ class Amcalendar extends MX_Controller
 
             $mail->Host = "27.254.131.201";
             $mail->Port = 25;
-            $mail->Username = "admin@preedarat-cv.com";
-            $mail->Password = "M!1p1H79";
-            $mail->setFrom('admin@preedarat-cv.com', 'Appoint-IT');
+            $mail->Username = "system@preedarat-cv.com";
+            $mail->Password = "r4c!H3w0";
+            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
 
             // $mail->AddAddress($value['std_email']);
             // $mail->AddAddress('yui.napassorn.s@gmail.com');
