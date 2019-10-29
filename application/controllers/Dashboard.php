@@ -68,10 +68,12 @@ class Dashboard extends CI_Controller
 		$total = count($one) + count($group);
 		$countone = (count($one) / $total) * 100;
 		$countgroup = (count($group) / $total) * 100;
+		$onetext = 'เดี่ยว ( '.$countone.'% )';
+		$grouptext = 'กลุ่ม ( '.$countgroup.'% )';
 
 		$data = array();
-		$data[0] = array('label' => "กลุ่ม", 'data' => $countgroup, 'color' => '#27ae60');
-		$data[1] = array('label' => "เดี่ยว", 'data' => $countone, 'color' => '#16a085');
+		$data[0] = array('label' => $grouptext, 'data' => $countgroup, 'color' => '#27ae60');
+		$data[1] = array('label' => $onetext, 'data' => $countone, 'color' => '#16a085');
 
 		echo json_encode($data);
 	}
@@ -117,34 +119,5 @@ class Dashboard extends CI_Controller
 		$data[5] = array(6, count($five));
 
 		echo json_encode($data);
-	}
-	public function countmeet()
-	{
-
-		$data = array();
-		$condition = array();
-		$condition['fide'] = "use_id, use_name";
-		$condition['where_in']['filde'] = 'position_id';
-		$condition['where_in']['value'] = ['2', '3'];
-		$condition['orderby'] = "position_id ASC, use_id ASC ";
-		$listuser = $this->administrator->listData($condition);
-
-		$user = array();
-		$count = array();
-		foreach ($listuser as $key => $value) {
-			$condition = array();
-			$condition['fide'] = "tb_meet.meet_id";
-			$condition['where'] = array(
-				'tb_meet.meet_status' => 1,
-				'tb_meetdetail.dmeet_status' => 1,
-				'tb_meetdetail.use_id' => $value['use_id'],
-			);
-			$listmeet = $this->meet->listjoinData2($condition);
-
-			array_push($user, $value['use_name']);
-			array_push($count, count($listmeet));
-		}
-		echo json_encode($count);
-		// echo json_encode(array('result1'=>$user,'result2'=>$count));
 	}
 }
