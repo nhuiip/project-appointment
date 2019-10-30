@@ -17,6 +17,10 @@
   <link href="<?= base_url('assets/css/now-ui-dashboard.min.css'); ?>" rel="stylesheet" />
   <link href="<?= base_url('assets/css/theme.css'); ?>" rel="stylesheet" />
   <style>
+    .form-control {
+      border-radius: 0 !important;
+    }
+
     label.error {
       display: none !important;
     }
@@ -216,19 +220,9 @@
                   </div>
                   <div class="card-body ">
                     <div class="input-group no-border form-control-lg">
-                      <span class="input-group-prepend">
-                        <div class="input-group-text">
-                          <i class="now-ui-icons ui-1_email-85"></i>
-                        </div>
-                      </span>
                       <input id="username" type="email" placeholder="อีเมล" class="form-control " name="username" value="" required autocomplete="email" autofocus>
                     </div>
                     <div class="input-group no-border form-control-lg">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <i class="now-ui-icons now-ui-icons ui-1_lock-circle-open"></i>
-                        </div>
-                      </div>
                       <input id="password" placeholder="รหัสผ่าน" type="password" class="form-control" name="password" required autocomplete="current-password">
                     </div>
                     <!-- alert -->
@@ -273,7 +267,6 @@
           <div class="modal-body">
             <input type="text" class="form-control" id="s_email" name="s_email" placeholder="กรุณากรอกอีเมลที่ใช้ลงทะเบียน" data-url="<?= site_url('student/getemail'); ?>">
             <p style="margin-top:5px 0 0;font-size:10px;text-align:center;color:red" id="textresult"></p>
-            <!-- <br> -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>

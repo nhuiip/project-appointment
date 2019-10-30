@@ -14,7 +14,6 @@ class Student extends MX_Controller
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
         $this->load->model("conference_model", "conference");
-
     }
 
     // อาจารย์ && ผู้ดูแล
@@ -968,36 +967,85 @@ class Student extends MX_Controller
 
     public function testmail()
     {
+        // echo 'testmail';
+        // die;
+        $listemail = array(
+            'preedarat.jut@gmail.com',
+            'preedarat.id@hotmail.com',
+            'preedarat@thevista.co.th',
+            'yui.napassorn.s@gmail.com',
+            'napassorn@thevista.co.th'
+        );
         require_once APPPATH . 'third_party/class.phpmailer.php';
         require_once APPPATH . 'third_party/class.smtp.php';
         $mail = new PHPMailer;
-        $mail->SMTPOptions = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            )
-        );
+
+        // ## setting SMTP mail.preedarat-cv.com
         $mail->CharSet = "utf-8";
         $mail->IsSMTP();
         $mail->SMTPDebug = 0;
         $mail->SMTPAuth = true;
-
         $mail->Host = "mail.preedarat-cv.com";
         $mail->Port = 25;
-        $mail->Username = "system@preedarat-cv.com";
-        $mail->Password = "r4c!H3w0";
-        $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
+        $mail->Username = "support@preedarat-cv.com";
+        $mail->Password = "F!o8qebi";
+        $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
 
-        $mail->AddAddress('preedarat.jut@gmail.com');
-        $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-        $mail->MsgHTML('test');
+        // ## setting SMTP GMAIL
+        // $mail->IsSMTP();
+        // $mail->Mailer = "smtp";
+        // $mail->IsSMTP();
+        // $mail->SMTPAuth = true;
+        // $mail->SMTPSecure = "tls";
+        // $mail->Host = "smtp.gmail.com";
+        // $mail->Port = 587;
+        // $mail->Username = "preedarat.jut@gmail.com";
+        // $mail->Password = "mllsdqzbrrktihme";
+        // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
 
-        if (!$mail->send()) {
-            echo $mail->ErrorInfo;
-        } else {
-            echo 'send';
+        foreach ($listemail as $key => $value) {
+            $mail->AddAddress($value);
         }
+        $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+        $mail->MsgHTML('test muti mail');
+
+        if (!$mail->Send()) {
+            echo 'Message was not sent.';
+            echo 'ยังไม่สามารถส่งเมลล์ได้ในขณะนี้ ' . $mail->ErrorInfo;
+            exit;
+        } else {
+            echo 'ส่งเมลล์สำเร็จ';
+        }
+        // $mail->SMTPOptions = array(
+        //     'ssl' => array(
+        //         'verify_peer' => false,
+        //         'verify_peer_name' => false,
+        //         'allow_self_signed' => true
+        //     )
+        // );
+        // $mail->CharSet = "utf-8";
+        // $mail->IsSMTP();
+        // $mail->SMTPDebug = 0;
+        // $mail->SMTPAuth = true;
+
+        // $mail->Host = "mail.preedarat-cv.com";
+        // $mail->Port = 25;
+        // $mail->Username = "support@preedarat-cv.com";
+        // $mail->Password = "F!o8qebi";
+        // $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
+
+        // $mail->AddAddress('preedarat.jut@gmail.com');
+        // $mail->AddAddress('preedarat@thevista.co.th');
+        // $mail->AddAddress('yui.napassorn.s@gmail.com');
+        // $mail->AddAddress('napassorn@thevista.co.th');
+        // $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+        // $mail->MsgHTML('test muti mail');
+
+        // if (!$mail->send()) {
+        //     echo $mail->ErrorInfo;
+        // } else {
+        //     echo 'send';
+        // }
     }
 
     public function showdetailproject($project_id = '')
