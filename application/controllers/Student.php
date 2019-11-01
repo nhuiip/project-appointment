@@ -60,6 +60,14 @@ class Student extends MX_Controller
 
     public function create()
     {
+        if ($this->input->post('std_title') == '') {
+            $result = array(
+                'error' => true,
+                'msg' => 'กรุณาเลือกคำนำหน้า',
+            );
+            echo json_encode($result);
+            die;
+        }
         if ($this->input->post('std_title') == 'อื่นๆ' && $this->input->post('std_title_input') == '') {
             $result = array(
                 'error' => true,
@@ -68,6 +76,7 @@ class Student extends MX_Controller
             echo json_encode($result);
             die;
         }
+
         if ($this->tokens->verify('formcrf')) {
             if ($this->input->post('std_img') != '') {
                 $data = array(
@@ -139,7 +148,7 @@ class Student extends MX_Controller
     {
         if (!empty($id)) {
             $condition = array();
-            $condition['fide'] = "*";
+            $condition['fide'] = "std_id, std_title, std_fname, std_lname, std_email";
             $condition['where'] = array('std_id' => $id);
             $listdata = $this->student->listData($condition);
         } else {
@@ -158,22 +167,30 @@ class Student extends MX_Controller
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+
+            // ## setting SMTP mail.preedarat-cv.com
             $mail->CharSet = "utf-8";
             $mail->IsSMTP();
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
-            $mail->Host = "27.254.131.201";
+            $mail->Host = "mail.preedarat-cv.com";
             $mail->Port = 25;
-            $mail->Username = "system@preedarat-cv.com";
-            $mail->Password = "r4c!H3w0";
-            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
+            $mail->Username = "support@preedarat-cv.com";
+            $mail->Password = "F!o8qebi";
+            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+
+            // ## setting SMTP GMAIL
+            // $mail->IsSMTP();
+            // $mail->Mailer = "smtp";
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = "tls";
+            // $mail->Host = "smtp.gmail.com";
+            // $mail->Port = 587;
+            // $mail->Username = "preedarat.jut@gmail.com";
+            // $mail->Password = "mllsdqzbrrktihme";
+            // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_verify($data);
@@ -254,33 +271,38 @@ class Student extends MX_Controller
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+
+            // ## setting SMTP mail.preedarat-cv.com
             $mail->CharSet = "utf-8";
             $mail->IsSMTP();
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
-            $mail->Host = "27.254.131.201";
+            $mail->Host = "mail.preedarat-cv.com";
             $mail->Port = 25;
-            $mail->Username = "system@preedarat-cv.com";
-            $mail->Password = "r4c!H3w0";
-            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
+            $mail->Username = "support@preedarat-cv.com";
+            $mail->Password = "F!o8qebi";
+            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+
+            // ## setting SMTP GMAIL
+            // $mail->IsSMTP();
+            // $mail->Mailer = "smtp";
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = "tls";
+            // $mail->Host = "smtp.gmail.com";
+            // $mail->Port = 587;
+            // $mail->Username = "preedarat.jut@gmail.com";
+            // $mail->Password = "mllsdqzbrrktihme";
+            // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+
             $mail->AddAddress($datamail['email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_repass($datamail);
             $mail->MsgHTML($message);
-            // $mail->send();
-            if (!$mail->send()) {
-                echo $mail->ErrorInfo;
-            } else {
-                echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
-                die;
-            }
+            $mail->send();
+
+            echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
+            die;
         } else {
             show_404();
         }
@@ -615,43 +637,43 @@ class Student extends MX_Controller
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+
+            // ## setting SMTP mail.preedarat-cv.com
             $mail->CharSet = "utf-8";
             $mail->IsSMTP();
             $mail->SMTPDebug = 0;
             $mail->SMTPAuth = true;
-            $mail->Host = "smtp.hostinger.in.th";
+            $mail->Host = "mail.preedarat-cv.com";
             $mail->Port = 25;
-            $mail->Username = "system@preedarat-cv.com";
-            $mail->Password = "r4c!H3w0";
-            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
+            $mail->Username = "support@preedarat-cv.com";
+            $mail->Password = "F!o8qebi";
+            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+
+            // ## setting SMTP GMAIL
+            // $mail->IsSMTP();
+            // $mail->Mailer = "smtp";
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = "tls";
+            // $mail->Host = "smtp.gmail.com";
+            // $mail->Port = 587;
+            // $mail->Username = "preedarat.jut@gmail.com";
+            // $mail->Password = "mllsdqzbrrktihme";
+            // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->message_verify($data);
             $mail->MsgHTML($message);
-            // $mail->send();
-            if (!$mail->send()) {
-                $result = array(
-                    'error' => true,
-                    'msg' => $mail->ErrorInfo,
-                );
-                echo json_encode($result);
-                die;
-            } else {
-                $result = array(
-                    'error' => false,
-                    'msg' => 'เปลี่ยนที่อยู่อีเมล์สำเร็จ',
-                    'url' =>  site_url('administrator/logout')
-                );
-                echo json_encode($result);
-                die;
-            }
+            $mail->send();
+
+            $result = array(
+                'error' => false,
+                'msg' => 'เปลี่ยนที่อยู่อีเมล์สำเร็จ',
+                'url' =>  site_url('administrator/logout')
+            );
+            echo json_encode($result);
+            
         } else {
             show_404();
         }
@@ -770,10 +792,6 @@ class Student extends MX_Controller
                 $condition['fide'] = "*";
                 $condition['where'] = array('std_status' => 0, 'std_checkmail' => 1);
                 $data['liststd'] = $this->student->listData($condition);
-
-                $condition = array();
-                $condition['fide'] = "*";
-                $data['listformat'] = $this->projectfile->listformat($condition);
 
                 //แสดง id ที่ login เอาไป select subject
                 $data['Idstd'] =   $this->encryption->decrypt($this->input->cookie('sysli'));

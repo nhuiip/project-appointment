@@ -21,11 +21,6 @@ $this->db->where(array(
 $query_meet = $this->db->get();
 $listmeet = $query_meet->result_array();
 
-// echo '<pre>';
-// print_r($listmeet);
-// echo '</pre>';
-// die;
-
 ?>
 <!DOCTYPE html>
 <html>

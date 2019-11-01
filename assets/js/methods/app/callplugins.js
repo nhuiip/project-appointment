@@ -3,6 +3,7 @@ define([
   "bootstrap",
   "bootstrap_colorpicker",
   "datepicker",
+  "colorpicker",
   "daterange",
   "select2",
   "TouchSpin",
@@ -30,6 +31,10 @@ define([
       viewMode: "years",
       minViewMode: "years"
     });
+  };
+
+  methods.colorpicker = function(){
+    $('.colorpicker').colorpicker();
   };
 
   methods.daterange = function() {

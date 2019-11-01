@@ -1,108 +1,30 @@
-<style>
-  /* CSS rules are kept repetitive so that you can get CSS rules for each button easily :) */
-
-  .knobs,
-  .layer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  .button {
-    position: relative;
-    top: 50%;
-    width: 74px;
-    height: 36px;
-    margin: -20px auto 0 auto;
-    overflow: hidden;
-  }
-
-  .button.b2 {
-    border-radius: 2px;
-  }
-
-  .checkboxtime {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 3;
-  }
-
-  .knobs {
-    z-index: 2;
-  }
-
-  .layer {
-    width: 100%;
-    background-color: #ebf7fc;
-    transition: 0.3s ease all;
-    z-index: 1;
-  }
-  /* Button 10 */
-  #button-10 .knobs:before,
-  #button-10 .knobs:after,
-  #button-10 .knobs span {
-    position: absolute;
-    top: 4px;
-    width: 20px;
-    height: 10px;
-    font-size: 10px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 1;
-    padding: 9px 4px;
-    border-radius: 2px;
-    transition: 0.3s ease all;
-  }
-
-  #button-10 .knobs:before {
-    content: "";
-    left: 4px;
-    background-color: #03a9f4;
-  }
-
-  #button-10 .knobs:after {
-    content: "NO";
-    right: 4px;
-    color: #4e4e4e;
-  }
-
-  #button-10 .knobs span {
-    display: inline-block;
-    left: 4px;
-    color: #fff;
-    z-index: 1;
-  }
-
-  #button-10 .checkboxtime:checked + .knobs span {
-    color: #4e4e4e;
-  }
-
-  #button-10 .checkboxtime:checked + .knobs:before {
-    left: 42px;
-    background-color: #f44336;
-  }
-
-  #button-10 .checkboxtime:checked + .knobs:after {
-    color: #fff;
-  }
-
-  #button-10 .checkboxtime:checked ~ .layer {
-    background-color: #fcebeb;
-  }
-</style>
-
-
-  <div class="button b2" id="button-10">
-    <input type="checkbox" class="checkboxtime" />
-    <div class="knobs">
-      <span>YES</span>
-    </div>
-    <div class="layer"></div>
-  </div>
+-----BEGIN CERTIFICATE REQUEST-----
+MIIFEDCCAvgCAQAwgcoxCzAJBgNVBAYTAlRIMRUwEwYDVQQIDAxTYW11dCBQcmFr
+YW4xFjAUBgNVBAcMDVBocmEgUHJhZGFlbmcxMDAuBgNVBAoMJ3RoYWkgZmFzaGlv
+biBwbGFzdGljIGluZHVzdHJpYWwgQ08uLGx0ZDESMBAGA1UECwwJZWNvbW1lcmNl
+MR0wGwYDVQQDDBR3d3cuaG9va29uaGFuZ2VyLmNvbTEnMCUGCSqGSIb3DQEJARYY
+bmFwaXR0aGFAYnJhaWZvcm0tdGguY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8A
+MIICCgKCAgEAyokccRWARJxK7z9k0rIre9w4SQX3g3ORqdNO7pKKg9FfDd9bwfTH
+vQ06b+tVYqcki1E2KciGxoOp/DMGSeGoM7DG4O6bacAiBmeR8BHQCSXsyoNntSzF
+LKo4s4ilRC8O4eJP9vivGDPif0mJZ0Ua8QpB6RIdQalq93/cxSgWsd0jKH7UUbmn
+iJGAbg16Utv+q4mXrHzkOd+vmllxcN3obPwBlbpxBS0WRa/FpGw36OkCrWmPct7O
+aJgvNO/YQeYQiJ+1V5dtAAo2uHhRqILSNe8ObRqJwcNhsBFjuZIwF6CWOFt+CdsA
+OedQoX9elmhUxcNvRBKLQMhkGMOH0hPary5AFCDgAADsDJLyTGkRjEMyd26P6/l+
+QUgO3T1LK7PpOHwbT6UQlPzepUbUjUn8roE8ug2TrnPDJ/5f/MQMH+hYPRvHPphH
+0BiG/Gm6p4tBTrWGkMgHh4YrUmlgSzz+/scIGnOI1Lge9+AZtYApSka0rx6QouPq
+9l3wX8Ppk0pJvQaQAPEGRKCp/l/m4HVsC0N+J9xnchgK6auCOjFLcAKqWXshDkiQ
+PVBeiuc2l/7BSs/C/3RCnLPldUhc/bKK+cvufncpj6uv7bg5t/h80oiNrD0r9sYW
+ENXR1V++E9xXvZ0/Grdlg6+PtsnbCYAPyuDPCKE+JjrOW+ZS+mpDOHMCAwEAAaAA
+MA0GCSqGSIb3DQEBCwUAA4ICAQBwY01u0Z25iy1xgZKIRx6uVk6a29jgPk+rC6l0
+jEBY+wBpV7itslmRhKqIIfzZrO1IbhRBkdD15SurNFuwM53xuLRszzjZqW8ow3EJ
+qWuUoXcFWTb8ZNdB9JE6khnVZQi0XikNTu/n0v0WIN+fbOYZEm4991NLMTpVlBt3
+oo/gXvyVxmXLhxyKEtaYOOmhh5V9kQnoCbdBiOMEplVONEGdT/Jp5iTxrsUDD3kZ
+KPEm4i1hSTsafrOzjYO/xcE6cbMb9dW1/1Vs/mHrlzMRdbaSuYAYb/vvli/shEqy
+tuyZsucYCiikQjEiHxHkXU+lOI8Us1hOeyak7xVIsGTx3KFiuoBG9ZHbNNq11duA
+yerMzeCyR5FJlElwDld/QvHhhW4Wb/hGbTCiH5LmIZj0V7EvCxR3NH+qgFFlcMdI
+gzH+3ljatryF0ZNPuLMUVin+8LXPkxWsi1eOYclLQJASDNrL3xQjMZztE3YPEAez
+COPINUuZQUxYD5tLjIvgNB0ueQGEYMFlmYB9AgvrUkVYm8p6rkIMth+KaELWB4H1
+baqmZot/z7zS2YtHIfhbyhPnHSwkJ1p+BoEoPXRM7lpYMjsV+90u4uDuDR2pszka
+5nWz52y0KwUjNNX+c4tN9FkB2uJCpAmk5yl/NgUjoWdmYXxnw5Cd3OMpaz3dkItD
+LPn8eQ==
+-----END CERTIFICATE REQUEST-----

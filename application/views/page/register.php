@@ -21,6 +21,30 @@
 	<link href="<?= base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/theme.css'); ?>" rel="stylesheet" />
 	<style>
+		.form-control {
+			border-radius: 0 !important;
+		}
+
+		.card-signup .form-check {
+			margin-top: 0 !important;
+		}
+
+		.card-signup .form-check label {
+			margin-left: 0 !important;
+			padding-left: 20px !important;
+		}
+
+		@media screen and (max-width: 767px) {
+			.full-page>.footer {
+				position: relative !important;
+			}
+
+			.footer .copyright {
+				/* float: none !important; */
+				text-align: center !important;
+			}
+		}
+
 		.card-signup .card-footer {
 			margin-top: 0 !important;
 		}
@@ -41,7 +65,6 @@
 
 		input.error {
 			border: 1px #c0392b solid !;
-			border-left: none !important;
 			border-right: 1px solid #afaeae !important;
 			border-top: 1px solid #afaeae !important;
 		}
@@ -91,7 +114,6 @@
 
 		.form-control {
 			border: 1px solid #afaeae !important;
-			border-left: none !important;
 		}
 
 		#std_imgpre {
@@ -128,7 +150,7 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background-color: rgba(236, 240, 241, 0.8);
+			background-color: rgba(236, 240, 241, 1);
 		}
 
 		/* :not(:required) hides these rules from IE9 and below */
@@ -279,8 +301,8 @@
 								<!-- form ---------------------------------------------------------------------------------------------------------------------->
 								<form action="<?= site_url('student/create') ?>" method="post" enctype="multipart/form-data" name="formRegister" id="formRegister" class="form-horizontal" novalidate">
 									<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-									<div class="col-md-4 ml-auto mr-auto">
-										<div class="picture-container">
+									<div class="col-md-12">
+										<div class="picture-container" style="margin-bottom: 30px;">
 											<div class="picture">
 												<div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
 												<input type="file" id="std_img" aria-invalid="false" accept="image/*">
@@ -289,95 +311,62 @@
 											<h6 class="description">Choose Picture</h6>
 										</div>
 									</div>
-									<div class="input-group">
-										<div class="form-check form-check-radio form-check-inline">
-											<label class="form-check-label">
-												<input class="form-check-input title" type="radio" name="std_title" id="std_title" value="นาย">
-												<span class="form-check-sign"></span>
-												นาย
-											</label>
-										</div>
-										<div class="form-check form-check-radio form-check-inline">
-											<label class="form-check-label">
-												<input class="form-check-input title" type="radio" name="std_title" id="std_title" value="นางสาว">
-												<span class="form-check-sign"></span>
-												นางสาว
-											</label>
-										</div>
-										<div class="form-check form-check-radio form-check-inline">
-											<label class="form-check-label">
-												<input class="form-check-input title" type="radio" name="std_title" id="std_title" value="นาง">
-												<span class="form-check-sign"></span>
-												นาง
-											</label>
-										</div>
-										<div class="form-check form-check-radio form-check-inline">
-											<label class="form-check-label">
-												<input class="form-check-input" type="radio" name="std_title" id="other" value="อื่นๆ">
-												<span class="form-check-sign"></span>
-												อื่นๆ
-											</label>
-										</div>
-									</div>
-									<div class="input-group" id="othertitle">
-										<div class="input-group-prepend">
-											<div class="input-group-text">
-												<i class="now-ui-icons users_circle-08"></i>
+									<div class="row">
+										<div class="input-group col-md-6">
+											<div class="form-check form-check-radio form-check-inline">
+												<label class="form-check-label">
+													<input class="form-check-input title" type="radio" name="std_title" id="std_title" value="นาย">
+													<span class="form-check-sign"></span>
+													นาย
+												</label>
+											</div>
+											<div class="form-check form-check-radio form-check-inline">
+												<label class="form-check-label">
+													<input class="form-check-input title" type="radio" name="std_title" id="std_title" value="นางสาว">
+													<span class="form-check-sign"></span>
+													นางสาว
+												</label>
+											</div>
+											<div class="form-check form-check-radio form-check-inline">
+												<label class="form-check-label">
+													<input class="form-check-input title" type="radio" name="std_title" id="std_title" value="นาง">
+													<span class="form-check-sign"></span>
+													นาง
+												</label>
+											</div>
+											<div class="form-check form-check-radio form-check-inline">
+												<label class="form-check-label">
+													<input class="form-check-input" type="radio" name="std_title" id="other" value="อื่นๆ">
+													<span class="form-check-sign"></span>
+													อื่นๆ
+												</label>
 											</div>
 										</div>
-										<input type="text" class="form-control" placeholder="คำนำหน้าอื่นๆ" name="std_title_input">
+										<div class="input-group col-md-6" id="othertitle">
+											<input type="text" class="form-control" placeholder="คำนำหน้าอื่นๆ" name="std_title_input">
+										</div>
 									</div>
 									<div class="row">
 										<div class="input-group col-md-6">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons users_circle-08"></i>
-												</div>
-											</div>
 											<input type="text" class="form-control" name="std_fname" id="std_fname" placeholder="ชื่อ">
 										</div>
 										<div class="input-group col-md-6">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons text_caps-small"></i>
-												</div>
-											</div>
 											<input type="text" placeholder="นามสกุล" name="std_lname" id="std_lname" class="form-control">
 										</div>
 									</div>
 									<div class="row">
 										<div class="input-group col-md-6">
-										<div class="input-group-prepend">
-											<div class="input-group-text">
-												<i class="now-ui-icons business_badge"></i>
-											</div>
-										</div>
-										<input type="text" class="form-control" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" data-url="<?= site_url('student/checknumber') ?>">
+											<input type="text" class="form-control" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" data-url="<?= site_url('student/checknumber') ?>">
 										</div>
 										<div class="input-group col-md-6">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons tech_mobile"></i>
-												</div>
-											</div>
-											<input type="text" class="form-control" name="std_tel" id="std_tel" placeholder="เบอร์โทร">
+											<input type="text" class="form-control" name="std_tel" id="std_tel" placeholder="เบอร์โทร" maxlength="10">
 										</div>
 									</div>
 									<div class="row">
 										<div class="input-group col-md-6">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons ui-1_email-85"></i>
-												</div>
-											</div>
 											<input type="email" class="form-control" name="std_email" id="std_email" placeholder="อีเมล" data-url="<?= site_url('student/checkemail') ?>">
 										</div>
 										<div class="input-group col-md-6">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="now-ui-icons ui-1_lock-circle-open"></i>
-												</div>
-											</div>
 											<input type="password" class="form-control" name="std_pass" id="std_pass" placeholder="รหัสผ่าน">
 										</div>
 									</div>
@@ -398,17 +387,17 @@
 							<div class="description">
 								<h5 class="info-title">Appoint-IT</h5>
 								<div style="color: #fff;">
-								ระบบจองคิวสอบโปรเจคออนไลน์ 
-								<br/>
-								สำหรับจองคิวขึ้นสอบปริญญานิพนธ์ 
-								<br/>
-								สาขาวิชาเทคโนโลยีสารสนเทศ 
-								<br/>
-								คณะอุตสาหกรรมและเทคโนโลยี 
-								<br/>
-								มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์ 
-								<br/>
-								วิทยาเขตวังไกลกังวล 
+									ระบบจองคิวสอบโปรเจคออนไลน์
+									<br />
+									สำหรับจองคิวขึ้นสอบปริญญานิพนธ์
+									<br />
+									สาขาวิชาเทคโนโลยีสารสนเทศ
+									<br />
+									คณะอุตสาหกรรมและเทคโนโลยี
+									<br />
+									มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์
+									<br />
+									วิทยาเขตวังไกลกังวล
 								</div>
 							</div>
 						</div>
@@ -466,9 +455,6 @@
 	<script>
 		$("#formRegister").validate({
 			rules: {
-				std_title: {
-					required: true
-				},
 				std_fname: {
 					required: true
 				},
@@ -477,6 +463,7 @@
 				},
 				std_number: {
 					required: true,
+					number: true,
 					remote: {
 						url: $("#std_number").attr("data-url"),
 						type: "post",
@@ -488,7 +475,6 @@
 					}
 				},
 				std_tel: {
-					required: true,
 					number: true,
 				},
 				std_email: {
@@ -510,9 +496,6 @@
 				},
 			},
 			messages: {
-				std_title: {
-					required: "กรุณาเลือกคำนำหน้า."
-				},
 				std_fname: {
 					required: "กรุณากรอกชื่อ."
 				},
@@ -523,11 +506,11 @@
 					required: "กรุณากรอกนามสกุล."
 				},
 				std_number: {
-					required: "กรุณากรอกนามสกุล.",
+					required: "กรุณากรอกรหัสนักศึกษา",
+					number: "กรุณากรอกเฉพาะตัวเลขเท่านั้น.",
 					remote: "รหัสนักศึกษานี้มีในระบบอยุ่แล้ว"
 				},
 				std_tel: {
-					required: "กรุณากรอกเบอร์โทร.",
 					number: "กรุณากรอกเฉพาะตัวเลขเท่านั้น.",
 				},
 				std_email: {
@@ -541,7 +524,6 @@
 				},
 			},
 			submitHandler: function() {
-				$('.loading').show();
 				$.ajax({
 					url: $("#formRegister").attr("action"),
 					data: $("#formRegister").serialize(),
@@ -553,13 +535,13 @@
 							progressBar: true,
 							positionClass: "toast-top-center",
 							showMethod: "slideDown",
-							timeOut: 1000
+							timeOut: 3000
 						};
 						if (result.error === true) {
 							toastr.warning(result.title, result.msg);
 							console.log(result.msg);
 						} else {
-							toastr.success(result.title, result.msg);
+							$('.loading').show();
 							setTimeout(function() {
 								location.href = result.url;
 							}, 1000);

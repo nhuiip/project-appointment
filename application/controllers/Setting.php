@@ -69,6 +69,26 @@ class Setting extends CI_Controller
     public function create()
     {
         if ($this->tokens->verify('formcrf')) {
+
+            //เช็กซ้ำ
+            $condition = array();
+            $condition['fide'] = "set_id";
+            $condition['where'] = array(
+                'set_year' => $this->input->post('set_year'),
+                'set_term' => $this->input->post('set_term')
+            );
+            $checkdata = $this->setting->listData($condition);
+            if(count($checkdata) != 0){
+                $result = array(
+                    'error' => true,
+                    'title' => "",
+                    'msg' => 'มีข้อมูลปีการศึกษา'.$this->input->post('set_year').' '.$this->input->post('set_term').' อยู่แล้ว',
+                );
+                echo json_encode($result);
+                die;
+            }
+            //เช็กซ้ำ
+            
             if ($this->input->post('set_option_sat') != '') {
                 $set_option_sat = 1;
             } else {

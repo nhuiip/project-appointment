@@ -38,6 +38,7 @@ class Administrator extends MX_Controller
 			$condition['fide'] = "*";
 			$condition['where_in']['filde'] = 'tb_user.position_id';
 			$condition['where_in']['value'] = ['1', '2', '3'];
+			$condition['orderby'] = "use_name ASC ";
 			$data['listdata'] = $this->administrator->listjoinData($condition);
 
 			$condition = array();
@@ -45,6 +46,10 @@ class Administrator extends MX_Controller
 			$condition['where_in']['filde'] = 'position_id';
 			$condition['where_in']['value'] = ['1', '2', '3'];
 			$data['listposition'] = $this->administrator->listDataPosition($condition);
+
+			$this->template->css(array(
+				base_url('assets/css/plugins/colorpicker/bootstrap-colorpicker.min'),
+			));
 
 			$data['formcrf'] = $this->tokens->token('formcrf');
 			$this->template->backend('administrator/main', $data);
@@ -314,6 +319,7 @@ class Administrator extends MX_Controller
 				$condition = array();
 				$condition['fide'] = "use_id,use_name,position_name,use_email,use_pass,use_lastlogin";
 				$condition['where'] = array('use_email' => $username, 'use_pass' => md5($password));
+				$condition['orderby'] = "use_name ASC ";
 				$listdata = $this->administrator->listjoinData($condition);
 				// login นักศึกษา
 				$condition = array();

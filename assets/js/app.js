@@ -1,6 +1,6 @@
 requirejs.config({
-  // baseUrl: "http://localhost:9900/assets/js/lib",
-  baseUrl: 'http://appoint.preedarat-cv.com/assets/js/lib',
+  baseUrl: "http://localhost:9900/assets/js/lib",
+  // baseUrl: 'http://appoint.preedarat-cv.com/assets/js/lib',
   paths: {
     jquery: "jquery-2.1.1",
     jqueryui: "plugins/jquery-ui/jquery-ui.min",
@@ -18,6 +18,7 @@ requirejs.config({
     moment: "plugins/fullcalendar/moment.min",
     fullcalendar: "plugins/fullcalendar/fullcalendar.min",
     datepicker: "plugins/datapicker/bootstrap-datepicker",
+    colorpicker: "plugins/colorpicker/bootstrap-colorpicker.min",
     daterange: "plugins/daterangepicker/daterangepicker",
     select2: "plugins/select2/select2.full.min",
     TouchSpin: "plugins/touchspin/jquery.bootstrap-touchspin.min",
@@ -52,13 +53,15 @@ requirejs.config({
     datepicker: {
       deps: ["jquery", "bootstrap"]
     },
+    colorpicker: {
+      deps: ["jquery", "bootstrap"]
+    },
     daterange: {
       deps: ["jquery"]
     },
     select2: {
       deps: ["jquery"]
     },
-
     chosen: {
       deps: ['jquery'],
       exports: "chosen"
@@ -107,6 +110,7 @@ requirejs(
       new Clipboard(".clipboard");
       vali.validate();
       plug.datepicker();
+      plug.colorpicker();
       plug.select2();
       plug.fullcalendar();
       plug.TouchSpin();

@@ -5,13 +5,16 @@
       @import url("https://fonts.googleapis.com/css?family=PT+Serif");
       body {
         overflow: hidden;
-        background-color: #55efc4;
-        padding: 18% 20%;
+        background-color: #16a085;
+        padding: 0;
         text-align: center;
+      }
+      h1 {
+        margin-bottom: 0 !important;
       }
       h1 a {
         color: #ffffff;
-        font-size: 2em;
+        font-size: 3em;
         text-decoration: none;
         display: inline-block;
         position: relative;
@@ -20,19 +23,18 @@
       a.effect-underline:after {
         content: "";
         position: absolute;
-        left: 0;
+        left: -10%;
         display: inline-block;
         height: 1em;
-        width: 100%;
+        width: 120%;
         border-bottom: 3px solid;
-        margin-top: 10px;
+        margin-top: 25px;
         opacity: 0;
         -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
         transition: opacity 0.35s, transform 0.35s;
         -webkit-transform: scale(0, 1);
         transform: scale(0, 1);
       }
-
       a.effect-underline:hover:after {
         opacity: 1;
         -webkit-transform: scale(1);
@@ -43,7 +45,10 @@
         width: 100%;
         color: #ffffff;
         text-align: center;
+        height: 276.44px;
+        margin-top: 20%;
       }
+
       .btn {
         color: #fff;
         cursor: pointer;
@@ -81,10 +86,14 @@
   <body>
     <div class="boxcontent">
       <h1>
-        <a href="#" class="effect-underline"> การลงทะเบียนสำเร็จ !!!!</a>
+        <a href="#" class="effect-underline">การลงทะเบียนสำเร็จ</a>
       </h1>
-      <h3 style="margin:0 0 20px">กรุณาตรวจสอบและยืนยันอีเมลของคุณก่อนเข้าใช้งานระบบ</h3>
-      <center><a href="<?=site_url()?>" class="btn btn-5">กลับหน้าแรก</a></center>
+      <h3 style="margin:0 0 20px">
+        กรุณาตรวจสอบและยืนยันอีเมลของคุณก่อนเข้าใช้งานระบบ
+      </h3>
+      <center>
+        <a href="<?=site_url()?>" class="btn btn-5">กลับหน้าแรก</a>
+      </center>
     </div>
   </body>
 </html>

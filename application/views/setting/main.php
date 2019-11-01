@@ -9,18 +9,16 @@
 	</div>
 </div>
 <!-- End breadcrumb for page -->
-
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row wrapper white-bg">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<div class="ibox-tools">
-						<? if ($checkinsert == 'no') { ?>
-							<a class="btn btn-outline btn-white btn-bitbucket">
-								<i class="fa fa-times" style="color:#ed5565"></i> &nbsp;&nbsp;กรุณาปิดระบบการนัดหมายเดิมก่อนเพิ่มข้อมูลกำหนดการนัดหมายใหม่
-							</a>
-						<? } ?>
+						<div class="info">
+							<div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">กรุณาปิดระบบการนัดหมายเดิมก่อนเพิ่มข้อมูลกำหนดการนัดหมายใหม่</span></div>
+							<div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">ใน 1 เทอมสามารถเปิดระบบได้ 1 ครั้งเท่านั้น</span></div>
+						</div>
 						<? if ($checkinsert == 'no') { ?>
 							<button type="button" class="btn btn-outline btn-primary" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
 						<? } else { ?>
@@ -31,7 +29,8 @@
 				<div class="ibox-content">
 					<!-- table ------------------------------------------------------------------------------------------------------->
 					<!-- <div class="table-responsive"> -->
-						<table class="table table-striped table-hover dataTables-export" data-colexport="0,1,2,3,4,6" data-filename="export-setting" width="100%">
+					<? if (count($listdata) != 0) { ?>
+						<table class="table table-striped table-hover dataTables" width="100%">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -62,24 +61,21 @@
 										</td>
 										<td width="10%">
 											<div class="btn-group" style="width:100%">
-												<button class="btn btn-sm btn-primary " type="button" style="width:70%">จัดการ</button>
-												<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
+												<button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
+												<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
 													<span class="caret"></span>
 													<span class="sr-only">Toggle Dropdown</span>
 												</button>
 												<ul class="dropdown-menu" style="width:100%">
 													<? if ($value['set_status'] != 0 && $value['set_status'] != 2) { ?>
-														<li><a href="#" data-toggle="modal" data-target="#U_update" class="update"
-														data-set_id="<?=$value['set_option_sun'];?>" data-set_year="<?=$value['set_year'];?>" data-set_term="<?=$value['set_term'];?>"
-														data-set_open="<?=$value['set_open'];?>" data-set_close="<?=$value['set_close'];?>" data-set_option_sat="<?=$value['set_option_sat'];?>" data-set_option_sun="<?=$value['set_option_sun'];?>"
-														"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+														<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_option_sun']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>" "><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
 														<li><a href="<?= site_url('setting/form/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 1) { ?>
 														<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/opensection/' . $value['set_id']); ?>" data-title="ต้องการเปิดระบบนัดหมาย?"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 2) { ?>
-														<li><a class="btn-alert" href="#" data-url="<?=site_url('setting/updatesetting/' . $value['set_id']); ?>" data-title="ต้องการปิดระบบนัดหมาย?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดระบบ</a></li>
+														<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/updatesetting/' . $value['set_id']); ?>" data-title="ต้องการปิดระบบนัดหมาย?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดระบบ</a></li>
 													<? } ?>
 													<? if ($value['set_status'] != 2) { ?>
 														<li><a href="#" class="btn-alert" data-url="<?= site_url('setting/delete/' . $value['set_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
@@ -88,16 +84,19 @@
 											</div>
 										</td>
 										<td width="15%">
-											<i class="fa fa-clock-o"></i> <?= date('d/m/Y', strtotime($value['set_open'])); ?> - <?= date('d/m/Y', strtotime($value['set_close'])); ?>
+											<i class="fa fa-calendar"></i> <?= date('d/m/Y', strtotime($value['set_open'])); ?> - <?= date('d/m/Y', strtotime($value['set_close'])); ?>
 										</td>
 										<td width="10%">
 											<center>
 												<? if ($value['set_status'] == 0) { ?>
-													<span class="badge badge-danger">ปิดนัดหมาย</span>
+													<div class="badges alt"><span class="content red">ปิดนัดหมาย</span></div>
+													<!-- <span class="badge badge-danger">ปิดนัดหมาย</span> -->
 												<? } elseif ($value['set_status'] == 1) { ?>
-													<span class="badge badge-warning">รอเปิดนัดหมาย</span>
+													<div class="badges alt"><span class="content orange">รอเปิดนัดหมาย</span></div>
+													<!-- <span class="badge badge-warning">รอเปิดนัดหมาย</span> -->
 												<? } elseif ($value['set_status'] == 2) { ?>
-													<span class="badge badge-primary">เปิดนัดหมาย</span>
+													<div class="badges alt"><span class="content green">เปิดนัดหมาย</span></div>
+													<!-- <span class="badge badge-primary">เปิดนัดหมาย</span> -->
 												<? } ?>
 
 											</center>
@@ -118,6 +117,11 @@
 								</tr>
 							</tfoot>
 						</table>
+					<? } else { ?>
+						<center>
+							<p class="background"><span>ไม่พบข้อมูล</span></p>
+						</center>
+					<? } ?>
 					<!-- </div> -->
 					<!-- */table ----------------------------------------------------------------------------------------------------->
 				</div>
@@ -209,10 +213,10 @@
 		$(".set_term").val(set_term);
 		$(".set_open").val(set_open);
 		$(".set_close").val(set_close);
-		if(set_option_sat == 1){
+		if (set_option_sat == 1) {
 			$(".set_option_sat").prop('checked', true);
 		}
-		if(set_option_sun == 1){
+		if (set_option_sun == 1) {
 			$(".set_option_sun").prop('checked', true);
 		}
 	});

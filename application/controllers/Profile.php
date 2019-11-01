@@ -30,6 +30,7 @@ class Profile extends MX_Controller
                 $condition = array();
                 $condition['fide'] = "*";
                 $condition['where'] = array('use_id' => $id);
+                $condition['orderby'] = "use_name ASC ";
                 $data['listdata'] = $this->administrator->listjoinData($condition);
 
                 $condition = array();

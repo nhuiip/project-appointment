@@ -22,6 +22,7 @@ class Extra extends MX_Controller
 			$condition = array();
 			$condition['fide'] = "*";
 			$condition['where'] = array('tb_position.position_id' => 5);
+			$condition['orderby'] = "use_name ASC ";
 			$data['listdata'] = $this->administrator->listjoinData($condition);
 			// checkinsert
 			$condition = array();

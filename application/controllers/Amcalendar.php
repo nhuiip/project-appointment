@@ -56,10 +56,10 @@ class Amcalendar extends MX_Controller
             $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
             $data['idlogin']    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
-            // $condition = array();
-            // $condition['fide'] = "*";
-            // $condition['where'] = array('tb_meetdetail.use_id' => $idlogin);
-            // $data['meet'] = $this->meet->listjoinData2($condition);
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where'] = array('tb_meetdetail.use_id' =>  $data['idlogin']);
+            $data['meet'] = $this->meet->listjoinData2($condition);
 
             $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('calendar/request', $data);

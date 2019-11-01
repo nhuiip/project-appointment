@@ -26,20 +26,20 @@ class Subject extends MX_Controller
             $condition['where'] = array('set_status' => 2);
             $checkinsert = $this->setting->listData($condition);
 
-            
+            $arrposition = array(2, 3);
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where_in']['filde'] = 'position_id';
+            $condition['where_in']['value'] = $arrposition;
+            $data['user'] = $this->administrator->listData($condition);
 
-            if (count($checkinsert) == 1) {
-                $data['checkinsert'] = 'yes';
-
-                $arrposition = array(2, 3);
-                $condition = array();
-                $condition['fide'] = "*";
-                $condition['where_in']['filde'] = 'position_id';
-                $condition['where_in']['value'] = $arrposition;
-                $data['user'] = $this->administrator->listData($condition);
-            } else {
-                $data['checkinsert'] = 'no';
-            }
+            $arrposition = array(2, 3);
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where_in']['filde'] = 'position_id';
+            $condition['where_in']['value'] = $arrposition;
+            $condition['orderby'] = "use_name ASC ";
+            $data['user'] = $this->administrator->listData($condition);
 
             $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('subject/main', $data);
@@ -139,9 +139,9 @@ class Subject extends MX_Controller
 
     public function updateclose($sub_id = "")
     {
-        if($sub_id == ""){
+        if ($sub_id == "") {
             show_404();
-        }else{
+        } else {
             $data = array(
                 'sub_id'            => $sub_id,
                 'sub_status'          => 0,
@@ -151,14 +151,13 @@ class Subject extends MX_Controller
             $this->subject->updateData($data);
             header("location:" . site_url('subject/index'));
         }
-           
     }
 
     public function updateopen($sub_id = "")
     {
-        if($sub_id == ""){
+        if ($sub_id == "") {
             show_404();
-        }else{
+        } else {
             $data = array(
                 'sub_id'            => $sub_id,
                 'sub_status'          => 1,
@@ -168,7 +167,6 @@ class Subject extends MX_Controller
             $this->subject->updateData($data);
             header("location:" . site_url('subject/index'));
         }
-           
     }
 
     public function delete($id = '')

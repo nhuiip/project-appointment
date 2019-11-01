@@ -35,6 +35,10 @@ class Dashboard extends CI_Controller
 		$condition['orderby'] = "position_id ASC, use_id ASC ";
 		$data['listuser'] = $this->administrator->listData($condition);
 
+		$condition = array();
+		$condition['fide'] = "project_id";
+		$data['listproject'] = $this->project->listData($condition);
+
 		$this->template->js(array(
 			base_url('assets/js/lib/plugins/flot/jquery.flot'),
 			base_url('assets/js/lib/plugins/flot/jquery.flot.resize'),

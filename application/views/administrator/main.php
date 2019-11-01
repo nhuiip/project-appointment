@@ -15,6 +15,7 @@
       <div class="ibox float-e-margins">
         <div class="ibox-title">
           <div class="ibox-tools">
+          <input type="text" class="form-control colorpicker" name="use_color" id="use_color" value="#5367ce" />            
             <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#U-insert">
               <i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล
             </button>
@@ -126,6 +127,13 @@
             </div>
             <!--*/form-group-->
           <?PHP } ?>
+          <div class="form-group row">
+            <label class="col-sm-12">สี<span class="text-muted" style="color:#c0392b">*</span></label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control colorpicker" name="use_color" id="use_color" value="#5367ce" />
+            </div>
+          </div>
+          <!--*/form-group-->
           <div class="form-group row">
             <label class="col-sm-12">อีเมล<span class="text-muted" style="color:#c0392b">*</span></label>
             <div class="col-sm-12">

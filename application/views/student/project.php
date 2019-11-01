@@ -29,7 +29,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
 
-        <!-- <?PHP if($project_status == 0){ ?>
+        <!-- <?PHP if ($project_status == 0) { ?>
             <div class="col-md-12">
                 <div class="ibox">
                     <div class="ibox-content">
@@ -39,7 +39,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     </div>
                 </div>
             </div>
-        <?PHP } else if($project_status == 1){ ?>
+        <?PHP } else if ($project_status == 1) { ?>
             <div class="col-md-12">
                 <div class="ibox">
                     <div class="ibox-content">
@@ -49,7 +49,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     </div>
                 </div>
             </div>
-        <?PHP }else{ ?>
+        <?PHP } else { ?>
             <div class="col-md-12">
                 <div class="ibox">
                     <div class="ibox-content">
@@ -395,63 +395,63 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             <center>ไม่พบข้อมูลการนัดหมาย</center>
                         <? } else { ?>
 
-                                <ul class="list-group">
-                                    <? foreach ($listmeetnow as $key => $value) { ?>
-                                        <?
-                                                    $this->db->select("tb_user.use_name, tb_meetdetail.use_id, tb_meetdetail.dmeet_head");
-                                                    $this->db->from('tb_meetdetail');
-                                                    $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
-                                                    $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
-                                                    $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id']));
-                                                    $this->db->order_by("dmeet_head", "DESC");
-                                                    $query = $this->db->get();
-                                                    $listt = $query->result_array();
-                                                    ?>
-                                            <?
-                                                    switch ($value['meet_status']) {
-                                                        case 0:
-                                                            $status_text = '<span class="badge badge-danger" style="margin-bottom: 15px;">&nbsp;&nbsp;ไม่สำเร็จ&nbsp;&nbsp;</span>';
-                                                            break;
-                                                        case 1:
-                                                            $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ&nbsp;&nbsp;</span>';
-                                                            break;
-                                                        case 2:
-                                                            $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
-                                                            break;
-                                                    }
-                                            ?>
+                            <ul class="list-group">
+                                <? foreach ($listmeetnow as $key => $value) { ?>
+                                    <?
+                                                $this->db->select("tb_user.use_name, tb_meetdetail.use_id, tb_meetdetail.dmeet_head");
+                                                $this->db->from('tb_meetdetail');
+                                                $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
+                                                $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
+                                                $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id']));
+                                                $this->db->order_by("dmeet_head", "DESC");
+                                                $query = $this->db->get();
+                                                $listt = $query->result_array();
+                                                ?>
+                                    <?
+                                                switch ($value['meet_status']) {
+                                                    case 0:
+                                                        $status_text = '<span class="badge badge-danger" style="margin-bottom: 15px;">&nbsp;&nbsp;ไม่สำเร็จ&nbsp;&nbsp;</span>';
+                                                        break;
+                                                    case 1:
+                                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;สำเร็จ&nbsp;&nbsp;</span>';
+                                                        break;
+                                                    case 2:
+                                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;รอดำเนินการ&nbsp;&nbsp;</span>';
+                                                        break;
+                                                }
+                                                ?>
 
-                                            <li class="list-group-item" style="text-align: right;">
-                                                <?= $status_text ?>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
-                                                    </div>
-                                                    <?PHP if($project_status == 1){ ?>
-                                                        <div class="col-sm-12">
-                                                            <p><strong>วันที่สอบ : <?= DateThai($value['meet_date']) ; ?> เวลา : </strong> <?= $value['meet_time']; ?> น.</p>
-                                                        </div>
-                                                    <?PHP } ?>
-                                                    <div class="col-sm-12">
-                                                        <p>
-                                                            <? foreach ($listt as $key => $v) { ?>
-                                                                <? if ($v['use_id'] == $value['use_id']) { ?>
-                                                                    <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
-                                                                <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                                    <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                                <? } else { ?>
-                                                                    <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
-                                                                <? } ?>
-                                                            <? } ?>
-                                                        </p>
-                                                    </div>
+                                        <li class="list-group-item" style="text-align: right;">
+                                            <?= $status_text ?>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
                                                 </div>
-                                            </li>
-                                        <? } ?>
-                                </ul>
+                                                <div class="col-sm-12">
+                                                    <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
+                                                </div>
+                                                <?PHP if ($project_status == 1) { ?>
+                                                    <div class="col-sm-12">
+                                                        <p><strong>วันที่สอบ : <?= DateThai($value['meet_date']); ?> เวลา : </strong> <?= $value['meet_time']; ?> น.</p>
+                                                    </div>
+                                                <?PHP } ?>
+                                                <div class="col-sm-12">
+                                                    <p>
+                                                        <? foreach ($listt as $key => $v) { ?>
+                                                            <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                                <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                                <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                            <? } else { ?>
+                                                                <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                            <? } ?>
+                                                        <? } ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <? } ?>
+                            </ul>
                         <? } ?>
                     </div>
                 </div>
@@ -578,18 +578,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
                         <label class="col-sm-12">เลือกไฟล์<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">
                             <input type="file" name="file_name" id="file_name" class="form-control" accept="application/pdf">
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="form-group row">
-                        <label class="col-sm-12">ชื่อไฟล์<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <select name="proformat_name" id="proformat_name" class="form-control">
-                                <option value="">กรุณาเลือกชื่อไฟล์</option>
-                                <?PHP foreach ($listformat as $key => $value) { ?>
-                                    <option value="<?= $value['proformat_name']; ?>"><?= $value['proformat_name']; ?> [ <?= $value['proformat_detail']; ?> ]</option>
-                                <? } ?>
-                            </select>
                         </div>
                     </div>
                     <!--*/form-group-->

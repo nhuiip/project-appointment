@@ -22,8 +22,8 @@ function DateThai($strDate)
 <!-- End breadcrumb for page -->
 <? if (count($listsec) != 0) { ?>
     <? foreach ($listsec as $key => $v) {
-        $sec_date = $v['sec_date']
-    ?>
+            $sec_date = $v['sec_date']
+            ?>
         <br>
         <div class="ibox collapsed">
             <div class="ibox-title">
@@ -50,7 +50,7 @@ function DateThai($strDate)
                             $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
                             $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
                             $this->db->where(array('tb_meetdetail.meet_id' => $meet[0]['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
-                            $this->db->order_by("dmeet_head", "DESC");
+                            $this->db->order_by("use_name", "ASC");
                             $query = $this->db->get();
                             $listt = $query->result_array();
                         }
@@ -64,15 +64,15 @@ function DateThai($strDate)
                                 <? if (count($meet) != 0) { ?>
                                     <div class="small m-t-xs" style="font-size:14px">
                                         <p style="margin: 0 0 0;"></p><strong>รายการ</strong> : <?= $meet[0]['project_name']; ?></p>
-                                        <p style="margin: 0 0 0;"><strong>เวลา</strong> : <?= $meet[0]['meet_time'];?> น.</p>
-                                        <p style="margin: 0 0 5px;"><strong>วิชา</strong> : <?= $meet[0]['sub_code'].' '.$meet[0]['sub_name'];?> น.</p>
+                                        <p style="margin: 0 0 0;"><strong>เวลา</strong> : <?= $meet[0]['meet_time']; ?> น.</p>
+                                        <p style="margin: 0 0 5px;"><strong>วิชา</strong> : <?= $meet[0]['sub_code'] . ' ' . $meet[0]['sub_name']; ?> น.</p>
                                         <p><? foreach ($listt as $key => $v) { ?>
                                                 <? if ($v['use_id'] == $meet[0]['use_id']) { ?>
-                                                    <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                    <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content red">ที่ปรึกษา</span></div>
                                                 <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                    <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                    <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content orange">ประธาน</span></div>
                                                 <? } else { ?>
-                                                    <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                    <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></div>
                                                 <? } ?>
                                             <? } ?></p>
                                     </div>
@@ -91,6 +91,6 @@ function DateThai($strDate)
     <? } ?>
 <? } else { ?>
     <center>
-        <h1>ไม่มีรายการนัดหมาย</h1>
+        <h1>ไม่พบรายการนัดหมาย</h1>
     </center>
 <? } ?>
