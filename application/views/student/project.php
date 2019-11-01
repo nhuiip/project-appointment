@@ -64,6 +64,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
         <!-- add new project -->
         <?PHP if (count($searchProject) == 0) { ?>
             <div class="col-md-7">
+
                 <form action="<?= base_url('student/stdprojectadd'); ?>" method="post" enctype="multipart/form-data" name="formProjectStd_Add" id="formProjectStd_Add" class="form-horizontal" novalidate>
                     <input type="hidden" name="formcrfaddproject" id="formcrfaddproject" value="<?= $formcrfaddproject; ?>">
                     <div class="ibox float-e-margins">
@@ -112,6 +113,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
             </div>
         <? } ?>
         <div class="col-md-5">
+
             <!-- now project -->
             <?PHP if (count($searchProject) != 0) { ?>
                 <div class="ibox float-e-margins">
