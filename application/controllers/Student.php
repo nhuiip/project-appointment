@@ -1034,36 +1034,6 @@ class Student extends MX_Controller
         } else {
             echo 'ส่งเมลล์สำเร็จ';
         }
-        // $mail->SMTPOptions = array(
-        //     'ssl' => array(
-        //         'verify_peer' => false,
-        //         'verify_peer_name' => false,
-        //         'allow_self_signed' => true
-        //     )
-        // );
-        // $mail->CharSet = "utf-8";
-        // $mail->IsSMTP();
-        // $mail->SMTPDebug = 0;
-        // $mail->SMTPAuth = true;
-
-        // $mail->Host = "mail.preedarat-cv.com";
-        // $mail->Port = 25;
-        // $mail->Username = "support@preedarat-cv.com";
-        // $mail->Password = "F!o8qebi";
-        // $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
-
-        // $mail->AddAddress('preedarat.jut@gmail.com');
-        // $mail->AddAddress('preedarat@thevista.co.th');
-        // $mail->AddAddress('yui.napassorn.s@gmail.com');
-        // $mail->AddAddress('napassorn@thevista.co.th');
-        // $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-        // $mail->MsgHTML('test muti mail');
-
-        // if (!$mail->send()) {
-        //     echo $mail->ErrorInfo;
-        // } else {
-        //     echo 'send';
-        // }
     }
 
     public function showdetailproject($project_id = '')
