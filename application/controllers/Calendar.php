@@ -57,12 +57,25 @@ class Calendar extends MX_Controller
                     $data = array();
                     $condition = array();
                     $condition['fide'] = "*";
-                    $condition['where'] = array('sub_status' => 1);
-                    $data['listsubject'] = $this->subject->listjoinData($condition);
+                    $condition['where'] = array('tb_section.sec_date' => $date, 'tb_settings.set_status' => 2);
+                    $listsection = $this->section->listjoinData($condition);
+                    if (count($listsection) == 0) {
+                        show_404();
+                    } else {
 
-                    $data['date'] = $date;
-                    $data['formcrf'] = $this->tokens->token('formcrf');
-                    $this->template->backend('calendar/subject', $data);
+                        $data = array();
+                        $condition = array();
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('sub_status' => 1);
+                        $condition['orderby'] = 'sub_code asc, sub_name asc';
+                        $data['listsubject'] = $this->subject->listjoinData($condition);
+
+                        $data['date'] = $date;
+
+                        $data['formcrf'] = $this->tokens->token('formcrf');
+                        $this->template->backend('calendar/subject', $data);
+                    }
+
                 }
             }
         }
@@ -426,6 +439,37 @@ class Calendar extends MX_Controller
         }
     }
 
+
+    public function addhead()
+    {
+
+        $userId = $this->input->post('id');
+
+        $data = array();
+        $condition = array();
+        $condition['fide'] = "tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.meet_id";
+        $condition['where'] = array('tb_meetdetail.use_id' => $userId);
+        $listsubject = $this->meet->listjoinData2($condition);
+
+        $dmeet_id  =  $listsubject[0]['dmeet_id'];
+        $meetId    = $listsubject[0]['meet_id'];
+
+        $data = array(
+            'dmeet_id'      => $dmeet_id,
+            'dmeet_head'    => 1
+        );
+
+        $this->meet->updateDetail($data);
+
+        $datas = array(
+            'meet_id'      => $meetId,
+        );
+
+        echo json_encode($datas);
+
+        die;
+    }
+
     // public function chkrequest($meetId = "")
     // {
 
@@ -478,6 +522,7 @@ class Calendar extends MX_Controller
     //     $data['formcrf'] = $this->tokens->token('formcrf');
     //     $this->template->backend('calendar/chkrequest', $data);
     // }
+
 
     public function showcalendar($meetId = "")
     {

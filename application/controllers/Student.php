@@ -868,44 +868,72 @@ class Student extends MX_Controller
         $this->project->updateData($data);
         header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
     }
-    public function stdprojectaddfile()
-    {
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array(
-            'project_id' => $this->input->post('project_id'),
-            'file_name' => $this->input->post('proformat_name') . '.pdf'
-        );
-        $listdata = $this->projectfile->listData($condition);
-
-        if (count($listdata) == 0) {
-            if ($this->tokens->verify('formcrffileproject')) {
-                $data = array(
-                    'project_id'            => $this->input->post('project_id'),
-                    'file_name'             => $this->input->post('proformat_name') . '.pdf',
-                    'file_create_name'      => $this->encryption->decrypt($this->input->cookie('sysn')),
-                    'file_create_date'      => date('Y-m-d H:i:s'),
-                    'file_lastedit_name'    => $this->encryption->decrypt($this->input->cookie('sysn')),
-                    'file_lastedit_date'    => date('Y-m-d H:i:s'),
-                );
-                $this->projectfile->insertData($data);
-                $this->upfileimages('file_name', $this->input->post('proformat_name'), $this->input->post('project_id'));
-
-                $result = array(
-                    'error' => false,
-                    'msg' => 'เพิ่มเอกสารสำเร็จ',
-                    'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
-                );
-                echo json_encode($result);
-            }
-        } else {
-            $result = array(
-                'error' => true,
-                'msg' => 'มีเอกสารรายการนี้อยู่ก่อนแล้ว',
+    public function stdprojectaddfile(){
+		if($this->tokens->verify('formcrffileproject')){
+            $data = array(
+                'project_id'            => $this->input->post('project_id'),
+                'file_name'             => $this->upfileimages('File_img', $this->input->post('project_id')),
+                'file_create_name'      => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'file_create_date'      => date('Y-m-d H:i:s'),
+                'file_lastedit_name'    => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'file_lastedit_date'    => date('Y-m-d H:i:s'),
             );
-            echo json_encode($result);
-        }
-    }
+            $this->projectfile->insertData($data);
+
+			$result = array(
+                'error' => false,
+                'msg' => 'เพิ่มเอกสารสำเร็จ',
+                'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+			);
+			echo json_encode($result);
+		}else{
+			$result = array(
+				'error' => true,
+				'title' => "Error",
+				'msg' => "No tokens"
+			);
+			echo json_encode($result);
+		}
+
+	}
+    // public function stdprojectaddfile()
+    // {
+    //     $condition = array();
+    //     $condition['fide'] = "*";
+    //     $condition['where'] = array(
+    //         'project_id' => $this->input->post('project_id'),
+    //         'file_name' => $this->input->post('file_name') . '.pdf'
+    //     );
+    //     $listdata = $this->projectfile->listData($condition);
+
+    //     if (count($listdata) == 0) {
+    //         if ($this->tokens->verify('formcrffileproject')) {
+    //             $data = array(
+    //                 'project_id'            => $this->input->post('project_id'),
+    //                 'file_name'             => $this->input->post('file_name') . '.pdf',
+    //                 'file_create_name'      => $this->encryption->decrypt($this->input->cookie('sysn')),
+    //                 'file_create_date'      => date('Y-m-d H:i:s'),
+    //                 'file_lastedit_name'    => $this->encryption->decrypt($this->input->cookie('sysn')),
+    //                 'file_lastedit_date'    => date('Y-m-d H:i:s'),
+    //             );
+    //             $this->projectfile->insertData($data);
+    //             $this->upfileimages('file_name', $this->input->post('file_name'), $this->input->post('project_id'));
+
+    //             $result = array(
+    //                 'error' => false,
+    //                 'msg' => 'เพิ่มเอกสารสำเร็จ',
+    //                 'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
+    //             );
+    //             echo json_encode($result);
+    //         }
+    //     } else {
+    //         $result = array(
+    //             'error' => true,
+    //             'msg' => 'มีเอกสารรายการนี้อยู่ก่อนแล้ว',
+    //         );
+    //         echo json_encode($result);
+    //     }
+    // }
     public function stdprojectupfile()
     {
         $file_name = $this->input->post('file_name_up');
@@ -942,17 +970,17 @@ class Student extends MX_Controller
         @unlink('./uploads/fileproject/Project_' . $project_id . '/' . $file_name);
         header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
     }
-    private function upfileimages($Fild_Name, $proformat_name, $project_id)
+    private function upfileimages($file_name,$project_id)
     {
-        if (!empty($_FILES[$Fild_Name])) {
-            $new_name = $proformat_name;
+        if (!empty($_FILES[$file_name])) {
+            $new_name = $file_name;
             $config['upload_path'] = './uploads/fileproject/Project_' . $project_id;
             $config['allowed_types'] = 'pdf';
             $config['file_name'] = $new_name;
             $config['max_size']    = 0;
             $this->load->library('upload', $config, 'upbanner');
             $this->upbanner->initialize($config);
-            if (!$this->upbanner->do_upload($Fild_Name)) {
+            if (!$this->upbanner->do_upload($file_name)) {
                 $result = array(
                     'error' => true,
                     'title' => "Error",
