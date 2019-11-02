@@ -18,7 +18,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
         $lastedit_name    = $student['std_lastedit_name'];
         $lastedit_date    = $student['std_lastedit_date'];
     }
-} 
+}
 
 ?>
 <style>
@@ -33,6 +33,7 @@ if (isset($liststudent) && count($liststudent) != 0) {
         width: 100%;
         margin-top: 10px !important;
     }
+
     #std_imgpre {
         width: 200px;
         height: 200px;
@@ -44,20 +45,18 @@ if (isset($liststudent) && count($liststudent) != 0) {
         -moz-border-radius: 100px;
     }
 </style>
-<form action="<?=base_url('student/stdupdate/');?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
-<input type="hidden" name="formcrf" id="formcrf" value="<?=$formcrf;?>">
-<input type="hidden" name="Id" id="Id" value="<?=$Id;?>">
-                        
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
+<form action="<?= base_url('student/stdupdate/'); ?>" method="post" enctype="multipart/form-data" name="formStudentProfile" id="formStudentProfile" class="form-horizontal" novalidate>
+    <input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
+    <input type="hidden" name="Id" id="Id" value="<?= $Id; ?>">
+
+    <div class="row wrapper page-heading">
         <div class="col-lg-7">
-            
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><i class="fa fa-user"></i> ข้อมูลส่วนตัว</h5>
-                    <div class="ibox-tools" >
+                    <div class="ibox-tools">
                         <a class="" style="color: #f8ac59;">
-                            <i class="fa fa-pencil-square"></i>  แก้ไขข้อมูลส่วนตัว
+                            <i class="fa fa-pencil-square"></i> แก้ไขข้อมูลส่วนตัว
                         </a>
                     </div>
                 </div>
@@ -67,10 +66,10 @@ if (isset($liststudent) && count($liststudent) != 0) {
                             <div class="col-lg-12 center">
                                 <div class="picture-container">
                                     <div class="picture">
-                                        <?PHP if($Img_std == ""){ ?>
+                                        <?PHP if ($Img_std == "") { ?>
                                             <div style="background: url('<?= base_url('assets/images/noimage.jpg'); ?>');" id="std_imgpre"></div>
-                                        <?PHP }else{?>
-                                            <div style="background: url('<?= base_url('uploads/student/'.$Img_std); ?>');" id="std_imgpre"></div>
+                                        <?PHP } else { ?>
+                                            <div style="background: url('<?= base_url('uploads/student/' . $Img_std); ?>');" id="std_imgpre"></div>
                                         <?PHP } ?>
                                         <input type="file" id="std_img" aria-invalid="false" accept="image/*">
                                         <input type="hidden" id="std_img2" name="std_img">
@@ -84,8 +83,8 @@ if (isset($liststudent) && count($liststudent) != 0) {
                         <div class="col-lg-12">
                             <div class="col-lg-12">รหัสนักศึกษา</div>
                             <div class="col-lg-12">
-                                <input placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>" disabled>
-                                <input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?=$Tetx_number;?>">
+                                <input placeholder="รหัสนักศึกษา" class="form-control" value="<?= $Tetx_number; ?>" disabled>
+                                <input type="hidden" name="std_number" id="std_number" placeholder="รหัสนักศึกษา" class="form-control" value="<?= $Tetx_number; ?>">
                             </div>
                         </div>
                     </div>
@@ -93,13 +92,13 @@ if (isset($liststudent) && count($liststudent) != 0) {
                         <div class="col-lg-6">
                             <label class="col-lg-12">ชื่อ<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
                             <div class="col-lg-12">
-                                <input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?=$Text_name;?>"class="form-control">
+                                <input placeholder="ชื่อ" class="form-control" name="text_name" id="text_name" value="<?= $Text_name; ?>" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <label class="col-lg-12">นามสกุล<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
                             <div class="col-lg-12">
-                                <input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?=$Text_lastname;?>">
+                                <input placeholder="นามสกุล" class="form-control" name="text_lastname" id="text_lastname" value="<?= $Text_lastname; ?>">
                             </div>
                         </div>
                     </div>
@@ -107,14 +106,14 @@ if (isset($liststudent) && count($liststudent) != 0) {
                         <div class="col-lg-12">
                             <label class="col-lg-12">เบอร์โทรศัพท์<span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span></label>
                             <div class="col-lg-12">
-                                <input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?=$Tetx_tel;?>">
+                                <input placeholder="เบอร์โทรศัพท์" maxlength="10" class="form-control" name="text_tel" id="text_tel" value="<?= $Tetx_tel; ?>">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-12">
                             <div class="mgBottom">
-                                <button class="btn btn-primary btn-update-profile btn-lw100" type="submit" ><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
+                                <button class="btn btn-primary btn-update-profile btn-lw100" type="submit"><strong>แก้ไขข้อมูลส่วนตัว</strong></button>
                             </div>
                         </div>
                     </div>
@@ -131,17 +130,17 @@ if (isset($liststudent) && count($liststudent) != 0) {
                         <div class="col-lg-12">
                             <label class="col-md-12 col-lg-12">อีเมล์</label>
                             <div class="col-md-9 col-lg-9">
-                                <input placeholder="อีเมล์" class="form-control" name="text_email" id="text_email" value="<?=$Text_email;?>" disabled>
-                                <?PHP if(!empty($Text_emailchang)){?>
+                                <input placeholder="อีเมล์" class="form-control" name="text_email" id="text_email" value="<?= $Text_email; ?>" disabled>
+                                <?PHP if (!empty($Text_emailchang)) { ?>
                                     <p>
-                                    <div class="form-group-mgTB">
-                                        <b style="color:#c0392b">เปลี่ยนที่อยู่อีเมล์ รอยืนยันผ่านทางอีเมล์ : <span class="underline"><?=$Text_emailchang;?></span></b>
-                                    </div>
+                                        <div class="form-group-mgTB">
+                                            <b style="color:#c0392b">เปลี่ยนที่อยู่อีเมล์ รอยืนยันผ่านทางอีเมล์ : <span class="underline"><?= $Text_emailchang; ?></span></b>
+                                        </div>
                                     </p>
                                 <?PHP } ?>
                             </div>
                             <div class="col-md-3 col-lg-3">
-                                <button data-toggle="modal"  type="button" class="btn btn-outline btn-primary btn-lw100" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</button>
+                                <button data-toggle="modal" type="button" class="btn btn-outline btn-primary btn-lw100" href="#modal-chengemail">เปลี่ยนที่อยู่อีเมล์</button>
                             </div>
                         </div>
                     </div>
@@ -159,20 +158,19 @@ if (isset($liststudent) && count($liststudent) != 0) {
                     </div>
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <div class="col-lg-12">เข้าสู่ระบบล่าสุด : <?=$lastlogin;?></div>
+                            <div class="col-lg-12">เข้าสู่ระบบล่าสุด : <?= $lastlogin; ?></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </form>
 
-<form action="<?=base_url('student/stdchangemail');?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>                   
-    <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?=$formcrfmail;?>">
-    <input type="hidden" name="Idmail" id="Idmail" value="<?=$Id;?>">
+<form action="<?= base_url('student/stdchangemail'); ?>" method="post" enctype="multipart/form-data" name="formChangemailstd" id="formChangemailstd" class="form-horizontal" novalidate>
+    <input type="hidden" name="formcrfmail" id="formcrfmail" value="<?= $formcrfmail; ?>">
+    <input type="hidden" name="Idmail" id="Idmail" value="<?= $Id; ?>">
 
     <div id="modal-chengemail" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -180,9 +178,9 @@ if (isset($liststudent) && count($liststudent) != 0) {
                 <div class="modal-body">
                     <h3 class="m-t-none m-b">เปลี่ยนที่อยู่อีเมล์</h3>
                     <p><span class="alert-link" href="#"> <b style="color:#c0392b">&nbsp;&nbsp;*&nbsp;&nbsp;</b> </span>เมื่อเปลี่ยนอีเมล์แล้วต้องเข้าสู่ระบบใหม่อีกครั้ง.</p>
-                    <hr/>
+                    <hr />
                     <div class="form-group-mgTB">
-                        <input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control"  data-url="<?=site_url('student/checkemail');?>" >
+                        <input type="email" name="std_email" id="std_email" placeholder="กรอกข้อมูลอีเมล์" class="form-control" data-url="<?= site_url('student/checkemail'); ?>">
                     </div>
                     <div class="mgBottom">
                         <button class="btn btn-lw100 btn-primary" type="submit"><strong>ยืนยันการเปลี่ยนที่อยู่อีเมล์</strong></button>
@@ -194,15 +192,15 @@ if (isset($liststudent) && count($liststudent) != 0) {
     </div>
 </form>
 
-<form action="<?=base_url('student/stdchangepassword');?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>                   
-    <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?=$formcrfpassword;?>">
-    <input type="hidden" name="Id2" id="Id2" value="<?=$Id;?>">
+<form action="<?= base_url('student/stdchangepassword'); ?>" method="post" enctype="multipart/form-data" name="formChangepasswordstd" id="formChangepasswordstd" class="form-horizontal" novalidate>
+    <input type="hidden" name="formcrfpassword" id="formcrfpassword" value="<?= $formcrfpassword; ?>">
+    <input type="hidden" name="Id2" id="Id2" value="<?= $Id; ?>">
     <div id="modal-chengpassword" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <h3 class="m-t-none m-b">เปลี่ยนรหัสผ่าน</h3>
-                    <hr/>
+                    <hr />
                     <div class="form-group-mgTB">
                         <input type="password" name="std_password" id="std_password" placeholder="กรุณากรอกรหัสผ่าน" class="form-control">
                     </div>
