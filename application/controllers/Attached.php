@@ -17,7 +17,7 @@ class Attached extends MX_Controller
 				'att_filename' 		=> $this->upfileimages('att_filename'),
 				'sub_id' 		    => $this->input->post('sub_id'),
 				'att_create_name' 	=> $this->encryption->decrypt($this->input->cookie('sysn')),
-				'att_create_name' 	=> date('Y-m-d H:i:s'),
+				'att_create_date' 	=> date('Y-m-d H:i:s'),
 			);
 			$this->attached->insertData($data);
 			
@@ -35,7 +35,7 @@ class Attached extends MX_Controller
 		if (!empty($_FILES[$fild_Name])) {
 			$new_name = time();
 			$config['upload_path'] = './uploads/attached';
-			$config['allowed_types'] = 'pdf|docx|doc|xlsx|xls|pptx|ptt';
+			$config['allowed_types'] = 'pdf|docx|doc|xlsx|xls|pptx|ptt|jpg|jpeg|png|gif';
 			$config['file_name'] = $new_name;
 			$config['max_size']	= 6500;
 			$this->load->library('upload', $config, 'upbanner');

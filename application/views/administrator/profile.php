@@ -177,7 +177,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 												<td style="width:10%"><?= $numrows; ?></td>
 												<td style="width:70%"><?= $value['att_name']; ?></td>
 												<td style="width:10%">
-													<button type="button" class="btn btn-sm btn-white"><i class="fa fa-download"></i></button>
+													<a href="<?=base_url('uploads/attached/'.$value['att_filename']);?>" download type="button" class="btn btn-sm btn-white"><i class="fa fa-download"></i></a>
 												</td>
 												<td style="width:10%">
 													<button type="button" class="btn btn-sm btn-danger btn-alert" data-url="<?= site_url('attached/delete/' . $value['att_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-remove"></i></button>

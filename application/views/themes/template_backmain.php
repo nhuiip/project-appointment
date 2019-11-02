@@ -322,6 +322,9 @@ $listmeet = $query_meet->result_array();
 										<a href="<?= site_url('calendar/index/' . $loginid); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">การนัดหมาย</span></a>
 									</li>
 									<li>
+										<a href="<?= site_url('student/stdsubject'); ?>"><i class="fa fa-file-text"></i> <span class="nav-label">ข้อมูลเอกสารรายวิชา</span></a>
+									</li>
+									<li>
 										<a href="<?= site_url('student/stdproject/' . $loginid); ?>"><i class="fa fa-book"></i> <span class="nav-label">ข้อมูลปริญญานิพนธ์</span></a>
 									</li>
 								</ul>

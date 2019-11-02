@@ -14,6 +14,7 @@ class Student extends MX_Controller
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
         $this->load->model("conference_model", "conference");
+        $this->load->model("Attached_model", "attached");
     }
 
     // อาจารย์ && ผู้ดูแล
@@ -1038,4 +1039,56 @@ class Student extends MX_Controller
 
     public function showdetailproject($project_id = '')
     { }
+
+    //================================================= แสดงรายละเอียดวิชา 
+    public function stdsubject()
+    { 
+        $data = array();
+
+        //แสดงรายวิชาที่เปิดอยู่
+        $condition = array();
+        $condition['fide'] = "tb_subject.sub_id,tb_subject.sub_status,tb_subject.sub_code,tb_subject.sub_name,tb_user.use_name,";
+        $condition['where'] = array('tb_subject.sub_status' => 1);
+        $condition['orderby'] = 'tb_subject.sub_code asc';
+        $data['listsubject'] = $this->subject->listjoinData($condition);
+
+        $data['formcrf'] = $this->tokens->token('formcrf');
+        $this->template->backend('student/subject', $data);
+
+    }
+
+    public function stdsubjectdetail($sub_id = "")
+    { 
+
+        if(empty($sub_id)){
+            show_404();
+        }else{
+
+            $data = array();
+
+            //แสดงรายวิชาที่เปิดอยู่
+            $condition = array();
+            $condition['fide'] = "tb_subject.sub_id,tb_subject.sub_code,tb_subject.sub_status,tb_subject.sub_name,tb_user.use_name";
+            $condition['where'] = array('tb_subject.sub_status !=' => 0);
+            $data['listshowsubject'] = $this->subject->listjoinData($condition);
+
+            //แสดงเฉพาะรายวิชาที่เลือกมา
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+            $data['listsubject'] = $this->subject->listjoinData($condition);
+
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where'] = array('tb_attached.sub_id' => $sub_id);
+            $data['listattached'] = $this->attached->listjoinData($condition);
+
+            
+            $data['formcrf'] = $this->tokens->token('formcrf');
+            $this->template->backend('student/subjectdetail', $data);
+
+        }
+
+    }
+
 }
