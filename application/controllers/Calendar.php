@@ -60,14 +60,8 @@ class Calendar extends MX_Controller
                         $condition = array();
                         $condition['fide'] = "*";
                         $condition['where'] = array('sub_status' => 1);
+                        $condition['orderby'] = 'sub_code asc, sub_name asc';
                         $data['listsubject'] = $this->subject->listjoinData($condition);
-
-                        // $condition = array();
-                        // $condition['fide'] = "*";
-                        // $condition['where'] = array('tb_projectperson.std_id' => $idlogin);
-                        // $listprojectperson = $this->project->listjoinData($condition);
-
-                        // $data['project_id'] = $listprojectperson[0]['project_id'];
 
                         $data['date'] = $date;
 
@@ -470,59 +464,6 @@ class Calendar extends MX_Controller
         echo json_encode($datas);
 
         die;
-    }
-
-    public function chkrequest($meetId = "")
-    {
-
-        $data = array();
-
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('tb_meet.meet_id' => $meetId);
-        $data['listshowproject'] = $this->meet->listjoinData($condition);
-
-        $project_id  =  $data['listshowproject'][0]['project_id'];
-        $meet_id     =  $data['listshowproject'][0]['meet_id'];
-        $sub_id      =  $data['listshowproject'][0]['sub_id'];
-        $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
-        $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
-
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('tb_project.project_id' => $project_id);
-        $listproject = $this->project->listjoinData($condition);
-
-        $data['teacher_fullname']  =  $listproject[0]['use_name'];
-
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('tb_projectperson.project_id' => $project_id);
-        $data['listprojectperson'] = $this->project->listperson($condition);
-
-        $condition = array();
-        $condition['fide'] = "tb_meet.project_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.dmeet_head,tb_user.use_name";
-        $condition['where'] = array('tb_meet.meet_id' => $meet_id);
-        $data['listmeet'] = $this->meet->listjoinData2($condition);
-
-        foreach ($data['listmeet'] as $key => $value) {
-
-            if ($value['dmeet_head'] == 1) {
-
-                $data['meetHeadshow'] = 1;
-            } else {
-
-                $data['meetHeadshow'] = 0;
-            }
-        }
-
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('tb_subject.sub_id' => $sub_id);
-        $data['listsubject'] = $this->subject->listjoinData($condition);
-
-        $data['formcrf'] = $this->tokens->token('formcrf');
-        $this->template->backend('calendar/chkrequest', $data);
     }
 
     public function showcalendar($meetId = "")

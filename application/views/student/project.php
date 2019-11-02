@@ -579,7 +579,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                     <div class="form-group row">
                         <label class="col-sm-12">เลือกไฟล์<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">
-                            <input type="file" name="file_name" id="file_name" class="form-control" accept="application/pdf">
+                            <input type="file" name="File_img" id="File_img" class="form-control" accept="application/pdf">
                         </div>
                     </div>
                     <!--*/form-group-->
