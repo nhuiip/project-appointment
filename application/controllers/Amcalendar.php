@@ -22,7 +22,7 @@ class Amcalendar extends MX_Controller
         $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
-        if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
+        if (!empty($this->encryption->decrypt($this->input->cookie('syslev'))) && $poslogin != "นักศึกษา") {
             $data = array();
 
             $condition['fide'] = "*";
@@ -41,7 +41,7 @@ class Amcalendar extends MX_Controller
             $data['time'] = $time;
             $this->template->backend('calendar/adminmain', $data);
         } else {
-            show_404();
+            $this->load->view('errors/html/error_403');
         }
     }
 

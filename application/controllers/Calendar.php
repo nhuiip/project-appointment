@@ -34,16 +34,23 @@ class Calendar extends MX_Controller
         }
     }
 
-    public function subject($sec_id = "", $date = "")
+    public function subject($date = "")
     {
         $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
         $idlogin    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
-            if ($sec_id == "") {
+            if ($date == "") {
                 show_404();
+
             } else {
-                if ($date == "") {
+
+                $data = array();
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('tb_section.sec_date' => $date, 'tb_settings.set_status' => 2);
+                $listsection = $this->section->listjoinData($condition);
+                if (count($listsection) == 0) {
                     show_404();
                 } else {
 
@@ -68,6 +75,7 @@ class Calendar extends MX_Controller
                         $data['formcrf'] = $this->tokens->token('formcrf');
                         $this->template->backend('calendar/subject', $data);
                     }
+
                 }
             }
         }
@@ -147,7 +155,7 @@ class Calendar extends MX_Controller
             $listJson[$key]['title'] = "นัดสอบ";
             $listJson[$key]['start'] = $value['sec_date'];
             $listJson[$key]['color'] = "#16a085";
-            $listJson[$key]['url'] = site_url('calendar/subject/' . $value['set_id'] . "/" . $value['sec_date']);
+            $listJson[$key]['url'] = site_url('calendar/subject/' . $value['sec_date']);
         }
 
         echo json_encode($listJson);
@@ -200,7 +208,7 @@ class Calendar extends MX_Controller
         //เช็คอาจารย์ที่ปรึกษา
         $condition = array();
         $condition['fide'] = "tb_projectperson.std_id,tb_projectperson.project_id,tb_project.use_id,tb_user.position_id";
-        $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')),'project_status !=' => 0);
+        $condition['where'] = array('tb_projectperson.std_id' => $this->encryption->decrypt($this->input->cookie('sysli')), 'project_status !=' => 0);
         $projectperson = $this->project->listjoinData($condition);
 
         $listJson = array();
@@ -208,7 +216,7 @@ class Calendar extends MX_Controller
             $listJson[$key]['id'] = $value['use_id'];
             $listJson[$key]['name'] = $value['use_name'];
             $listJson[$key]['time'] = $time;
-            
+
             if ($listdatasubject[0]['use_id'] == $value['use_id']) {
 
                 //อาจารย์ประจำวิชา
@@ -216,7 +224,7 @@ class Calendar extends MX_Controller
                 $listJson[$key]['subjectUserId'] = 'checked=""  disabled';
                 $listJson[$key]['subjectUserstatus'] = '&nbsp;[อาจารย์ประจำวิชา]';
                 $listJson[$key]['checkuserHidden'] = '<input type="hidden" value="' . $value['use_id'] . '" name="checkUser[]" id="checkUser"/> ';
-            } else{
+            } else {
                 $listJson[$key]['subjectUserId'] = '';
                 $listJson[$key]['checkuserHidden'] = '';
                 $listJson[$key]['subjectUserstatus'] = '';
@@ -233,10 +241,9 @@ class Calendar extends MX_Controller
 
             //เช็คอาจารย์พิเศษ
             if ($value['position_id'] == 5) {
-                
-                $listJson[$key]['subjectPositionstatus'] = '&nbsp;[อาจารย์พิเศษ]';
 
-            }else{
+                $listJson[$key]['subjectPositionstatus'] = '&nbsp;[อาจารย์พิเศษ]';
+            } else {
                 $listJson[$key]['subjectPositionstatus'] = '';
             }
 
@@ -247,17 +254,15 @@ class Calendar extends MX_Controller
 
                     $checked = "checked";
 
-                    $listJson[$key]['rediouserHidden'] = '<div id="'.$value['use_id'].'" class="radio chkheadProject" style="display: none;" >&nbsp;<input  type="radio" name="radioHeadproject" id="radio' . $value['use_id'] . '" value="' . $value['use_id'] . '" ><label for="radio' . $value['use_id'] . '">เลือกเป็นประธานขึ้นสอบ </label></<div>';
+                    $listJson[$key]['rediouserHidden'] = '<div id="' . $value['use_id'] . '" class="radio chkheadProject" style="display: none;" >&nbsp;<input  type="radio" name="radioHeadproject" id="radio' . $value['use_id'] . '" value="' . $value['use_id'] . '" ><label for="radio' . $value['use_id'] . '">เลือกเป็นประธานขึ้นสอบ </label></<div>';
                 } else {
                     $listJson[$key]['rediouserHidden'] = '';
                 }
 
                 if ($value['position_id'] == 5) {
-                
-                    $listJson[$key]['rediouserHidden'] = '';
-    
-                }
 
+                    $listJson[$key]['rediouserHidden'] = '';
+                }
             } else {
 
                 $listJson[$key]['rediouserHidden'] = '';
@@ -266,7 +271,7 @@ class Calendar extends MX_Controller
         echo json_encode($listJson);
         die;
     }
-    
+
     public function request()
     {
 
@@ -279,7 +284,7 @@ class Calendar extends MX_Controller
         $condition['fide'] = "*";
         $condition['where'] = array('sub_id' => $sub_id);
         $listsubject = $this->subject->listData($condition);
-        if(count($this->input->post('checkUser')) != $listsubject[0]['sub_setuse']){
+        if (count($this->input->post('checkUser')) != $listsubject[0]['sub_setuse']) {
             $result = array(
                 'error' => true,
                 'title' => "",
@@ -313,7 +318,7 @@ class Calendar extends MX_Controller
         $sub_setuse  =  $listsubject[0]['sub_setuse']; //จำนวนอาจารย์ขึ้นสอบอย่างน้อย
 
         if ($this->tokens->verify('formcrf')) {
-            
+
             if (count($this->input->post('checkUser')) == $sub_setuse) {
 
                 // insert meet
@@ -340,7 +345,6 @@ class Calendar extends MX_Controller
                     $other['use_id']             = $this->input->post('checkUser')[$i];
                     $other['dmeet_status']         = 2;
                     $other['dmeet_head']         = 0;
-                    $other['sec_id']             = $sec_id;
 
                     $dmeet_id  = $this->meet->insertDetail($other);
                 }
@@ -359,21 +363,20 @@ class Calendar extends MX_Controller
 
                 //update status อาจารย์พิเศษต้องเท่ากับ 1
                 for ($i = 0; $i < count($this->input->post('checkUser')); $i++) {
-        
+
                     $condition = array();
                     $condition['fide'] = "tb_user.use_id,tb_user.position_id,tb_meetdetail.dmeet_id";
                     $condition['where'] = array('tb_user.use_id' => $this->input->post('checkUser')[$i]);
                     $listuser = $this->meet->listjoinData2($condition);
-        
-                    
-                    if($listuser[0]['position_id'] == 5){
-        
+
+
+                    if ($listuser[0]['position_id'] == 5) {
+
                         $datas = array(
                             'dmeet_id'            => $listuser[0]['dmeet_id'],
                             'dmeet_status'          => 1,
                         );
                         $this->meet->updateDetail($datas);
-        
                     }
                 }
 
@@ -436,6 +439,7 @@ class Calendar extends MX_Controller
         }
     }
 
+
     public function addhead()
     {
 
@@ -465,6 +469,60 @@ class Calendar extends MX_Controller
 
         die;
     }
+
+    // public function chkrequest($meetId = "")
+    // {
+
+    //     $data = array();
+
+    //     $condition = array();
+    //     $condition['fide'] = "*";
+    //     $condition['where'] = array('tb_meet.meet_id' => $meetId);
+    //     $data['listshowproject'] = $this->meet->listjoinData($condition);
+
+    //     $project_id  =  $data['listshowproject'][0]['project_id'];
+    //     $meet_id     =  $data['listshowproject'][0]['meet_id'];
+    //     $sub_id      =  $data['listshowproject'][0]['sub_id'];
+    //     $data['meet_date']     =  $data['listshowproject'][0]['meet_date'];
+    //     $data['meet_time']     =  $data['listshowproject'][0]['meet_time'];
+
+    //     $condition = array();
+    //     $condition['fide'] = "*";
+    //     $condition['where'] = array('tb_project.project_id' => $project_id);
+    //     $listproject = $this->project->listjoinData($condition);
+
+    //     $data['teacher_fullname']  =  $listproject[0]['use_name'];
+
+    //     $condition = array();
+    //     $condition['fide'] = "*";
+    //     $condition['where'] = array('tb_projectperson.project_id' => $project_id);
+    //     $data['listprojectperson'] = $this->project->listperson($condition);
+
+    //     $condition = array();
+    //     $condition['fide'] = "tb_meet.project_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_id,tb_meetdetail.dmeet_head,tb_user.use_name";
+    //     $condition['where'] = array('tb_meet.meet_id' => $meet_id);
+    //     $data['listmeet'] = $this->meet->listjoinData2($condition);
+
+    //     foreach ($data['listmeet'] as $key => $value) {
+
+    //         if ($value['dmeet_head'] == 1) {
+
+    //             $data['meetHeadshow'] = 1;
+    //         } else {
+
+    //             $data['meetHeadshow'] = 0;
+    //         }
+    //     }
+
+    //     $condition = array();
+    //     $condition['fide'] = "*";
+    //     $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+    //     $data['listsubject'] = $this->subject->listjoinData($condition);
+
+    //     $data['formcrf'] = $this->tokens->token('formcrf');
+    //     $this->template->backend('calendar/chkrequest', $data);
+    // }
+
 
     public function showcalendar($meetId = "")
     {
@@ -511,39 +569,34 @@ class Calendar extends MX_Controller
         $this->template->backend('calendar/chkrequest', $data);
     }
 
-    public function message_verify($data, $userid, $use_name)
+    public function message_verify($data)
     {
-
-        $burl = site_url('student/showdetailproject/' . $data['project_id'] . '/' . $userid);
         $html = file_get_contents("assets/template_email/teac-meet-email.html");
-        $html = str_replace('[DATA-LINK]', $burl, $html);
         $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
-        $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
-        // $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
-        // $html = str_replace('[DATA-USERID]', $userid, $html);
         return $html;
     }
 
-    public function messagestd_verify($data, $userid, $use_name)
+    public function messagestd_verify($data)
     {
 
-        $burl = site_url('student/showdetailproject/' . $data['project_id'] . '/' . $userid);
         $html = file_get_contents("assets/template_email/std-meet-email.html");
-        $html = str_replace('[DATA-LINK]', $burl, $html);
         $html = str_replace('[DATA-PROJECTNAME]', $data['project_name'], $html);
-        $html = str_replace('[DATA-FULLNAME]', $use_name, $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
-        // $html = str_replace('[DATA-PROJECDETAIL]', $data['detail'], $html);
-        // $html = str_replace('[DATA-USERID]', $userid, $html);
         return $html;
     }
 
     public function sandrequest($meetId = "")
     {
-
+        $listemail = array(
+            'preedarat.jut@gmail.com',
+            'preedarat.id@hotmail.com',
+            'preedarat@thevista.co.th',
+            'yui.napassorn.s@gmail.com',
+            'napassorn@thevista.co.th'
+        );
         if (!empty($meetId)) {
 
             //select project
@@ -566,8 +619,8 @@ class Calendar extends MX_Controller
 
             //select email user
             $condition = array();
-            $condition['fide'] = "tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_user.use_email,tb_user.use_name";
-            $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id,'tb_user.position_id !=' => 5);
+            $condition['fide'] = "tb_meetdetail.meet_id, tb_meetdetail.use_id, tb_user.use_email, tb_user.use_name";
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id, 'tb_user.position_id !=' => 5);
             $listemailuser = $this->meet->listjoinData2($condition);
 
             if (count($listemailuser) != 0) {
@@ -578,47 +631,30 @@ class Calendar extends MX_Controller
                     'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
                 );
 
-                foreach ($listemailuser as $key => $value) {
+                require_once APPPATH . 'third_party/class.phpmailer.php';
+                require_once APPPATH . 'third_party/class.smtp.php';
+                $mail = new PHPMailer;
 
-                    $use_fullname   =   "เรียน&nbsp;" . $value['use_name'];
+                // ## setting SMTP mail.preedarat-cv.com
+                $mail->CharSet = "utf-8";
+                $mail->IsSMTP();
+                $mail->SMTPDebug = 0;
+                $mail->SMTPAuth = true;
+                $mail->Host = "mail.preedarat-cv.com";
+                $mail->Port = 25;
+                $mail->Username = "support@preedarat-cv.com";
+                $mail->Password = "F!o8qebi";
+                $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
 
-                    require_once APPPATH . 'third_party/class.phpmailer.php';
-                    require_once APPPATH . 'third_party/class.smtp.php';
-                    $mail = new PHPMailer;
-                    $mail->SMTPOptions = array(
-                        'ssl' => array(
-                            'verify_peer' => false,
-                            'verify_peer_name' => false,
-                            'allow_self_signed' => true
-                        )
-                    );
-                    $mail->CharSet = "utf-8";
-                    $mail->IsSMTP();
-                    $mail->SMTPDebug = 0;
-                    $mail->SMTPAuth = true;
-
-                    $mail->Host = "27.254.131.201";
-                    $mail->Port = 25;
-                    $mail->Username = "system@preedarat-cv.com";
-                    $mail->Password = "r4c!H3w0";
-                    $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
-
-                    $mail->AddAddress($value['use_email']);
-
-                    // $mail->AddAddress('preedarat.jut@gmail.com');
-                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
-                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-
-                    $message = $this->message_verify($data, $value['use_id'], $use_fullname);
-
-                    $mail->MsgHTML($message);
-                    // $mail->send();
-                    if (!$mail->send()) {
-                        echo $mail->ErrorInfo . '<br>';
-                    } else {
-                        echo 'Send<br>';
-                    }
+                // foreach ($listemailuser as $key => $value) {
+                foreach ($listemail as $key => $value) {
+                    // $mail->AddAddress($value['use_email']);
+                    $mail->AddAddress($value);
                 }
+                $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+                $message = $this->message_verify($data);
+                $mail->MsgHTML($message);
+                $mail->send();
             }
 
             //sand std project
@@ -636,39 +672,31 @@ class Calendar extends MX_Controller
                     'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
                 );
 
-                foreach ($listemailstd as $key => $value) {
+                require_once APPPATH . 'third_party/class.phpmailer.php';
+                require_once APPPATH . 'third_party/class.smtp.php';
+                $mail = new PHPMailer;
 
-                    $std_fullname   = '&nbsp;' . $value['std_title'] . '' . $value['std_fname'] . '&nbsp;&nbsp;' . $value['std_lname'];
+                // ## setting SMTP mail.preedarat-cv.com
+                $mail->CharSet = "utf-8";
+                $mail->IsSMTP();
+                $mail->SMTPDebug = 0;
+                $mail->SMTPAuth = true;
+                $mail->Host = "mail.preedarat-cv.com";
+                $mail->Port = 25;
+                $mail->Username = "support@preedarat-cv.com";
+                $mail->Password = "F!o8qebi";
+                $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
 
-                    require_once APPPATH . 'third_party/class.phpmailer.php';
-                    require_once APPPATH . 'third_party/class.smtp.php';
-                    $mail = new PHPMailer;
-                    $mail->SMTPOptions = array(
-                        'ssl' => array(
-                            'verify_peer' => false,
-                            'verify_peer_name' => false,
-                            'allow_self_signed' => true
-                        )
-                    );
-                    $mail->CharSet = "utf-8";
-                    $mail->IsSMTP();
-                    $mail->SMTPDebug = 0;
-                    $mail->SMTPAuth = true;
-
-                    $mail->Host = "27.254.131.201";
-                    $mail->Port = 25;
-                    $mail->Username = "system@preedarat-cv.com";
-                    $mail->Password = "r4c!H3w0";
-                    $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
-
-                    $mail->AddAddress($value['std_email']);
-                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
-                    // $mail->AddAddress('preedarat.jut@gmail.com');
-                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                    $message = $this->messagestd_verify($data, $value['std_id'], $std_fullname);
-                    $mail->MsgHTML($message);
-                    $mail->send();
+                // foreach ($listemailstd as $key => $value) {
+                foreach ($listemail as $key => $value) {
+                    // $mail->AddAddress($value['use_email']);
+                    $mail->AddAddress($value);
                 }
+                $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+                $message = $this->messagestd_verify($data);
+                $mail->MsgHTML($message);
+                $mail->send();
+
                 $result = array(
                     'error' => false,
                     'msg' => 'ส่งคำขอเรียบร้อยแล้ว',
@@ -689,5 +717,4 @@ class Calendar extends MX_Controller
     {
         $this->load->view('page/succeed-request');
     }
-
 }
