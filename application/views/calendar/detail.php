@@ -215,7 +215,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                             <? if ($chkprojectrequest == 0) { ?>
                                                 <? if (count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                                     <div class="m-t text-righ">
-                                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-subid="<?= $sub_id; ?>" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-subid="<?= $sub_id; ?>"  data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                     </div>
                                                 <? } else { ?>
                                                     <div class="m-t text-righ">

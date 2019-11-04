@@ -31,10 +31,20 @@ label.error {
 }
 </style>
 
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>คำขอนัดหมายขึ้นสอบ</h2>
+        <ol class="breadcrumb">
+            <li>หน้าแรก</li>
+            <li class="active"><strong>คำขอนัดหมายขึ้นสอบปริญญานิพนธ์</strong></li>
+        </ol>
+    </div>
+</div>
+
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
        
-        <div class="col-md-8">
+        <div class="col-md-12">
            
          
             <?PHP 
@@ -42,17 +52,15 @@ label.error {
                 $this->db->from('tb_meet');
                 $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
                 $this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
-                // $this->db->where('meet_date', $date);
                 $this->db->where('tb_meetdetail.use_id',$idlogin);
                 $this->db->where('tb_meetdetail.dmeet_status',2);
-                // $this->db->where("(meet_time=" . $value['one'] . "OR meet_time=" . $value['two'] . ")", NULL, FALSE);
                 $querys = $this->db->get();
                 $meet = $querys->result_array();
 
             ?>
              <?PHP if (count($meet) != 0) { ?>
                 <?PHP foreach ($meet as $key => $vmeet) { ?>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="ibox">
                             <div class="ibox-content product-box">
                                 <div class="product-desc">
@@ -76,17 +84,16 @@ label.error {
                                         <p>
                                             <?PHP foreach ($listt as $key => $v) { ?>
                                                 <? if ($v['use_id'] == $vmeet['use_id']) { ?>
-                                                    <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
+                                                    <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content red">ที่ปรึกษา</span></div>
                                                 <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                    <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
+                                                    <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content orange">ประธาน</span></div>
                                                 <? } else { ?>
-                                                    <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                                    <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></div>
                                                 <? } ?>
                                             <? } ?>
                                         </p>
                                     </div>
                                     <div class="m-t text-righ">
-                                        <!-- <button class="btn btn-xs btn-outline btn-danger"> ยืนยันการทำนัด <i class="fa fa-long-arrow-right"></i> </button> -->
                                         <a href="#" type="button" class="btn btn-outline btn-danger btn-alert" data-url="<?=base_url('amcalendar/cancel/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันยกเลิกการทำนัด" data-text="<?=$vmeet['project_name']; ?>">ยกเลิกการทำนัด</a>
                                         <a href="#" type="button" class="btn btn-outline btn-success btn-alert" data-url="<?=base_url('amcalendar/submit/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันการทำนัดหมายนี้" data-text="<?=$vmeet['project_name']; ?>">ยืนยันการทำนัด</a>
                                         <a href="<?=base_url('project/detail/'.$vmeet['project_id']);?>" target="_bank" button type="button" class="btn btn-outline btn-primary">รายละเอียดเพิ่มเติม</a>
@@ -110,21 +117,6 @@ label.error {
                 </div>
             <?PHP } ?>
            
-        </div>
-        <div class="col-lg-4">
-            <div class="ibox float-e-margins">
-                <div class="ibox-content">
-                    <div class="row">
-                        <span class="badge badge-warning col-sm-2" style="margin-bottom: 5px;">สีเหลือง</span>
-                        <div class="col-sm-10" style="margin-bottom: 5px;">คือ ประธานการขึ้นสอบปริญญานิพนธ์</div>
-                        <span class="badge badge-danger col-sm-2" style="margin-bottom: 5px;">สีแดง</span>
-                        <div class="col-sm-10" style="margin-bottom: 5px;">คือ อาจารย์ประจำวิชา</div>
-                        <span class="badge badge-default col-sm-2" style="margin-bottom: 5px;">สีเทา</span>
-                        <div class="col-sm-10" style="margin-bottom: 5px;">คือ กรรมการขึ้นปริญญานิพนธ์</div>
-                    </div>
-                </div>
-            </div>
-
         </div>
         
     </div>

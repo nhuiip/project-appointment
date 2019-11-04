@@ -50,7 +50,7 @@ function DateThai($strDate)
                             $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
                             $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
                             $this->db->where(array('tb_meetdetail.meet_id' => $meet[0]['meet_id'], 'tb_meetdetail.dmeet_status !=' => 0));
-                            $this->db->order_by("use_name", "ASC");
+                            $this->db->order_by("use_name", "asc");
                             $query = $this->db->get();
                             $listt = $query->result_array();
                         }
