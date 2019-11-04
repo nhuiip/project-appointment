@@ -53,7 +53,8 @@ label.error {
                 $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
                 $this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
                 $this->db->where('tb_meetdetail.use_id',$idlogin);
-                $this->db->where('tb_meetdetail.dmeet_status',2);
+                $this->db->where('tb_meetdetail.dmeet_status',2); 
+                $this->db->where('tb_project.project_status',1);
                 $querys = $this->db->get();
                 $meet = $querys->result_array();
 
