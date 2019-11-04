@@ -218,8 +218,8 @@ class Amcalendar extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";
@@ -257,8 +257,8 @@ class Amcalendar extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";
@@ -472,8 +472,8 @@ class Amcalendar extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";
@@ -520,8 +520,8 @@ class Amcalendar extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";

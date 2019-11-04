@@ -151,7 +151,7 @@ class Student extends MX_Controller
         // setting email
         $condition = array();
         $condition['fide'] = "email_user, email_password";
-        $condition['where'] = array('email_status' => 2);
+        $condition['where'] = array('email_status' => 1);
         $listemail = $this->emailset->listData($condition);
 
         if (!empty($id)) {
@@ -178,8 +178,8 @@ class Student extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";
@@ -268,8 +268,11 @@ class Student extends MX_Controller
             // setting email
             $condition = array();
             $condition['fide'] = "email_user, email_password";
-            $condition['where'] = array('email_status' => 2);
-            $listemail = $this->emailset->listData($condition);
+            $condition['where'] = array('email_status' => 1);
+            $emailset = $this->emailset->listData($condition);
+
+            $usermail = $emailset[0]['email_user'];
+            $passmail = $emailset[0]['email_password'];
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
@@ -277,15 +280,15 @@ class Student extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";
             $mail->Port = 587;
-            $mail->Username = $listemail[0]['email_user'];
-            $mail->Password = $listemail[0]['email_password'];
-            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+            $mail->Username = $usermail;
+            $mail->Password = $passmail;
+            $mail->setFrom($usermail, 'Appoint-IT');
 
             $mail->AddAddress($datamail['email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -293,7 +296,7 @@ class Student extends MX_Controller
             $mail->MsgHTML($message);
             $mail->send();
 
-            echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
+            // echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
             die;
         } else {
             show_404();
@@ -629,7 +632,7 @@ class Student extends MX_Controller
             // setting email
             $condition = array();
             $condition['fide'] = "email_user, email_password";
-            $condition['where'] = array('email_status' => 2);
+            $condition['where'] = array('email_status' => 1);
             $listemail = $this->emailset->listData($condition);
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
@@ -638,8 +641,8 @@ class Student extends MX_Controller
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
             $mail->Mailer = "smtp";
-            $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "tls";
             $mail->Host = "smtp.gmail.com";
@@ -1014,8 +1017,8 @@ class Student extends MX_Controller
 
         // ## setting SMTP GMAIL
         $mail->IsSMTP();
+        $mail->CharSet = 'UTF-8';
         $mail->Mailer = "smtp";
-        $mail->IsSMTP();
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = "tls";
         $mail->Host = "smtp.gmail.com";

@@ -505,7 +505,7 @@ class Calendar extends MX_Controller
         // setting email
         $condition = array();
         $condition['fide'] = "email_user, email_password";
-        $condition['where'] = array('email_status' => 2);
+        $condition['where'] = array('email_status' => 1);
         $listemail = $this->emailset->listData($condition);
 
         if (!empty($meetId)) {
@@ -549,8 +549,8 @@ class Calendar extends MX_Controller
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
-                $mail->Mailer = "smtp";
-                $mail->IsSMTP();
+                $mail->CharSet = 'UTF-8';
+                $mail->Mailer = "smtp";;
                 $mail->SMTPAuth = true;
                 $mail->SMTPSecure = "tls";
                 $mail->Host = "smtp.gmail.com";
@@ -591,8 +591,8 @@ class Calendar extends MX_Controller
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
+                $mail->CharSet = 'UTF-8';
                 $mail->Mailer = "smtp";
-                $mail->IsSMTP();
                 $mail->SMTPAuth = true;
                 $mail->SMTPSecure = "tls";
                 $mail->Host = "smtp.gmail.com";
