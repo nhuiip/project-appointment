@@ -65,7 +65,7 @@ $listmeet = $query_meet->result_array();
 		/* Absolute Center Spinner */
 		.loading {
 			position: fixed;
-			z-index: 999;
+			z-index: 9999;
 			height: 2em;
 			width: 2em;
 			overflow: visible;
@@ -85,7 +85,7 @@ $listmeet = $query_meet->result_array();
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background-color: rgba(236, 240, 241, 0.8);
+			background-color: rgba(236, 240, 241, 1);
 		}
 
 		/* :not(:required) hides these rules from IE9 and below */
@@ -267,6 +267,7 @@ $listmeet = $query_meet->result_array();
 							<? } ?>
 							<? if ($position == 'ผู้ดูแลระบบ') { ?>
 								<li><a href="<?= site_url('administrator/main'); ?>"><i class="fa fa-group"></i> <span class="nav-label">จัดการข้อมูลผู้ใช้</span></a></li>
+								<li><a href="<?= site_url('emailset/index'); ?>"><i class="fa fa-envelope"></i> <span class="nav-label">ตั้งค่า Email</span></a></li>
 								<li><a href="<?= site_url('setting/index'); ?>"><i class="fa fa-tasks"></i> <span class="nav-label">ตั้งค่าระบบ</span></a></li>
 							<? } ?>
 

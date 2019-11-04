@@ -13,6 +13,7 @@ class Amcalendar extends MX_Controller
         $this->load->model("section_model", "section");
         $this->load->model("meet_model", "meet");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("emailset_model", "emailset");
         $this->load->library('cart');
         $this->load->library('session');
     }
@@ -29,7 +30,7 @@ class Amcalendar extends MX_Controller
             $condition['where'] = array('tb_settings.set_status' => 2);
             $condition['groupby'] = "sec_date";
             $data['listsec'] = $this->section->listjoinData($condition);
-            
+
             $time = array();
             $time[0] = array('one' => '9.00', 'two' => '9.00');
             $time[1] = array('one' => '10.00', 'two' => '10.30');
@@ -45,14 +46,15 @@ class Amcalendar extends MX_Controller
         }
     }
 
-    public function request(){
+    public function request()
+    {
 
-        
+
 
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
-          
+
             $data = array();
-           
+
             $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
             $data['idlogin']    = $this->encryption->decrypt($this->input->cookie('sysli'));
 
@@ -63,13 +65,12 @@ class Amcalendar extends MX_Controller
 
             $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('calendar/request', $data);
-            
         }
-
     }
 
     //ยืนยันการนัดหมาย
-    public function submit($dmeet_id = '', $use_id = ''){
+    public function submit($dmeet_id = '', $use_id = '')
+    {
 
         //อัพเดตสถานะเป็น 1 คือการยอมรับนัดหมาย
         $data = array(
@@ -95,13 +96,13 @@ class Amcalendar extends MX_Controller
 
         $condition = array();
         $condition['fide'] = "*";
-        $condition['where'] = array('sec_date' => $meet_date,'sec_time_one' => $meet_time,'use_id' => $use_id, );
+        $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
         $selectsection = $this->section->listData($condition);
 
-        if(count($selectsection ) == 0){
+        if (count($selectsection) == 0) {
             $condition = array();
             $condition['fide'] = "*";
-            $condition['where'] = array('sec_date' => $meet_date,'sec_time_two' => $meet_time,'use_id' => $use_id, );
+            $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
             $selectsection = $this->section->listData($condition);
 
             $data = array(
@@ -109,15 +110,13 @@ class Amcalendar extends MX_Controller
                 'sec_status'     => 2,
             );
             $this->section->updateData($data);
-
-        }else{
+        } else {
 
             $data = array(
                 'sec_id'         => $selectsection[0]['sec_id'],
                 'sec_status'     => 2,
             );
             $this->section->updateData($data);
-
         }
 
         //เช็คจำนวนคนที่กดยอมรับว่าครบที่กำหนดไหม หากครบ นัดต้องเป็น 1
@@ -132,7 +131,7 @@ class Amcalendar extends MX_Controller
         $selectsubject = $this->meet->listjoinData($condition);
 
         //หากจำนวนอาจารย์ที่ทำนัดยอมรับครบตามที่กำหนด ต้องอัพเดตสถานะ user เป็น 0
-        if(count($selectmeetuser) == $selectsubject[0]['sub_setuse'] ){
+        if (count($selectmeetuser) == $selectsubject[0]['sub_setuse']) {
 
             //อัพเดตในตาราง tb_meerdetail เป็น dmeet_status = 1 [สำเร็จ]
             foreach ($selectmeetuser as $key => $value) {
@@ -157,12 +156,12 @@ class Amcalendar extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('sec_date' => $meet_date,'sec_time_one' => $meet_time,'use_id' => $use_id, );
+                $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
                 $selectsection = $this->section->listData($condition);
-                if(count($selectsection ) == 0){
+                if (count($selectsection) == 0) {
                     $condition = array();
                     $condition['fide'] = "*";
-                    $condition['where'] = array('sec_date' => $meet_date,'sec_time_two' => $meet_time,'use_id' => $use_id, );
+                    $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
                     $selectsection = $this->section->listData($condition);
 
                     $data = array(
@@ -170,17 +169,14 @@ class Amcalendar extends MX_Controller
                         'sec_status'     => 2,
                     );
                     $this->section->updateData($data);
-
-                }else{
+                } else {
 
                     $data = array(
                         'sec_id'         => $selectsection[0]['sec_id'],
                         'sec_status'     => 2,
                     );
                     $this->section->updateData($data);
-
                 }
-
             }
 
             //อัพเดตสถานะนัดเป็น 1
@@ -189,9 +185,8 @@ class Amcalendar extends MX_Controller
                 'meet_status'    => 1,
             );
             $this->meet->updateData2($data);
-
         }
-        
+
 
         //แปลงวันที่
         $strYear = date("Y", strtotime($meet_date)) + 543;
@@ -207,36 +202,38 @@ class Amcalendar extends MX_Controller
         $selectuser = $this->administrator->listData($condition);
 
         $data = array(
-            // 'fullname'        => $selectuser[0]['use_name'],
-            // 'project_name'    => $project_name,
-            // 'meet_time'       => $meet_time,
-            // 'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
-            'detail'          => 'คุณได้กดยืนยันการนัดหมายให้ขึ้นสอบปริญญานิพนธ์ หัวข้อ '. $project_name .'ในวันที่ '.$strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear.'&nbsp;เวลา '.$meet_time.'&nbsp; น.&nbsp; แล้ว หากนัดหมายนี้สำเร็จ ระบบจะแจ้งเตือนวันที่นัดหมายในหน้าแรกของคุณ',
+            'detail'          => 'คุณได้กดยืนยันการนัดหมายให้ขึ้นสอบปริญญานิพนธ์ หัวข้อ ' . $project_name . 'ในวันที่ ' . $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear . '&nbsp;เวลา ' . $meet_time . '&nbsp; น.&nbsp; แล้ว หากนัดหมายนี้สำเร็จ ระบบจะแจ้งเตือนวันที่นัดหมายในหน้าแรกของคุณ',
         );
-        
-        if(count($selectuser) != 0){
+
+        // setting email
+        $condition = array();
+        $condition['fide'] = "email_user, email_password";
+        $condition['where'] = array('email_status' => 1);
+        $listemail = $this->emailset->listData($condition);
+
+        if (count($selectuser) != 0) {
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
-            $mail->CharSet = "utf-8";
+
+            // ## setting SMTP GMAIL
             $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
+            $mail->Mailer = "smtp";
+            $mail->IsSMTP();
             $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            $mail->Host = "27.254.131.201";
-            $mail->Port = 25;
-            $mail->Username = "system@preedarat-cv.com";
-            $mail->Password = "r4c!H3w0";
-            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
-
-            $mail->AddAddress($selectuser[0]['use_email']);
+            // $mail->AddAddress($selectuser[0]['use_email']);
             // $mail->AddAddress('yui.napassorn.s@gmail.com');
-            // $mail->AddAddress('preedarat.jut@gmail.com');
+            $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-            $message = $this->messageteacsubmit_verify($data,$selectuser[0]['use_name']);
-
+            $message = $this->messageteacsubmit_verify($data, $selectuser[0]['use_name']);
             $mail->MsgHTML($message);
-
             $mail->send();
         }
 
@@ -249,24 +246,27 @@ class Amcalendar extends MX_Controller
         $selectstd = $this->project->listperson($condition);
 
         $data = array(
-            'detail'          => $selectuser[0]['use_name'].' ได้กดยืนยันการนัดหมายขึ้นสอบปริญญานิพนธ์ หัวข้อ '. $project_name .'ในวันที่ '.$strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear.'&nbsp;เวลา '.$meet_time.'&nbsp; น.&nbsp; แล้ว สามารถเข้าสู่ระบบเพื่อตรวจสอบข้อมูลได้ที่ Appiont-IT',
+            'detail'          => $selectuser[0]['use_name'] . ' ได้กดยืนยันการนัดหมายขึ้นสอบปริญญานิพนธ์ หัวข้อ ' . $project_name . 'ในวันที่ ' . $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear . '&nbsp;เวลา ' . $meet_time . '&nbsp; น.&nbsp; แล้ว สามารถเข้าสู่ระบบเพื่อตรวจสอบข้อมูลได้ที่ Appiont-IT',
         );
 
-        if(count($selectstd) != 0){
+        if (count($selectstd) != 0) {
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
-            $mail->CharSet = "utf-8";
-            $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
-            $mail->SMTPAuth = true;
 
-            $mail->Host = "27.254.131.201";
-            $mail->Port = 25;
-            $mail->Username = "system@preedarat-cv.com";
-            $mail->Password = "r4c!H3w0";
-            $mail->setFrom('system@preedarat-cv.com', 'Appoint-IT');
+            // ## setting SMTP GMAIL
+            $mail->IsSMTP();
+            $mail->Mailer = "smtp";
+            $mail->IsSMTP();
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+
             foreach ($selectstd as $key => $value) {
                 $mail->AddAddress($value['std_email']);
             }
@@ -279,8 +279,7 @@ class Amcalendar extends MX_Controller
             $mail->send();
         }
 
-        header("location:" . site_url('amcalendar/request/2'));     
-
+        header("location:" . site_url('amcalendar/request/2'));
     }
 
     public function messageteacsubmit_verify($data)
@@ -318,12 +317,12 @@ class Amcalendar extends MX_Controller
 
         $condition = array();
         $condition['fide'] = "*";
-        $condition['where'] = array('sec_date' => $meet_date,'sec_time_one' => $meet_time,'use_id' => $use_id, );
+        $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
         $selectsection = $this->section->listData($condition);
-        if(count($selectsection ) == 0){
+        if (count($selectsection) == 0) {
             $condition = array();
             $condition['fide'] = "*";
-            $condition['where'] = array('sec_date' => $meet_date,'sec_time_two' => $meet_time,'use_id' => $use_id, );
+            $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
             $selectsection = $this->section->listData($condition);
 
             $data = array(
@@ -331,17 +330,15 @@ class Amcalendar extends MX_Controller
                 'sec_status'     => 1,
             );
             $this->section->updateData($data);
-
-        }else{
+        } else {
 
             $data = array(
                 'sec_id'         => $selectsection[0]['sec_id'],
                 'sec_status'     => 1,
             );
             $this->section->updateData($data);
-
         }
-        
+
         //เช็คจำนวนคนที่กดยกเลิกว่าเกินที่กำหนดไหม หากเกิน นัดต้องยกเลิกเป็น 0
         $condition = array();
         $condition['fide'] = "tb_meetdetail.meet_id,tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time";
@@ -354,8 +351,8 @@ class Amcalendar extends MX_Controller
         $selectsubject = $this->meet->listjoinData($condition);
 
         //หากจำนวนอาจารย์ที่ทำนัดน้อยกว่าที่กำหนด ต้องอัพเดตสถานะ user เป็น 0
-        if(count($selectmeetuser) != 0){
-            if(count($selectmeetuser) < $selectsubject[0]['sub_setuse'] ){
+        if (count($selectmeetuser) != 0) {
+            if (count($selectmeetuser) < $selectsubject[0]['sub_setuse']) {
 
                 //อัพเดตในตาราง tb_meerdetail เป็น use_id = 0
                 foreach ($selectmeetuser as $key => $value) {
@@ -380,12 +377,12 @@ class Amcalendar extends MX_Controller
 
                     $condition = array();
                     $condition['fide'] = "*";
-                    $condition['where'] = array('sec_date' => $meet_date,'sec_time_one' => $meet_time,'use_id' => $use_id, );
+                    $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
                     $selectsection = $this->section->listData($condition);
-                    if(count($selectsection ) == 0){
+                    if (count($selectsection) == 0) {
                         $condition = array();
                         $condition['fide'] = "*";
-                        $condition['where'] = array('sec_date' => $meet_date,'sec_time_two' => $meet_time,'use_id' => $use_id, );
+                        $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
                         $selectsection = $this->section->listData($condition);
 
                         $data = array(
@@ -393,17 +390,14 @@ class Amcalendar extends MX_Controller
                             'sec_status'     => 0,
                         );
                         $this->section->updateData($data);
-
-                    }else{
+                    } else {
 
                         $data = array(
                             'sec_id'         => $selectsection[0]['sec_id'],
                             'sec_status'     => 0,
                         );
                         $this->section->updateData($data);
-
                     }
-
                 }
 
                 //อัพเดตสถานะนัดเป็น 1
@@ -413,7 +407,6 @@ class Amcalendar extends MX_Controller
                 );
                 $this->meet->updateData2($data);
             }
-
         }
 
         //แปลงวันที่
@@ -429,9 +422,15 @@ class Amcalendar extends MX_Controller
         $condition['where'] = array('use_id' => $use_id);
         $selectuser = $this->administrator->listData($condition);
 
-        
 
-        if(count($selectuser) != 0){
+
+        // setting email
+        $condition = array();
+        $condition['fide'] = "email_user, email_password";
+        $condition['where'] = array('email_status' => 1);
+        $listemail = $this->emailset->listData($condition);
+        
+        if (count($selectuser) != 0) {
 
             $data = array(
                 'project_id'      => $project_id,
@@ -443,16 +442,17 @@ class Amcalendar extends MX_Controller
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
 
-            // ## setting SMTP mail.preedarat-cv.com
-            $mail->CharSet = "utf-8";
+            // ## setting SMTP GMAIL
             $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
+            $mail->Mailer = "smtp";
+            $mail->IsSMTP();
             $mail->SMTPAuth = true;
-            $mail->Host = "mail.preedarat-cv.com";
-            $mail->Port = 25;
-            $mail->Username = "support@preedarat-cv.com";
-            $mail->Password = "F!o8qebi";
-            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             foreach ($selectuser as $key => $value) {
                 $mail->AddAddress($value);
@@ -465,7 +465,6 @@ class Amcalendar extends MX_Controller
 
             $mail->MsgHTML($message);
             $mail->send();
-
         }
 
         // ===============================================================================
@@ -477,7 +476,7 @@ class Amcalendar extends MX_Controller
         $selectstd = $this->project->listperson($condition);
 
 
-        if(count($selectstd) != 0){
+        if (count($selectstd) != 0) {
 
             $data = array(
                 'project_id'      => $project_id,
@@ -486,21 +485,22 @@ class Amcalendar extends MX_Controller
                 'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
                 'use_name'        => $selectuser[0]['use_name'],
             );
-            
+
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
 
-            // ## setting SMTP mail.preedarat-cv.com
-            $mail->CharSet = "utf-8";
+            // ## setting SMTP GMAIL
             $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
+            $mail->Mailer = "smtp";
+            $mail->IsSMTP();
             $mail->SMTPAuth = true;
-            $mail->Host = "mail.preedarat-cv.com";
-            $mail->Port = 25;
-            $mail->Username = "support@preedarat-cv.com";
-            $mail->Password = "F!o8qebi";
-            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             foreach ($selectstd as $key => $value) {
                 $mail->AddAddress($value);
@@ -538,5 +538,4 @@ class Amcalendar extends MX_Controller
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
         return $html;
     }
-
 }

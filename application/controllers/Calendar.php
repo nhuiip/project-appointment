@@ -13,6 +13,7 @@ class Calendar extends MX_Controller
         $this->load->model("section_model", "section");
         $this->load->model("meet_model", "meet");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("emailset_model", "emailset");
         $this->load->library('cart');
         $this->load->library('session');
     }
@@ -42,7 +43,6 @@ class Calendar extends MX_Controller
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
             if ($date == "") {
                 show_404();
-
             } else {
 
                 $data = array();
@@ -75,7 +75,6 @@ class Calendar extends MX_Controller
                         $data['formcrf'] = $this->tokens->token('formcrf');
                         $this->template->backend('calendar/subject', $data);
                     }
-
                 }
             }
         }
@@ -312,122 +311,121 @@ class Calendar extends MX_Controller
 
         if ($this->tokens->verify('formcrf')) {
 
-                // insert meet
-                $data = array(
-                    'set_id'             => 1,
-                    'project_id'         => $project_id,
-                    'sub_id'             => $sub_id,
-                    'meet_date'          => $date,
-                    'meet_time'          => $time,
-                    'meet_status'        => 2,
-                    'meet_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
-                    'meet_create_date'   => date('Y-m-d H:i:s'),
-                    'meet_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-                    'meet_lastedit_date' => date('Y-m-d H:i:s'),
-                );
+            // insert meet
+            $data = array(
+                'set_id'             => 1,
+                'project_id'         => $project_id,
+                'sub_id'             => $sub_id,
+                'meet_date'          => $date,
+                'meet_time'          => $time,
+                'meet_status'        => 2,
+                'meet_create_name'   => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'meet_create_date'   => date('Y-m-d H:i:s'),
+                'meet_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
+                'meet_lastedit_date' => date('Y-m-d H:i:s'),
+            );
 
-                $meetId = $this->meet->insertData($data);
-                
-                // insert meetdetail
-                $other = array();
-                for ($i = 0; $i < count($this->input->post('checkUser')); $i++) {
+            $meetId = $this->meet->insertData($data);
 
-                    $other['meet_id']             = $meetId;
-                    $other['use_id']             = $this->input->post('checkUser')[$i];
-                    $other['dmeet_status']         = 2;
-                    $other['dmeet_head']         = 0;
+            // insert meetdetail
+            $other = array();
+            for ($i = 0; $i < count($this->input->post('checkUser')); $i++) {
 
-                    $this->meet->insertDetail($other);
-                }
+                $other['meet_id']             = $meetId;
+                $other['use_id']             = $this->input->post('checkUser')[$i];
+                $other['dmeet_status']         = 2;
+                $other['dmeet_head']         = 0;
 
-                //update head project
-                $condition = array();
-                $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meet.project_id,tb_meet.meet_id";
-                $condition['where'] = array('tb_meetdetail.use_id' => $this->input->post('radioHeadproject'), 'tb_meet.project_id'=> $project_id, 'tb_meet.meet_id'=> $meetId);
-                $listmeetdetail = $this->meet->listjoinData2($condition);
-
-                $datas = array(
-                    'dmeet_id'            => $listmeetdetail[0]['dmeet_id'],
-                    'dmeet_head'          => 1,
-                );
-                $this->meet->updateDetail($datas);
-
-                //update status อาจารย์พิเศษต้องเท่ากับ 1
-                for ($i = 0; $i < count($this->input->post('checkUser')); $i++) {
-
-                    $condition = array();
-                    $condition['fide'] = "tb_user.use_id,tb_user.position_id,tb_meetdetail.dmeet_id";
-                    $condition['where'] = array('tb_user.use_id' => $this->input->post('checkUser')[$i]);
-                    $listuser = $this->meet->listjoinData2($condition);
-
-
-                    if ($listuser[0]['position_id'] == 5) {
-
-                        $datas = array(
-                            'dmeet_id'            => $listuser[0]['dmeet_id'],
-                            'dmeet_status'          => 1,
-                        );
-                        $this->meet->updateDetail($datas);
-                    }
-                }
-
-                // select detailmeet
-                $condition = array();
-                $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.dmeet_status,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time,";
-                $condition['where'] = array('tb_meetdetail.meet_id' => $meetId);
-                $listmeetdetail = $this->meet->listjoinData2($condition);
-
-                //select id subject in meet
-                $condition = array();
-                $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id";
-                $condition['where'] = array('tb_meet.meet_id' => $meetId);
-                $listmeetsub = $this->meet->listjoinData($condition);
-
-                //select subject type in tb_subject
-                $condition = array();
-                $condition['fide'] = "sub_id,sub_type";
-                $condition['where'] = array('sub_id' => $listmeetsub[0]['sub_id']);
-                $listprojectsubType = $this->subject->listData($condition);
-
-                //อัพเดตข้อมูลเวลาว่างของอาจารย์
-                foreach ($listmeetdetail as $key => $value) {
-
-                    if ($listprojectsubType[0]['sub_id'] == 1) {
-
-                        $condition['fide'] = "*";
-                        $condition['where'] = array('use_id' => $value['use_id'], 'sec_date' => $value['meet_date'], 'sec_time_one' => $value['meet_time']);
-                        $listmeet = $this->section->listData($condition);
-
-                        // print_r('sec_time_one');
-
-                        foreach ($listmeet as $key => $values) {
-
-                            $othersection['sec_id']         = $values['sec_id'];
-                            $othersection['sec_status']     = 2;
-
-                            $this->section->updateData($othersection);
-                        }
-                    } else {
-
-                        $condition['fide'] = "*";
-                        $condition['where'] = array('use_id' => $value['use_id'], 'sec_date' => $value['meet_date'], 'sec_time_two' => $value['meet_time']);
-                        $listmeet = $this->section->listData($condition);
-
-                        // print_r('sec_time_two');
-                        foreach ($listmeet as $key => $values) {
-
-
-                            $othersection['sec_id']         = $values['sec_id'];
-                            $othersection['sec_status']     = 2;
-
-                            $this->section->updateData($othersection);
-                        }
-                    }
-                }
-
-                $this->sandrequest($meetId);
+                $this->meet->insertDetail($other);
             }
-        
+
+            //update head project
+            $condition = array();
+            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meet.project_id,tb_meet.meet_id";
+            $condition['where'] = array('tb_meetdetail.use_id' => $this->input->post('radioHeadproject'), 'tb_meet.project_id' => $project_id, 'tb_meet.meet_id' => $meetId);
+            $listmeetdetail = $this->meet->listjoinData2($condition);
+
+            $datas = array(
+                'dmeet_id'            => $listmeetdetail[0]['dmeet_id'],
+                'dmeet_head'          => 1,
+            );
+            $this->meet->updateDetail($datas);
+
+            //update status อาจารย์พิเศษต้องเท่ากับ 1
+            for ($i = 0; $i < count($this->input->post('checkUser')); $i++) {
+
+                $condition = array();
+                $condition['fide'] = "tb_user.use_id,tb_user.position_id,tb_meetdetail.dmeet_id";
+                $condition['where'] = array('tb_user.use_id' => $this->input->post('checkUser')[$i]);
+                $listuser = $this->meet->listjoinData2($condition);
+
+
+                if ($listuser[0]['position_id'] == 5) {
+
+                    $datas = array(
+                        'dmeet_id'            => $listuser[0]['dmeet_id'],
+                        'dmeet_status'          => 1,
+                    );
+                    $this->meet->updateDetail($datas);
+                }
+            }
+
+            // select detailmeet
+            $condition = array();
+            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.dmeet_status,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time,";
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meetId);
+            $listmeetdetail = $this->meet->listjoinData2($condition);
+
+            //select id subject in meet
+            $condition = array();
+            $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id";
+            $condition['where'] = array('tb_meet.meet_id' => $meetId);
+            $listmeetsub = $this->meet->listjoinData($condition);
+
+            //select subject type in tb_subject
+            $condition = array();
+            $condition['fide'] = "sub_id,sub_type";
+            $condition['where'] = array('sub_id' => $listmeetsub[0]['sub_id']);
+            $listprojectsubType = $this->subject->listData($condition);
+
+            //อัพเดตข้อมูลเวลาว่างของอาจารย์
+            foreach ($listmeetdetail as $key => $value) {
+
+                if ($listprojectsubType[0]['sub_id'] == 1) {
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('use_id' => $value['use_id'], 'sec_date' => $value['meet_date'], 'sec_time_one' => $value['meet_time']);
+                    $listmeet = $this->section->listData($condition);
+
+                    // print_r('sec_time_one');
+
+                    foreach ($listmeet as $key => $values) {
+
+                        $othersection['sec_id']         = $values['sec_id'];
+                        $othersection['sec_status']     = 2;
+
+                        $this->section->updateData($othersection);
+                    }
+                } else {
+
+                    $condition['fide'] = "*";
+                    $condition['where'] = array('use_id' => $value['use_id'], 'sec_date' => $value['meet_date'], 'sec_time_two' => $value['meet_time']);
+                    $listmeet = $this->section->listData($condition);
+
+                    // print_r('sec_time_two');
+                    foreach ($listmeet as $key => $values) {
+
+
+                        $othersection['sec_id']         = $values['sec_id'];
+                        $othersection['sec_status']     = 2;
+
+                        $this->section->updateData($othersection);
+                    }
+                }
+            }
+
+            $this->sandrequest($meetId);
+        }
     }
 
     public function showcalendar($meetId = "")
@@ -496,13 +494,20 @@ class Calendar extends MX_Controller
 
     public function sandrequest($meetId = "")
     {
-        $listemail = array(
+        $listemails = array(
             'preedarat.jut@gmail.com',
             'preedarat.id@hotmail.com',
             'preedarat@thevista.co.th',
             'yui.napassorn.s@gmail.com',
             'napassorn@thevista.co.th'
         );
+
+        // setting email
+        $condition = array();
+        $condition['fide'] = "email_user, email_password";
+        $condition['where'] = array('email_status' => 2);
+        $listemail = $this->emailset->listData($condition);
+
         if (!empty($meetId)) {
 
             //select project
@@ -529,6 +534,7 @@ class Calendar extends MX_Controller
             $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id, 'tb_user.position_id !=' => 5);
             $listemailuser = $this->meet->listjoinData2($condition);
 
+
             if (count($listemailuser) != 0) {
                 $data = array(
                     'project_id'      => $project_id,
@@ -541,16 +547,17 @@ class Calendar extends MX_Controller
                 require_once APPPATH . 'third_party/class.smtp.php';
                 $mail = new PHPMailer;
 
-                // ## setting SMTP mail.preedarat-cv.com
-                $mail->CharSet = "utf-8";
+                // ## setting SMTP GMAIL
                 $mail->IsSMTP();
-                $mail->SMTPDebug = 0;
+                $mail->Mailer = "smtp";
+                $mail->IsSMTP();
                 $mail->SMTPAuth = true;
-                $mail->Host = "mail.preedarat-cv.com";
-                $mail->Port = 25;
-                $mail->Username = "support@preedarat-cv.com";
-                $mail->Password = "F!o8qebi";
-                $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+                $mail->SMTPSecure = "tls";
+                $mail->Host = "smtp.gmail.com";
+                $mail->Port = 587;
+                $mail->Username = $listemail[0]['email_user'];
+                $mail->Password = $listemail[0]['email_password'];
+                $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
                 // foreach ($listemailuser as $key => $value) {
                 //     $mail->AddAddress($value);
@@ -582,16 +589,17 @@ class Calendar extends MX_Controller
                 require_once APPPATH . 'third_party/class.smtp.php';
                 $mail = new PHPMailer;
 
-                // ## setting SMTP mail.preedarat-cv.com
-                $mail->CharSet = "utf-8";
+                // ## setting SMTP GMAIL
                 $mail->IsSMTP();
-                $mail->SMTPDebug = 0;
+                $mail->Mailer = "smtp";
+                $mail->IsSMTP();
                 $mail->SMTPAuth = true;
-                $mail->Host = "mail.preedarat-cv.com";
-                $mail->Port = 25;
-                $mail->Username = "support@preedarat-cv.com";
-                $mail->Password = "F!o8qebi";
-                $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
+                $mail->SMTPSecure = "tls";
+                $mail->Host = "smtp.gmail.com";
+                $mail->Port = 587;
+                $mail->Username = $listemail[0]['email_user'];
+                $mail->Password = $listemail[0]['email_password'];
+                $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
                 // foreach ($listemailstd as $key => $value) {
                 //     $mail->AddAddress($value);

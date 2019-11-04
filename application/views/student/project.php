@@ -30,7 +30,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
     <!-- add new project -->
     <?PHP if (count($searchProject) == 0) { ?>
         <div class="col-md-7">
-
             <form action="<?= base_url('student/stdprojectadd'); ?>" method="post" enctype="multipart/form-data" name="formProjectStd_Add" id="formProjectStd_Add" class="form-horizontal" novalidate>
                 <input type="hidden" name="formcrfaddproject" id="formcrfaddproject" value="<?= $formcrfaddproject; ?>">
                 <div class="ibox float-e-margins">
@@ -79,7 +78,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
         </div>
     <? } ?>
     <div class="col-md-5">
-
         <!-- now project -->
         <?PHP if (count($searchProject) != 0) { ?>
             <div class="ibox float-e-margins">
@@ -104,23 +102,32 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             <?
                                 switch ($project_status) {
                                     case 1:
-                                        $status_text = '<span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
+                                        $status_text = '<span class="tag">เริ่มต้น</span>';
                                         break;
                                     case 2:
-                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 1&nbsp;&nbsp;</span>';
+                                        $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
                                         break;
                                     case 3:
-                                        $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;ติดแก้ไขโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                        $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
                                         break;
                                     case 4:
-                                        $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                        $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content red">ตก</span>';
                                         break;
                                     case 5:
-                                        $status_text = '<span class="badge badge-info" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2 (conference)&nbsp;&nbsp;</span>';
+                                        $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">Conference</span>';
+                                        break;
+                                    case 6:
+                                        $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+                                        break;
+                                    case 7:
+                                        $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+                                        break;
+                                    case 8:
+                                        $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content red">ตก</span>';
                                         break;
                                 }
                                 ?>
-                                <?= $status_text ?>
+                                <div class="badges alt" style="margin-bottom: 10px;float: right;"><?= $status_text ?></div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <p><strong>หัวข้อปริญญานิพนธ์ : </strong> <?= $project_name; ?></p>
@@ -131,7 +138,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                     <div class="col-sm-12">
                                         <p><strong>ผู้จัดทำ : </strong>
                                             <? foreach ($listprojectperson as $key => $list) { ?>
-                                                <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
+                                                <span class="badges alt"><span class="content gray"><?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?></span></span>
                                             <? } ?>
                                         </p>
                                     </div>
@@ -417,7 +424,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                                         <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></div>
                                                                     <? } ?>
                                                                 </td>
-                                                                <td width="30%">
+                                                                <td width="30%" style="padding-right: 0;">
                                                                     <? if ($v['dmeet_status'] == 1) { ?>
                                                                         <div class="badges alt"><span class="content green">ยอมรับ</span></div>
                                                                     <? } elseif ($v['dmeet_status'] == 2) { ?>

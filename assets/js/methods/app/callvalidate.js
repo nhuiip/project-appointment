@@ -119,7 +119,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           use_name: { required: true },
           text_type: { required: true },
           sec_date: { required: true },
-          text_time: { required: true },
+          text_time: { required: true }
         },
         messages: {
           use_name: {
@@ -133,7 +133,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           text_time: {
             required: "กรุณาเลือกเวลาขึ้นสอบ"
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -496,7 +496,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           },
           proformat_name: {
             required: true
-          },
+          }
         },
         messages: {
           file_name: {
@@ -517,12 +517,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           file_name: {
             required: true
-          },
+          }
         },
         messages: {
           file_name: {
             required: "กรุณาเลือกไฟล์เอกสาร."
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -535,12 +535,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           project_status: {
             required: true
-          },
+          }
         },
         messages: {
           project_status: {
             required: "กรุณาเลือกสถานะ."
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -553,12 +553,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           conftype_id: {
             required: true
-          },
+          }
         },
         messages: {
           conftype_id: {
             required: "กรุณาเลือกประเภท Conference."
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -571,12 +571,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           conftype_id: {
             required: true
-          },
+          }
         },
         messages: {
           conftype_id: {
             required: "กรุณาเลือกประเภท Conference."
-          },
+          }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -596,19 +596,19 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           conf_weight: { required: true },
           conf_data: { required: true },
           conf_place: { required: true },
-          conf_publisher: { required: true },
+          conf_publisher: { required: true }
         },
         messages: {
-          conf_year: { required: "กรุณากรอกข้อมูล."},
-          conf_title: { required: "กรุณากรอกข้อมูล."},
-          conf_subtitle: { required: "กรุณากรอกข้อมูล."},
-          conf_number: { required: "กรุณากรอกข้อมูล."},
-          conf_datepresent: { required: "กรุณากรอกข้อมูล."},
-          conf_nopage: { required: "กรุณากรอกข้อมูล."},
-          conf_weight: { required: "กรุณากรอกข้อมูล."},
-          conf_data: { required: "กรุณากรอกข้อมูล."},
-          conf_place: { required: "กรุณากรอกข้อมูล."},
-          conf_publisher: { required: "กรุณากรอกข้อมูล."},
+          conf_year: { required: "กรุณากรอกข้อมูล." },
+          conf_title: { required: "กรุณากรอกข้อมูล." },
+          conf_subtitle: { required: "กรุณากรอกข้อมูล." },
+          conf_number: { required: "กรุณากรอกข้อมูล." },
+          conf_datepresent: { required: "กรุณากรอกข้อมูล." },
+          conf_nopage: { required: "กรุณากรอกข้อมูล." },
+          conf_weight: { required: "กรุณากรอกข้อมูล." },
+          conf_data: { required: "กรุณากรอกข้อมูล." },
+          conf_place: { required: "กรุณากรอกข้อมูล." },
+          conf_publisher: { required: "กรุณากรอกข้อมูล." }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -619,12 +619,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#formAddPreson").length) {
       $("#formAddPreson").validate({
         rules: {
-          confpos_name: {required: true},
-          confpos_sort: {required: true},
+          confpos_name: { required: true },
+          confpos_sort: { required: true }
         },
         messages: {
-          confpos_name: {required: "กรุณากรอกข้อมูล."},
-          confpos_sort: {required: "กรุณากรอกข้อมูล."},
+          confpos_name: { required: "กรุณากรอกข้อมูล." },
+          confpos_sort: { required: "กรุณากรอกข้อมูล." }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
@@ -635,15 +635,84 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
     if ($("#formUpPreson").length) {
       $("#formUpPreson").validate({
         rules: {
-          confpos_name: {required: true},
-          confpos_sort: {required: true},
+          confpos_name: { required: true },
+          confpos_sort: { required: true }
         },
         messages: {
-          confpos_name: {required: "กรุณากรอกข้อมูล."},
-          confpos_sort: {required: "กรุณากรอกข้อมูล."},
+          confpos_name: { required: "กรุณากรอกข้อมูล." },
+          confpos_sort: { required: "กรุณากรอกข้อมูล." }
         },
         submitHandler: function(form) {
           fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#FormEmailset").length) {
+      $("#FormEmailset").validate({
+        rules: {
+          email_user: {
+            required: true,
+            remote: {
+              url: $("#email_user").attr("data-url"),
+              type: "post",
+              data: {
+                email_user: function() {
+                  return $("#email_user").val();
+                }
+              }
+            }
+          },
+          email_password: { required: true }
+        },
+        messages: {
+          email_user: {
+            required: "กรุณากรอกข้อมูล.",
+            remote: "อีเมลนี้มีในระบบอยุ่แล้ว"
+          },
+          email_password: { required: "กรุณากรอกข้อมูล." }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#FormEmailset_Up").length) {
+      $("#FormEmailset_Up").validate({
+        rules: {
+          email_user: {
+            required: true,
+          },
+          email_password: { required: true }
+        },
+        messages: {
+          email_user: {
+            required: "กรุณากรอกข้อมูล."
+          },
+          email_password: { required: "กรุณากรอกข้อมูล." }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
+    if ($("#FormEmailset_T").length) {
+      $("#FormEmailset_T").validate({
+        rules: {
+          email_test: {
+            required: true,
+          },
+        },
+        messages: {
+          email_test: {
+            required: "กรุณากรอก Email ปลายทาง."
+          },
+        },
+        submitHandler: function(form) {
+          $(".loading").show();
+          fun.TestMail(form);
           return false;
         }
       });
@@ -889,7 +958,6 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           }
         },
         submitHandler: function(form) {
-
           fun.dataSubmit(form);
           return false;
         }
@@ -950,19 +1018,19 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         rules: {
           radioHeadproject: {
             required: true
-          },
+          }
         },
         messages: {
           radioHeadproject: {
             required: "กรุณาเลือกประธานการสอบ."
-          },
+          }
         },
         errorPlacement: function() {
           $("#formError").slideDown();
           $("#formError").removeClass("hide");
         },
         submitHandler: function(form) {
-          $('.loading').show(); 
+          $(".loading").show();
           fun.dataSubmit(form);
           return false;
         }
