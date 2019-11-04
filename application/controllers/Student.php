@@ -296,7 +296,7 @@ class Student extends MX_Controller
             $mail->MsgHTML($message);
             $mail->send();
 
-            // echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
+            echo '<script>document.location.href = "' . site_url("student/succeedrepass") . '";</script>';
             die;
         } else {
             show_404();
