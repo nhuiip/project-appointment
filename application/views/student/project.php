@@ -307,7 +307,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                             <i class="fa fa-gears"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#" data-toggle="modal" data-target="#ProjectfileStd_Add"><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;เพิ่มเอกสาร</a></li>
+                            <li><a href="#" class="ProjectfileStd_Add" data-toggle="modal" data-target="#ProjectfileStd_Add"><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;เพิ่มเอกสาร</a></li>
                         </ul>
                     </div>
                 </div>
@@ -552,6 +552,11 @@ if (isset($searchProject) && count($searchProject) != 0) {
     </div>
 </form>
 
+
+<script>
+    
+</script>
+
 <form action="<?= base_url('student/stdprojectaddfile'); ?>" method="post" enctype="multipart/form-data" name="formProjectfileStd_Add" id="formProjectfileStd_Add" class="form-horizontal" novalidate>
     <div class="modal fade" id="ProjectfileStd_Add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -562,7 +567,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="formcrffileproject" id="formcrffileproject" value="<?= $formcrffileproject; ?>">
-                    <input type="hidden" name="project_id" id="project_id" value="<?= $project_id; ?>">
+                    <input type="hidden" name="project_id" id="project_id" value="<?=$project_id; ?>">
                     <div class="form-group row">
                         <label class="col-sm-12">เลือกไฟล์<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">
