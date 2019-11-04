@@ -13,6 +13,7 @@ class Student extends MX_Controller
         $this->load->model("meet_model", "meet");
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("emailset_model", "emailset");
         $this->load->model("conference_model", "conference");
         $this->load->model("Attached_model", "attached");
     }
