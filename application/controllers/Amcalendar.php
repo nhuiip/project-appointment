@@ -294,17 +294,35 @@ class Amcalendar extends MX_Controller
             $condition['where'] = array('tb_meet.project_id' =>  $Idproject, 'tb_meet.meet_status'=> 1);
             $chkmeet = $this->meet->listjoinData($condition);
 
-            //จำนวนอาจารย์ที่สามารถขึ้นสอบได้อย่างน้อยกี่คน
-            $sub_setless  = $chkmeet[0]['sub_setless']
+            $meet_id  = $chkmeet[0]['meet_id']; //id meet
+            $sub_setless  = $chkmeet[0]['sub_setless'];//จำนวนอาจารย์ที่สามารถขึ้นสอบได้อย่างน้อยกี่คน
 
         // 2. ค้นหาจำนวนอาจารย์ที่ยอมรับว่ามีจำนวนกี่คน
-
             $condition = array();
-            $condition['fide'] = "tb_meet.meet_id,tb_meet.project_id,tb_meet.meet_status,tb_subject.sub_setless";
-            $condition['where'] = array('tb_meet.project_id' =>  $Idproject, 'tb_meet.meet_status'=> 1);
-            $chkmeet = $this->meet->listjoinData($condition);
+            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meetdetail.dmeet_status";
+            $condition['where'] = array('tb_meetdetail.meet_id' =>  $meet_id, 'tb_meetdetail.dmeet_status'=> 1);
+            $chkusersubmitmeet = $this->meet->listjoinData2($condition);
 
-        print_r($chkmeet);
+            $dmeet_id  = $chkusersubmitmeet[0]['dmeet_id']; //id meet
+
+        // 3. อัพเดตสถานะการยกเลิกการขึ้นสอบโปรเจคของอาจารย์ที่กำยกเลิกเข้ามา
+
+            $data = array(
+                'dmeet_id'         => $dmeet_id,
+                'use_id'          => $this->encryption->decrypt($this->input->cookie('sysli')),
+                'dmeet_status'    => 0,
+            );
+            $this->meet->updateDetail($data);
+
+        // 4. เช็คจำนวนอาจารย์ที่สามารถขึ้นสอบได้น้อยกว่าที่กำหนดไว้ 
+            if(count($chkusersubmitmeet) == $sub_setless){
+
+                //เท่ากับจำนวนที่ระบไว้ ยังสามารถสอบปริญญานิพนธ์ได้
+            }else{
+                //น้อยกว่าจำนวนที่ระบุไว้ นัดหมายล้มเหลว
+
+            }
+            print_r(count($chkusersubmitmeet));
 
 
         die;
