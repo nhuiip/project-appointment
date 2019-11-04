@@ -13,6 +13,10 @@ function DateThai($strDate)
 // print_r($listuser);
 // echo '</pre>';
 ?>
+
+<!-- loading -->
+<div class="loading">Loading&#8230;</div>
+
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
@@ -278,7 +282,7 @@ function DateThai($strDate)
             });
         </script>
 
-        <form action="<?= base_url('amcalendar/cancelmeet/'); ?>" method="post" enctype="multipart/form-data" name="formCancelmeet" id="formCancelmeet1" class="form-horizontal" novalidate>
+        <form action="<?= base_url('amcalendar/cancelmeet/'); ?>" method="post" enctype="multipart/form-data" name="formCancelmeet" id="formCancelmeet" class="form-horizontal" novalidate>
             <div id="meetUpdate" class="modal fade" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog ">
                     <div class="modal-content">

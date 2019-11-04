@@ -1048,6 +1048,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           $("#formError").removeClass("hide");
         },
         submitHandler: function(form) {
+          $(".loading").show();
           fun.dataSubmit(form);
           return false;
         }
