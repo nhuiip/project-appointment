@@ -282,6 +282,34 @@ class Amcalendar extends MX_Controller
         header("location:" . site_url('amcalendar/request/2'));
     }
 
+    //ยกเลิกนัดหมายที่ทำไปแล้ว
+    public function cancelmeet(){
+
+        $Idproject = $this->input->post('Idproject');
+
+        // 1. ค้นหานัดหมายของ project_id นี้ ที่มีสถานะสำเร็จ
+            $condition = array();
+            $condition['fide'] = "tb_meet.meet_id,tb_meet.project_id,tb_meet.meet_status,tb_subject.sub_setless";
+            $condition['where'] = array('tb_meet.project_id' =>  $Idproject, 'tb_meet.meet_status'=> 1);
+            $chkmeet = $this->meet->listjoinData($condition);
+
+            //จำนวนอาจารย์ที่สามารถขึ้นสอบได้อย่างน้อยกี่คน
+            $sub_setless  = $chkmeet[0]['sub_setless']
+
+        // 2. ค้นหาจำนวนอาจารย์ที่ยอมรับว่ามีจำนวนกี่คน
+
+            $condition = array();
+            $condition['fide'] = "tb_meet.meet_id,tb_meet.project_id,tb_meet.meet_status,tb_subject.sub_setless";
+            $condition['where'] = array('tb_meet.project_id' =>  $Idproject, 'tb_meet.meet_status'=> 1);
+            $chkmeet = $this->meet->listjoinData($condition);
+
+        print_r($chkmeet);
+
+
+        die;
+
+    }
+
     public function messageteacsubmit_verify($data)
     {
 

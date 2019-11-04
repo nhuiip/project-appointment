@@ -18,7 +18,7 @@ class Dashboard extends CI_Controller
 		$data = array();
 
 		$condition = array();
-		$condition['fide'] = "meet_date, meet_time, project_name, tb_meet.meet_id";
+		$condition['fide'] = "meet_date, meet_time, tb_project.project_id, project_name, tb_meet.meet_id";
 		$condition['where'] = array(
 			'tb_settings.set_status' => 2,
 			'meet_status' => 1,

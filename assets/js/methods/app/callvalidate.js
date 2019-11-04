@@ -1036,6 +1036,23 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formCancelmeet").length) {
+      $("#formCancelmeet").validate({
+        rules: {
+          Idproject: {
+            required: true
+          },
+        },
+        errorPlacement: function() {
+          $("#formError").slideDown();
+          $("#formError").removeClass("hide");
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
   };
   return methods;
 });
