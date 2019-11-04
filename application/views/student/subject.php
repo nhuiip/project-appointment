@@ -30,37 +30,3 @@
         <?PHP } ?>
     <?PHP } ?>
 </div>
-
-
-<!-- <div class="wrapper wrapper-content">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="ibox float-e-margins">
-                <div class="ibox-content mailbox-content">
-                    <div class="file-manager">
-                        <h3>ข้อมูลเอกสารรายวิชา</h3>
-                        <ul class="folder-list m-b-md" style="padding: 0">
-                            <?PHP if (count($listsubject) != 0) { ?>
-                                <?PHP foreach ($listsubject as $key => $value) { ?>
-                                    <li><a href="<?= base_url('student/stdsubjectdetail/' . $value['sub_id']); ?>"> <i class="fa fa-file-text-o"></i> <?= $value['sub_name']; ?> </a></li>
-                                <?PHP } ?>
-                            <?PHP } else { ?>
-                                <i><i class="fa fa-trash-o"></i> ยังไม่มีข้อมูล</i>
-                            <?PHP } ?>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-9 animated fadeInRight">
-            <div class="mail-box">
-                <div class="mail-body">
-                    <br/>
-                    <p><center><h3>เลือกรายวิชา เพื่อดูรายละเอียด</h3></center></p>
-                    <br/>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-</div> -->
