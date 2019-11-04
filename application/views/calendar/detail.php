@@ -22,15 +22,6 @@ if (isset($listsubject) && count($listsubject) != 0) {
     }
 }
 ?>
-
-<style>
-    label.error {
-        color: #cc5965;
-        display: none !important;
-        margin-left: 5px;
-    }
-</style>
-
 <!-- loading -->
 <div class="loading">Loading&#8230;</div>
 <!-- heading -->

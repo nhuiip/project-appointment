@@ -119,7 +119,7 @@
 						</table>
 					<? } else { ?>
 						<center>
-							<p class="background"><span>ไม่พบข้อมูล</span></p>
+							<p >ไม่พบข้อมูล</p>
 						</center>
 					<? } ?>
 					<!-- </div> -->

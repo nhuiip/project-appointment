@@ -13,6 +13,7 @@ class Student extends MX_Controller
         $this->load->model("meet_model", "meet");
         $this->load->model("projectfile_model", "projectfile");
         $this->load->model("administrator_model", "administrator");
+        $this->load->model("emailset_model", "emailset");
         $this->load->model("conference_model", "conference");
         $this->load->model("Attached_model", "attached");
     }
@@ -147,6 +148,12 @@ class Student extends MX_Controller
 
     public function sentmailreg($id = "")
     {
+        // setting email
+        $condition = array();
+        $condition['fide'] = "email_user, email_password";
+        $condition['where'] = array('email_status' => 1);
+        $listemail = $this->emailset->listData($condition);
+
         if (!empty($id)) {
             $condition = array();
             $condition['fide'] = "std_id, std_title, std_fname, std_lname, std_email";
@@ -169,28 +176,16 @@ class Student extends MX_Controller
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
 
-            // ## setting SMTP mail.preedarat-cv.com
-            $mail->CharSet = "utf-8";
-            $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
-            $mail->SMTPAuth = true;
-            $mail->Host = "mail.preedarat-cv.com";
-            $mail->Port = 25;
-            $mail->Username = "support@preedarat-cv.com";
-            $mail->Password = "F!o8qebi";
-            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
-
             // ## setting SMTP GMAIL
-            // $mail->IsSMTP();
-            // $mail->Mailer = "smtp";
-            // $mail->IsSMTP();
-            // $mail->SMTPAuth = true;
-            // $mail->SMTPSecure = "tls";
-            // $mail->Host = "smtp.gmail.com";
-            // $mail->Port = 587;
-            // $mail->Username = "preedarat.jut@gmail.com";
-            // $mail->Password = "mllsdqzbrrktihme";
-            // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+            $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
+            $mail->Mailer = "smtp";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
 
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -219,6 +214,7 @@ class Student extends MX_Controller
 
     public function repassword()
     {
+
         $seed = str_split('abcdefghijklmnopqrstuvwxyz'
             . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
             . '0123456789');
@@ -269,32 +265,30 @@ class Student extends MX_Controller
                 );
             }
 
+            // setting email
+            $condition = array();
+            $condition['fide'] = "email_user, email_password";
+            $condition['where'] = array('email_status' => 1);
+            $emailset = $this->emailset->listData($condition);
+
+            $usermail = $emailset[0]['email_user'];
+            $passmail = $emailset[0]['email_password'];
+
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
 
-            // ## setting SMTP mail.preedarat-cv.com
-            $mail->CharSet = "utf-8";
-            $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
-            $mail->SMTPAuth = true;
-            $mail->Host = "mail.preedarat-cv.com";
-            $mail->Port = 25;
-            $mail->Username = "support@preedarat-cv.com";
-            $mail->Password = "F!o8qebi";
-            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
-
             // ## setting SMTP GMAIL
-            // $mail->IsSMTP();
-            // $mail->Mailer = "smtp";
-            // $mail->IsSMTP();
-            // $mail->SMTPAuth = true;
-            // $mail->SMTPSecure = "tls";
-            // $mail->Host = "smtp.gmail.com";
-            // $mail->Port = 587;
-            // $mail->Username = "preedarat.jut@gmail.com";
-            // $mail->Password = "mllsdqzbrrktihme";
-            // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+            $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
+            $mail->Mailer = "smtp";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $usermail;
+            $mail->Password = $passmail;
+            $mail->setFrom($usermail, 'Appoint-IT');
 
             $mail->AddAddress($datamail['email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -635,32 +629,27 @@ class Student extends MX_Controller
                 'std_email' => $listdata[0]['std_email'],
             );
 
+            // setting email
+            $condition = array();
+            $condition['fide'] = "email_user, email_password";
+            $condition['where'] = array('email_status' => 1);
+            $listemail = $this->emailset->listData($condition);
+
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
             $mail = new PHPMailer;
 
-            // ## setting SMTP mail.preedarat-cv.com
-            $mail->CharSet = "utf-8";
-            $mail->IsSMTP();
-            $mail->SMTPDebug = 0;
-            $mail->SMTPAuth = true;
-            $mail->Host = "mail.preedarat-cv.com";
-            $mail->Port = 25;
-            $mail->Username = "support@preedarat-cv.com";
-            $mail->Password = "F!o8qebi";
-            $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
-
             // ## setting SMTP GMAIL
-            // $mail->IsSMTP();
-            // $mail->Mailer = "smtp";
-            // $mail->IsSMTP();
-            // $mail->SMTPAuth = true;
-            // $mail->SMTPSecure = "tls";
-            // $mail->Host = "smtp.gmail.com";
-            // $mail->Port = 587;
-            // $mail->Username = "preedarat.jut@gmail.com";
-            // $mail->Password = "mllsdqzbrrktihme";
-            // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+            $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
+            $mail->Mailer = "smtp";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -674,7 +663,6 @@ class Student extends MX_Controller
                 'url' =>  site_url('administrator/logout')
             );
             echo json_encode($result);
-            
         } else {
             show_404();
         }
@@ -868,8 +856,9 @@ class Student extends MX_Controller
         $this->project->updateData($data);
         header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
     }
-    public function stdprojectaddfile(){
-		if($this->tokens->verify('formcrffileproject')){
+    public function stdprojectaddfile()
+    {
+        if ($this->tokens->verify('formcrffileproject')) {
             $data = array(
                 'project_id'            => $this->input->post('project_id'),
                 'file_name'             => $this->upfileimages('File_img', $this->input->post('project_id')),
@@ -880,22 +869,21 @@ class Student extends MX_Controller
             );
             $this->projectfile->insertData($data);
 
-			$result = array(
+            $result = array(
                 'error' => false,
                 'msg' => 'เพิ่มเอกสารสำเร็จ',
                 'url' => site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli')))
-			);
-			echo json_encode($result);
-		}else{
-			$result = array(
-				'error' => true,
-				'title' => "Error",
-				'msg' => "No tokens"
-			);
-			echo json_encode($result);
-		}
-
-	}
+            );
+            echo json_encode($result);
+        } else {
+            $result = array(
+                'error' => true,
+                'title' => "Error",
+                'msg' => "No tokens"
+            );
+            echo json_encode($result);
+        }
+    }
     // public function stdprojectaddfile()
     // {
     //     $condition = array();
@@ -970,7 +958,7 @@ class Student extends MX_Controller
         @unlink('./uploads/fileproject/Project_' . $project_id . '/' . $file_name);
         header("location:" . site_url('student/stdproject/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
     }
-    private function upfileimages($file_name,$project_id)
+    private function upfileimages($file_name, $project_id)
     {
         if (!empty($_FILES[$file_name])) {
             $new_name = $file_name;
@@ -1027,28 +1015,17 @@ class Student extends MX_Controller
         require_once APPPATH . 'third_party/class.smtp.php';
         $mail = new PHPMailer;
 
-        // ## setting SMTP mail.preedarat-cv.com
-        $mail->CharSet = "utf-8";
-        $mail->IsSMTP();
-        $mail->SMTPDebug = 0;
-        $mail->SMTPAuth = true;
-        $mail->Host = "mail.preedarat-cv.com";
-        $mail->Port = 25;
-        $mail->Username = "support@preedarat-cv.com";
-        $mail->Password = "F!o8qebi";
-        $mail->setFrom('support@preedarat-cv.com', 'Appoint-IT');
-
         // ## setting SMTP GMAIL
-        // $mail->IsSMTP();
-        // $mail->Mailer = "smtp";
-        // $mail->IsSMTP();
-        // $mail->SMTPAuth = true;
-        // $mail->SMTPSecure = "tls";
-        // $mail->Host = "smtp.gmail.com";
-        // $mail->Port = 587;
-        // $mail->Username = "preedarat.jut@gmail.com";
-        // $mail->Password = "mllsdqzbrrktihme";
-        // $mail->setFrom('preedarat.jut@gmail.com', 'Appoint-IT');
+        $mail->IsSMTP();
+        $mail->CharSet = 'UTF-8';
+        $mail->Mailer = "smtp";
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "tls";
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 587;
+        $mail->Username = $listemail[0]['email_user'];
+        $mail->Password = $listemail[0]['email_password'];
+        $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
         foreach ($listemail as $key => $value) {
             $mail->AddAddress($value);
@@ -1070,7 +1047,7 @@ class Student extends MX_Controller
 
     //================================================= แสดงรายละเอียดวิชา 
     public function stdsubject()
-    { 
+    {
         $data = array();
 
         //แสดงรายวิชาที่เปิดอยู่
@@ -1082,15 +1059,14 @@ class Student extends MX_Controller
 
         $data['formcrf'] = $this->tokens->token('formcrf');
         $this->template->backend('student/subject', $data);
-
     }
 
     public function stdsubjectdetail($sub_id = "")
-    { 
+    {
 
-        if(empty($sub_id)){
+        if (empty($sub_id)) {
             show_404();
-        }else{
+        } else {
 
             $data = array();
 
@@ -1111,12 +1087,9 @@ class Student extends MX_Controller
             $condition['where'] = array('tb_attached.sub_id' => $sub_id);
             $data['listattached'] = $this->attached->listjoinData($condition);
 
-            
+
             $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('student/subjectdetail', $data);
-
         }
-
     }
-
 }
