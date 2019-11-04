@@ -73,7 +73,7 @@ function DateThai($strDate)
                         <? if (isset($listmeet) && count($listmeet) != 0) {
                                 foreach ($listmeet as $key => $value) { ?>
                                 <li class="list-group-item fist-item" >
-                                    <a href="#" data-toggle="modal" data-target="#meetUpdate" class="meetUpdate">
+                                    <a href="#" data-toggle="modal" data-target="#meetUpdate" class="meetUpdate" data-time="<?= $value['meet_time']; ?>" data-date="<?= DateThai($value['meet_date']); ?>" data-projectId="<?= $value['project_id']; ?>" data-projectName="<?= $value['project_name']; ?>">
                                         <span class="pull-right label label-primary">
                                             <?= $value['meet_time']; ?>
                                         </span>
@@ -265,32 +265,44 @@ function DateThai($strDate)
             </script>
         <? } ?>
 
-        <div id="meetUpdate" class="modal fade" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Sign in</h3>
+        <script>
+            $('.meetUpdate').click(function() {
+                var projectId = $(this).attr('data-projectId');
+                var projectName = $(this).attr('data-projectName');
+                var date = $(this).attr('data-date');
+                var time = $(this).attr('data-time');
+                $("#Idproject").val(projectId);
+                $("#projectName").html(projectName);
+                $("#date").html(date);
+                $("#time").html(time);
+            });
+        </script>
 
-                                <p>Sign in today for more expirience.</p>
+        <form action="<?= base_url('amcalendar/cancelmeet/'); ?>" method="post" enctype="multipart/form-data" name="formCancelmeet" id="formCancelmeet1" class="form-horizontal" novalidate>
+            <div id="meetUpdate" class="modal fade" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
 
-                                <form role="form">
-                                    <div class="form-group"><label>Email</label> <input type="email" placeholder="Enter email" class="form-control"></div>
-                                    <div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control"></div>
-                                    <div>
-                                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Log in</strong></button>
-                                        <label> <div class="icheckbox_square-green" style="position: relative;"><input type="checkbox" class="i-checks" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Remember me </label>
-                                    </div>
-                                </form>
+                                <h3 class="m-t-none m-b">รายการนัดหมาย</h3>
+
+                                    <input id="Idproject" name="Idproject" type="hidden" value=""/>
+                                   
+                                            คุณต้องการยกเลิกนัดหมายขึ้นสอบปริญญานิพนธ์ <span id="projectName"></span> ที่มีการนัดหมายไว้แล้ว
+                                            <br/>
+                                            ในวันที่ <span id="date"></span> เวลา : <span id="time"></span> น.
+                                            <br/>
+                                        <div>
+
                             </div>
-                            <div class="col-sm-6"><h4>Not a member?</h4>
-                                <p>You can create an account:</p>
-                                <p class="text-center">
-                                    <a href=""><i class="fa fa-sign-in big-icon"></i></a>
-                                </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+                            <button type="submit" class="btn btn-outline btn-danger">ยืนยันการยกเลิกนัดหมาย</button>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
-        </div>
+        </form>
