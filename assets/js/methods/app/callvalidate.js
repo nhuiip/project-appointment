@@ -990,6 +990,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           }
         },
         submitHandler: function(form) {
+          $(".loading").show();
           fun.dataSubmit(form);
           return false;
         }

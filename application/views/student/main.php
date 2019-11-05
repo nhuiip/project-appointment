@@ -1,3 +1,7 @@
+
+<!-- loading -->
+<div class="loading">Loading&#8230;</div>
+
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
@@ -71,9 +75,10 @@
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <ul class="dropdown-menu" style="width:100%">
-                                                    <li><a href="#" data-toggle="modal" data-target="#studentUpdate" class="update" data-stdid="<?= $value['std_id']; ?>" data-number="<?= $value['std_number']; ?>" data-tel="<?= $value['std_tel']; ?>" data-emailstd="<?= $value['std_email']; ?>" data-fname="<?= $value['std_fname']; ?>" data-lname="<?= $value['std_lname']; ?>"><i class="fa fa-edit"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูลนักศึกษา</a></li>
-                                                    <li><a href="#" data-toggle="modal" data-target="#emailUpdate" class="updateemail" data-stdid="<?= $value['std_id']; ?>" data-email="<?= $value['std_email']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนที่อยู่อีเมล์</a></li>
-                                                    <li><a href="#" data-toggle="modal" data-target="#passwordUpdate" class="updatepass" data-stdid="<?= $value['std_id']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#studentUpdate" class="update" data-stdid="<?= $value['std_id']; ?>" data-number="<?= $value['std_number']; ?>" data-tel="<?= $value['std_tel']; ?>" data-emailstd="<?= $value['std_email']; ?>" data-fname="<?= $value['std_fname']; ?>" data-lname="<?= $value['std_lname']; ?>"><i class="fa fa-edit"></i>&nbsp;แก้ไขข้อมูลนักศึกษา</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#emailUpdate" class="updateemail" data-stdid="<?= $value['std_id']; ?>" data-email="<?= $value['std_email']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-envelope-o"></i>&nbsp;เปลี่ยนที่อยู่อีเมล์</a></li>
+                                                    <li><a class="btn-reloadmeet" data-title="ส่งอีเมล์ยืนยันอีกครั้ง" data-text=""  data-url="<?= base_url('student/sentmailremail2/'.$value['std_id']); ?>"><i class="fa fa-arrow-circle-right"></i>&nbsp;ส่งอีเมล์ยืนยันอีกครั้ง</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#passwordUpdate" class="updatepass" data-stdid="<?= $value['std_id']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-exclamation-circle"></i>&nbsp;เปลี่ยนรหัสผ่าน</a></li>
                                                 </ul>
                                             </div>
                                         </td>
