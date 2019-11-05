@@ -25,13 +25,13 @@ function DateThai($strDate)
             $sec_date = $v['sec_date']
             ?>
         <br>
-        <div class="ibox collapsed">
-            <div class="ibox-title">
-                <h3>
+        <div class="row wrapper white-bg page-heading" style="text-align:center">
+
+                <h2>
                     <?= DateThai($v['sec_date']); ?>
-                </h3>
-            </div>
+                </h2>
         </div>
+        <br>
         <div class="" style="display: grid;grid-template-columns: 33.33333333% 33.33333333% 33.33333333%;">
             <? foreach ($time as $key => $value) {
                         $numcol = 1;

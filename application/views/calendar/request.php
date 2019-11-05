@@ -10,19 +10,6 @@ function DateThai($strDate)
 }
 ?>
 
-<?
-if (isset($listsubject) && count($listsubject) != 0) {
-    foreach ($listsubject as $key => $student) {
-        $sub_id      = $student['sub_id'];
-        $use_id      = $student['use_id'];
-        $sub_name    = $student['sub_name'];
-        $sub_code    = $student['sub_code'];
-        $sub_setuse  = $student['sub_setuse'];
-        $use_name    = $student['use_name'];
-    }
-}
-?>
-
 <style>
 label.error {
     color: #cc5965;
@@ -40,25 +27,9 @@ label.error {
         </ol>
     </div>
 </div>
-
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-       
+<br>
+<div class="row wrapper page-heading">    
         <div class="col-md-12">
-           
-         
-            <?PHP 
-                $this->db->select("*");
-                $this->db->from('tb_meet');
-                $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
-                $this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
-                $this->db->where('tb_meetdetail.use_id',$idlogin);
-                $this->db->where('tb_meetdetail.dmeet_status',2); 
-                $this->db->where('tb_project.project_status',1);
-                $querys = $this->db->get();
-                $meet = $querys->result_array();
-
-            ?>
              <?PHP if (count($meet) != 0) { ?>
                 <?PHP foreach ($meet as $key => $vmeet) { ?>
                     <div class="col-md-4">
@@ -106,7 +77,7 @@ label.error {
                         </div>
                     </div>
                 <?PHP } ?>
-            <?PHP } else{?>
+            <?PHP } else { ?>
                 <div class="col-md-12">
                     <div class="ibox">
                         <div class="ibox-content">
@@ -117,8 +88,5 @@ label.error {
                     </div>
                 </div>
             <?PHP } ?>
-           
         </div>
-        
-    </div>
 </div>

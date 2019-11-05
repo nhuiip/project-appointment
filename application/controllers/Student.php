@@ -746,9 +746,9 @@ class Student extends MX_Controller
 
                     $condition = array();
                     // $condition['fide'] = "*";
-                    $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id, meet_time, meet_date";
-                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 0);
-                    $data['listmeethis'] = $this->meet->listjoinData($condition);
+                    $condition['fide'] = "sub_code, sub_name, set_year, set_term, meet_id, tb_project.use_id, meet_time, meet_date, meet_status, use_name";
+                    $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status' => 1, 'tb_settings.set_status' => 0);
+                    $data['listmeethis'] = $this->meet->listjoinData3($condition);
 
                     if ($data['searchProject'][0]['project_status'] == 5) {
                         $condition = array();
@@ -779,7 +779,7 @@ class Student extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('std_status' => 0, 'std_checkmail' => 1);
+                $condition['where'] = array('std_checkmail' => 1);
                 $data['liststd'] = $this->student->listData($condition);
 
                 //แสดง id ที่ login เอาไป select subject
