@@ -5,7 +5,7 @@ body {
 /* Absolute Center Spinner */
 .loading {
   position: fixed;
-  z-index: 9999;
+  z-index: 99999;
   height: 2em;
   width: 2em;
   overflow: visible;

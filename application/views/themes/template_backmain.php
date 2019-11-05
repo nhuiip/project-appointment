@@ -47,7 +47,7 @@ $listmeet = $query_meet->result_array();
 	<link href="<?= base_url('assets/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/animate.css'); ?>" rel="stylesheet">
-	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet">
+	<link href="<?= base_url('assets/css/custom.css?v=001'); ?>" rel="stylesheet">
 
 	<!-- calendar -->
 	<link href="<?= base_url('assets/css/plugins/colorpicker/bootstrap-colorpicker.min.css'); ?>" rel="stylesheet">

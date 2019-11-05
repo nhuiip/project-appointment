@@ -452,11 +452,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectuser as $key => $value) {
-            //     $mail->AddAddress($value['use_email']);
-            // }
+            foreach ($selectuser as $key => $value) {
+                $mail->AddAddress($value['use_email']);
+            }
 
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messagetea_verify($data);
@@ -500,11 +500,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectstd as $key => $value) {
-            //     $mail->AddAddress($value['std_email']);
-            // }
+            foreach ($selectstd as $key => $value) {
+                $mail->AddAddress($value['std_email']);
+            }
 
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messagestd_verify($data);
