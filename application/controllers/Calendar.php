@@ -308,12 +308,23 @@ class Calendar extends MX_Controller
 
         $project_id  =  $liststudent[0]['project_id']; //รหัสโปรเจค
 
+        //select set id
+        $condition = array();
+        $condition['fide'] = "sec_date,sec_time_one,set_id";
+        $condition['where'] = array('sec_date' => $date, 'sec_time_one' => $time);
+        $listcelectSet = $this->section->listData($condition);
+        if(count($listcelectSet) == 0){
+            $condition = array();
+            $condition['fide'] = "sec_date,sec_time_one,set_id";
+            $condition['where'] = array('sec_date' => $date, 'sec_time_two' => $time);
+            $listcelectSet = $this->section->listData($condition);
+        }
 
         if ($this->tokens->verify('formcrf')) {
 
             // insert meet
             $data = array(
-                'set_id'             => 1,
+                'set_id'             => $listcelectSet[0]['set_id'],
                 'project_id'         => $project_id,
                 'sub_id'             => $sub_id,
                 'meet_date'          => $date,

@@ -394,14 +394,14 @@ class Amcalendar extends MX_Controller
 
                         $data = array(
                             'sec_id'         => $selectsection[0]['sec_id'],
-                            'sec_status'     => 0,
+                            'sec_status'     => 1,
                         );
                         $this->section->updateData($data);
                     } else {
 
                         $data = array(
                             'sec_id'         => $selectsection[0]['sec_id'],
-                            'sec_status'     => 0,
+                            'sec_status'     => 1,
                         );
                         $this->section->updateData($data);
                     }
@@ -518,6 +518,15 @@ class Amcalendar extends MX_Controller
 
             $mail->MsgHTML($message);
             $mail->send();
+
+            // $result = array(
+            //     'error' => false,
+            //     'msg' => 'ยกเลิกนัดหมายสำเร็จแล้ว',
+            //     'url' =>  site_url('amcalendar/request/2')
+            // );
+            // echo json_encode($result);
+            // die;
+
         }
 
         header("location:" . site_url('amcalendar/request/2'));

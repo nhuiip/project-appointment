@@ -201,6 +201,33 @@ $(".btn-trace").click(function () {
   );
 });
 
+$(".btn-reloadmeet").click(function () {
+
+  var url = $(this).attr("data-url");
+  var title = $(this).attr("data-title");
+  var text = $(this).attr("data-text");
+  swal(
+    {
+      title: title,
+      text: text,
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c0392b",
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ยกเลิก",
+      closeOnConfirm: false
+    },
+    function (isConfirm) {
+      if (isConfirm) {
+        swal.close();
+        $(".loading").show();
+        location.href = url;
+      }
+    }
+  );
+});
+
+
 $(".timechecks").change(function () {
   var url = $(this).attr("data-url");
   swal(
