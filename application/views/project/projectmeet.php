@@ -65,23 +65,29 @@ function DateThai($strDate)
 										$querys = $this->db->get();
 										$projectperson = $querys->result_array();
 										switch ($value['project_status']) {
-											case 0:
-												$status_text = '<span class="badge badge-danger">&nbsp;&nbsp;ยกเลิกโปรเจค&nbsp;&nbsp;</span>';
-												break;
 											case 1:
-												$status_text = '<span class="badge">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
+												$status_text = '<span class="tag">เริ่มต้น</span>';
 												break;
 											case 2:
-												$status_text = '<span class="badge badge-primary">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 1&nbsp;&nbsp;</span>';
+												$status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
 												break;
 											case 3:
-												$status_text = '<span class="badge badge-warning">&nbsp;&nbsp;ติดแก้ไขโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+												$status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
 												break;
 											case 4:
-												$status_text = '<span class="badge badge-primary">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+												$status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content red">ตก</span>';
 												break;
 											case 5:
-												$status_text = '<span class="badge badge-info">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2 (conference)&nbsp;&nbsp;</span>';
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">Conference</span>';
+												break;
+											case 6:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+												break;
+											case 7:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+												break;
+											case 8:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content red">ตก</span>';
 												break;
 										}
 
@@ -95,15 +101,11 @@ function DateThai($strDate)
 												<small class="text-muted"><i class="fa fa-clock-o"></i> <?= $value['meet_time']; ?> น.</small>
 											</td>
 											<td width="15%">
-												<center><?= $status_text; ?></center>
+												<center><div class="badges alt" style="margin-bottom: 10px;float: right;"><?= $status_text ?></div></center>
 											</td>
 											<td width="5%">
 												<center class="tooltip-demo">
-													<a href="#"class="upstatus" 
-													data-project_id="<?= $value['project_id'] ?>" 
-													data-project_name="<?= $value['project_name'] ?>"
-													data-project_status="<?= $value['project_status'] ?>"
-													data-toggle="modal" data-target="#Update">
+													<a href="#" class="upstatus" data-project_id="<?= $value['project_id'] ?>" data-project_name="<?= $value['project_name'] ?>" data-project_status="<?= $value['project_status'] ?>" data-toggle="modal" data-target="#Update">
 														<button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="อัพเดตข้อมูล">
 															<i class="fa fa-chevron-right"></i>
 														</button>
@@ -147,52 +149,52 @@ function DateThai($strDate)
 </div>
 <!-- model update -->
 <script>
-    $('.upstatus').click(function() {
-        var project_id = $(this).attr('data-project_id');
-        var project_name = $(this).attr('data-project_name');
-        var project_status = $(this).attr('data-project_status');
-        $("#project_id").val(project_id);
-        $("#project_name").val(project_name);
-        $("#project_status").val(project_status);
-    });
+	$('.upstatus').click(function() {
+		var project_id = $(this).attr('data-project_id');
+		var project_name = $(this).attr('data-project_name');
+		var project_status = $(this).attr('data-project_status');
+		$("#project_id").val(project_id);
+		$("#project_name").val(project_name);
+		$("#project_status").val(project_status);
+	});
 </script>
 <div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลปริญญานิพนธ์</h4>
-            </div>
-            <div class="modal-body">
-                <form action="<?= site_url('project/updateData'); ?>" method="post" enctype="multipart/form-data" name="formProject_Up" id="formProject_Up" class="form-horizontal" novalidate>
-                    <input type="hidden" name="type" id="type" value="projectmeet">
-                    <input type="hidden" name="sub_id" id="sub_id" value="<?=$sub_id;?>">
-                    <input type="hidden" name="project_id" id="project_id">
-                    <div class="form-group row">
-                        <label class="col-sm-12">ชื่อปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <input type="text" name="project_name" id="project_name" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="form-group row">
-                        <label class="col-sm-12">สถานะปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
-                        <div class="col-sm-12">
-                            <select class="form-control" name="project_status" id="project_status">
-                                <option value="">กรุณาเลือกข้อมูล</option>
-                                <?PHP foreach ($status as $key => $value) { ?>
-                                    <option value="<?= $value['project_status'] ?>"><?= $value['text'] ?></option>
-                                <?PHP } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <!--*/form-group-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                        <button type="submit" class="btn btn-primary">บันทึก</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลปริญญานิพนธ์</h4>
+			</div>
+			<div class="modal-body">
+				<form action="<?= site_url('project/updateData'); ?>" method="post" enctype="multipart/form-data" name="formProject_Up" id="formProject_Up" class="form-horizontal" novalidate>
+					<input type="hidden" name="type" id="type" value="projectmeet">
+					<input type="hidden" name="sub_id" id="sub_id" value="<?= $sub_id; ?>">
+					<input type="hidden" name="project_id" id="project_id">
+					<div class="form-group row">
+						<label class="col-sm-12">ชื่อปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
+						<div class="col-sm-12">
+							<input type="text" name="project_name" id="project_name" class="form-control" readonly>
+						</div>
+					</div>
+					<!--*/form-group-->
+					<div class="form-group row">
+						<label class="col-sm-12">สถานะปริญญานิพนธ์<span class="text-muted" style="color:#c0392b">*</span></label>
+						<div class="col-sm-12">
+							<select class="form-control" name="project_status" id="project_status">
+								<option value="">กรุณาเลือกข้อมูล</option>
+								<?PHP foreach ($status as $key => $value) { ?>
+									<option value="<?= $value['project_status'] ?>"><?= $value['text'] ?></option>
+								<?PHP } ?>
+							</select>
+						</div>
+					</div>
+					<!--*/form-group-->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+						<button type="submit" class="btn btn-primary">บันทึก</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

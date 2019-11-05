@@ -74,10 +74,13 @@ class Project extends MX_Controller
 
                     $data['status'] = array();
                     $data['status'][0] = array('project_status' => 1, 'text' => 'เริ่มต้น');
-                    $data['status'][1] = array('project_status' => 2, 'text' => 'ผ่านโครงการสารสนเทศ 1');
-                    $data['status'][2] = array('project_status' => 3, 'text' => 'ติดแก้ไขโครงการสารสนเทศ 2');
-                    $data['status'][3] = array('project_status' => 4, 'text' => 'ผ่านโครงการสารสนเทศ 2');
-                    $data['status'][4] = array('project_status' => 5, 'text' => 'ผ่านโครงการสารสนเทศ 2 (conference)');
+                    $data['status'][1] = array('project_status' => 2, 'text' => 'สอบหัวข้อปริญญานิพนธ์ (ผ่าน)');
+                    $data['status'][2] = array('project_status' => 3, 'text' => 'สอบหัวข้อปริญญานิพนธ์ (ผ่านแบบมีเงื่อนไข)');
+                    $data['status'][3] = array('project_status' => 4, 'text' => 'สอบหัวข้อปริญญานิพนธ์ (ตก)');
+                    $data['status'][4] = array('project_status' => 5, 'text' => 'สอบป้องกันปริญญานิพนธ์ (Conference)');
+                    $data['status'][5] = array('project_status' => 6, 'text' => 'สอบป้องกันปริญญานิพนธ์ (ผ่าน)');
+                    $data['status'][6] = array('project_status' => 7, 'text' => 'สอบป้องกันปริญญานิพนธ์ (ผ่านแบบมีเงื่อนไข)');
+                    $data['status'][7] = array('project_status' => 8, 'text' => 'สอบป้องกันปริญญานิพนธ์ (ตก)');
                 } else {
                     show_404();
                 }
@@ -148,10 +151,13 @@ class Project extends MX_Controller
 
                         $data['status'] = array();
                         $data['status'][0] = array('project_status' => 1, 'text' => 'เริ่มต้น');
-                        $data['status'][1] = array('project_status' => 2, 'text' => 'ผ่านโครงการสารสนเทศ 1');
-                        $data['status'][2] = array('project_status' => 3, 'text' => 'ติดแก้ไขโครงการสารสนเทศ 2');
-                        $data['status'][3] = array('project_status' => 4, 'text' => 'ผ่านโครงการสารสนเทศ 2');
-                        $data['status'][4] = array('project_status' => 5, 'text' => 'ผ่านโครงการสารสนเทศ 2 (conference)');
+                        $data['status'][1] = array('project_status' => 2, 'text' => 'สอบหัวข้อปริญญานิพนธ์ (ผ่าน)');
+                        $data['status'][2] = array('project_status' => 3, 'text' => 'สอบหัวข้อปริญญานิพนธ์ (ผ่านแบบมีเงื่อนไข)');
+                        $data['status'][3] = array('project_status' => 4, 'text' => 'สอบหัวข้อปริญญานิพนธ์ (ตก)');
+                        $data['status'][4] = array('project_status' => 5, 'text' => 'สอบป้องกันปริญญานิพนธ์ (Conference)');
+                        $data['status'][5] = array('project_status' => 6, 'text' => 'สอบป้องกันปริญญานิพนธ์ (ผ่าน)');
+                        $data['status'][6] = array('project_status' => 7, 'text' => 'สอบป้องกันปริญญานิพนธ์ (ผ่านแบบมีเงื่อนไข)');
+                        $data['status'][7] = array('project_status' => 8, 'text' => 'สอบป้องกันปริญญานิพนธ์ (ตก)');
 
                         $data['sub_id'] = $data['subject'][0]['sub_id'];
                         $this->template->backend('project/projectmeet', $data);

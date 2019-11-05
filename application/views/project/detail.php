@@ -50,27 +50,33 @@ if (isset($listProject) && count($listProject) != 0) {
                         <li class="list-group-item">
                             <?
                             switch ($project_status) {
-                                case 0:
-                                    $status_text = '<span class="badge badge-danger">&nbsp;&nbsp;ยกเลิกโปรเจค&nbsp;&nbsp;</span>';
-                                    break;
                                 case 1:
-                                    $status_text = '<span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
+                                    $status_text = '<span class="tag">เริ่มต้น</span>';
                                     break;
                                 case 2:
-                                    $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 1&nbsp;&nbsp;</span>';
+                                    $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
                                     break;
                                 case 3:
-                                    $status_text = '<span class="badge badge-warning" style="margin-bottom: 15px;">&nbsp;&nbsp;ติดแก้ไขโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                    $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
                                     break;
                                 case 4:
-                                    $status_text = '<span class="badge badge-primary" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
+                                    $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content red">ตก</span>';
                                     break;
                                 case 5:
-                                    $status_text = '<span class="badge badge-info" style="margin-bottom: 15px;">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2 (conference)&nbsp;&nbsp;</span>';
+                                    $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">Conference</span>';
+                                    break;
+                                case 6:
+                                    $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+                                    break;
+                                case 7:
+                                    $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+                                    break;
+                                case 8:
+                                    $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content red">ตก</span>';
                                     break;
                             }
                             ?>
-                                <?= $status_text ?>
+                                <div class="badges alt" style="margin-bottom: 10px;float: right;"><?= $status_text ?></div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <p><strong>หัวข้อปริญญานิพนธ์ : </strong> <?= $project_name; ?></p>
@@ -81,7 +87,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                     <div class="col-sm-12">
                                         <p><strong>ผู้จัดทำ : </strong>
                                             <? foreach ($listPerson as $key => $list) { ?>
-                                                <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
+                                                <span class="badges alt"><span class="content gray"><?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?></span></span>
                                             <? } ?>
                                         </p>
                                     </div>
@@ -145,7 +151,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="btn-alert" data-title="ต้องการลบข้อมูล?" data-url="<?= site_url('conference/deleteData/' .$project_id); ?>">
+                                        <a href="#" class="btn-alert" data-title="ต้องการลบข้อมูล?" data-url="<?= site_url('conference/deleteData/' . $project_id); ?>">
                                             <i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล Conference
                                         </a>
                                     </li>
@@ -200,7 +206,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                     $conf_place_text         = 'สถานที่เผยแพร่ผลงาน';
                                 }
                                 ?>
-                            <p align="right"><span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;<?=$conftype_name;?>&nbsp;&nbsp;</span></p>
+                            <p align="right"><span class="badge" style="margin-bottom: 15px;">&nbsp;&nbsp;<?= $conftype_name; ?>&nbsp;&nbsp;</span></p>
                             <ul class="list-group">
                                 <li class="list-group-item">
 
@@ -255,7 +261,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                                     </button>
                                                 </td>
                                                 <td width="10%">
-                                                    <button class="btn btn-danger btn-alert" data-title="ต้องการลบข้อมูล?" data-url="<?= site_url('conference/deletePerson/' .$project_id.'/'.$value['confpos_id']); ?>">
+                                                    <button class="btn btn-danger btn-alert" data-title="ต้องการลบข้อมูล?" data-url="<?= site_url('conference/deletePerson/' . $project_id . '/' . $value['confpos_id']); ?>">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </td>

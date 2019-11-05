@@ -157,6 +157,7 @@ class Setting extends CI_Controller
 
     public function opensection($id = '')
     {
+        
         if (!empty($id)) {
             $condition = array();
             $condition['fide'] = "*";
@@ -186,6 +187,11 @@ class Setting extends CI_Controller
         $end->setTime(0, 0, 1);
         $interval = new DateInterval('P1D');
         $daterange = new DatePeriod($begin, $interval, $end);
+        
+        // echo '<pre>';
+        // print_r($daterange);
+        // echo '</pre>';
+        // die;
         //วันหยุด
         $arrholiday = array();
         foreach ($holiday as $key => $value) {
@@ -221,7 +227,7 @@ class Setting extends CI_Controller
             }
         }
         //เปิดนัดทุกวัน
-        if ($setting[0]['set_option_sat'] == 0 && $setting[0]['set_option_sun'] == 1) {
+        if ($setting[0]['set_option_sat'] == 1 && $setting[0]['set_option_sun'] == 1) {
             foreach ($daterange as $key => $value) {
                 $thisdate = $value->format('Y-m-d');
                 array_push($date, $thisdate);
@@ -273,7 +279,7 @@ class Setting extends CI_Controller
                 'set_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
                 'set_lastedit_date' => date('Y-m-d H:i:s'),
             );
-            $this->setting->updateData($data);
+            $this->setting->CloseData($data);
 
             header("location:".site_url('setting/index'));
         }
