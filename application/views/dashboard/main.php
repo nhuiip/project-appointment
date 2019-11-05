@@ -276,8 +276,8 @@ function DateThai($strDate)
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-                    <button type="submit" class="btn btn-outline btn-danger">ยืนยันการยกเลิกนัดหมาย</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ปิดหน้าต่าง</button>
+                    <button type="submit" class="btn btn-outline btn-danger">ยกเลิกนัดหมาย</button>
                 </div>
             </div>
         </div>

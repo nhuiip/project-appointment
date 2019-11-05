@@ -1,3 +1,7 @@
+
+<!-- loading -->
+<div class="loading">Loading&#8230;</div>
+
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
@@ -20,7 +24,7 @@
                 </div>
                 <div class="ibox-content">
                     <!-- table ------------------------------------------------------------------------------------------------------->
-                    <!-- <div class="table-responsive"> -->
+                    <!-- <<div class="table-responsive"> -->
                         <table class="table table-striped table-hover dataTables-export" data-colexport="0,1,2,3,4" data-filename="export-student" width="100%">
                             <thead>
                                 <tr>
@@ -28,9 +32,9 @@
                                     <th>ชื่อ - สกุล</th>
                                     <th>เบอร์โทรศัพท์</th>
                                     <th>อีเมล์</th>
-                                    <th>สถานะการศึกษา</th>
-                                    <th>เพิ่มข้อมูล</th>
-                                    <th>แก้ไขล่าสุด</th>
+                                    <th>สถานะปริญญานิพนธ์</th>
+                                    <th class="none">เพิ่มข้อมูล</th>
+                                    <th class="none">แก้ไขล่าสุด</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -38,25 +42,65 @@
                                 <?PHP foreach ($listdata as $key => $value) { ?>
                                     <tr class="gradeX">
                                         <td width="10%"><?= $value['std_number'] ?></td>
-                                        <td width="15%"><?= $value['std_title'] ?><?= $value['std_fname'] ?> <?= $value['std_lname'] ?></td>
+                                        <td width="25%"><?= $value['std_title'] ?><?= $value['std_fname'] ?> <?= $value['std_lname'] ?></td>
                                         <td width="10%"><?= $value['std_tel'] ?></td>
                                         <td width="15%"><?= $value['std_email'] ?></td>
-                                        <td width="10%">
-                                            <center>
-                                                <?PHP if ($value['std_status'] == 1) { ?>
-                                                    <p><span class="label label-success" style="font-size: 12px;">จบการศึกษาแล้ว</span></p>
-                                                <?PHP } else { ?>
-                                                    <p><span class="label label-primary" style="font-size: 12px;">กำลังศึกษาอยู่</span></p>
-                                                <?PHP } ?>
-                                            </center>
+                                        <td width="15%">
+
+                                                <?PHP
+                                                    $this->db->from('tb_projectperson');
+                                                    $this->db->join('tb_student', 'tb_student.std_id = tb_projectperson.std_id');
+                                                    $this->db->join('tb_project', 'tb_project.project_id = tb_projectperson.project_id');
+                                                    $this->db->where(array('tb_projectperson.std_id' => $value['std_id']));
+                                                    $this->db->where(array('tb_project.project_status !=' => 0));
+                                                    $this->db->select('tb_projectperson.std_id,tb_project.project_status');
+                                                    $querys = $this->db->get();
+                                                    $projectperson = $querys->result_array();
+
+                                                    // print_r($projectperson);
+
+                                                    if(count($projectperson) == 0){
+                                                        $status_text = '<span class="content gray">เริ่มต้น</span>';
+                                                    }else{
+                                                        switch ($projectperson[0]['project_status']) {
+                                                            case 1:
+                                                                $status_text = '<span class="content gray">เริ่มต้น</span>';
+                                                                break;
+                                                            case 2:
+                                                                $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+                                                                break;
+                                                            case 3:
+                                                                $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+                                                                break;
+                                                            case 4:
+                                                                $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content red">ตก</span>';
+                                                                break;
+                                                            case 5:
+                                                                $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">Conference</span>';
+                                                                break;
+                                                            case 6:
+                                                                $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+                                                                break;
+                                                            case 7:
+                                                                $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+                                                                break;
+                                                            case 8:
+                                                                $status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content red">ตก</span>';
+                                                                break;
+                                                        }
+                                                    }
+                                                    
+                                                ?>
+                                            <span class="badges alt" style="margin-bottom: 10px;"><?= $status_text ?></span>
+                                            
 
                                         </td>
-                                        <td width="10%">
+                                        <td >
                                             <? if ($value['std_create_name'] != '0') { ?>
                                                 <?= $value['std_create_name']; ?><? } ?><br />
                                                 <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['std_create_date'])); ?></small>
                                         </td>
-                                        <td width="10%">
+                                        <td >
                                             <? if ($value['std_lastedit_name'] != '0') { ?>
                                                 <?= $value['std_lastedit_name']; ?>
                                             <? } ?>
@@ -71,9 +115,10 @@
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <ul class="dropdown-menu" style="width:100%">
-                                                    <li><a href="#" data-toggle="modal" data-target="#studentUpdate" class="update" data-stdid="<?= $value['std_id']; ?>" data-number="<?= $value['std_number']; ?>" data-tel="<?= $value['std_tel']; ?>" data-emailstd="<?= $value['std_email']; ?>" data-fname="<?= $value['std_fname']; ?>" data-lname="<?= $value['std_lname']; ?>"><i class="fa fa-edit"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูลนักศึกษา</a></li>
-                                                    <li><a href="#" data-toggle="modal" data-target="#emailUpdate" class="updateemail" data-stdid="<?= $value['std_id']; ?>" data-email="<?= $value['std_email']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนที่อยู่อีเมล์</a></li>
-                                                    <li><a href="#" data-toggle="modal" data-target="#passwordUpdate" class="updatepass" data-stdid="<?= $value['std_id']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#studentUpdate" class="update" data-stdid="<?= $value['std_id']; ?>" data-number="<?= $value['std_number']; ?>" data-tel="<?= $value['std_tel']; ?>" data-emailstd="<?= $value['std_email']; ?>" data-fname="<?= $value['std_fname']; ?>" data-lname="<?= $value['std_lname']; ?>"><i class="fa fa-edit"></i>&nbsp;แก้ไขข้อมูลนักศึกษา</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#emailUpdate" class="updateemail" data-stdid="<?= $value['std_id']; ?>" data-email="<?= $value['std_email']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-envelope-o"></i>&nbsp;เปลี่ยนที่อยู่อีเมล์</a></li>
+                                                    <li><a class="btn-reloadmeet" data-title="ส่งอีเมล์ยืนยันอีกครั้ง" data-text=""  data-url="<?= base_url('student/sentmailremail2/'.$value['std_id']); ?>"><i class="fa fa-arrow-circle-right"></i>&nbsp;ส่งอีเมล์ยืนยันอีกครั้ง</a></li>
+                                                    <li><a href="#" data-toggle="modal" data-target="#passwordUpdate" class="updatepass" data-stdid="<?= $value['std_id']; ?>" data-fullname="<?= $value['std_title']; ?><?= $value['std_fname']; ?> <?= $value['std_lname']; ?>"><i class="fa fa-exclamation-circle"></i>&nbsp;เปลี่ยนรหัสผ่าน</a></li>
                                                 </ul>
                                             </div>
                                         </td>

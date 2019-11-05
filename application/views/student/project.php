@@ -263,8 +263,10 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                     <div class="col-sm-12">
                                         <p><strong>ผู้จัดทำ : </strong>
                                             <?PHP foreach ($projectperson as $key => $list) { ?>
-                                                <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
-                                            <? } ?>
+                                                <!-- <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span> -->
+                                                <span class="badges alt"><span class="content gray"><?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?></span></span>
+                                            
+                                                <? } ?>
                                         </p>
                                     </div>
                                     <div class="col-sm-12">
@@ -411,32 +413,17 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                                 </div>
                                             <?PHP } ?>
                                             <div class="col-sm-12">
-                                                <table class="table table-hover">
-                                                    <tbody>
-                                                        <? foreach ($listt as $key => $v) { ?>
-                                                            <tr>
-                                                                <td width="70%" style="text-align: left;">
-                                                                    <? if ($v['use_id'] == $value['use_id']) { ?>
-                                                                        <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content red">ที่ปรึกษา</span></div>
-                                                                    <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                                        <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content orange">ประธาน</span></div>
-                                                                    <? } else { ?>
-                                                                        <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></div>
-                                                                    <? } ?>
-                                                                </td>
-                                                                <td width="30%" style="padding-right: 0;">
-                                                                    <? if ($v['dmeet_status'] == 1) { ?>
-                                                                        <div class="badges alt"><span class="content green">ยอมรับ</span></div>
-                                                                    <? } elseif ($v['dmeet_status'] == 2) { ?>
-                                                                        <div class="badges alt"><span class="content orange">รอดำเนินการ</span></div>
-                                                                    <? } elseif ($v['dmeet_status'] == 0) { ?>
-                                                                        <div class="badges alt"><span class="content red">ปฏิเสธ</span></div>
-                                                                    <? } ?>
-                                                                </td>
-                                                            </tr>
-                                                        <? } ?>
-                                                    </tbody>
-                                                </table>
+                                                
+                                                <? foreach ($listt as $key => $v) { ?>
+                                                    <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                        <span class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content red">ที่ปรึกษา</span></span>
+                                                    <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                        <span class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content orange">ประธาน</span></span>
+                                                    <? } else { ?>
+                                                        <span class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></span>
+                                                    <? } ?>
+                                                <? } ?>
+                                                    
                                             </div>
                                         </div>
                                     </li>

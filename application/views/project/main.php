@@ -48,37 +48,47 @@
                                         $projectperson = $query->result_array();
                                         switch ($value['project_status']) {
                                             case 0:
-                                                $status_text = '<span class="badge badge-danger">&nbsp;&nbsp;ยกเลิกโปรเจค&nbsp;&nbsp;</span>';
+												$status_text = '<span class="content red">ยกเลิกโปรเจค</span>';
                                                 break;
                                             case 1:
-                                                $status_text = '<span class="badge">&nbsp;&nbsp;เริ่มต้น&nbsp;&nbsp;</span>';
-                                                break;
-                                            case 2:
-                                                $status_text = '<span class="badge badge-primary">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 1&nbsp;&nbsp;</span>';
-                                                break;
-                                            case 3:
-                                                $status_text = '<span class="badge badge-warning">&nbsp;&nbsp;ติดแก้ไขโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
-                                                break;
-                                            case 4:
-                                                $status_text = '<span class="badge badge-primary">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2&nbsp;&nbsp;</span>';
-                                                break;
-                                            case 5:
-                                                $status_text = '<span class="badge badge-info">&nbsp;&nbsp;ผ่านโครงการสารสนเทศ 2 (conference)&nbsp;&nbsp;</span>';
-                                                break;
+												$status_text = '<span class="tag">เริ่มต้น</span>';
+												break;
+											case 2:
+												$status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+												break;
+											case 3:
+												$status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+												break;
+											case 4:
+												$status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content red">ตก</span>';
+												break;
+											case 5:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">Conference</span>';
+												break;
+											case 6:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
+												break;
+											case 7:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content orange">ผ่านแบบมีเงื่อนไข</span>';
+												break;
+											case 8:
+												$status_text = '<span class="tag">สอบป้องกันปริญญานิพนธ์</span><span class="content red">ตก</span>';
+												break;
                                         }
                                         ?>
                                         <tr class="gradeX">
                                             <td width="1%"></td>
                                             <td width="9%"><strong><?= "PRO" . str_pad($value['project_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
-                                            <td width="30%"><?= $value['project_name'] ?></td>
+                                            <td width="25%"><?= $value['project_name'] ?></td>
                                             <td width="15%"><?= $value['use_name']; ?></td>
                                             <td width="25%">
                                                 <?PHP foreach ($projectperson as $key => $list) { ?>
-                                                    <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span>
-                                                <? } ?>
+                                                    <!-- <span class="badge">&nbsp;&nbsp;<?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?>&nbsp;&nbsp;</span> -->
+                                                    <span class="badges alt"><span class="content gray"><?= $list['std_title'] . '' . $list['std_fname'] . ' ' . $list['std_lname']; ?></span></span>
+                                                    <? } ?>
                                             </td>
-                                            <td width="15%">
-                                                <center><?= $status_text ?></center>
+                                            <td width="18%">
+                                                <div class="badges alt" style="margin-bottom: 10px;"><?= $status_text ?></div>
                                             </td>
                                             <td width="5%">
                                                 <center class="tooltip-demo">
