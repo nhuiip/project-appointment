@@ -45,8 +45,6 @@ class Profile extends MX_Controller
                     $condition['where'] = array('tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1);
                     $data['listsubject'] = $this->subject->listjoinData($condition);
 
-                   
-
                     $condition = array();
                     $condition['fide'] = "*";
                     $condition['where'] = array('sub_id' => $data['listsubject'][0]['sub_id']);

@@ -60,12 +60,22 @@ class Administrator extends MX_Controller
 
 	public function create()
 	{
+		function random_color_part()
+		{
+			return str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+		}
+
+		function random_color()
+		{
+			return random_color_part() . random_color_part() . random_color_part();
+		}
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'use_name' 			=> $this->input->post('use_name'),
 				'position_id' 		=> $this->input->post('position_id'),
 				'use_email' 		=> $this->input->post('use_email'),
 				'use_pass' 			=> md5($this->input->post('use_pass')),
+				'use_color' 		=> '#' . random_color(),
 				'use_create_name' 	=> $this->encryption->decrypt($this->input->cookie('sysn')),
 				'use_create_date' 	=> date('Y-m-d H:i:s'),
 				'use_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
@@ -103,14 +113,18 @@ class Administrator extends MX_Controller
 	public function update()
 	{
 		if ($this->tokens->verify('formcrf')) {
-			$data = array(
-				'use_id' 			=> $this->input->post('Id'),
-				'use_name' 			=> $this->input->post('use_name'),
-				'use_email' 		=> $this->input->post('use_email'),
-				'position_id' 		=> $this->input->post('position_id'),
-				'use_lastedit_name' => $this->encryption->decrypt($this->input->cookie('sysn')),
-				'use_lastedit_date' => date('Y-m-d H:i:s')
-			);
+			$data = array();
+			$data['use_id'] = $this->input->post('Id');
+			$data['use_name'] = $this->input->post('use_name');
+			$data['use_email'] = $this->input->post('use_email');
+			$data['position_id'] = $this->input->post('position_id');
+			$data['use_lastedit_name'] = $this->encryption->decrypt($this->input->cookie('sysn'));
+			$data['use_lastedit_date'] = date('Y-m-d H:i:s');
+
+			if ($this->input->post('type') == 'T') {
+				$data['use_color'] = $this->input->post('use_color');
+			}
+
 			$this->administrator->updateData($data);
 			if ($this->input->post('type') == 'T') {
 				$f = $this->encryption->encrypt($this->input->post('use_name'));
@@ -412,7 +426,7 @@ class Administrator extends MX_Controller
 					$this->input->set_cookie($cookie_fullname);
 					$this->input->set_cookie($cookie_position);
 					$this->input->set_cookie($cookie_img);
-					header("location:" . site_url('student/stdproject/'.$liststd[0]['std_id']));
+					header("location:" . site_url('student/stdproject/' . $liststd[0]['std_id']));
 				} elseif ($username == 'support@itrmutr.com' && $password == 'supp0rt@it;;') {
 					$l = $this->encryption->encrypt("l1ci");
 					$i = $this->encryption->encrypt(0);

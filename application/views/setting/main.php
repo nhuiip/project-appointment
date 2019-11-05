@@ -68,7 +68,7 @@
 												</button>
 												<ul class="dropdown-menu" style="width:100%">
 													<? if ($value['set_status'] != 0 && $value['set_status'] != 2) { ?>
-														<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_option_sun']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>" "><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+														<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_id']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>" "><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
 														<li><a href="<?= site_url('setting/form/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
 													<? } ?>
 													<? if ($value['set_status'] == 1) { ?>
@@ -139,7 +139,7 @@
 				<h4 class="modal-title" id="myModalLabel">เพิ่มข้อมูลการตั้งค่าระบบ</h4>
 			</div>
 			<div class="modal-body">
-				<form action="<?= site_url('setting/create'); ?>" method="post" enctype="multipart/form-data" name="formSetting" id="formSetting" class="form-horizontal" novalidate>
+				<form action="<?= site_url('setting/create'); ?>" method="post" enctype="multipart/form-data" name="formSetting_up" id="formSetting_up" class="form-horizontal" novalidate>
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
 					<div class="form-group row">
 						<label class="col-sm-12">ปีการศึกษา<span class="text-muted" style="color:#c0392b">*</span></label>
@@ -229,7 +229,7 @@
 				<h4 class="modal-title" id="myModalLabel">แก้ไขข้อมูลการตั้งค่าระบบ</h4>
 			</div>
 			<div class="modal-body">
-				<form action="<?= site_url('setting/create'); ?>" method="post" enctype="multipart/form-data" name="formSetting" id="formSetting" class="form-horizontal" novalidate>
+				<form action="<?= site_url('setting/update'); ?>" method="post" enctype="multipart/form-data" name="formSetting" id="formSetting" class="form-horizontal" novalidate>
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
 					<input type="hidden" name="Id" id="Id" value="" class="set_id">
 					<div class="form-group row">

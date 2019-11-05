@@ -28,6 +28,13 @@ class Setting_model extends CI_Model
 	{
 		$this->db->where(array('set_id' => $data['set_id']));
 		$this->db->update("tb_settings", $data);
+		return $data['set_id'];
+	}
+
+	public function CloseData($data = array())
+	{
+		$this->db->where(array('set_id' => $data['set_id']));
+		$this->db->update("tb_settings", $data);
 		if ($data['set_status'] == 0) {
 			$this->db->delete('tb_section', array('set_id' => $data['set_id']));
 		}

@@ -15,6 +15,7 @@ if (isset($listdata) && count($listdata) != 0) {
 		$use_name = $value['use_name'];
 		$use_email = $value['use_email'];
 		$position_id = $value['position_id'];
+		$use_color = $value['use_color'];
 	}
 }
 if (isset($listsubject) && count($listsubject) != 0) {
@@ -73,8 +74,14 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 						</div>
 						<div class="form-group row">
 							<label class="col-md-12">Email <span class="text-muted" style="color:#c0392b">*</span></label>
+							<div class="col-md-12">
+							<input type="text" class="form-control" value="<?= $use_email; ?>" name="use_email" id="use_email_up" data-url="<?= site_url('administrator/checkemailup'); ?>">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-12">สีแสดงผล <span class="text-muted" style="color:#c0392b">*</span></label>
 							<div class="col-md-8">
-								<input type="text" class="form-control" value="<?= $use_email; ?>" name="use_email" id="use_email_up" data-url="<?= site_url('administrator/checkemailup'); ?>">
+								<input type="text" class="form-control colorpicker" value="<?= $use_color; ?>" name="use_color" id="use_color">
 							</div>
 							<div class="col-md-4">
 								<button type="submit" class="btn btn-outline btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;อัพเดตข้อมูล</button>
@@ -305,7 +312,7 @@ $title = $this->encryption->decrypt($this->input->cookie('sysn'));
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">เพิ่มเอกสาร</h4>
 			</div>
-			<form action="<?= site_url('attached/create'); ?>" method="post" enctype="multipart/form-data" name="formAttached" id="formAttached" class="form-horizontal" novalidate>
+			<form action="<?= site_url('attached/create'); ?>" method="post" enctype="multipart/form-data" name="formAttached" id="fortached" class="form-horizontal" novalidate>
 				<div class="modal-body">
 					<input type="hidden" name="formcrf" id="formcrf3" value="<?= $formcrf; ?>">
 					<input type="hidden" name="sub_id" id="sub_id" value="<?PHP if(isset($sub_id)){echo $sub_id;}?>">

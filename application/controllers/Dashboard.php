@@ -29,10 +29,15 @@ class Dashboard extends CI_Controller
 		$data['listmeet'] = $this->meet->listjoinData2($condition);
 
 		$condition = array();
+		$condition['fide'] = "tb_meet.meet_id";
+		$condition['where'] = array('meet_status' => 1,);
+		$data['listmeets'] = $this->meet->listjoinData2($condition);
+
+		$condition = array();
 		$condition['fide'] = "use_id, use_name";
 		$condition['where_in']['filde'] = 'position_id';
 		$condition['where_in']['value'] = ['2', '3'];
-		$condition['orderby'] = "position_id ASC, use_id ASC ";
+		$condition['orderby'] = "use_name ASC ";
 		$data['listuser'] = $this->administrator->listData($condition);
 
 		$condition = array();
@@ -43,8 +48,8 @@ class Dashboard extends CI_Controller
 			base_url('assets/js/lib/plugins/flot/jquery.flot'),
 			base_url('assets/js/lib/plugins/flot/jquery.flot.resize'),
 			base_url('assets/js/lib/plugins/flot/jquery.flot.pie'),
-			base_url('assets/js/lib/plugins/chartJs/Chart.min'),
-			base_url('assets/js/lib/plugins/chartJs/Chart.HorizontalBar'),
+			// base_url('assets/js/lib/plugins/chartJs/Chart.min'),
+			// base_url('assets/js/lib/plugins/chartJs/Chart.HorizontalBar'),
 		));
 		$this->template->backend('dashboard/main', $data);
 	}
@@ -72,8 +77,8 @@ class Dashboard extends CI_Controller
 		$total = count($one) + count($group);
 		$countone = (count($one) / $total) * 100;
 		$countgroup = (count($group) / $total) * 100;
-		$onetext = 'เดี่ยว ( '.$countone.'% )';
-		$grouptext = 'กลุ่ม ( '.$countgroup.'% )';
+		$onetext = 'เดี่ยว ( ' . $countone . '% )';
+		$grouptext = 'กลุ่ม ( ' . $countgroup . '% )';
 
 		$data = array();
 		$data[0] = array('label' => $grouptext, 'data' => $countgroup, 'color' => '#27ae60');
@@ -121,6 +126,44 @@ class Dashboard extends CI_Controller
 		$data[3] = array(4, count($tree));
 		$data[4] = array(5, count($four));
 		$data[5] = array(6, count($five));
+
+		echo json_encode($data);
+	}
+
+	public function countmeet()
+	{
+		$data = array();
+
+		$condition = array();
+		$condition['fide'] = "use_id, use_name, use_color";
+		$condition['where_in']['filde'] = 'position_id';
+		$condition['where_in']['value'] = ['2', '3'];
+		$condition['orderby'] = "use_name ASC ";
+		$listuser = $this->administrator->listData($condition);
+		if (count($listuser) != 0) {
+			foreach ($listuser as $key => $value) {
+				$this->db->select("*");
+				$this->db->from('tb_meet');
+				$this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
+				$this->db->where('tb_meet.meet_status', 1);
+				$this->db->where('tb_meetdetail.dmeet_status', 1);
+				$this->db->where('tb_meetdetail.use_id', $value['use_id']);
+				$query_c = $this->db->get();
+				$listcount = $query_c->result_array();
+
+				$data[$key] = array(
+					'label' => $value['use_name'].' ('.count($listcount).')',
+					'backgroundColor' => $value['use_color'],
+					'data' => [count($listcount)],
+					// 'data' => [rand(50,100)],
+				);
+			}
+		}
+
+		// echo '<pre>';
+		// // print_r($data);
+		// echo json_encode($data);
+		// echo '</pre>';
 
 		echo json_encode($data);
 	}

@@ -11,6 +11,8 @@ class Attached extends MX_Controller
 
 	public function create()
 	{
+		echo $this->input->post('att_filename');
+		die;
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'att_name' 			=> $this->input->post('att_name'),
@@ -32,6 +34,8 @@ class Attached extends MX_Controller
 
 	private function upfileimages($fild_Name)
 	{
+		echo $_POST[$fild_Name];
+		die;
 		if (!empty($_FILES[$fild_Name])) {
 			$new_name = time();
 			$config['upload_path'] = './uploads/attached';

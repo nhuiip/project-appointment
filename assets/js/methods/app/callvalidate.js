@@ -240,6 +240,44 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
         }
       });
     }
+    if ($("#formSetting_up").length) {
+      $("#formSetting_up").validate({
+        rules: {
+          set_year: {
+            required: true,
+            number: true
+          },
+          set_term: {
+            required: true
+          },
+          set_open: {
+            required: true
+          },
+          set_close: {
+            required: true
+          }
+        },
+        messages: {
+          set_year: {
+            required: "กรุณากรอกปีการศึกษา.",
+            number: "กรอกเฉพาะตัวเลขเท่านั้น"
+          },
+          set_term: {
+            required: "กรุณาเลือกเทอม."
+          },
+          set_open: {
+            required: "กรุณาระบุวันเปิดนัด."
+          },
+          set_close: {
+            required: "กรุณาระบุวันปิดนัด."
+          }
+        },
+        submitHandler: function(form) {
+          fun.dataSubmit(form);
+          return false;
+        }
+      });
+    }
     if ($("#formCHoliday").length) {
       $("#formCHoliday").validate({
         rules: {
