@@ -530,18 +530,12 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
       $("#formProjectfileStd_Add").validate({
         rules: {
           file_name: {
-            required: true
-          },
-          proformat_name: {
-            required: true
+            required: true,
           }
         },
         messages: {
           file_name: {
-            required: "กรุณาเลือกไฟล์เอกสาร."
-          },
-          proformat_name: {
-            required: "กรุณาเลือกชื่อไฟล์."
+            required: "กรุณาเลือกไฟล์เอกสาร.",
           }
         },
         submitHandler: function(form) {
@@ -1086,6 +1080,7 @@ define(["jquery", "function", "bootstrap", "validate"], function($, fun) {
           $("#formError").removeClass("hide");
         },
         submitHandler: function(form) {
+          $(".loading").show();
           fun.dataSubmit(form);
           return false;
         }

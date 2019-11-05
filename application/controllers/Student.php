@@ -858,6 +858,7 @@ class Student extends MX_Controller
     }
     public function stdprojectaddfile()
     {
+        
         if ($this->tokens->verify('formcrffileproject')) {
             $data = array(
                 'project_id'            => $this->input->post('project_id'),
@@ -960,11 +961,12 @@ class Student extends MX_Controller
     }
     private function upfileimages($file_name, $project_id)
     {
+
         if (!empty($_FILES[$file_name])) {
-            $new_name = $file_name;
+            // $new_name = $file_name;
             $config['upload_path'] = './uploads/fileproject/Project_' . $project_id;
             $config['allowed_types'] = 'pdf';
-            $config['file_name'] = $new_name;
+            // $config['file_name'] = $file_name;
             $config['max_size']    = 0;
             $this->load->library('upload', $config, 'upbanner');
             $this->upbanner->initialize($config);
@@ -1092,4 +1094,5 @@ class Student extends MX_Controller
             $this->template->backend('student/subjectdetail', $data);
         }
     }
+
 }

@@ -17,6 +17,7 @@ $this->db->where(array(
 	'tb_settings.set_status' => 2, 
 	'tb_meetdetail.use_id' => $loginid,
 	'tb_meetdetail.dmeet_status' => 2,
+	'tb_project.project_status' => 1
 ));
 $query_meet = $this->db->get();
 $listmeet = $query_meet->result_array();
