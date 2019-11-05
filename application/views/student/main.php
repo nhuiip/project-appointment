@@ -60,11 +60,11 @@
                                                     // print_r($projectperson);
 
                                                     if(count($projectperson) == 0){
-                                                        $status_text = '<span class="tag">เริ่มต้น</span>';
+                                                        $status_text = '<span class="content gray">เริ่มต้น</span>';
                                                     }else{
                                                         switch ($projectperson[0]['project_status']) {
                                                             case 1:
-                                                                $status_text = '<span class="tag">เริ่มต้น</span>';
+                                                                $status_text = '<span class="content gray">เริ่มต้น</span>';
                                                                 break;
                                                             case 2:
                                                                 $status_text = '<span class="tag">สอบหัวข้อปริญญานิพนธ์</span><span class="content green">ผ่าน</span>';
