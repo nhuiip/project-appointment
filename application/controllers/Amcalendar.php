@@ -79,122 +79,120 @@ class Amcalendar extends MX_Controller
     public function submit($dmeet_id = '', $use_id = '')
     {
 
-        //อัพเดตสถานะเป็น 1 คือการยอมรับนัดหมาย
-        $data = array(
-            'dmeet_id'         => $dmeet_id,
-            'use_id'          => $use_id,
-            'dmeet_status'    => 1,
-        );
-        $this->meet->updateDetail($data);
 
-        //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 0 เท่ากับไม่ว่าง (ของยุ้ย)
-        //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 2 เท่ากับมีนัดแล้ว (หนุ่ยแก้)
-        $condition = array();
-        $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time, tb_project.project_id,, tb_project.project_name";
-        $condition['where'] = array('tb_meetdetail.dmeet_id' => $dmeet_id);
-        $selectmeetsec = $this->meet->listjoinData2($condition);
+        // $dmeet_id = 4;
+        // $use_id = 5;
 
-        $meet_id   = $selectmeetsec[0]['meet_id'];
-        $sub_id    = $selectmeetsec[0]['sub_id'];
-        $meet_date = $selectmeetsec[0]['meet_date'];
-        $meet_time = $selectmeetsec[0]['meet_time'];
-        $project_id = $selectmeetsec[0]['project_id'];
-        $project_name = $selectmeetsec[0]['project_name'];
+        // 1. อัพเดตสถานะเป็น 1 คือการยอมรับนัดหมาย
+            $data = array(
+                'dmeet_id'         => $dmeet_id,
+                'use_id'          => $use_id,
+                'dmeet_status'    => 1,
+            );
+            $this->meet->updateDetail($data);
 
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
-        $selectsection = $this->section->listData($condition);
+        // 2. ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 2 เท่ากับมีนัดแล้ว (หนุ่ยแก้)
+            $condition = array();
+            $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time, tb_project.project_id,, tb_project.project_name";
+            $condition['where'] = array('tb_meetdetail.dmeet_id' => $dmeet_id);
+            $selectmeetsec = $this->meet->listjoinData2($condition);
 
-        if (count($selectsection) == 0) {
+            $meet_id   = $selectmeetsec[0]['meet_id'];
+            $sub_id    = $selectmeetsec[0]['sub_id'];
+            $meet_date = $selectmeetsec[0]['meet_date'];
+            $meet_time = $selectmeetsec[0]['meet_time'];
+            $project_id = $selectmeetsec[0]['project_id'];
+            $project_name = $selectmeetsec[0]['project_name'];
+
             $condition = array();
             $condition['fide'] = "*";
-            $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
+            $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
             $selectsection = $this->section->listData($condition);
 
-            $data = array(
-                'sec_id'         => $selectsection[0]['sec_id'],
-                'sec_status'     => 2,
-            );
-            $this->section->updateData($data);
-        } else {
-
-            $data = array(
-                'sec_id'         => $selectsection[0]['sec_id'],
-                'sec_status'     => 2,
-            );
-            $this->section->updateData($data);
-        }
-
-        //เช็คจำนวนคนที่กดยอมรับว่าครบที่กำหนดไหม หากครบ นัดต้องเป็น 1
-        $condition = array();
-        $condition['fide'] = "tb_meetdetail.meet_id,tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time";
-        $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id, 'tb_meetdetail.dmeet_status' => 2);
-        $selectmeetuser = $this->meet->listjoinData2($condition);
-
-        $condition = array();
-        $condition['fide'] = "tb_subject.sub_id,tb_subject.sub_setuse";
-        $condition['where'] = array('tb_subject.sub_id' => $sub_id);
-        $selectsubject = $this->meet->listjoinData($condition);
-
-        //หากจำนวนอาจารย์ที่ทำนัดยอมรับครบตามที่กำหนด ต้องอัพเดตสถานะ user เป็น 0
-        if (count($selectmeetuser) == $selectsubject[0]['sub_setuse']) {
-
-            //อัพเดตในตาราง tb_meerdetail เป็น dmeet_status = 1 [สำเร็จ]
-            foreach ($selectmeetuser as $key => $value) {
-
-                $data = array(
-                    'dmeet_id'         => $value['dmeet_id'],
-                    'use_id'          => $value['use_id'],
-                    'dmeet_status'    => 1,
-                );
-                $this->meet->updateDetail($data);
-
-                //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 0 = ไม่ว่าง
-                $condition = array();
-                $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time";
-                $condition['where'] = array('tb_meetdetail.dmeet_id' => $dmeet_id);
-                $selectmeetsec = $this->meet->listjoinData2($condition);
-
-                $meet_id   = $selectmeetsec[0]['meet_id'];
-                $sub_id    = $selectmeetsec[0]['sub_id'];
-                $meet_date = $selectmeetsec[0]['meet_date'];
-                $meet_time = $selectmeetsec[0]['meet_time'];
-
+            if (count($selectsection) == 0) {
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
+                $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
                 $selectsection = $this->section->listData($condition);
-                if (count($selectsection) == 0) {
+
+                $data = array(
+                    'sec_id'         => $selectsection[0]['sec_id'],
+                    'sec_status'     => 2,
+                );
+                $this->section->updateData($data);
+            } else {
+
+                $data = array(
+                    'sec_id'         => $selectsection[0]['sec_id'],
+                    'sec_status'     => 2,
+                );
+                $this->section->updateData($data);
+            }
+
+        // 3. เช็คจำนวนคนที่กดยอมรับว่าครบที่กำหนดไหม หากครบ นัดต้องเป็น 1
+            $condition = array();
+            $condition['fide'] = "tb_meetdetail.meet_id,tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_meet.meet_date,tb_meet.meet_time";
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id, 'tb_meetdetail.dmeet_status' => 1);
+            $selectmeetuser = $this->meet->listjoinData2($condition);
+
+            $condition = array();
+            $condition['fide'] = "tb_subject.sub_id,tb_subject.sub_setuse";
+            $condition['where'] = array('tb_subject.sub_id' => $sub_id);
+            $selectsubject = $this->meet->listjoinData($condition);
+
+        // 4. หากจำนวนอาจารย์ที่ทำนัดยอมรับครบตามที่กำหนด ต้องอัพเดตสถานะ meet เป็น 1
+            if (count($selectmeetuser) == $selectsubject[0]['sub_setuse']) {
+
+                //อัพเดตในตาราง tb_meet เป็น meet_status  = 1 [สำเร็จ]
+                $data = array(
+                    'meet_id'         => $meet_id,
+                    'meet_status'    => 1,
+                );
+                $this->meet->updateData2($data);
+
+                foreach ($selectmeetuser as $key => $value) {
+
+                    //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 0 = ไม่ว่าง
+                    $condition = array();
+                    $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time";
+                    $condition['where'] = array('tb_meetdetail.dmeet_id' => $selectmeetuser[0]['dmeet_id']);
+                    $selectmeetsec = $this->meet->listjoinData2($condition);
+
+                   
+                    
+
+                    $meet_id   = $selectmeetsec[0]['meet_id'];
+                    $sub_id    = $selectmeetsec[0]['sub_id'];
+                    $meet_date = $selectmeetsec[0]['meet_date'];
+                    $meet_time = $selectmeetsec[0]['meet_time'];
+
                     $condition = array();
                     $condition['fide'] = "*";
-                    $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
+                    $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $use_id,);
                     $selectsection = $this->section->listData($condition);
+                    if (count($selectsection) == 0) {
+                        $condition = array();
+                        $condition['fide'] = "*";
+                        $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $use_id,);
+                        $selectsection = $this->section->listData($condition);
 
-                    $data = array(
-                        'sec_id'         => $selectsection[0]['sec_id'],
-                        'sec_status'     => 2,
-                    );
-                    $this->section->updateData($data);
-                } else {
+                        $data = array(
+                            'sec_id'         => $selectsection[0]['sec_id'],
+                            'sec_status'     => 2,
+                        );
+                        $this->section->updateData($data);
+                    } else {
 
-                    $data = array(
-                        'sec_id'         => $selectsection[0]['sec_id'],
-                        'sec_status'     => 2,
-                    );
-                    $this->section->updateData($data);
+                        $data = array(
+                            'sec_id'         => $selectsection[0]['sec_id'],
+                            'sec_status'     => 2,
+                        );
+                        $this->section->updateData($data);
+                    }
                 }
             }
 
-            //อัพเดตสถานะนัดเป็น 1
-            $data = array(
-                'meet_id'         => $selectmeetuser[0]['meet_id'],
-                'meet_status'    => 1,
-            );
-            $this->meet->updateData2($data);
-        }
-
-
+        // 5. ส่งอีเมล์
         //แปลงวันที่
         $strYear = date("Y", strtotime($meet_date)) + 543;
         $strMonth = date("n", strtotime($meet_date));
@@ -235,8 +233,8 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            $mail->AddAddress($selectuser[0]['use_email']);
-            // $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress($selectuser[0]['use_email']);
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
             // $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messageteacsubmit_verify($data, $selectuser[0]['use_name']);
@@ -274,10 +272,10 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            foreach ($selectstd as $key => $value) {
-                $mail->AddAddress($value['std_email']);
-            }
-            // $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // foreach ($selectstd as $key => $value) {
+            //     $mail->AddAddress($value['std_email']);
+            // }
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
             // $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messageteacsubmit_verify($data);
