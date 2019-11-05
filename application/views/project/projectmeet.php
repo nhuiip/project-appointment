@@ -101,7 +101,7 @@ function DateThai($strDate)
 												<small class="text-muted"><i class="fa fa-clock-o"></i> <?= $value['meet_time']; ?> น.</small>
 											</td>
 											<td width="15%">
-												<center><div class="badges alt" style="margin-bottom: 10px;float: right;"><?= $status_text ?></div></center>
+												<div class="badges alt" style="margin-bottom: 10px;"><?= $status_text ?></div>
 											</td>
 											<td width="10%">
 												<center class="tooltip-demo">

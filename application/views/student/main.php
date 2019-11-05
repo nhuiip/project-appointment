@@ -32,7 +32,7 @@
                                     <th>ชื่อ - สกุล</th>
                                     <th>เบอร์โทรศัพท์</th>
                                     <th>อีเมล์</th>
-                                    <th class="none">สถานะปริญญานิพนธ์</th>
+                                    <th>สถานะปริญญานิพนธ์</th>
                                     <th class="none">เพิ่มข้อมูล</th>
                                     <th class="none">แก้ไขล่าสุด</th>
                                     <th></th>
@@ -91,7 +91,7 @@
                                                     }
                                                     
                                                 ?>
-                                            <center><span class="badges alt" style="margin-bottom: 10px;float: left;"><?= $status_text ?></span></center>
+                                            <span class="badges alt" style="margin-bottom: 10px;"><?= $status_text ?></span>
                                             
 
                                         </td>

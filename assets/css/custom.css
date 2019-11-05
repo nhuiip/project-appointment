@@ -546,7 +546,7 @@ label.error {
 .badges {
   font-size: 12px;
   color: #ffffff;
-  display: inline-block;
+  display: inline-flex;
   font-weight: 300;
   cursor: default;
   margin-bottom: 5px;
