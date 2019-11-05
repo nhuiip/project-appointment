@@ -98,7 +98,7 @@ label.error {
                                         </p>
                                     </div>
                                     <div class="m-t text-righ">
-                                        <a href="#" type="button" class="btn btn-outline btn-danger btn-cancelremeet" data-url="<?=base_url('amcalendar/cancel/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันยกเลิกการทำนัด" data-text="<?=$vmeet['project_name']; ?>">ยกเลิกการทำนัด</a>
+                                        <a href="#" type="button" class="btn btn-outline btn-danger btn-alert" data-url="<?=base_url('amcalendar/cancel/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันยกเลิกการทำนัด" data-text="<?=$vmeet['project_name']; ?>">ยกเลิกการทำนัด</a>
                                         <a href="#" type="button" class="btn btn-outline btn-success btn-alert" data-url="<?=base_url('amcalendar/submit/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันการทำนัดหมายนี้" data-text="<?=$vmeet['project_name']; ?>">ยืนยันการทำนัด</a>
                                         <a href="<?=base_url('project/detail/'.$vmeet['project_id']);?>" target="_bank" button type="button" class="btn btn-outline btn-primary">รายละเอียดเพิ่มเติม</a>
                                         

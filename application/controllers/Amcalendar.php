@@ -500,17 +500,26 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            foreach ($selectstd as $key => $value) {
-                $mail->AddAddress($value['std_email']);
-            }
+            // foreach ($selectstd as $key => $value) {
+            //     $mail->AddAddress($value['std_email']);
+            // }
 
-            // $mail->AddAddress('yui.napassorn.s@gmail.com');
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messagestd_verify($data);
 
             $mail->MsgHTML($message);
             $mail->send();
+
+            // $result = array(
+            //     'error' => false,
+            //     'msg' => 'ยกเลิกนัดหมายสำเร็จแล้ว',
+            //     'url' =>  site_url('amcalendar/request/2')
+            // );
+            // echo json_encode($result);
+            // die;
+
         }
 
         header("location:" . site_url('amcalendar/request/2'));
