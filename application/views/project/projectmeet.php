@@ -95,7 +95,7 @@ function DateThai($strDate)
 										<tr class="gradeX">
 											<td width="1%"></td>
 											<td width="9%"><strong><?= "PRO" . str_pad($value['meet_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
-											<td width="55%"><?= $value['project_name'] ?></td>
+											<td width="40%"><?= $value['project_name'] ?></td>
 											<td width="15%">
 												<?= DateThai($value['meet_date']); ?><br>
 												<small class="text-muted"><i class="fa fa-clock-o"></i> <?= $value['meet_time']; ?> น.</small>
@@ -103,7 +103,7 @@ function DateThai($strDate)
 											<td width="15%">
 												<center><div class="badges alt" style="margin-bottom: 10px;float: right;"><?= $status_text ?></div></center>
 											</td>
-											<td width="5%">
+											<td width="10%">
 												<center class="tooltip-demo">
 													<a href="#" class="upstatus" data-project_id="<?= $value['project_id'] ?>" data-project_name="<?= $value['project_name'] ?>" data-project_status="<?= $value['project_status'] ?>" data-toggle="modal" data-target="#Update">
 														<button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="อัพเดตข้อมูล">
