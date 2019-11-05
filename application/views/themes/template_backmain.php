@@ -7,7 +7,8 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 } else {
 	$loginimg = 'noimage.png';
 }
-$this->db->select('tb_meetdetail.use_id');
+// $this->db->select('tb_meetdetail.use_id');
+$this->db->select('tb_meet.meet_id');
 $this->db->from('tb_meet');
 $this->db->join('tb_settings', 'tb_settings.set_id = tb_meet.set_id');
 $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
@@ -16,12 +17,16 @@ $this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
 $this->db->where(array(
 	'tb_settings.set_status' => 2, 
 	'tb_meetdetail.use_id' => $loginid,
+	'tb_meet.meet_status' => 2,
 	'tb_meetdetail.dmeet_status' => 2,
-	'tb_project.project_status' => 1
 ));
 $query_meet = $this->db->get();
 $listmeet = $query_meet->result_array();
 
+// echo '<pre>';
+// print_r($listmeet);
+// echo '</pre>';
+// die;
 ?>
 <!DOCTYPE html>
 <html>

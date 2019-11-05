@@ -460,11 +460,6 @@ if (isset($searchProject) && count($searchProject) != 0) {
                         <center>ไม่พบประวัติการขึ้นสอบ</center>
                     <? } else { ?>
                         <ul class="list-group">
-                            <!-- <?
-                                            echo '<pre>';
-                                            print_r($listmeethis);
-                                            echo '</pre>';
-                                            ?> -->
                             <? foreach ($listmeethis as $key => $value) { ?>
                                 <?
                                             $this->db->select("*");
@@ -476,33 +471,36 @@ if (isset($searchProject) && count($searchProject) != 0) {
                                             $query = $this->db->get();
                                             $listt = $query->result_array();
                                             ?>
-                                <li class="list-group-item" style="text-align: right;">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <p><strong>วันที่ : </strong> <?= DateThai($value['meet_date']); ?> เวลา: <?= $value['meet_time']; ?> น.</p>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <p>
-                                                <? foreach ($listt as $key => $v) { ?>
-                                                    <? if ($v['use_id'] == $value['use_id']) { ?>
-                                                        <span class="badge badge-warning badge-use"><?= $v['use_name']; ?></span>
-                                                    <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                        <span class="badge badge-danger badge-use"><?= $v['use_name']; ?></span>
-                                                    <? } else { ?>
-                                                        <span class="badge badge-default badgw-use"><?= $v['use_name']; ?></span>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p><strong>อาจารย์ผู้สอน : <?= $value['use_name']; ?></p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p><strong>วันที่สอบ : </strong> <?= DateThai($value['meet_date']); ?> เวลา: <?= $value['meet_time']; ?> น.</p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p>
+                                                    <? foreach ($listt as $key => $v) { ?>
+                                                        <? if ($v['use_id'] == $value['use_id']) { ?>
+                                                            <span class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content red">ที่ปรึกษา</span></span>
+                                                        <? } elseif ($v['dmeet_head'] == 1) { ?>
+                                                            <span class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content orange">ประธาน</span></span>
+                                                        <? } else { ?>
+                                                            <span class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></span>
+                                                        <? } ?>
                                                     <? } ?>
-                                                <? } ?>
-                                            </p>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            <? } ?>
+                                    </li>
+                                <? } ?>
                         </ul>
                     <? } ?>
                 </div>
@@ -554,7 +552,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
 
 
 <script>
-    
+
 </script>
 
 <form action="<?= base_url('student/stdprojectaddfile'); ?>" method="post" enctype="multipart/form-data" name="formProjectfileStd_Add" id="formProjectfileStd_Add" class="form-horizontal" novalidate>
@@ -567,7 +565,7 @@ if (isset($searchProject) && count($searchProject) != 0) {
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="formcrffileproject" id="formcrffileproject" value="<?= $formcrffileproject; ?>">
-                    <input type="hidden" name="project_id" id="project_id" value="<?=$project_id; ?>">
+                    <input type="hidden" name="project_id" id="project_id" value="<?= $project_id; ?>">
                     <div class="form-group row">
                         <label class="col-sm-12">เลือกไฟล์<span class="text-muted" style="color:#c0392b">*</span></label>
                         <div class="col-sm-12">

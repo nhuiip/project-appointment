@@ -8,10 +8,6 @@ function DateThai($strDate)
     $strMonthThai = $strMonthCut[$strMonth];
     return "$strDay $strMonthThai $strYear";
 }
-
-// echo '<pre>';
-// print_r($listuser);
-// echo '</pre>';
 ?>
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -241,8 +237,6 @@ function DateThai($strDate)
                     });
                 }
             });
-
-s
         });
     </script>
 <? } ?>

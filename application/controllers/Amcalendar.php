@@ -46,23 +46,30 @@ class Amcalendar extends MX_Controller
         }
     }
 
-    public function request()
+    public function request($id)
     {
-
-
 
         if (!empty($this->encryption->decrypt($this->input->cookie('syslev')))) {
 
             $data = array();
 
             $poslogin   = $this->encryption->decrypt($this->input->cookie('sysp'));
-            $data['idlogin']    = $this->encryption->decrypt($this->input->cookie('sysli'));
+            $data['idlogin']    = $id;
 
             $condition = array();
             $condition['fide'] = "*";
-            $condition['where'] = array('tb_meetdetail.use_id' =>  $data['idlogin']);
+            $condition['where'] = array(
+                'tb_settings.set_status' => 2,
+                'tb_meetdetail.use_id' =>  $id,
+                'tb_meet.meet_status' => 2,
+                'tb_meetdetail.dmeet_status' => 2
+            );
             $data['meet'] = $this->meet->listjoinData2($condition);
 
+            // echo '<pre>';
+            // print_r($data['meet']);
+            // echo '</pre>';
+            // die;
             $data['formcrf'] = $this->tokens->token('formcrf');
             $this->template->backend('calendar/request', $data);
         }
@@ -427,7 +434,7 @@ class Amcalendar extends MX_Controller
         $condition['fide'] = "email_user, email_password";
         $condition['where'] = array('email_status' => 1);
         $listemail = $this->emailset->listData($condition);
-        
+
         if (count($selectuser) != 0) {
 
             $data = array(
@@ -452,11 +459,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            foreach ($selectuser as $key => $value) {
-                $mail->AddAddress($value['use_email']);
-            }
+            // foreach ($selectuser as $key => $value) {
+            //     $mail->AddAddress($value['use_email']);
+            // }
 
-            // $mail->AddAddress('yui.napassorn.s@gmail.com');
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messagetea_verify($data);
@@ -500,11 +507,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            foreach ($selectstd as $key => $value) {
-                $mail->AddAddress($value['std_email']);
-            }
+            // foreach ($selectstd as $key => $value) {
+            //     $mail->AddAddress($value['std_email']);
+            // }
 
-            // $mail->AddAddress('yui.napassorn.s@gmail.com');
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messagestd_verify($data);
@@ -547,242 +554,239 @@ class Amcalendar extends MX_Controller
     }
 
     //ยกเลิกนัดหมายที่ทำไปแล้ว
-    public function cancelmeet(){
+    public function cancelmeet()
+    {
 
         $Idproject = $this->input->post('Idproject');
 
         // 1. ค้นหานัดหมายของ project_id นี้ ที่มีสถานะสำเร็จ
-            $condition = array();
-            $condition['fide'] = "tb_meet.meet_id,tb_meet.project_id,tb_meet.meet_status,tb_meet.meet_date,tb_meet.meet_time,tb_subject.sub_setless";
-            $condition['where'] = array('tb_meet.project_id' =>  $Idproject, 'tb_meet.meet_status'=> 1);
-            $chkmeet = $this->meet->listjoinData($condition);
+        $condition = array();
+        $condition['fide'] = "tb_meet.meet_id,tb_meet.project_id,tb_meet.meet_status,tb_meet.meet_date,tb_meet.meet_time,tb_subject.sub_setless";
+        $condition['where'] = array('tb_meet.project_id' =>  $Idproject, 'tb_meet.meet_status' => 1);
+        $chkmeet = $this->meet->listjoinData($condition);
 
-            $meet_id  = $chkmeet[0]['meet_id']; //id meet
-            $sub_setless  = $chkmeet[0]['sub_setless'];//จำนวนอาจารย์ที่สามารถขึ้นสอบได้อย่างน้อยกี่คน
-            $meet_date  = $chkmeet[0]['meet_date'];
-            $meet_time  = $chkmeet[0]['meet_time'];
+        $meet_id  = $chkmeet[0]['meet_id']; //id meet
+        $sub_setless  = $chkmeet[0]['sub_setless']; //จำนวนอาจารย์ที่สามารถขึ้นสอบได้อย่างน้อยกี่คน
+        $meet_date  = $chkmeet[0]['meet_date'];
+        $meet_time  = $chkmeet[0]['meet_time'];
 
         // 2. ค้นหา dmeet_id
+        $condition = array();
+        $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meetdetail.dmeet_status";
+        $condition['where'] = array('tb_meetdetail.meet_id' =>  $meet_id, 'tb_meetdetail.use_id' => $this->encryption->decrypt($this->input->cookie('sysli')), 'tb_meetdetail.dmeet_status' => 1);
+        $chkmeetId = $this->meet->listjoinData2($condition);
+        if (count($chkmeetId) != 0) {
+
+
+            //อัพเดตเวลาให้เป็นค่าว่าง
+
+            //ค้นหาเวลาว่าง
             $condition = array();
-            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meetdetail.dmeet_status";
-            $condition['where'] = array('tb_meetdetail.meet_id' =>  $meet_id, 'tb_meetdetail.use_id'=> $this->encryption->decrypt($this->input->cookie('sysli')),'tb_meetdetail.dmeet_status'=> 1);
-            $chkmeetId = $this->meet->listjoinData2($condition);
-            if(count($chkmeetId) != 0){
+            $condition['fide'] = "tb_section.sec_id,tb_section.sec_date,tb_section.sec_time_two,tb_section.use_id";
+            $condition['where'] = array('tb_section.sec_date' =>  $meet_date, 'tb_section.sec_time_one' => $meet_time, 'tb_section.use_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
+            $chksection = $this->section->listjoinData($condition);
 
-
-                //อัพเดตเวลาให้เป็นค่าว่าง
-
-                //ค้นหาเวลาว่าง
+            if (count($chksection) == 0) {
                 $condition = array();
                 $condition['fide'] = "tb_section.sec_id,tb_section.sec_date,tb_section.sec_time_two,tb_section.use_id";
-                $condition['where'] = array('tb_section.sec_date' =>  $meet_date,'tb_section.sec_time_one'=> $meet_time, 'tb_section.use_id'=> $this->encryption->decrypt($this->input->cookie('sysli')));
+                $condition['where'] = array('tb_section.sec_date' =>  $meet_date, 'tb_section.sec_time_two' => $meet_time, 'tb_section.use_id' => $this->encryption->decrypt($this->input->cookie('sysli')));
                 $chksection = $this->section->listjoinData($condition);
+            }
 
-                if(count($chksection) == 0){
-                    $condition = array();
-                    $condition['fide'] = "tb_section.sec_id,tb_section.sec_date,tb_section.sec_time_two,tb_section.use_id";
-                    $condition['where'] = array('tb_section.sec_date' =>  $meet_date,'tb_section.sec_time_two'=> $meet_time, 'tb_section.use_id'=> $this->encryption->decrypt($this->input->cookie('sysli')));
-                    $chksection = $this->section->listjoinData($condition);
-                }
+            //อัพเดตตารางเวลาของอาจารย์ :: 1 เท่ากับว่าง / 0 เท่ากับ ไม่ว่าง
+            $datas = array(
+                'sec_id'         => $chksection[0]['sec_id'],
+                'sec_status'    => 1,
+            );
+            $this->section->updateData($datas);
 
-                //อัพเดตตารางเวลาของอาจารย์ :: 1 เท่ากับว่าง / 0 เท่ากับ ไม่ว่าง
-                $datas = array(
-                    'sec_id'         => $chksection[0]['sec_id'],
-                    'sec_status'    => 1,
-                );
-                $this->section->updateData($datas);
+            //อัพเดตสถานะการยกเลิกการขึ้นสอบโปรเจคของอาจารย์ที่ยกเลิกเข้ามา
+            $data = array(
+                'dmeet_id'         => $chkmeetId[0]['dmeet_id'],
+                'dmeet_status'    => 0,
+            );
+            $this->meet->updateDetail($data);
+        }
 
-               //อัพเดตสถานะการยกเลิกการขึ้นสอบโปรเจคของอาจารย์ที่ยกเลิกเข้ามา
+        // 3. ค้นหาจำนวนอาจารย์ที่ยอมรับว่ามีจำนวนกี่คน
+        $condition = array();
+        $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meetdetail.dmeet_status";
+        $condition['where'] = array('tb_meetdetail.meet_id' =>  $meet_id, 'tb_meetdetail.dmeet_status' => 1);
+        $chkusersubmitmeet = $this->meet->listjoinData2($condition);
+
+        // 4. เช็คจำนวนอาจารย์ที่สามารถขึ้นสอบได้น้อยกว่าที่กำหนดไว้ 
+        if (count($chkusersubmitmeet) == $sub_setless) {
+
+            //เท่ากับจำนวนที่ระบไว้ ยังสามารถสอบปริญญานิพนธ์ได้
+            header("location:" . site_url('dashboard/index'));
+        } else {
+
+            //น้อยกว่าจำนวนที่ระบุไว้ นัดหมายล้มเหลว
+
+
+            //อัพเดต tb_meet == 0
+            $datameet = array(
+                'meet_id'         => $meet_id,
+                'meet_status'    => 0,
+            );
+            $this->meet->updateData2($datameet);
+
+            //อัพเดตในตาราง tb_meerdetail เป็น use_id = 0
+            foreach ($chkusersubmitmeet as $key => $value) {
+
                 $data = array(
-                    'dmeet_id'         => $chkmeetId[0]['dmeet_id'],
+                    'dmeet_id'         => $value['dmeet_id'],
+                    'use_id'          => $value['use_id'],
                     'dmeet_status'    => 0,
                 );
                 $this->meet->updateDetail($data);
 
-            }
+                //ค้นหา meet_id,meet_date,meet_time
+                $condition = array();
+                $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time";
+                $condition['where'] = array('tb_meetdetail.dmeet_id' => $value['dmeet_id']);
+                $selectmeetsec = $this->meet->listjoinData2($condition);
 
-        // 3. ค้นหาจำนวนอาจารย์ที่ยอมรับว่ามีจำนวนกี่คน
-            $condition = array();
-            $condition['fide'] = "tb_meetdetail.dmeet_id,tb_meetdetail.meet_id,tb_meetdetail.use_id,tb_meetdetail.dmeet_head,tb_meetdetail.dmeet_status";
-            $condition['where'] = array('tb_meetdetail.meet_id' =>  $meet_id, 'tb_meetdetail.dmeet_status'=> 1);
-            $chkusersubmitmeet = $this->meet->listjoinData2($condition);
+                $meet_id   = $selectmeetsec[0]['meet_id'];
+                $meet_date = $selectmeetsec[0]['meet_date'];
+                $meet_time = $selectmeetsec[0]['meet_time'];
 
-        // 4. เช็คจำนวนอาจารย์ที่สามารถขึ้นสอบได้น้อยกว่าที่กำหนดไว้ 
-            if(count($chkusersubmitmeet) == $sub_setless){
-
-                //เท่ากับจำนวนที่ระบไว้ ยังสามารถสอบปริญญานิพนธ์ได้
-                header("location:" . site_url('dashboard/index'));
-                
-            }else{
-
-                //น้อยกว่าจำนวนที่ระบุไว้ นัดหมายล้มเหลว
-
-
-                //อัพเดต tb_meet == 0
-                $datameet = array(
-                    'meet_id'         => $meet_id,
-                    'meet_status'    => 0,
-                );
-                $this->meet->updateData2($datameet);
-
-                //อัพเดตในตาราง tb_meerdetail เป็น use_id = 0
-                foreach ($chkusersubmitmeet as $key => $value) {
-
-                    $data = array(
-                        'dmeet_id'         => $value['dmeet_id'],
-                        'use_id'          => $value['use_id'],
-                        'dmeet_status'    => 0,
-                    );
-                    $this->meet->updateDetail($data);
-
-                    //ค้นหา meet_id,meet_date,meet_time
-                    $condition = array();
-                    $condition['fide'] = "tb_meet.meet_id,tb_meet.sub_id,tb_meetdetail.dmeet_id,tb_meet.meet_date,tb_meet.meet_time";
-                    $condition['where'] = array('tb_meetdetail.dmeet_id' => $value['dmeet_id']);
-                    $selectmeetsec = $this->meet->listjoinData2($condition);
-
-                    $meet_id   = $selectmeetsec[0]['meet_id'];
-                    $meet_date = $selectmeetsec[0]['meet_date'];
-                    $meet_time = $selectmeetsec[0]['meet_time'];
-
-                    //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 1
+                //ค้นหาในตารางเวลา เพื่ออัพเดตค่าเวลาเป็น 1
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $value['use_id']);
+                $selectsection = $this->section->listData($condition);
+                if (count($selectsection) == 0) {
                     $condition = array();
                     $condition['fide'] = "*";
-                    $condition['where'] = array('sec_date' => $meet_date, 'sec_time_one' => $meet_time, 'use_id' => $value['use_id']);
+                    $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $value['use_id']);
                     $selectsection = $this->section->listData($condition);
-                    if (count($selectsection) == 0) {
-                        $condition = array();
-                        $condition['fide'] = "*";
-                        $condition['where'] = array('sec_date' => $meet_date, 'sec_time_two' => $meet_time, 'use_id' => $value['use_id']);
-                        $selectsection = $this->section->listData($condition);
-
-                        $data = array(
-                            'sec_id'         => $selectsection[0]['sec_id'],
-                            'sec_status'     => 1,
-                        );
-                        $this->section->updateData($data);
-                    }else{
-                        $data = array(
-                            'sec_id'         => $selectsection[0]['sec_id'],
-                            'sec_status'     => 1,
-                        );
-                        $this->section->updateData($data);
-                    }
-                }
-
-                //ส่งอีเมล์แจ้งเตือนยกเลิกการนัดหมายโปรเจคไปยังอาจารย์
-                $condition = array();
-                $condition['fide'] = "tb_project.project_id,tb_project.project_name,tb_meetdetail.meet_id,tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_user.use_email,tb_meet.meet_date,tb_meet.meet_time";
-                $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
-                $selectmeetuser = $this->meet->listjoinData2($condition);
-                
-                 //แปลงวันที่
-                $strYear = date("Y", strtotime($meet_date)) + 543;
-                $strMonth = date("n", strtotime($meet_date));
-                $strDay = date("j", strtotime($meet_date));
-                $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
-                $strMonthThai = $strMonthCut[$strMonth];
-
-                //การตั้งค่าอีเมลในระบบ
-                $condition = array();
-                $condition['fide'] = "email_user, email_password";
-                $condition['where'] = array('email_status' => 1);
-                $listemail = $this->emailset->listData($condition);
-
-                if (count($selectmeetuser) != 0) {
 
                     $data = array(
-                        'project_id'      => $selectmeetuser[0]['project_id'],
-                        'project_name'    => $selectmeetuser[0]['project_name'],
-                        'meet_time'       => $meet_time,
-                        'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                        'sec_id'         => $selectsection[0]['sec_id'],
+                        'sec_status'     => 1,
                     );
-                    require_once APPPATH . 'third_party/class.phpmailer.php';
-                    require_once APPPATH . 'third_party/class.smtp.php';
-                    $mail = new PHPMailer;
-        
-                    // ## setting SMTP GMAIL
-                    $mail->IsSMTP();
-                    $mail->CharSet = 'UTF-8';
-                    $mail->Mailer = "smtp";
-                    $mail->SMTPAuth = true;
-                    $mail->SMTPSecure = "tls";
-                    $mail->Host = "smtp.gmail.com";
-                    $mail->Port = 587;
-                    $mail->Username = $listemail[0]['email_user'];
-                    $mail->Password = $listemail[0]['email_password'];
-                    $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
-        
-                    foreach ($selectuser as $key => $value) {
-                        $mail->AddAddress($value['use_email']);
-                    }
-        
-                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
-        
-                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                    $message = $this->messagetearecencel_verify($data);
-
-                    $mail->MsgHTML($message);
-                    $mail->send();
-                }
-        
-                // ===============================================================================
-        
-                //ส่งอีเมล์แจ้งเตือนนักศึกษา สถานะการยกเลิกนัด 
-                $condition = array();
-                $condition['fide'] = "tb_projectperson.project_id,tb_student.std_id,tb_student.std_title,tb_student.std_fname,tb_student.std_lname,tb_student.std_email";
-                $condition['where'] = array('tb_projectperson.project_id' => $selectmeetuser[0]['project_id']);
-                $selectstd = $this->project->listperson($condition);
-
-                if (count($selectstd) != 0) {
-
+                    $this->section->updateData($data);
+                } else {
                     $data = array(
-                        'project_name'    => $selectmeetuser[0]['project_name'],
-                        'meet_time'       => $meet_time,
-                        'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                        'sec_id'         => $selectsection[0]['sec_id'],
+                        'sec_status'     => 1,
                     );
-
-                    require_once APPPATH . 'third_party/class.phpmailer.php';
-                    require_once APPPATH . 'third_party/class.smtp.php';
-                    $mail = new PHPMailer;
-
-                    // ## setting SMTP GMAIL
-                    $mail->IsSMTP();
-                    $mail->CharSet = 'UTF-8';
-                    $mail->Mailer = "smtp";
-                    $mail->SMTPAuth = true;
-                    $mail->SMTPSecure = "tls";
-                    $mail->Host = "smtp.gmail.com";
-                    $mail->Port = 587;
-                    $mail->Username = $listemail[0]['email_user'];
-                    $mail->Password = $listemail[0]['email_password'];
-                    $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
-
-                    foreach ($selectstd as $key => $value) {
-                        $mail->AddAddress($value['std_email']);
-                    }
-
-                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
-
-                    $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                    $message = $this->messagestdrecencel_verify($data);
-
-                    $mail->MsgHTML($message);
-                    $mail->send();
-
-                    $result = array(
-                        'error' => false,
-                        'msg' => 'ยกเลิกนัดหมายเรียบร้อยแล้ว',
-                        'url' =>  site_url('dashboard/index')
-                    );
-                    echo json_encode($result);
-                    die;
-
-                }else {
-                    show_404();
+                    $this->section->updateData($data);
                 }
-
             }
+
+            //ส่งอีเมล์แจ้งเตือนยกเลิกการนัดหมายโปรเจคไปยังอาจารย์
+            $condition = array();
+            $condition['fide'] = "tb_project.project_id,tb_project.project_name,tb_meetdetail.meet_id,tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_user.use_email,tb_meet.meet_date,tb_meet.meet_time";
+            $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
+            $selectmeetuser = $this->meet->listjoinData2($condition);
+
+            //แปลงวันที่
+            $strYear = date("Y", strtotime($meet_date)) + 543;
+            $strMonth = date("n", strtotime($meet_date));
+            $strDay = date("j", strtotime($meet_date));
+            $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+            $strMonthThai = $strMonthCut[$strMonth];
+
+            //การตั้งค่าอีเมลในระบบ
+            $condition = array();
+            $condition['fide'] = "email_user, email_password";
+            $condition['where'] = array('email_status' => 1);
+            $listemail = $this->emailset->listData($condition);
+
+            if (count($selectmeetuser) != 0) {
+
+                $data = array(
+                    'project_id'      => $selectmeetuser[0]['project_id'],
+                    'project_name'    => $selectmeetuser[0]['project_name'],
+                    'meet_time'       => $meet_time,
+                    'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                );
+                require_once APPPATH . 'third_party/class.phpmailer.php';
+                require_once APPPATH . 'third_party/class.smtp.php';
+                $mail = new PHPMailer;
+
+                // ## setting SMTP GMAIL
+                $mail->IsSMTP();
+                $mail->CharSet = 'UTF-8';
+                $mail->Mailer = "smtp";
+                $mail->SMTPAuth = true;
+                $mail->SMTPSecure = "tls";
+                $mail->Host = "smtp.gmail.com";
+                $mail->Port = 587;
+                $mail->Username = $listemail[0]['email_user'];
+                $mail->Password = $listemail[0]['email_password'];
+                $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+
+                foreach ($selectuser as $key => $value) {
+                    $mail->AddAddress($value['use_email']);
+                }
+
+                // $mail->AddAddress('yui.napassorn.s@gmail.com');
+
+                $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+                $message = $this->messagetearecencel_verify($data);
+
+                $mail->MsgHTML($message);
+                $mail->send();
+            }
+
+            // ===============================================================================
+
+            //ส่งอีเมล์แจ้งเตือนนักศึกษา สถานะการยกเลิกนัด 
+            $condition = array();
+            $condition['fide'] = "tb_projectperson.project_id,tb_student.std_id,tb_student.std_title,tb_student.std_fname,tb_student.std_lname,tb_student.std_email";
+            $condition['where'] = array('tb_projectperson.project_id' => $selectmeetuser[0]['project_id']);
+            $selectstd = $this->project->listperson($condition);
+
+            if (count($selectstd) != 0) {
+
+                $data = array(
+                    'project_name'    => $selectmeetuser[0]['project_name'],
+                    'meet_time'       => $meet_time,
+                    'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+                );
+
+                require_once APPPATH . 'third_party/class.phpmailer.php';
+                require_once APPPATH . 'third_party/class.smtp.php';
+                $mail = new PHPMailer;
+
+                // ## setting SMTP GMAIL
+                $mail->IsSMTP();
+                $mail->CharSet = 'UTF-8';
+                $mail->Mailer = "smtp";
+                $mail->SMTPAuth = true;
+                $mail->SMTPSecure = "tls";
+                $mail->Host = "smtp.gmail.com";
+                $mail->Port = 587;
+                $mail->Username = $listemail[0]['email_user'];
+                $mail->Password = $listemail[0]['email_password'];
+                $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+
+                foreach ($selectstd as $key => $value) {
+                    $mail->AddAddress($value['std_email']);
+                }
+
+                // $mail->AddAddress('yui.napassorn.s@gmail.com');
+
+                $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+                $message = $this->messagestdrecencel_verify($data);
+
+                $mail->MsgHTML($message);
+                $mail->send();
+
+                $result = array(
+                    'error' => false,
+                    'msg' => 'ยกเลิกนัดหมายเรียบร้อยแล้ว',
+                    'url' =>  site_url('dashboard/index')
+                );
+                echo json_encode($result);
+                die;
+            } else {
+                show_404();
+            }
+        }
 
         // header("location:" . site_url('dashboard/index'));
 
@@ -807,5 +811,4 @@ class Amcalendar extends MX_Controller
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
         return $html;
     }
-
 }

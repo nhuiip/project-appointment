@@ -400,8 +400,8 @@ label.error {
   left: 37px;
 }
 .timecheck {
-  text-align: right;
-  padding-top: 15px;
+  text-align: center;
+  /* padding-top: 15px; */
 }
 .timecheck p {
   font-size: 14px;
@@ -669,4 +669,8 @@ p.no-span:after {
 .info {
   float: left;
   margin-top: 8px;
+}
+.sweet-alert h2 {
+
+  margin: 25px 0 0 !important;
 }
