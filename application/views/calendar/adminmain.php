@@ -53,12 +53,49 @@ function DateThai($strDate)
                             $this->db->order_by("use_name", "asc");
                             $query = $this->db->get();
                             $listt = $query->result_array();
+
+                            switch ($meet[0]['meet_status']) {
+                                case 0:
+                                    $status_text_span = '<div class="badges alt"><span style="padding: 7.6px 8px;" class="content red">นัดหมายล้มเหลว</span></div>';
+                                    $status_text = 'นัดหมายล้มเหลว';
+                                    $color_btn = 'red';
+                                    break;
+                                case 1:
+                                    $status_text_span = '<div class="badges alt"><span style="padding: 7.6px 8px;"  class="content green">นัดหมายสำเร็จ</span></div>';
+                                    $status_text = 'นัดหมายสำเร็จ';
+                                    $color_btn = 'green';
+                                    break;
+                                case 2:
+                                    $status_text_span = '<div class="badges alt"><span style="padding: 7.6px 8px;"  class="content orange">รอดำเนินการ</span></div>';
+                                    $status_text = 'รอดำเนินการ';
+                                    $color_btn = 'orange';
+                                    break;
+                            }
+
                         }
+
                         ?>
                 <div class="" style="">
                     <div class="ibox">
                         <div class="ibox-content product-box">
                             <div class="product-desc">
+                                <?PHP if (count($meet) != 0) { ?>
+                                    <?PHP if($this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ' && !empty($meet[0]['meet_id']) && $meet[0]['meet_status'] != 1 ){ ?>
+                                        
+                                        <div class="pull-right social-action dropdown">
+                                            <button data-toggle="dropdown" class="dropdown-toggle btn-white" style="padding: 5px;" aria-expanded="false">&nbsp;&nbsp;<?=$status_text; ?>&nbsp;&nbsp;<i class="fa fa-angle-down"></i>&nbsp;&nbsp;</button>
+                                            <ul class="dropdown-menu m-t-xs" style="margin-top: 3px !important;">
+                                                <li><a class="btn-reloadmeet" data-url="<?=base_url('amcalendar/admincancelmeet/'.$meet[0]['meet_id']);?>" data-title="ยกเลิกนัดหมาย" data-text="เมื่อยกเลิกนัดหมายที่มีอยู่จะถูกลบออกจากระบบ">ยกเลิกนัดหมาย</a></li>
+                                            </ul>
+                                        </div>
+
+                                    <?PHP }else{ ?>
+                                        <div class="pull-right social-action dropdown">
+                                            <?=$status_text_span; ?>
+                                        </div>
+                                    <?PHP } ?>
+                                <?PHP } ?>
+
                                 <small class="text-muted" style="font-size:14px">เวลานัด</small>
                                 <a href="#" class="product-name" style="font-size:16px"> <?= $value['one']; ?> น. , <?= $value['two']; ?> น.</a>
                                 <? if (count($meet) != 0) { ?>
