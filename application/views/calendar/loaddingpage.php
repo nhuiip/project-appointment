@@ -136,7 +136,7 @@
 <body Onload="JavaScript:bodyOnload()">
     
 <body>
-    <div class="loading">Loading&#8230;</div>
+   
 </body>
 
 <script>

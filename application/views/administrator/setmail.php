@@ -1,5 +1,4 @@
-<!-- loading -->
-<div class="loading">Loading&#8230;</div>
+
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">

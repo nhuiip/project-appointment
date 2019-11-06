@@ -22,8 +22,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
     }
 }
 ?>
-<!-- loading -->
-<div class="loading">Loading&#8230;</div>
+
 <!-- heading -->
 <div class="row wrapper white-bg page-heading">
     <div class="col-lg-12">
