@@ -15,7 +15,7 @@ $this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
 $this->db->join('tb_subject', 'tb_subject.sub_id = tb_meet.sub_id');
 $this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
 $this->db->where(array(
-	'tb_settings.set_status' => 2, 
+	'tb_settings.set_status' => 2,
 	'tb_meetdetail.use_id' => $loginid,
 	'tb_meet.meet_status' => 2,
 	'tb_meetdetail.dmeet_status' => 2,
@@ -23,10 +23,6 @@ $this->db->where(array(
 $query_meet = $this->db->get();
 $listmeet = $query_meet->result_array();
 
-// echo '<pre>';
-// print_r($listmeet);
-// echo '</pre>';
-// die;
 ?>
 <!DOCTYPE html>
 <html>
@@ -111,7 +107,16 @@ $listmeet = $query_meet->result_array();
 	<? if ($position == 'นักศึกษา') { ?>
 
 		<body class="top-navigation"><? } ?>
-		<div class="loading">Loading&#8230;</div>
+		<!-- loading -->
+		<div class="loading">
+			<div class="loader">
+				<div class="wrapcus">
+					<span class="titlecus">ระบบกำลังดำเนินการ</span>
+					<span class="textcus">กรุณาอย่าปิดหน้าเพจ</span>
+				</div>
+			</div>
+		</div>
+		<!-- loading -->
 		<? if ($position != 'นักศึกษา') { ?>
 			<div id="wrapper">
 				<nav class="navbar-default navbar-static-side" role="navigation">
@@ -162,8 +167,8 @@ $listmeet = $query_meet->result_array();
 							<ul class="nav navbar-top-links navbar-right">
 								<? if (($position == 'หัวหน้าสาขา' || $position == 'อาจารย์ผู้สอน') && count($listmeet) != 0) { ?>
 									<li>
-										<a class="dropdown-toggle count-info" href="<?=site_url('amcalendar/request/'.$loginid);?>">
-											<i class="fa fa-envelope"></i> <span class="label label-danger"><?=count($listmeet);?></span>
+										<a class="dropdown-toggle count-info" href="<?= site_url('amcalendar/request/' . $loginid); ?>">
+											<i class="fa fa-envelope"></i> <span class="label label-danger"><?= count($listmeet); ?></span>
 										</a>
 									</li>
 								<? } ?>

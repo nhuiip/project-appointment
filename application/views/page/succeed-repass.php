@@ -80,7 +80,7 @@
   </head>
   <body>
     <div class="boxcontent">
-      <h1>
+      <h1 style="margin-bottom: 0;">
         <a href="#" class="effect-underline"> รีเซตรหัสผ่านสำเร็จ !!!!</a>
       </h1>
       <h3 style="margin:0 0 20px">กรุณาตรวจสอบรหัสผ่านใหม่ที่อีเมลของคุณ</h3>

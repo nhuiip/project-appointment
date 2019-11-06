@@ -85,7 +85,7 @@
   </head>
   <body>
     <div class="boxcontent">
-      <h1>
+      <h1 style="margin-bottom: 0;">
         <a href="#" class="effect-underline">การลงทะเบียนสำเร็จ</a>
       </h1>
       <h3 style="margin:0 0 20px">
