@@ -37,7 +37,7 @@ class Meet_model extends CI_Model {
 	public function listjoinData2($data = array()){
 		$this->db->select($data['fide']);
 		$this->db->from('tb_meet');
-		$this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
+		$this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id','left');
 		$this->db->join('tb_settings', 'tb_settings.set_id = tb_meet.set_id');
 		$this->db->join('tb_project', 'tb_project.project_id = tb_meet.project_id');
 		$this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id', 'left');
@@ -87,6 +87,12 @@ class Meet_model extends CI_Model {
 		$this->db->where(array('dmeet_id' => $data['dmeet_id']));
 		$this->db->update("tb_meetdetail",$data);
 		return $data['dmeet_id'];
+	}
+	public function deleteMeet($data = array()){
+		$this->db->delete('tb_meet', array('meet_id' => $data['meet_id']));
+	}
+	public function deleteDetailmeet($data = array()){
+		$this->db->delete('tb_meetdetail', array('meet_id' => $data['meet_id']));
 	}
 
 }

@@ -28,7 +28,7 @@ label.error {
     </div>
 </div>
 <br>
-<div class="row wrapper page-heading">    
+<div class="row wrapper page-heading">
         <div class="col-md-12">
              <?PHP if (count($meet) != 0) { ?>
                 <?PHP foreach ($meet as $key => $vmeet) { ?>
@@ -38,7 +38,7 @@ label.error {
                                 <div class="product-desc">
                                     <small class="text-muted" style="font-size:14px">เวลานัด วันที่ : <?= DateThai($vmeet['meet_date']); ?></small>
                                     <a href="#" class="product-name" style="font-size:32px"> <?=$vmeet['meet_time']; ?> น.</a>
-                                     
+
                                     <?PHP
 
                                         $this->db->select("*");
@@ -69,9 +69,9 @@ label.error {
                                         <a href="#" type="button" class="btn btn-outline btn-danger btn-reloadmeet" data-url="<?=base_url('amcalendar/cancel/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันยกเลิกการทำนัด" data-text="<?=$vmeet['project_name']; ?>">ยกเลิกการทำนัด</a>
                                         <a href="#" type="button" class="btn btn-outline btn-success btn-reloadmeet" data-url="<?=base_url('amcalendar/submit/'.$vmeet['dmeet_id'].'/'.$idlogin);?>" data-title="ยืนยันการทำนัดหมายนี้" data-text="<?=$vmeet['project_name']; ?>">ยืนยันการทำนัด</a>
                                         <a href="<?=base_url('project/detail/'.$vmeet['project_id']);?>" target="_bank" button type="button" class="btn btn-outline btn-primary">รายละเอียดเพิ่มเติม</a>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>

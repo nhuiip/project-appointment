@@ -791,4 +791,158 @@ class Amcalendar extends MX_Controller
 
     }
 
+    public function admincancelmeet($meet_id){
+
+        //ค้นหา meet
+        $condition = array();
+        $condition['fide'] = "tb_meet.meet_id,tb_meet.meet_date,tb_meet.meet_time,tb_meet.meet_status,tb_meetdetail.use_id";
+        $condition['where'] = array('tb_meet.meet_id' => $meet_id, 'tb_meet.meet_status !=' => 0);
+        $listmeet = $this->meet->listjoinData2($condition);
+
+        $meet_id   = $listmeet[0]['meet_id'];  
+        $meet_date = $listmeet[0]['meet_date'];
+        $meet_time = $listmeet[0]['meet_time'];
+
+        // loop ค้นหาวัน เวลา ของแต่ละอาจารย์ ในตาราง tb_section
+        foreach ($listmeet as $key => $value) {
+
+            $condition = array();
+            $condition['fide'] = "tb_section.sec_id,tb_section.sec_date,tb_section.sec_time_one,tb_section.use_id,tb_settings.set_status";
+            $condition['where'] = array('tb_section.sec_date' => $meet_date, 'tb_section.sec_time_one' => $meet_time, 'tb_settings.set_status'=> 2, 'tb_section.use_id'=> $value['use_id']);
+            $listdata= $this->section->listjoinData($condition);
+            if(count( $listdata ) == 0){
+                $condition = array();
+                $condition['fide'] = "tb_section.sec_id,tb_section.sec_date,tb_section.sec_time_two,tb_section.use_id,tb_settings.set_status";
+                $condition['where'] = array('tb_section.sec_date' => $meet_date, 'tb_section.sec_time_two' => $meet_time, 'tb_settings.set_status'=> 2, 'tb_section.use_id'=> $value['use_id']);
+                $listdata= $this->section->listjoinData($condition);
+            }
+
+            $data = array(
+                'sec_id'            => $listdata[0]['sec_id'],
+                'sec_status'        => 1,
+            );
+            $this->section->updateData($data);
+
+        }
+
+        //ส่งอีเมล์แจ้งยกเลิกนัดหมายให้อาจารย์
+        $condition = array();
+        $condition['fide'] = "tb_project.project_id,tb_project.project_name,tb_meetdetail.meet_id,tb_meetdetail.dmeet_id,tb_meetdetail.use_id,tb_user.use_email,tb_meet.meet_date,tb_meet.meet_time";
+        $condition['where'] = array('tb_meetdetail.meet_id' => $meet_id);
+        $selectmeetuser = $this->meet->listjoinData2($condition);
+
+        //แปลงวันที่
+        $strYear = date("Y", strtotime($meet_date)) + 543;
+        $strMonth = date("n", strtotime($meet_date));
+        $strDay = date("j", strtotime($meet_date));
+        $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+        $strMonthThai = $strMonthCut[$strMonth];
+
+        //การตั้งค่าอีเมลในระบบ
+        $condition = array();
+        $condition['fide'] = "email_user, email_password";
+        $condition['where'] = array('email_status' => 1);
+        $listemail = $this->emailset->listData($condition);
+
+        if (count($selectmeetuser) != 0) {
+
+            $data = array(
+                'project_name'    => $selectmeetuser[0]['project_name'],
+                'meet_time'       => $meet_time,
+                'use_name'        => "ผู้ดูแลระบบ",
+                'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+            );
+            require_once APPPATH . 'third_party/class.phpmailer.php';
+            require_once APPPATH . 'third_party/class.smtp.php';
+            $mail = new PHPMailer;
+
+            // ## setting SMTP GMAIL
+            $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
+            $mail->Mailer = "smtp";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+
+            // foreach ($selectuser as $key => $value) {
+            //     $mail->AddAddress($value['use_email']);
+            // }
+
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
+
+            $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+            $message = $this->bodymail_use($data);
+
+            $mail->MsgHTML($message);
+            $mail->send();
+        }
+
+        //ส่งอีเมล์แจ้งยกเลิกนัดหมายให้นักศึกษา
+        $condition = array();
+        $condition['fide'] = "tb_projectperson.project_id,tb_student.std_id,tb_student.std_title,tb_student.std_fname,tb_student.std_lname,tb_student.std_email";
+        $condition['where'] = array('tb_projectperson.project_id' => $selectmeetuser[0]['project_id']);
+        $selectstd = $this->project->listperson($condition);
+
+        if (count($selectstd) != 0) {
+
+            $data = array(
+                'project_name'    => $selectmeetuser[0]['project_name'],
+                'meet_time'       => $meet_time,
+                'use_name'        => "ผู้ดูแลระบบ",
+                'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
+            );
+
+            require_once APPPATH . 'third_party/class.phpmailer.php';
+            require_once APPPATH . 'third_party/class.smtp.php';
+            $mail = new PHPMailer;
+
+            // ## setting SMTP GMAIL
+            $mail->IsSMTP();
+            $mail->CharSet = 'UTF-8';
+            $mail->Mailer = "smtp";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Host = "smtp.gmail.com";
+            $mail->Port = 587;
+            $mail->Username = $listemail[0]['email_user'];
+            $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+
+            // foreach ($selectstd as $key => $value) {
+            //     $mail->AddAddress($value['std_email']);
+            // }
+
+            $mail->AddAddress('yui.napassorn.s@gmail.com');
+
+            $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+            $message = $this->bodymail_std($data);
+
+            $mail->MsgHTML($message);
+            $mail->send();
+
+        } else {
+            show_404();
+        }
+
+        //ลบข้อมูล ตาราง tb_meetdetail
+        $data = array(
+            'meet_id'            => $meet_id,
+        );
+        $this->meet->deleteDetailmeet($data);
+
+        //ลบข้อมูล ตาราง tb_meet
+        $datas = array(
+            'meet_id'            => $meet_id,
+        );
+        $this->meet->deleteMeet($datas);
+
+        header("location:" . site_url('amcalendar/index'));
+
+
+    }
+
 }

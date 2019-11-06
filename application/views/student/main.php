@@ -86,10 +86,10 @@
                                                                 break;
                                                         }
                                                     }
-                                                    
+
                                                 ?>
                                             <span class="badges alt" style="margin-bottom: 10px;"><?= $status_text ?></span>
-                                            
+
 
                                         </td>
                                         <td >
