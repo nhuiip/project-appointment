@@ -1,72 +1,101 @@
-<ul class="list-group">
-    <? foreach ($listmeetnow as $key => $value) { ?>
-        <?
-            $this->db->select("tb_user.use_name, tb_meetdetail.use_id, tb_meetdetail.dmeet_head, dmeet_status");
-            $this->db->from('tb_meetdetail');
-            $this->db->join('tb_user', 'tb_user.use_id = tb_meetdetail.use_id');
-            $this->db->join('tb_meet', 'tb_meet.meet_id = tb_meetdetail.meet_id');
-            $this->db->where(array('tb_meetdetail.meet_id' => $value['meet_id']));
-            $this->db->order_by("use_name", "ASC");
-            $query = $this->db->get();
-            $listt = $query->result_array();
-            ?>
-        <?
-            switch ($value['meet_status']) {
-                case 0:
-                    $status_text = '<div class="badges alt"><span class="content red">ล้มเหลว</span></div>';
-                    break;
-                case 1:
-                    $status_text = '<div class="badges alt"><span class="content green">สำเร็จ</span></div>';
-                    break;
-                case 2:
-                    $status_text = '<div class="badges alt"><span class="content orange">รอดำเนินการ</span></div>';
-                    break;
-            }
-            ?>
+<?
+public function busyAllday($date = "", $use_id = "")
+    {
+        // die;
+        if (!empty($date) && !empty($use_id)) {
+            $condition = array();
+            $condition['fide'] = "sec_id, sec_status, sec_time_one, sec_time_two";
+            $condition['where'] = array('use_id' => $use_id, 'sec_date' => $date);
+            $listsec = $this->section->listData($condition);
+            if (count($listsec) != 0) {
+                foreach ($listsec as $key => $value) {
 
-            <li class="list-group-item" style="text-align: right;">
-                <?= $status_text ?>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <p style="margin: 10px 0 0"><strong>วิชา : <?= $value['sub_code'] . ' ' . $value['sub_name']; ?></p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p><strong>ปีการศึกษา : </strong> <?= $value['set_year']; ?> <?= $value['set_term']; ?></p>
-                    </div>
-                    <?PHP if ($project_status == 1) { ?>
-                        <div class="col-sm-12">
-                            <p><strong>วันที่สอบ : <?= DateThai($value['meet_date']); ?> เวลา : </strong> <?= $value['meet_time']; ?> น.</p>
-                        </div>
-                    <?PHP } ?>
-                    <div class="col-sm-12">
-                        <table class="table table-hover">
-                            <tbody>
-                                <? foreach ($listt as $key => $v) { ?>
-                                    <tr>
-                                        <td width="70%" style="text-align: left;">
-                                            <? if ($v['use_id'] == $value['use_id']) { ?>
-                                                <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content red">ที่ปรึกษา</span></div>
-                                            <? } elseif ($v['dmeet_head'] == 1) { ?>
-                                                <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span><span class="content orange">ประธาน</span></div>
-                                            <? } else { ?>
-                                                <div class="badges alt"><span class="tag"><?= $v['use_name']; ?></span></div>
-                                            <? } ?>
-                                        </td>
-                                        <td width="30%" style="padding-right: 0;">
-                                            <? if ($v['dmeet_status'] == 1) { ?>
-                                                <div class="badges alt"><span class="content green">ยอมรับ</span></div>
-                                            <? } elseif ($v['dmeet_status'] == 2) { ?>
-                                                <div class="badges alt"><span class="content orange">รอดำเนินการ</span></div>
-                                            <? } elseif ($v['dmeet_status'] == 0) { ?>
-                                                <div class="badges alt"><span class="content red">ปฏิเสธ</span></div>
-                                            <? } ?>
-                                        </td>
-                                    </tr>
-                                <? } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </li>
-        <? } ?>
-</ul>
+                    // ถ้ามีนัดแล้ว
+                    if ($value['sec_status'] == 2) {
+                        $this->db->select("tb_meet.meet_status, tb_meetdetail.meet_id, tb_meetdetail.dmeet_id, tb_meetdetail.dmeet_status, tb_subject.sub_setless");
+                        $this->db->from('tb_meet');
+                        $this->db->join('tb_meetdetail', 'tb_meetdetail.meet_id = tb_meet.meet_id');
+                        $this->db->join('tb_subject', 'tb_subject.sub_id = tb_meet.sub_id');
+                        $this->db->where('tb_meetdetail.use_id', $use_id);
+                        $this->db->where('meet_date', $date);
+                        $this->db->where("(tb_meet.meet_time=" . $value['sec_time_one'] . "OR tb_meet.meet_time=" . $value['sec_time_two'] . ")", NULL, FALSE);
+                        $query = $this->db->get();
+                        $meetdetail = $query->result_array();
+
+                        // ถ้าเป็นนัดที่กดรับมาแล้ว
+                        if ($meetdetail[0]['meet_status'] == 1) {
+                            // dmeet_status ของตัวเอง = 0
+                            $data = array(
+                                'dmeet_id' => $meetdetail[0]['dmeet_id'],
+                                'dmeet_status' => 0
+                            );
+                            $this->meet->updateDetail($data);
+
+                            // หาจำนวนอาจารย์ขึ้นสอบที่เหลืออยู่
+                            $condition = array();
+                            $condition['fide'] = "dmeet_id";
+                            $condition['where'] = array('meet_id' => $meetdetail[0]['meet_id'], 'dmeet_status' => 1);
+                            $countdetail = $this->meet->listDatadetail($condition);
+
+                            // ถ้าอาจารย์น้อยกว่าจำนวนน้อยที่สุดที่ขึ้นสอบได้
+                            if (count($countdetail) < $meetdetail[0]['sub_setless']) {
+                                foreach ($countdetail as $key => $cdetail) {
+                                    // dmeet_status ของอาจารย์ท่านอื่น = 0
+                                    $data = array(
+                                        'dmeet_id' => $cdetail['dmeet_id'],
+                                        'dmeet_status' => 0
+                                    );
+                                    $this->meet->updateDetail($data);
+                                }
+                                // meet_status = 0 **เท่ากับนัดนั้นยกเลิก
+                                $data = array(
+                                    'meet_id' => $meetdetail[0]['meet_id'],
+                                    'meet_status' => 0
+                                );
+                                $this->meet->updateData2($data);
+
+                                // ส่งเมล
+                                $this->sentmail($meetdetail[0]['meet_id'], $use_id);
+                            }
+                        }
+                        // ถ้าเป็นนัดที่ยังไม่รับ
+                        elseif ($meetdetail[0]['meet_status'] == 2) {
+                            // หาจำนวนอาจารย์ขึ้นสอบที่เหลือ
+                            $condition = array();
+                            $condition['fide'] = "dmeet_id";
+                            $condition['where'] = array('meet_id' => $meetdetail[0]['meet_id']);
+                            $countdetail = $this->meet->listDatadetail($condition);
+                            foreach ($countdetail as $key => $cdetail) {
+                                // dmeet_status ของอาจารย์ท่านอื่น = 0
+                                $data = array(
+                                    'dmeet_id' => $cdetail['dmeet_id'],
+                                    'dmeet_status' => 0
+                                );
+                                $this->meet->updateDetail($data);
+                                // meet_status = 0 **เท่ากับนัดนั้นยกเลิก
+                                $data = array(
+                                    'meet_id' => $meetdetail[0]['meet_id'],
+                                    'meet_status' => 0
+                                );
+                                $this->meet->updateData2($data);
+                            }
+                            // ส่งเมล
+                            $this->sentmail($meetdetail[0]['meet_id'], $use_id);
+                        }
+                    }
+                    // อัพเดคเวลา
+                    $data = array(
+                        'sec_id'            => $value['sec_id'],
+                        'sec_status'        => 0,
+                    );
+                    $this->section->updateData($data);
+                }
+                header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
+            } else {
+                show_404();
+            }
+        } else {
+            show_404();
+        }
+    }
+    ?>

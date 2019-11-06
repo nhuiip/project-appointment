@@ -321,13 +321,6 @@ class Section extends CI_Controller
             $listsec = $this->section->listData($condition);
             if (count($listsec) != 0) {
                 foreach ($listsec as $key => $value) {
-                    
-                    // อัพเดคเวลา
-                    $data = array(
-                        'sec_id'            => $value['sec_id'],
-                        'sec_status'        => 0,
-                    );
-                    $this->section->updateData($data);
 
                     // ถ้ามีนัดแล้ว
                     if ($value['sec_status'] == 2) {
@@ -358,10 +351,10 @@ class Section extends CI_Controller
 
                             // ถ้าอาจารย์น้อยกว่าจำนวนน้อยที่สุดที่ขึ้นสอบได้
                             if (count($countdetail) < $meetdetail[0]['sub_setless']) {
-                                foreach ($countdetail as $key => $value) {
+                                foreach ($countdetail as $key => $cdetail) {
                                     // dmeet_status ของอาจารย์ท่านอื่น = 0
                                     $data = array(
-                                        'dmeet_id' => $value['dmeet_id'],
+                                        'dmeet_id' => $cdetail['dmeet_id'],
                                         'dmeet_status' => 0
                                     );
                                     $this->meet->updateDetail($data);
@@ -384,10 +377,10 @@ class Section extends CI_Controller
                             $condition['fide'] = "dmeet_id";
                             $condition['where'] = array('meet_id' => $meetdetail[0]['meet_id']);
                             $countdetail = $this->meet->listDatadetail($condition);
-                            foreach ($countdetail as $key => $value) {
+                            foreach ($countdetail as $key => $cdetail) {
                                 // dmeet_status ของอาจารย์ท่านอื่น = 0
                                 $data = array(
-                                    'dmeet_id' => $value['dmeet_id'],
+                                    'dmeet_id' => $cdetail['dmeet_id'],
                                     'dmeet_status' => 0
                                 );
                                 $this->meet->updateDetail($data);
@@ -402,6 +395,12 @@ class Section extends CI_Controller
                             $this->sentmail($meetdetail[0]['meet_id'], $use_id);
                         }
                     }
+                    // อัพเดคเวลา
+                    $data = array(
+                        'sec_id'            => $value['sec_id'],
+                        'sec_status'        => 0,
+                    );
+                    $this->section->updateData($data);
                 }
                 header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
             } else {
