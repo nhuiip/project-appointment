@@ -436,9 +436,9 @@ class Amcalendar extends MX_Controller
         if (count($selectuser) != 0) {
 
             $data = array(
-                'project_id'      => $project_id,
                 'project_name'    => $project_name,
                 'meet_time'       => $meet_time,
+                'use_name'        => $selectuser[0]['use_name'],
                 'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
             );
             require_once APPPATH . 'third_party/class.phpmailer.php';
@@ -464,7 +464,7 @@ class Amcalendar extends MX_Controller
             $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-            $message = $this->messagetea_verify($data);
+            $message = $this->bodymail_use($data);
 
             $mail->MsgHTML($message);
             $mail->send();
@@ -482,11 +482,10 @@ class Amcalendar extends MX_Controller
         if (count($selectstd) != 0) {
 
             $data = array(
-                'project_id'      => $project_id,
                 'project_name'    => $project_name,
                 'meet_time'       => $meet_time,
-                'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
                 'use_name'        => $selectuser[0]['use_name'],
+                'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
             );
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
@@ -512,7 +511,7 @@ class Amcalendar extends MX_Controller
             $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-            $message = $this->messagestd_verify($data);
+            $message = $this->bodymail_std($data);
 
             $mail->MsgHTML($message);
             $mail->send();
@@ -530,19 +529,20 @@ class Amcalendar extends MX_Controller
         header("location:" . site_url('amcalendar/request/2'));
     }
 
-    public function messagetea_verify($data)
+    //form mail อาจารย์
+    public function bodymail_use($data)
     {
         $html = file_get_contents("assets/template_email/teac-meetcancel-email.html");
         $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
-        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
+        $html = str_replace('[DATA-USERNAME]', $data['use_name'], $html);
         $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
         return $html;
     }
 
-    public function messagestd_verify($data)
+    //form mail นักศึกษา
+    public function bodymail_std($data)
     {
-
         $html = file_get_contents("assets/template_email/std-meetcancel-email.html");
         $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
         $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
@@ -696,9 +696,9 @@ class Amcalendar extends MX_Controller
             if (count($selectmeetuser) != 0) {
 
                 $data = array(
-                    'project_id'      => $selectmeetuser[0]['project_id'],
                     'project_name'    => $selectmeetuser[0]['project_name'],
                     'meet_time'       => $meet_time,
+                    'use_name'        => $selectmeetuser[0]['use_name'],
                     'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
                 );
                 require_once APPPATH . 'third_party/class.phpmailer.php';
@@ -724,7 +724,7 @@ class Amcalendar extends MX_Controller
                 // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
                 $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                $message = $this->messagetearecencel_verify($data);
+                $message = $this->bodymail_use($data);
 
                 $mail->MsgHTML($message);
                 $mail->send();
@@ -743,6 +743,7 @@ class Amcalendar extends MX_Controller
                 $data = array(
                     'project_name'    => $selectmeetuser[0]['project_name'],
                     'meet_time'       => $meet_time,
+                    'use_name'        => $selectmeetuser[0]['use_name'],
                     'strDay'          => $strDay . '&nbsp;' . $strMonthThai . '&nbsp;' . $strYear,
                 );
 
@@ -769,7 +770,7 @@ class Amcalendar extends MX_Controller
                 // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
                 $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-                $message = $this->messagestdrecencel_verify($data);
+                $message = $this->bodymail_std($data);
 
                 $mail->MsgHTML($message);
                 $mail->send();
@@ -790,23 +791,4 @@ class Amcalendar extends MX_Controller
 
     }
 
-    public function messagetearecencel_verify($data)
-    {
-
-        $html = file_get_contents("assets/template_email/teac-meetrecancel-email.html");
-        $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
-        $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
-        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
-        return $html;
-    }
-
-    public function messagestdrecencel_verify($data)
-    {
-
-        $html = file_get_contents("assets/template_email/std-meetrecancel-email.html");
-        $html = str_replace('[DATA-PROJECTNAME] ', $data['project_name'], $html);
-        $html = str_replace('[DATA-TIME]', $data['meet_time'], $html);
-        $html = str_replace('[DATA-DATE]', $data['strDay'], $html);
-        return $html;
-    }
 }
