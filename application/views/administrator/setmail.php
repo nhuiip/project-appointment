@@ -11,7 +11,7 @@
     </div>
 </div>
 <!-- End breadcrumb for page -->
-<div class="row wrapper white-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
