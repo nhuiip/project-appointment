@@ -46,15 +46,17 @@ class Section extends CI_Controller
             $time = array('9.00', '10.00', '11.00');
             foreach ($time as $key => $value) {
                 $condition = array();
-                $condition['fide'] = "sec_id";
+                $condition['fide'] = "sec_id, sec_status";
                 $condition['where'] = array('use_id' => $use_id, 'sec_date' => $date, 'sec_time_one' => $value);
                 $listsec = $this->section->listData($condition);
                 if (count($listsec) != 0) {
-                    $data = array(
-                        'sec_id'            => $listsec[0]['sec_id'],
-                        'sec_status'        => 1,
-                    );
-                    $this->section->updateData($data);
+                    if ($listsec[0]['sec_status'] != 2) {
+                        $data = array(
+                            'sec_id'            => $listsec[0]['sec_id'],
+                            'sec_status'        => 1,
+                        );
+                        $this->section->updateData($data);
+                    }
                 }
             }
             header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
@@ -167,15 +169,17 @@ class Section extends CI_Controller
             $time = array('13.00', '14.00', '15.00');
             foreach ($time as $key => $value) {
                 $condition = array();
-                $condition['fide'] = "sec_id";
+                $condition['fide'] = "sec_id, sec_status";
                 $condition['where'] = array('use_id' => $use_id, 'sec_date' => $date, 'sec_time_one' => $value);
                 $listsec = $this->section->listData($condition);
                 if (count($listsec) != 0) {
-                    $data = array(
-                        'sec_id'            => $listsec[0]['sec_id'],
-                        'sec_status'        => 1,
-                    );
-                    $this->section->updateData($data);
+                    if ($listsec[0]['sec_status'] != 2) {
+                        $data = array(
+                            'sec_id'            => $listsec[0]['sec_id'],
+                            'sec_status'        => 1,
+                        );
+                        $this->section->updateData($data);
+                    }
                 }
             }
             header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
@@ -193,6 +197,7 @@ class Section extends CI_Controller
                 $condition['fide'] = "sec_id, sec_status, sec_time_one, sec_time_two";
                 $condition['where'] = array('use_id' => $use_id, 'sec_date' => $date, 'sec_time_one' => $value);
                 $listsec = $this->section->listData($condition);
+
                 if (count($listsec) != 0) {
                     // ถ้ามีนัดแล้ว
                     if ($listsec[0]['sec_status'] == 2) {
@@ -286,16 +291,18 @@ class Section extends CI_Controller
     {
         if (!empty($date) && !empty($use_id)) {
             $condition = array();
-            $condition['fide'] = "sec_id";
+            $condition['fide'] = "sec_id, sec_status";
             $condition['where'] = array('use_id' => $use_id, 'sec_date' => $date);
             $listsec = $this->section->listData($condition);
             if (count($listsec)) {
                 foreach ($listsec as $key => $value) {
-                    $data = array(
-                        'sec_id'            => $value['sec_id'],
-                        'sec_status'        => 1,
-                    );
-                    $this->section->updateData($data);
+                    if ($value['sec_status'] != 2) {
+                        $data = array(
+                            'sec_id'            => $value['sec_id'],
+                            'sec_status'        => 1,
+                        );
+                        $this->section->updateData($data);
+                    }
                 }
             }
             header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
@@ -313,10 +320,6 @@ class Section extends CI_Controller
             $condition['where'] = array('use_id' => $use_id, 'sec_date' => $date);
             $listsec = $this->section->listData($condition);
             if (count($listsec) != 0) {
-                // echo '<pre>';
-                // print_r($listsec);
-                // echo '</pre>';
-                // die;
                 foreach ($listsec as $key => $value) {
                     // ถ้ามีนัดแล้ว
                     if ($value['sec_status'] == 2) {
@@ -366,7 +369,11 @@ class Section extends CI_Controller
                                 $this->sentmail($meetdetail[0]['meet_id'], $use_id);
                             }
                             // ถ้าเป็นนัดที่กำลังดำเนินการ
-                        } elseif ($meetdetail[0]['meet_status'] == 2) {
+
+
+                        }
+                        // ถ้าเป็นนัดที่ยังไม่รับ
+                        elseif ($meetdetail[0]['meet_status'] == 2) {
                             // หาจำนวนอาจารย์ขึ้นสอบที่เหลือ
                             $condition = array();
                             $condition['fide'] = "dmeet_id";
@@ -390,16 +397,18 @@ class Section extends CI_Controller
                             $this->sentmail($meetdetail[0]['meet_id'], $use_id);
                         }
                     }
+
+                    // อัพเดคเวลา
                     $data = array(
                         'sec_id'            => $value['sec_id'],
                         'sec_status'        => 0,
                     );
                     $this->section->updateData($data);
                 }
+                header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
             } else {
                 show_404();
             }
-            header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
         } else {
             show_404();
         }
