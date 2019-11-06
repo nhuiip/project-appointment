@@ -321,6 +321,14 @@ class Section extends CI_Controller
             $listsec = $this->section->listData($condition);
             if (count($listsec) != 0) {
                 foreach ($listsec as $key => $value) {
+                    
+                    // อัพเดคเวลา
+                    $data = array(
+                        'sec_id'            => $value['sec_id'],
+                        'sec_status'        => 0,
+                    );
+                    $this->section->updateData($data);
+
                     // ถ้ามีนัดแล้ว
                     if ($value['sec_status'] == 2) {
                         $this->db->select("tb_meet.meet_status, tb_meetdetail.meet_id, tb_meetdetail.dmeet_id, tb_meetdetail.dmeet_status, tb_subject.sub_setless");
@@ -368,9 +376,6 @@ class Section extends CI_Controller
                                 // ส่งเมล
                                 $this->sentmail($meetdetail[0]['meet_id'], $use_id);
                             }
-                            // ถ้าเป็นนัดที่กำลังดำเนินการ
-
-
                         }
                         // ถ้าเป็นนัดที่ยังไม่รับ
                         elseif ($meetdetail[0]['meet_status'] == 2) {
@@ -397,13 +402,6 @@ class Section extends CI_Controller
                             $this->sentmail($meetdetail[0]['meet_id'], $use_id);
                         }
                     }
-
-                    // อัพเดคเวลา
-                    $data = array(
-                        'sec_id'            => $value['sec_id'],
-                        'sec_status'        => 0,
-                    );
-                    $this->section->updateData($data);
                 }
                 header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
             } else {

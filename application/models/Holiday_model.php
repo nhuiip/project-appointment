@@ -20,5 +20,7 @@ class Holiday_model extends CI_Model {
 		$this->db->update("tb_holiday",$data);
 		return $data['hol_id'];
 	}
-    
+    public function deleteData($data = array()){
+		$this->db->delete('tb_holiday', array('hol_id' => $data['hol_id']));
+	}
 }

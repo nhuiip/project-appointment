@@ -63,6 +63,15 @@ class Holiday extends CI_Controller
         }
     }
 
+    public function delete($set_id, $id = '')
+    {
+        $data = array(
+            'hol_id'            => $id,
+        );
+        $this->holiday->deleteData($data);
+        header("location:" . site_url('setting/form/'.$set_id));
+    }
+
     public function checkdate()
     {
         $set_id = $this->input->post('set_id');

@@ -59,7 +59,7 @@ if (isset($listdata) && count($listdata) != 0) {
 											<button class="btn btn-warning fa fa-edit updateHol" type="button" data-holid="<?= $value['hol_id'] ?>" data-holname="<?= $value['hol_name'] ?>" data-holdate="<?= $value['hol_date'] ?>" data-toggle="modal" data-target="#updateHol">&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</button>
 										</td>
 										<td width="5%">
-											<button class="btn btn-danger fa fa-trash btn-alert" type="button" data-url="<?= site_url('setting/deleteHol/' . $value['set_id'] . '/' . $value['hol_id']); ?>" data-text="ต้องการลบข้อมูล?">&nbsp;&nbsp;&nbsp;ลบข้อมูล</button>
+											<button class="btn btn-danger fa fa-trash btn-alert" type="button" data-url="<?= site_url('holiday/delete/' . $value['set_id'] . '/' . $value['hol_id']); ?>" data-text="ต้องการลบข้อมูล?">&nbsp;&nbsp;&nbsp;ลบข้อมูล</button>
 										</td>
 									</tr>
 								<?PHP } ?>

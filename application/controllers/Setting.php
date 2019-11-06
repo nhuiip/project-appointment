@@ -61,7 +61,7 @@ class Setting extends CI_Controller
                 }
             }
             $data['formcrf'] = $this->tokens->token('formcrf');
-            $this->template->backend('setting/form', $data);
+            $this->template->backend('setting/holiday', $data);
         } else {
             $this->load->view('errors/html/error_403');
         }
