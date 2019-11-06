@@ -20,11 +20,7 @@ function DateThai($strDate)
 </div>
 <!-- End breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
-    <? if ($this->encryption->decrypt($this->input->cookie('sysp')) == 'ผู้ดูแลระบบ') { ?>
-        <div class="col-lg-8">
-    <?PHP } else{ ?>
-        <div class="col-lg-8"></div>
-    <?PHP } ?>
+    <div class="col-lg-8">
         <h2>สถิติการขึ้นสอบ</h2>
         <canvas id="canvas" height="150" data-url="<?= site_url('dashboard/countmeet'); ?>"></canvas>
     </div>
