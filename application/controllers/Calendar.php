@@ -102,14 +102,37 @@ class Calendar extends MX_Controller
                 $project_id  = $projectperson[0]['project_id'];
 
                 $condition = array();
-                $condition['fide'] = "tb_meet.project_id";
+                $condition['fide'] = "tb_meet.project_id, project_status";
                 $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status !=' => 0, 'tb_settings.set_status' => 2);
                 $projectrequest = $this->meet->listjoinData($condition);
 
-                if (count($projectrequest) == "") {
-                    $data['chkprojectrequest'] = 0;
-                } else {
-                    $data['chkprojectrequest'] = 1;
+                // เช็คการทำนัดใหม่ต้องมีนัดที่มีสถานะสำเร็จก่อนถึงจะทำนัดใหม่ได้
+                $condition = array();
+                $condition['fide'] = "tb_meet.project_id, project_status";
+                $condition['where'] = array('tb_meet.project_id' => $project_id, 'tb_meet.meet_status' => 1, 'tb_settings.set_status' => 2);
+                $projectagain = $this->meet->listjoinData($condition);
+
+                // สถานะโปรเจค
+                $none = array(1, 2, 3, 5, 6, 7);
+                $meetagain = array(4, 8);
+                // สอบไม่ตกสามารถทำนัดได้แค่ 1 ครั้งต่อ 1 เซต
+                if (in_array($projectrequest[0]['project_status'], $none)) {
+                    if (count($projectrequest) == 0) {
+                        // ทำนัดได้
+                        $data['chkprojectrequest'] = 0;
+                    } else {
+                        // มีนัดอยู่แล้ว
+                        $data['chkprojectrequest'] = 1;
+                    }
+                    // สอบตกสามารถนัดใหม่ในเซตนั้นได้
+                } elseif (in_array($projectrequest[0]['project_status'], $meetagain)) {
+                    if (count($projectagain) != 0) {
+                        // ทำนัดได้
+                        $data['chkprojectrequest'] = 0;
+                    } else {
+                        // มีนัดอยู่แล้ว
+                        $data['chkprojectrequest'] = 1;
+                    }
                 }
 
                 $condition = array();
@@ -318,7 +341,7 @@ class Calendar extends MX_Controller
         $condition['fide'] = "sec_date,sec_time_one,set_id";
         $condition['where'] = array('sec_date' => $date, 'sec_time_one' => $time);
         $listcelectSet = $this->section->listData($condition);
-        if(count($listcelectSet) == 0){
+        if (count($listcelectSet) == 0) {
             $condition = array();
             $condition['fide'] = "sec_date,sec_time_one,set_id";
             $condition['where'] = array('sec_date' => $date, 'sec_time_two' => $time);
@@ -562,7 +585,7 @@ class Calendar extends MX_Controller
 
                 require_once APPPATH . 'third_party/class.phpmailer.php';
                 require_once APPPATH . 'third_party/class.smtp.php';
-                $mail = new PHPMailer;
+                $mail = /*edit*/ new PHPMailer;
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
@@ -576,10 +599,10 @@ class Calendar extends MX_Controller
                 $mail->Password = $listemail[0]['email_password'];
                 $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-                // foreach ($listemailuser as $key => $value) {
-                //     $mail->AddAddress($value);
-                // }
-                $mail->AddAddress('yui.napassorn.s@gmail.com');
+                foreach ($listemailuser as $key => $value) {
+                    $mail->AddAddress($value);
+                }
+                // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
                 $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                 $message = $this->message_verify($data);
@@ -604,7 +627,7 @@ class Calendar extends MX_Controller
 
                 require_once APPPATH . 'third_party/class.phpmailer.php';
                 require_once APPPATH . 'third_party/class.smtp.php';
-                $mail = new PHPMailer;
+                $mail = /*edit*/ new PHPMailer;
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
@@ -618,10 +641,10 @@ class Calendar extends MX_Controller
                 $mail->Password = $listemail[0]['email_password'];
                 $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-                // foreach ($listemailstd as $key => $value) {
-                //     $mail->AddAddress($value);
-                // }
-                $mail->AddAddress('yui.napassorn.s@gmail.com');
+                foreach ($listemailstd as $key => $value) {
+                    $mail->AddAddress($value);
+                }
+                // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
                 $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
                 $message = $this->messagestd_verify($data);

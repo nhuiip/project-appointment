@@ -477,7 +477,7 @@ class Section extends CI_Controller
             //ส่งเมลนัดล้มเหลว อาจารย์
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -492,8 +492,8 @@ class Section extends CI_Controller
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             foreach ($listdata as $key => $value) {
-                // $mail->AddAddress($value['use_email']);
-                $mail->AddAddress('preedarat.jut@gmail.com');
+                $mail->AddAddress($value['use_email']);
+                // $mail->AddAddress('preedarat.jut@gmail.com');
             }
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -506,7 +506,7 @@ class Section extends CI_Controller
 
                 require_once APPPATH . 'third_party/class.phpmailer.php';
                 require_once APPPATH . 'third_party/class.smtp.php';
-                $mail = new PHPMailer;
+                $mail = /*edit*/ new PHPMailer;
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
@@ -521,8 +521,8 @@ class Section extends CI_Controller
                 $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
                 foreach ($liststd as $key => $value) {
-                    // $mail->AddAddress($value['use_email']);
-                    $mail->AddAddress('yui.napassorn.s@gmail.com');
+                    $mail->AddAddress($value['use_email']);
+                    // $mail->AddAddress('yui.napassorn.s@gmail.com');
                 }
 
                 $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";

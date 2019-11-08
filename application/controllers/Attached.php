@@ -11,8 +11,6 @@ class Attached extends MX_Controller
 
 	public function create()
 	{
-		echo $this->input->post('att_filename');
-		die;
 		if ($this->tokens->verify('formcrf')) {
 			$data = array(
 				'att_name' 			=> $this->input->post('att_name'),
@@ -26,7 +24,7 @@ class Attached extends MX_Controller
 			$result = array(
 				'error' => false,
 				'msg' => 'เพิ่มข้อมูลสำเร็จ',
-				'url' => site_url('profile/index/' . $this->input->post('use_id'))
+				'url' => site_url('subject/detail/' . $this->input->post('sub_id'))
 			);
 			echo json_encode($result);
 		}
@@ -34,8 +32,6 @@ class Attached extends MX_Controller
 
 	private function upfileimages($fild_Name)
 	{
-		echo $_POST[$fild_Name];
-		die;
 		if (!empty($_FILES[$fild_Name])) {
 			$new_name = time();
 			$config['upload_path'] = './uploads/attached';
@@ -63,7 +59,7 @@ class Attached extends MX_Controller
 	public function delete($id)
 	{
 		$condition = array();
-        $condition['fide'] = "att_filename";
+        $condition['fide'] = "att_filename, sub_id";
         $condition['where'] = array('att_id' => $id);
 		$listdata = $this->attached->listData($condition);
 	
@@ -72,10 +68,8 @@ class Attached extends MX_Controller
 		$data = array(
 			'att_id'            => $id,
 		);
-		$this->attached->deleteData($data);
-        // @unlink('./uploads/fileproject/Project_' . $project_id . '/' . $file_name);		
-		
-		header("location:" . site_url('profile/index/' . $this->encryption->decrypt($this->input->cookie('sysli'))));
+		$this->attached->deleteData($data);		
+		header("location:" . site_url('subject/detail/' . $listdata[0]['sub_id']));
 	}
 
 	public function phpinfo()

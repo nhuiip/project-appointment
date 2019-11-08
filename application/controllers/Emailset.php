@@ -110,7 +110,7 @@ class Emailset extends MX_Controller
         if (count($listemail) != 0) {
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();

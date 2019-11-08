@@ -1,12 +1,12 @@
 <?php
 function DateThai($strDate)
 {
-	$strYear = date("Y", strtotime($strDate)) + 543;
-	$strMonth = date("n", strtotime($strDate));
-	$strDay = date("j", strtotime($strDate));
-	$strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
-	$strMonthThai = $strMonthCut[$strMonth];
-	return "$strDay $strMonthThai $strYear";
+  $strYear = date("Y", strtotime($strDate)) + 543;
+  $strMonth = date("n", strtotime($strDate));
+  $strDay = date("j", strtotime($strDate));
+  $strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+  $strMonthThai = $strMonthCut[$strMonth];
+  return "$strDay $strMonthThai $strYear";
 }
 ?>
 <!-- Breadcrumb for page -->
@@ -63,7 +63,7 @@ function DateThai($strDate)
             <tbody>
               <?PHP foreach ($listdata as $key => $value) { ?>
                 <tr class="gradeX">
-                  <td width="5%"><strong><?= "A" . str_pad($value['use_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+                  <td width="5%"><strong><?= "A" . str_pad($value['use_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
                   <td width="20%"><?= $value['use_name'] ?><br /><small><?= $value['position_name'] ?></small></td>
                   <td width="20%"><?= $value['use_email'] ?></td>
                   <td width="15%">
@@ -76,8 +76,8 @@ function DateThai($strDate)
                   </td>
                   <td width="10%">
                     <div class="btn-group" style="width:100%">
-                      <button class="btn btn-sm btn-primary " type="button" style="width:70%">จัดการ</button>
-                      <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
+                      <button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
+                      <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
@@ -114,11 +114,11 @@ function DateThai($strDate)
           <!-- */table ----------------------------------------------------------------------------------------------------->
         <? } else { ?>
           <div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
-						<hr>
-						<center>
-							<p>ไม่พบข้อมูล</p>
-						</center>
-					</div>
+            <hr>
+            <center>
+              <p>ไม่พบข้อมูล</p>
+            </center>
+          </div>
         <? } ?>
       </div>
     </div>

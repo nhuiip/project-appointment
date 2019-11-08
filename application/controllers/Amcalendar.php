@@ -219,7 +219,7 @@ class Amcalendar extends MX_Controller
         if (count($selectuser) != 0) {
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -233,8 +233,8 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // $mail->AddAddress($selectuser[0]['use_email']);
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            $mail->AddAddress($selectuser[0]['use_email']);
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
             // $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messageteacsubmit_verify($data, $selectuser[0]['use_name']);
@@ -258,7 +258,7 @@ class Amcalendar extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -272,10 +272,10 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectstd as $key => $value) {
-            //     $mail->AddAddress($value['std_email']);
-            // }
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            foreach ($selectstd as $key => $value) {
+                $mail->AddAddress($value['std_email']);
+            }
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
             // $mail->AddAddress('preedarat.jut@gmail.com');
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->messageteacsubmit_verify($data);
@@ -443,7 +443,7 @@ class Amcalendar extends MX_Controller
             );
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -457,11 +457,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectuser as $key => $value) {
-            //     $mail->AddAddress($value['use_email']);
-            // }
+            foreach ($selectuser as $key => $value) {
+                $mail->AddAddress($value['use_email']);
+            }
 
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->bodymail_use($data);
@@ -490,7 +490,7 @@ class Amcalendar extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -504,11 +504,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectstd as $key => $value) {
-            //     $mail->AddAddress($value['std_email']);
-            // }
+            foreach ($selectstd as $key => $value) {
+                $mail->AddAddress($value['std_email']);
+            }
 
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->bodymail_std($data);
@@ -703,7 +703,7 @@ class Amcalendar extends MX_Controller
                 );
                 require_once APPPATH . 'third_party/class.phpmailer.php';
                 require_once APPPATH . 'third_party/class.smtp.php';
-                $mail = new PHPMailer;
+                $mail = /*edit*/ new PHPMailer;
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
@@ -749,7 +749,7 @@ class Amcalendar extends MX_Controller
 
                 require_once APPPATH . 'third_party/class.phpmailer.php';
                 require_once APPPATH . 'third_party/class.smtp.php';
-                $mail = new PHPMailer;
+                $mail = /*edit*/ new PHPMailer;
 
                 // ## setting SMTP GMAIL
                 $mail->IsSMTP();
@@ -854,7 +854,7 @@ class Amcalendar extends MX_Controller
             );
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -868,11 +868,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectuser as $key => $value) {
-            //     $mail->AddAddress($value['use_email']);
-            // }
+            foreach ($selectuser as $key => $value) {
+                $mail->AddAddress($value['use_email']);
+            }
 
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->bodymail_use($data);
@@ -898,7 +898,7 @@ class Amcalendar extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/ new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -912,11 +912,11 @@ class Amcalendar extends MX_Controller
             $mail->Password = $listemail[0]['email_password'];
             $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
-            // foreach ($selectstd as $key => $value) {
-            //     $mail->AddAddress($value['std_email']);
-            // }
+            foreach ($selectstd as $key => $value) {
+                $mail->AddAddress($value['std_email']);
+            }
 
-            $mail->AddAddress('yui.napassorn.s@gmail.com');
+            // $mail->AddAddress('yui.napassorn.s@gmail.com');
 
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
             $message = $this->bodymail_std($data);

@@ -8,6 +8,7 @@ class Subject extends MX_Controller
         parent::__construct();
         $this->load->model("subject_model", "subject");
         $this->load->model("setting_model", "setting");
+        $this->load->model("attached_model", "attached");
         $this->load->model("administrator_model", "administrator");
     }
 
@@ -48,39 +49,39 @@ class Subject extends MX_Controller
         }
     }
 
-    public function form($id = "")
+    public function detail($id = "")
     {
         $permission = array("ผู้ดูแลระบบ", "หัวหน้าสาขา", "อาจารย์ผู้สอน");
         if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
-            $arrposition = array(2, 3);
-            $condition = array();
-            $condition['fide'] = "*";
-            $condition['where_in']['filde'] = 'position_id';
-            $condition['where_in']['value'] = $arrposition;
-            $data['user'] = $this->administrator->listData($condition);
-
-            $data['formcrf'] = $this->tokens->token('formcrf');
-
-            // edit form
             if (!empty($id)) {
+
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('sub_id' => $id);
-                $data['listdata'] = $this->subject->listData($condition);
+                $condition['where'] = array('tb_subject.sub_id' => $id);
+                $data['listsubject'] = $this->subject->listjoinData($condition);
 
-                // show_404
-                if (count($data['listdata']) == 0) {
+                if (count($data['listsubject']) == 0) {
                     show_404();
-                    // show_404
-                } elseif ($data['listdata'][0]['use_id'] != $this->encryption->decrypt($this->input->cookie('sysli')) || $this->encryption->decrypt($this->input->cookie('sysp')) != 'ผู้ดูแลระบบ') {
-                    $this->load->view('errors/html/error_403');
-                    // show edit form
-                } else {
-                    $this->template->backend('subject/form', $data);
                 }
-                // insert form
+
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('sub_id' => $data['listsubject'][0]['sub_id']);
+                $condition['orderby'] = "att_name ASC ";
+                $data['listatt'] = $this->attached->listData($condition);
+
+                $arrposition = array(2, 3);
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where_in']['filde'] = 'position_id';
+                $condition['where_in']['value'] = $arrposition;
+                $condition['orderby'] = "use_name ASC ";
+                $data['user'] = $this->administrator->listData($condition);
+
+                $data['formcrf'] = $this->tokens->token('formcrf');
+                $this->template->backend('subject/detail', $data);
             } else {
-                $this->template->backend('subject/form', $data);
+                show_404();
             }
         } else {
             $this->load->view('errors/html/error_403');
@@ -131,7 +132,7 @@ class Subject extends MX_Controller
             $result = array(
                 'error' => false,
                 'msg' => 'แก้ไขข้อมูลสำเร็จ',
-                'url' => site_url('subject/index')
+                'url' => site_url('subject/detail/'.$this->input->post('Id'))
             );
             echo json_encode($result);
         }

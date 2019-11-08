@@ -9,22 +9,14 @@ function DateThai($strDate)
 	return "$strDay $strMonthThai $strYear";
 }
 ?>
-<?
-if (isset($listdata) && count($listdata) != 0) {
-	foreach ($listdata as $key => $value) {
-		$set_id           	= $value['set_id'];
-	}
-	$title          = "จัดการวันหยุด";
-}
-?>
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-12">
-		<h2><?= $title; ?></h2>
+		<h2>จัดการวันหยุด</h2>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('dashboard/index'); ?>">หน้าแรก</a></li>
 			<li><a href="<?= site_url('setting/index'); ?>">ตั้งค่าระบบ</a></li>
-			<li class="active"><strong><?= $title; ?></strong></li>
+			<li class="active"><strong>จัดการวันหยุด</strong></li>
 		</ol>
 	</div>
 </div>
@@ -55,30 +47,36 @@ if (isset($listdata) && count($listdata) != 0) {
 								<th>วันหยุด</th>
 								<th>วันที่</th>
 								<th>เพิ่มข้อมูล</th>
+								<th></th>
 								<th>แก้ไขล่าสุด</th>
-								<th></th>
-								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?PHP foreach ($listholiday as $key => $value) { ?>
 								<tr class="gradeX">
-									<td width="5%"><strong><?= "H" . str_pad($value['hol_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+									<td width="5%"><strong><?= "H" . str_pad($value['hol_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
 									<td width="30%"><?= $value['hol_name'] ?></td>
 									<td width="25%"><?= DateThai($value['hol_date']); ?></td>
 									<td width="15%">
 										<?= $value['hol_create_name']; ?><br />
 										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['hol_create_date']); ?> <?= date('h:i A', strtotime($value['hol_create_date'])); ?></small>
 									</td>
+									<td width="10%">
+										<div class="btn-group" style="width:100%">
+											<button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
+											<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
+												<span class="caret"></span>
+												<span class="sr-only">Toggle Dropdown</span>
+											</button>
+											<ul class="dropdown-menu" style="width:100%">
+												<li><a href="#" data-toggle="modal" class="updateHol" data-holid="<?= $value['hol_id'] ?>" data-holname="<?= $value['hol_name'] ?>" data-holdate="<?= $value['hol_date'] ?>" data-toggle="modal" data-target="#updateHol"><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+												<li><a href="#" class="btn-alert" data-url="<?= site_url('holiday/delete/' . $value['set_id'] . '/' . $value['hol_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+											</ul>
+										</div>
+									</td>
 									<td width="15%">
 										<?= $value['hol_lastedit_name']; ?><br />
 										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['hol_lastedit_date']); ?> <?= date('h:i A', strtotime($value['hol_lastedit_date'])); ?></small>
-									</td>
-									<td width="5%">
-										<button class="btn btn-warning fa fa-edit updateHol" type="button" data-holid="<?= $value['hol_id'] ?>" data-holname="<?= $value['hol_name'] ?>" data-holdate="<?= $value['hol_date'] ?>" data-toggle="modal" data-target="#updateHol">&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</button>
-									</td>
-									<td width="5%">
-										<button class="btn btn-danger fa fa-trash btn-alert" type="button" data-url="<?= site_url('holiday/delete/' . $value['set_id'] . '/' . $value['hol_id']); ?>" data-text="ต้องการลบข้อมูล?" data-title="">&nbsp;&nbsp;&nbsp;ลบข้อมูล</button>
 									</td>
 								</tr>
 							<?PHP } ?>
@@ -88,7 +86,6 @@ if (isset($listdata) && count($listdata) != 0) {
 								<th></th>
 								<th class="ftinput">วันหยุด</th>
 								<th class="ftinput">วันที่</th>
-								<th></th>
 								<th></th>
 								<th></th>
 								<th></th>

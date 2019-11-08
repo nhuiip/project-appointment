@@ -42,9 +42,9 @@ if (isset($listsubject) && count($listsubject) != 0) {
     <br>
     <!-- time -->
     <!-- ทำนัดได้ -->
-    <? if ($chkprojectrequest == 0) { ?><div class="col-md-9"><? } ?>
+    <? if ($chkprojectrequest == 0) { ?><div class="col-md-9" style="padding-right: 0;padding-left: 0;"><? } ?>
         <!-- ไม่สามารถทำนัดได้ -->
-        <? if ($chkprojectrequest != 0) { ?><div class="col-md-12"><? } ?>
+        <!-- <? if ($chkprojectrequest != 0) { ?><div class="col-md-12"><? } ?> -->
             <!-- sub_type = 1 -->
             <? if ($sub_type == 1) { ?>
                 <? foreach ($time as $key => $value) { ?>
@@ -205,7 +205,7 @@ if (isset($listsubject) && count($listsubject) != 0) {
                                             <? if ($chkprojectrequest == 0) { ?>
                                                 <? if (count($section_sub) != 0 && count($section_pro) != 0) { ?>
                                                     <div class="m-t text-righ">
-                                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-subid="<?= $sub_id; ?>"  data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
+                                                        <button class="btn btn-xs btn-outline btn-primary btnajax" data-subid="<?= $sub_id; ?>" data-sub="<?= $sub_type; ?>" data-date="<?= $date; ?>" data-time="<?= $value['two']; ?>" data-url="<?= site_url('calendar/jsontimeT'); ?>"> เลือกนัดหมาย <i class="fa fa-long-arrow-right"></i> </button>
                                                     </div>
                                                 <? } else { ?>
                                                     <div class="m-t text-righ">
@@ -252,4 +252,4 @@ if (isset($listsubject) && count($listsubject) != 0) {
                     <br>
                 </div>
             <? } ?>
-        </div>
+            <? if ($chkprojectrequest == 0) { ?></div><? } ?>

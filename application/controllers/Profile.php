@@ -35,35 +35,15 @@ class Profile extends MX_Controller
 
                 $condition = array();
                 $condition['fide'] = "*";
-                $condition['where'] = array('tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1);
-                $data['listsubject'] = $this->subject->listjoinData($condition);
-
-                if(count($data['listsubject']) != 0){
-
-                    $condition = array();
-                    $condition['fide'] = "*";
-                    $condition['where'] = array('tb_subject.use_id' => $id, 'tb_subject.sub_status' => 1);
-                    $data['listsubject'] = $this->subject->listjoinData($condition);
-
-                    $condition = array();
-                    $condition['fide'] = "*";
-                    $condition['where'] = array('sub_id' => $data['listsubject'][0]['sub_id']);
-                    $condition['orderby'] = "att_id ASC ";
-                    $data['listatt'] = $this->attached->listData($condition);
-
-                }
-
-                $condition = array();
-                $condition['fide'] = "*";
                 $condition['where'] = array('set_status' => 2);
                 $listdata = $this->setting->listData($condition);
 
-                if(count($listdata) != 0){
+                if (count($listdata) != 0) {
                     $data['set_id'] = $listdata[0]['set_id'];
-                }else{
+                } else {
                     $data['set_id'] = "";
                 }
-                    
+
                 $condition['fide'] = "*";
                 $condition['where'] = array('set_id' => $data['set_id']);
                 $condition['groupby'] = "sec_date";

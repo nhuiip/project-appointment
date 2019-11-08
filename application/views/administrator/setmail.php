@@ -76,8 +76,8 @@ function DateThai($strDate)
                                             <ul class="dropdown-menu" style="width:100%">
                                                 <li><a href="#" data-toggle="modal" data-target="#Update" class="update" data-email_id="<?= $value['email_id']; ?>" data-email_user="<?= $value['email_user']; ?>" data-email_password="<?= $value['email_password']; ?>"><i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
                                                 <li><a href="#" data-toggle="modal" data-target="#Testmail" class="testmail" data-email_id="<?= $value['email_id']; ?>"><i class="fa fa-envelope"></i>&nbsp;&nbsp;&nbsp;ทดสอบส่ง Email</a></li>
-                                                <li><a href="#" class="btn-alert" data-url="<?= site_url('emailset/setmail/' . $value['email_id']); ?>" data-title="" data-text="ต้องการเปลี่ยนอีเมล?"><i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนอีเมล</a></li>
-                                                <li><a href="#" class="btn-alert" data-url="<?= site_url('emailset/delete/' . $value['email_id']); ?>" data-title="" data-text="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                                                <li><a href="#" class="btn-alert" data-url="<?= site_url('emailset/setmail/' . $value['email_id']); ?>" data-title="ต้องการเปลี่ยนอีเมล?"><i class="fa fa-refresh"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนอีเมล</a></li>
+                                                <li><a href="#" class="btn-alert" data-url="<?= site_url('emailset/delete/' . $value['email_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
                                             </ul>
                                         </div>
                                     </td>

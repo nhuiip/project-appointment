@@ -146,6 +146,7 @@ class Student extends MX_Controller
         return $html;
     }
 
+    // เมลสมัคร
     public function sentmailreg($id = "")
     {
         // setting email
@@ -174,7 +175,7 @@ class Student extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail /*edit*/= new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -212,6 +213,7 @@ class Student extends MX_Controller
         return $html;
     }
 
+    // เมลรีรหัสผ่าน
     public function repassword()
     {
 
@@ -276,7 +278,7 @@ class Student extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail /*edit*/= new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -412,24 +414,6 @@ class Student extends MX_Controller
                     $this->student->updateStd($data);
 
                     $this->sentmailremail($this->input->post('Idmail'));
-
-                    // if (!empty($this->input->post('Idmail'))) {
-                    //     $result = array(
-                    //         'error' => false,
-                    //         'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้วเรียบร้อยแล้ว',
-                    //         'url' => site_url('student/index')
-                    //     );
-                    //     echo json_encode($result);
-                        
-                    // } else {
-                    //     $result = array(
-                    //         'error' => false,
-                    //         'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้วเรียบร้อยแล้ว',
-                    //         'url' => site_url('student/index')
-                    //     );
-                    //     echo json_encode($result);
-                    // }
-                    // die;
                 } else {
                     $result = array(
                         'error' => true,
@@ -474,7 +458,7 @@ class Student extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail /*edit*/= new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -492,12 +476,6 @@ class Student extends MX_Controller
             $message = $this->message_verify($data);
             $mail->MsgHTML($message);
             $mail->send();
-            // $result = array(
-            //     'error' => false,
-            //     'msg' => 'ลงทะเบียนสำเร็จ',
-            //     'url' => site_url('student/succeedreg')
-            // );
-            // echo json_encode($result);
 
             $result = array(
                 'error' => false,
@@ -511,6 +489,7 @@ class Student extends MX_Controller
         }
     }
 
+    // 
     public function sentmailremail2($id = "")
     {
         // setting email
@@ -539,7 +518,7 @@ class Student extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -557,13 +536,6 @@ class Student extends MX_Controller
             $message = $this->message_verify($data);
             $mail->MsgHTML($message);
             $mail->send();
-
-            // $result = array(
-            //     'error' => false,
-            //     'msg' => 'เปลี่ยนที่อยู่อีเมล์แล้วเรียบร้อยแล้ว',
-            //     'url' => site_url('student/index')
-            // );
-            // echo json_encode($result);
           
             header("location:" . site_url('student/index'));
 
@@ -741,6 +713,8 @@ class Student extends MX_Controller
             }
         }
     }
+
+    // เปลี่ยนเมลนักศึกษา
     public function sentmailchange($id = "")
     {
         if (!empty($id)) {
@@ -768,7 +742,7 @@ class Student extends MX_Controller
 
             require_once APPPATH . 'third_party/class.phpmailer.php';
             require_once APPPATH . 'third_party/class.smtp.php';
-            $mail = new PHPMailer;
+            $mail = /*edit*/new PHPMailer;
 
             // ## setting SMTP GMAIL
             $mail->IsSMTP();
@@ -1133,51 +1107,7 @@ class Student extends MX_Controller
     //     // echo '</pre>';
     // }
 
-    public function testmail()
-    {
-        // echo 'testmail';
-        // die;
-        $listemail = array(
-            'preedarat.jut@gmail.com',
-            'preedarat.id@hotmail.com',
-            'preedarat@thevista.co.th',
-            'yui.napassorn.s@gmail.com',
-            'napassorn@thevista.co.th'
-        );
-        require_once APPPATH . 'third_party/class.phpmailer.php';
-        require_once APPPATH . 'third_party/class.smtp.php';
-        $mail = new PHPMailer;
-
-        // ## setting SMTP GMAIL
-        $mail->IsSMTP();
-        $mail->CharSet = 'UTF-8';
-        $mail->Mailer = "smtp";
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "tls";
-        $mail->Host = "smtp.gmail.com";
-        $mail->Port = 587;
-        $mail->Username = $listemail[0]['email_user'];
-        $mail->Password = $listemail[0]['email_password'];
-        $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
-
-        foreach ($listemail as $key => $value) {
-            $mail->AddAddress($value);
-        }
-        $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
-        $mail->MsgHTML('test muti mail');
-
-        if (!$mail->Send()) {
-            echo 'Message was not sent.';
-            echo 'ยังไม่สามารถส่งเมลล์ได้ในขณะนี้ ' . $mail->ErrorInfo;
-            exit;
-        } else {
-            echo 'ส่งเมลล์สำเร็จ';
-        }
-    }
-
-    public function showdetailproject($project_id = '')
-    { }
-
+    // 
     //================================================= แสดงรายละเอียดวิชา 
     public function stdsubject()
     {
@@ -1225,5 +1155,47 @@ class Student extends MX_Controller
             $this->template->backend('student/subjectdetail', $data);
         }
     }
+
+    // public function testmail()
+    // {
+    //     // echo 'testmail';
+    //     // die;
+    //     $listemail = array(
+    //         'preedarat.jut@gmail.com',
+    //         'preedarat.id@hotmail.com',
+    //         'preedarat@thevista.co.th',
+    //         'yui.napassorn.s@gmail.com',
+    //         'napassorn@thevista.co.th'
+    //     );
+    //     require_once APPPATH . 'third_party/class.phpmailer.php';
+    //     require_once APPPATH . 'third_party/class.smtp.php';
+    //     $mail = /*edit*/ new PHPMailer;
+
+    //     // ## setting SMTP GMAIL
+    //     $mail->IsSMTP();
+    //     $mail->CharSet = 'UTF-8';
+    //     $mail->Mailer = "smtp";
+    //     $mail->SMTPAuth = true;
+    //     $mail->SMTPSecure = "tls";
+    //     $mail->Host = "smtp.gmail.com";
+    //     $mail->Port = 587;
+    //     $mail->Username = $listemail[0]['email_user'];
+    //     $mail->Password = $listemail[0]['email_password'];
+    //     $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
+
+    //     foreach ($listemail as $key => $value) {
+    //         $mail->AddAddress($value);
+    //     }
+    //     $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
+    //     $mail->MsgHTML('test muti mail');
+
+    //     if (!$mail->Send()) {
+    //         echo 'Message was not sent.';
+    //         echo 'ยังไม่สามารถส่งเมลล์ได้ในขณะนี้ ' . $mail->ErrorInfo;
+    //         exit;
+    //     } else {
+    //         echo 'ส่งเมลล์สำเร็จ';
+    //     }
+    // }
 
 }

@@ -66,7 +66,8 @@ $listmeet = $query_meet->result_array();
 	<script src="<?= base_url('assets/js/lib/jquery-2.1.1.js'); ?>"></script>
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/datatables.min.js'); ?>"></script>
 	<script src="<?= base_url('assets/js/lib/plugins/dataTables/Responsive-2.2.2/js/dataTables.responsive.min.js'); ?>"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<script src="<?= base_url('assets/js/lib/Chart.min.js'); ?>"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
 	<?PHP
 	if (!empty($js)) {
 		echo $js;

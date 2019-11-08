@@ -60,7 +60,7 @@ function DateThai($strDate)
             <tbody>
               <?PHP foreach ($listdata as $key => $value) { ?>
                 <tr class="gradeX">
-                  <td width="5%"><strong><?= "A" . str_pad($value['use_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+                  <td width="5%"><strong><?= "A" . str_pad($value['use_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
                   <td width="55%"><?= $value['use_name'] ?><br /><small><?= $value['position_name'] ?></small></td>
                   <td width="15%">
                     <?= $value['use_create_name']; ?><br />
@@ -72,8 +72,8 @@ function DateThai($strDate)
                   </td>
                   <td width="10%">
                     <div class="btn-group" style="width:100%">
-                      <button class="btn btn-sm btn-primary " type="button" style="width:70%">จัดการ</button>
-                      <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
+                      <button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
+                      <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>

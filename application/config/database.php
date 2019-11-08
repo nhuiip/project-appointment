@@ -76,15 +76,15 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	// Host ========================== //
-    //  'hostname' => 'localhost',
-    //  'username' => 'minyota_db',
-    //  'password' => 'NBOdyD7St9',
-    //  'database' => 'minyota_db',
+     'hostname' => 'localhost',
+     'username' => 'pridarat',
+     'password' => 'pridarat2526',
+     'database' => 'dbexamschedule',
 	// Localhost ====================== //
-   'hostname' => '127.0.0.1',
-   'username' => 'root',
-   'password' => '',
-   'database' => 'appointment_db',
+//    'hostname' => '127.0.0.1',
+//    'username' => 'root',
+//    'password' => '',
+//    'database' => 'appointment_db',
 	// End =========================== //
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

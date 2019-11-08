@@ -10,15 +10,28 @@ class Holiday extends CI_Controller
         $this->load->model("setting_model", "setting");
         $this->load->helper('fileexist');
     }
-    public function index()
+    public function index($id = "")
     {
-        $data = array();
-        $condition = array();
-        $condition['fide'] = "*";
-        $condition['orderby'] = "set_id DESC  ";
-        $data['listdata'] = $this->holiday->listData($condition);
+        $permission = array("ผู้ดูแลระบบ");
+        if (in_array($this->encryption->decrypt($this->input->cookie('sysp')), $permission)) {
+            if (!empty($id)) {
+                $data = array();
 
-        $this->template->backend('setting/main', $data);
+                $condition = array();
+                $condition['fide'] = "*";
+                $condition['where'] = array('set_id' => $id);
+                $condition['orderby'] = "hol_date ASC  ";
+                $data['listholiday'] = $this->holiday->listData($condition);
+
+                $data['set_id'] = $id;
+                $data['formcrf'] = $this->tokens->token('formcrf');
+                $this->template->backend('setting/holiday', $data);
+            } else {
+                show_404();
+            }
+        } else {
+            $this->load->view('errors/html/error_403');
+        }
     }
 
     public function create()
@@ -37,7 +50,7 @@ class Holiday extends CI_Controller
             $result = array(
                 'error' => false,
                 'msg' => 'เพิ่มข้อมูลสำเร็จ',
-                'url' => site_url('setting/form/' . $this->input->post('set_id'))
+                'url' => site_url('holiday/index/' . $this->input->post('set_id'))
             );
             echo json_encode($result);
         }
@@ -57,7 +70,7 @@ class Holiday extends CI_Controller
             $result = array(
                 'error' => false,
                 'msg' => 'แก้ไขข้อมูลสำเร็จ',
-                'url' => site_url('setting/form/' . $this->input->post('set_id'))
+                'url' => site_url('holiday/index/' . $this->input->post('set_id'))
             );
             echo json_encode($result);
         }
@@ -69,7 +82,7 @@ class Holiday extends CI_Controller
             'hol_id'            => $id,
         );
         $this->holiday->deleteData($data);
-        header("location:" . site_url('setting/form/'.$set_id));
+        header("location:" . site_url('holiday/index/' . $set_id));
     }
 
     public function checkdate()

@@ -54,7 +54,7 @@ function DateThai($strDate)
 				</div>
 				<!-- table ------------------------------------------------------------------------------------------------------->
 				<? if (count($listdata) != 0) { ?>
-					<table class="table table-hover table-bordered dataTables-export" width="100%" data-filename="setting-data" data-colexport="1,2,3,4,6,7">
+					<table class="table table-hover table-bordered dataTables-export" width="100%" data-filename="setting-data" data-colexport="1,2,3,4,5,7">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -62,8 +62,8 @@ function DateThai($strDate)
 								<th>เทอม</th>
 								<th>เพิ่มข้อมูล</th>
 								<th>แก้ไขล่าสุด</th>
-								<th></th>
 								<th>วันที่เปิดนัด</th>
+								<th></th>
 								<th>
 									<center>สถานะ</center>
 								</th>
@@ -72,7 +72,7 @@ function DateThai($strDate)
 						<tbody>
 							<?PHP foreach ($listdata as $key => $value) { ?>
 								<tr class="gradeX">
-									<td width="10%"><strong><?= "S" . str_pad($value['set_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+									<td width="10%"><strong><?= "S" . str_pad($value['set_id'], 3, "0", STR_PAD_LEFT); ?></strong></td>
 									<td width="10%"><?= $value['set_year'] ?></td>
 									<td width="10%"><?= $value['set_term'] ?></td>
 									<td width="15%">
@@ -83,6 +83,9 @@ function DateThai($strDate)
 										<?= $value['set_lastedit_name']; ?><br />
 										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['set_lastedit_date']); ?> <?= date('h:i A', strtotime($value['set_lastedit_date'])); ?></small>
 									</td>
+									<td width="20%">
+										<i class="fa fa-calendar"></i> <?= DateThai($value['set_open']); ?> - <?= DateThai($value['set_close']); ?>
+									</td>
 									<td width="10%">
 										<div class="btn-group" style="width:100%">
 											<button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
@@ -92,8 +95,8 @@ function DateThai($strDate)
 											</button>
 											<ul class="dropdown-menu" style="width:100%">
 												<? if ($value['set_status'] != 0 && $value['set_status'] != 2) { ?>
-													<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_id']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>" "><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
-													<li><a href="<?= site_url('setting/form/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
+													<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_id']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>"><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+													<li><a href="<?= site_url('holiday/index/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
 												<? } ?>
 												<? if ($value['set_status'] == 1) { ?>
 													<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/opensection/' . $value['set_id']); ?>" data-title="ต้องการเปิดระบบนัดหมาย?"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
@@ -106,9 +109,6 @@ function DateThai($strDate)
 												<? } ?>
 											</ul>
 										</div>
-									</td>
-									<td width="20%">
-										<i class="fa fa-calendar"></i> <?= DateThai($value['set_open']); ?> - <?= DateThai($value['set_close']); ?>
 									</td>
 									<td width="10%">
 										<center>

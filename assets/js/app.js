@@ -1,6 +1,6 @@
 requirejs.config({
-  baseUrl: "http://localhost:9900/assets/js/lib",
-  // baseUrl: 'http://appoint.preedarat-cv.com/assets/js/lib',
+  // baseUrl: "http://localhost:9900/assets/js/lib",
+  baseUrl: 'http://ift.idt.rmutr.ac.th/examschedule/assets/js/lib',
   paths: {
     jquery: "jquery-2.1.1",
     jqueryui: "plugins/jquery-ui/jquery-ui.min",
