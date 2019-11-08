@@ -187,6 +187,7 @@ class Student extends MX_Controller
             $mail->Port = 587;
             $mail->Username = $listemail[0]['email_user'];
             $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -470,6 +471,7 @@ class Student extends MX_Controller
             $mail->Port = 587;
             $mail->Username = $listemail[0]['email_user'];
             $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";
@@ -530,6 +532,7 @@ class Student extends MX_Controller
             $mail->Port = 587;
             $mail->Username = $listemail[0]['email_user'];
             $mail->Password = $listemail[0]['email_password'];
+            $mail->setFrom($listemail[0]['email_user'], 'Appoint-IT');
 
             $mail->AddAddress($data['std_email']);
             $mail->Subject = "มีข้อความติดต่อจาก : Appoint-IT";

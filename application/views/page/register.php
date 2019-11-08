@@ -130,7 +130,16 @@
 </head>
 
 <body class=" sidebar-mini">
-	<div class="loading">Loading&#8230;</div>
+	<!-- loading -->
+	<div class="loading">
+		<div class="loader">
+			<div class="wrapcus">
+				<span class="titlecus">ระบบกำลังดำเนินการ</span>
+				<span class="textcus">กรุณาอย่าปิดหน้าเพจ</span>
+			</div>
+		</div>
+	</div>
+	<!-- loading -->
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute bg-primary ">
 		<div class="container-fluid">
@@ -245,7 +254,7 @@
 									</div>
 							</div>
 							<div class="card-footer ">
-								<button class="btn btn-primary btn-round btn-lg btn-block" type="submit"> ลงทะเบียน </button>
+								<button class="btn btn-primary btn-round btn-lg btn-block" type="submit" id="submit"> ลงทะเบียน </button>
 							</div>
 							</form>
 							<!-- form end ------------------------------------------------------------------------------------------------------------------>
@@ -412,7 +421,7 @@
 						};
 						if (result.error === true) {
 							toastr.warning(result.title, result.msg);
-							console.log(result.msg);
+							$('#submit').prop('disabled', false);
 						} else {
 							$('.loading').show();
 							setTimeout(function() {
