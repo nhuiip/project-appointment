@@ -11,6 +11,7 @@ class Setting extends CI_Controller
         $this->load->model("section_model", "section");
         $this->load->model("administrator_model", "administrator");
         $this->load->model("subject_model", "subject");
+        $this->load->model("meet_model", "meet");
         $this->load->helper('fileexist');
     }
 
@@ -78,17 +79,17 @@ class Setting extends CI_Controller
                 'set_term' => $this->input->post('set_term')
             );
             $checkdata = $this->setting->listData($condition);
-            if(count($checkdata) != 0){
+            if (count($checkdata) != 0) {
                 $result = array(
                     'error' => true,
                     'title' => "",
-                    'msg' => 'มีข้อมูลปีการศึกษา'.$this->input->post('set_year').' '.$this->input->post('set_term').' อยู่แล้ว',
+                    'msg' => 'มีข้อมูลปีการศึกษา' . $this->input->post('set_year') . ' ' . $this->input->post('set_term') . ' อยู่แล้ว',
                 );
                 echo json_encode($result);
                 die;
             }
             //เช็กซ้ำ
-            
+
             if ($this->input->post('set_option_sat') != '') {
                 $set_option_sat = 1;
             } else {
@@ -154,10 +155,17 @@ class Setting extends CI_Controller
             echo json_encode($result);
         }
     }
-
+    public function delete($id = '')
+    {
+        $data = array(
+            'set_id'            => $id,
+        );
+        $this->setting->deleteData($data);
+        header("location:" . site_url('setting/index'));
+    }
     public function opensection($id = '')
     {
-        
+
         if (!empty($id)) {
             $condition = array();
             $condition['fide'] = "*";
@@ -187,7 +195,7 @@ class Setting extends CI_Controller
         $end->setTime(0, 0, 1);
         $interval = new DateInterval('P1D');
         $daterange = new DatePeriod($begin, $interval, $end);
-        
+
         // echo '<pre>';
         // print_r($daterange);
         // echo '</pre>';
@@ -268,10 +276,10 @@ class Setting extends CI_Controller
 
     public function updatesetting($set_id = "")
     {
-        
-        if($set_id == ""){
+
+        if ($set_id == "") {
             show_404();
-        }else{
+        } else {
 
             $data = array(
                 'set_id'            => $set_id,
@@ -280,10 +288,22 @@ class Setting extends CI_Controller
                 'set_lastedit_date' => date('Y-m-d H:i:s'),
             );
             $this->setting->CloseData($data);
+            // หานัดหมายที่ยังดำเนินการ
+            $condition = array();
+            $condition['fide'] = "*";
+            $condition['where'] = array('set_id' => $set_id, 'meet_status' => 2);
+            $listmeet = $this->meet->listData($condition);
+            // ทำให้นัดหมายล้มเหลว
+            if (count($listmeet) != 0) {
+                foreach ($listmeet as $key => $value) {
+                    $data = array(
+                        'meet_id' => $value['meet_id']
+                    );
+                    $this->meet->closeset($data);
+                }
+            }
 
-            header("location:".site_url('setting/index'));
+            header("location:" . site_url('setting/index'));
         }
-
     }
-
 }

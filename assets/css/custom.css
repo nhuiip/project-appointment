@@ -536,7 +536,6 @@ p.no-span:after {
   margin-top: 8px;
 }
 .sweet-alert h2 {
-
   margin: 25px 0 0 !important;
 }
 
@@ -841,4 +840,15 @@ p.no-span:after {
     opacity: 0;
     right: -21px;
   }
+}
+
+/* data table */
+/* div.dataTables_wrapper div.dataTables_info { */
+div.dataTables_wrapper div.dataTables_info {
+  width: 50% !important;
+  float: left !important;
+}
+div.dataTables_wrapper div.dataTables_paginate {
+  width: 50% !important;
+  float: right !important;
 }

@@ -1,3 +1,14 @@
+<?php
+function DateThai($strDate)
+{
+	$strYear = date("Y", strtotime($strDate)) + 543;
+	$strMonth = date("n", strtotime($strDate));
+	$strDay = date("j", strtotime($strDate));
+	$strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+	$strMonthThai = $strMonthCut[$strMonth];
+	return "$strDay $strMonthThai $strYear";
+}
+?>
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-12">
@@ -9,97 +20,102 @@
   </div>
 </div>
 <!-- End breadcrumb for page -->
-<div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <div class="ibox-tools">
-            <? if ($checkinsert == 'no') { ?>
-              <a class="btn btn-outline btn-white btn-bitbucket">
-                <i class="fa fa-times" style="color:#ed5565"></i> &nbsp;&nbsp;ระบบยังไม่เปิดใช้งานไม่สามารถเพิ่มข้อมูลได้
-              </a>
-            <? } ?>
-            <? if ($checkinsert == 'no') { ?>
-              <button type="button" class="btn btn-outline btn-primary" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
-            <? } else { ?>
-              <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#U-insert">
-                <i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล
-              </button>
-            <? } ?>
-          </div>
+<div class="row wrapper white-bg">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-content" style="padding: 15px 0 20px;">
+        <div class="info pull-right">
+          <div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">หากระบบยังไม่เปิดใช้งานจะไม่สามารถเพิ่มข้อมูลได้</span></div>
         </div>
-        <div class="ibox-content">
-          <!-- table ------------------------------------------------------------------------------------------------------->
-          <? if (count($listdata) != 0) { ?>
-            <table class="table table-striped table-hover dataTables" width="100%">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>ชื่อเต็ม</th>
-                  <th>เพิ่มข้อมูล</th>
-                  <th>แก้ไขล่าสุด</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <?PHP foreach ($listdata as $key => $value) { ?>
-                  <tr class="gradeX">
-                    <td width="5%"><strong><?= "A" . str_pad($value['use_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
-                    <td width="55%"><?= $value['use_name'] ?><br /><small><?= $value['position_name'] ?></small></td>
-                    <td width="15%">
-                      <?= $value['use_create_name']; ?><br />
-                      <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['use_create_date'])); ?></small>
-                    </td>
-                    <td width="15%">
-                      <?= $value['use_lastedit_name']; ?><br />
-                      <small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['use_lastedit_date'])); ?></small>
-                    </td>
-                    <td width="10%">
-                      <div class="btn-group" style="width:100%">
-                        <button class="btn btn-sm btn-primary " type="button" style="width:70%">จัดการ</button>
-                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
-                          <span class="caret"></span>
-                          <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" style="width:100%">
-                          <li>
-                            <a href="#" data-use_id="<?= $value['use_id']; ?>" data-use_name="<?= $value['use_name']; ?>" data-toggle="modal" data-target="#U-update" class="update">
-                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล
-                            </a>
-                          </li>
-                          <!-- <li><a href="#" data-use_id="<?= $value['use_id']; ?>" data-toggle="modal" data-target="#U-repass" class="btnrepass"><i class="fa fa-repeat"></i>&nbsp;&nbsp;&nbsp;เปลี่ยนรหัสผ่าน</a></li> -->
-                          <li><a href="#" class="btn-alert" data-url="<?= site_url('extra/delete/' . $value['use_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                <?PHP } ?>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th></th>
-                  <th class="ftinput">ชื่อเต็ม</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </tfoot>
-            </table>
+        <div class="col-md-4 col-md-offset-8" style="padding-left: 0;padding-right: 0;">
+          <!-- ปุ่มเพิ่มข้อมูล -->
+          <? if ($checkinsert == 'no') { ?>
+            <button class="btn btn-outline btn-primary pull-right" disabled><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
           <? } else { ?>
-            <center>
-              <h4>ไม่ข้อมูล</h4>
-            </center>
+            <button class="btn btn-outline btn-primary pull-right" data-toggle="modal" data-target="#insert"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
           <? } ?>
-          <!-- */table ----------------------------------------------------------------------------------------------------->
+          <!-- ถ่้ามีข้อมูล -->
+          <? if (count($listdata) != 0) { ?>
+            <!-- ค้นหา -->
+            <div class="input-group">
+              <input type="text" placeholder="Search" name="search-input" id="search-input" class="form-control">
+              <span class="input-group-btn">
+                <button type="button" id="search-btn" class="btn btn-default">ค้นหา</button>
+              </span>
+            </div>
+          <? } ?>
         </div>
+        <? if (count($listdata) != 0) { ?>
+          <!-- table ------------------------------------------------------------------------------------------------------->
+          <table class="table table-hover table-bordered dataTables-export" width="100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ชื่อเต็ม</th>
+                <th>เพิ่มข้อมูล</th>
+                <th>แก้ไขล่าสุด</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?PHP foreach ($listdata as $key => $value) { ?>
+                <tr class="gradeX">
+                  <td width="5%"><strong><?= "A" . str_pad($value['use_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+                  <td width="55%"><?= $value['use_name'] ?><br /><small><?= $value['position_name'] ?></small></td>
+                  <td width="15%">
+                    <?= $value['use_create_name']; ?><br />
+                    <small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['use_create_date']); ?> <?= date('h:i A', strtotime($value['use_create_date'])); ?></small>
+                  </td>
+                  <td width="15%">
+                    <?= $value['use_lastedit_name']; ?><br />
+                    <small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['use_create_date']); ?> <?= date('h:i A', strtotime($value['use_lastedit_date'])); ?></small>
+                  </td>
+                  <td width="10%">
+                    <div class="btn-group" style="width:100%">
+                      <button class="btn btn-sm btn-primary " type="button" style="width:70%">จัดการ</button>
+                      <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu" style="width:100%">
+                        <li>
+                          <a href="#" data-use_id="<?= $value['use_id']; ?>" data-use_name="<?= $value['use_name']; ?>" data-toggle="modal" data-target="#U-update" class="update">
+                            <i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล
+                          </a>
+                        </li>
+                        <li><a href="#" class="btn-alert" data-url="<?= site_url('extra/delete/' . $value['use_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              <?PHP } ?>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th class="ftinput">ชื่อเต็ม</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tfoot>
+          </table>
+          <!-- */table ----------------------------------------------------------------------------------------------------->
+        <? } else { ?>
+          <div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
+            <hr>
+            <center>
+              <p>ไม่พบข้อมูล</p>
+            </center>
+          </div>
+        <? } ?>
       </div>
     </div>
   </div>
 </div>
 
 <!-- model insert -->
-<div class="modal fade" id="U-insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="insert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -109,7 +125,9 @@
       <div class="modal-body">
         <form action="<?= site_url('extra/create'); ?>" method="post" enctype="multipart/form-data" name="formExtra_C" id="formExtra_C" class="form-horizontal" novalidate>
           <input type="hidden" name="formcrf" id="formcrfinsert" value="<?= $formcrf; ?>">
-          <input type="hidden" name="set_id" id="set_id" value="<? if (isset($set_id)) {echo $set_id;} ?>">
+          <input type="hidden" name="set_id" id="set_id" value="<? if (isset($set_id)) {
+                                                                  echo $set_id;
+                                                                } ?>">
           <div class="alert alert-danger" role="alert">
             วันเเวลารายการนี้จะไม่สามารถแก้ไขภายหลังได้ <br>กรุณาตรวจสอบวันเวลาขึ้นสอบให้ถูกต้องก่อนเพิ่มข้อมูล <strong>**</strong>
           </div>
@@ -130,7 +148,7 @@
               </select>
             </div>
           </div>
-          <?if($checkinsert == 'yes'){ ?>
+          <? if ($checkinsert == 'yes') { ?>
             <div class="form-group row">
               <label class="col-sm-12">วันขึ้นสอบ<span class="text-muted" style="color:#c0392b">*</span></label>
               <div class="col-sm-12">

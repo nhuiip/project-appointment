@@ -95,4 +95,10 @@ class Meet_model extends CI_Model {
 		$this->db->delete('tb_meetdetail', array('meet_id' => $data['meet_id']));
 	}
 
+	// ปิดเซต
+	public function closeset($data = array()){
+		$this->db->set('meet_status',0)->where('meet_id',$data['meet_id'])->update('tb_meet');
+		$this->db->set('dmeet_status',0)->where('meet_id',$data['meet_id'])->update('tb_meetdetail');
+	}
+
 }

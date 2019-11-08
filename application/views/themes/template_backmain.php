@@ -7,7 +7,6 @@ if (!empty($this->encryption->decrypt($this->input->cookie('sysimg'))) && $this-
 } else {
 	$loginimg = 'noimage.png';
 }
-// $this->db->select('tb_meetdetail.use_id');
 $this->db->select('tb_meet.meet_id');
 $this->db->from('tb_meet');
 $this->db->join('tb_settings', 'tb_settings.set_id = tb_meet.set_id');

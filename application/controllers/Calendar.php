@@ -27,8 +27,13 @@ class Calendar extends MX_Controller
             if ($id == "") {
                 show_404();
             } else {
-
                 $data = array();
+
+                $condition = array();
+                $condition['fide'] = "set_id";
+                $condition['where'] = array('set_status' => 2);
+                $data['listcheckset'] = $this->setting->listData($condition);
+
                 $data['formcrf'] = $this->tokens->token('formcrf');
                 $this->template->backend('calendar/main', $data);
             }

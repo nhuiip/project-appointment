@@ -1,3 +1,14 @@
+<?php
+function DateThai($strDate)
+{
+	$strYear = date("Y", strtotime($strDate)) + 543;
+	$strMonth = date("n", strtotime($strDate));
+	$strDay = date("j", strtotime($strDate));
+	$strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+	$strMonthThai = $strMonthCut[$strMonth];
+	return "$strDay $strMonthThai $strYear";
+}
+?>
 <?
 if (isset($listdata) && count($listdata) != 0) {
 	foreach ($listdata as $key => $value) {
@@ -18,66 +29,81 @@ if (isset($listdata) && count($listdata) != 0) {
 	</div>
 </div>
 <!-- End breadcrumb for page -->
-<div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<div class="ibox-tools">
-						<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#createHol"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
-					</div>
+<div class="row wrapper white-bg">
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-content" style="padding: 15px 0 20px;">
+				<div class="col-md-4 col-md-offset-8" style="padding-left: 0;padding-right: 0;">
+					<!-- ปุ่มเพิ่มข้อมูล -->
+					<button type="button" class="btn btn-outline btn-primary pull-right" data-toggle="modal" data-target="#createHol"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
+					<!-- ค้นหา -->
+					<? if (count($listholiday) != 0) { ?>
+						<div class="input-group">
+							<input type="text" placeholder="Search" name="search-input" id="search-input" class="form-control">
+							<span class="input-group-btn">
+								<button type="button" id="search-btn" class="btn btn-default">ค้นหา</button>
+							</span>
+						</div>
+					<? } ?>
 				</div>
-				<div class="ibox-content">
-					<div class="table-responsive">
-						<table class="table table-striped table-hover dataTables" width="100%">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>วันหยุด</th>
-									<th>วันที่</th>
-									<th>เพิ่มข้อมูล</th>
-									<th>แก้ไขล่าสุด</th>
-									<th></th>
-									<th></th>
+				<? if (count($listholiday) != 0) { ?>
+					<!-- table ------------------------------------------------------------------------------------------------------->
+					<table class="table table-hover table-bordered dataTables-export" width="100%">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>วันหยุด</th>
+								<th>วันที่</th>
+								<th>เพิ่มข้อมูล</th>
+								<th>แก้ไขล่าสุด</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?PHP foreach ($listholiday as $key => $value) { ?>
+								<tr class="gradeX">
+									<td width="5%"><strong><?= "H" . str_pad($value['hol_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+									<td width="30%"><?= $value['hol_name'] ?></td>
+									<td width="25%"><?= DateThai($value['hol_date']); ?></td>
+									<td width="15%">
+										<?= $value['hol_create_name']; ?><br />
+										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['hol_create_date']); ?> <?= date('h:i A', strtotime($value['hol_create_date'])); ?></small>
+									</td>
+									<td width="15%">
+										<?= $value['hol_lastedit_name']; ?><br />
+										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['hol_lastedit_date']); ?> <?= date('h:i A', strtotime($value['hol_lastedit_date'])); ?></small>
+									</td>
+									<td width="5%">
+										<button class="btn btn-warning fa fa-edit updateHol" type="button" data-holid="<?= $value['hol_id'] ?>" data-holname="<?= $value['hol_name'] ?>" data-holdate="<?= $value['hol_date'] ?>" data-toggle="modal" data-target="#updateHol">&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</button>
+									</td>
+									<td width="5%">
+										<button class="btn btn-danger fa fa-trash btn-alert" type="button" data-url="<?= site_url('holiday/delete/' . $value['set_id'] . '/' . $value['hol_id']); ?>" data-text="ต้องการลบข้อมูล?" data-title="">&nbsp;&nbsp;&nbsp;ลบข้อมูล</button>
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								<?PHP foreach ($listholiday as $key => $value) { ?>
-									<tr class="gradeX">
-										<td width="5%"><strong><?= "H" . str_pad($value['hol_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
-										<td width="30%"><?= $value['hol_name'] ?></td>
-										<td width="25%"><?= $value['hol_date'] ?></td>
-										<td width="15%">
-											<?= $value['hol_create_name']; ?><br />
-											<small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['hol_create_date'])); ?></small>
-										</td>
-										<td width="15%">
-											<?= $value['hol_lastedit_name']; ?><br />
-											<small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['hol_lastedit_date'])); ?></small>
-										</td>
-										<td width="5%">
-											<button class="btn btn-warning fa fa-edit updateHol" type="button" data-holid="<?= $value['hol_id'] ?>" data-holname="<?= $value['hol_name'] ?>" data-holdate="<?= $value['hol_date'] ?>" data-toggle="modal" data-target="#updateHol">&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</button>
-										</td>
-										<td width="5%">
-											<button class="btn btn-danger fa fa-trash btn-alert" type="button" data-url="<?= site_url('holiday/delete/' . $value['set_id'] . '/' . $value['hol_id']); ?>" data-text="ต้องการลบข้อมูล?">&nbsp;&nbsp;&nbsp;ลบข้อมูล</button>
-										</td>
-									</tr>
-								<?PHP } ?>
-							</tbody>
-							<tfoot>
-								<tr>
-									<th></th>
-									<th class="ftinput">วันหยุด</th>
-									<th class="ftinput">วันที่</th>
-									<th></th>
-									<th></th>
-									<th></th>
-									<th></th>
-								</tr>
-							</tfoot>
-						</table>
+							<?PHP } ?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th class="ftinput">วันหยุด</th>
+								<th class="ftinput">วันที่</th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</tfoot>
+					</table>
+					<!-- table ------------------------------------------------------------------------------------------------------->
+				<? } else { ?>
+					<div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
+						<hr>
+						<center>
+							<p>ไม่พบข้อมูล</p>
+						</center>
 					</div>
-				</div>
+				<? } ?>
 			</div>
 		</div>
 	</div>
@@ -94,7 +120,7 @@ if (isset($listdata) && count($listdata) != 0) {
 			<form action="<?= site_url('holiday/create') ?>" method="post" enctype="multipart/form-data" name="formCHoliday" id="formCHoliday" class="form-horizontal" novalidate>
 				<div class="modal-body">
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-					<input type="hidden" name="set_id" id="set_id" value="<?=$set_id?>">
+					<input type="hidden" name="set_id" id="set_id" value="<?= $set_id ?>">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันหยุด<span class="text-muted" style="color:#c0392b">*</span></label>
 						<div class="col-sm-10">
@@ -139,7 +165,7 @@ if (isset($listdata) && count($listdata) != 0) {
 			<form action="<?= site_url('holiday/update') ?>" method="post" enctype="multipart/form-data" name="formEHoliday" id="formEHoliday" class="form-horizontal" novalidate>
 				<div class="modal-body">
 					<input type="hidden" name="formcrf" id="formcrf" value="<?= $formcrf; ?>">
-					<input type="hidden" name="set_id" id="set_id_up" value="<?=$set_id?>">
+					<input type="hidden" name="set_id" id="set_id_up" value="<?= $set_id ?>">
 					<input type="hidden" name="hol_id" id="hol_id" class="hol_id">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">วันหยุด<span class="text-muted" style="color:#c0392b">*</span></label>

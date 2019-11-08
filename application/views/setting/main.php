@@ -1,3 +1,14 @@
+<?php
+function DateThai($strDate)
+{
+	$strYear = date("Y", strtotime($strDate)) + 543;
+	$strMonth = date("n", strtotime($strDate));
+	$strDay = date("j", strtotime($strDate));
+	$strMonthCut = array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+	$strMonthThai = $strMonthCut[$strMonth];
+	return "$strDay $strMonthThai $strYear";
+}
+?>
 <!-- Breadcrumb for page -->
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-12">
@@ -10,121 +21,131 @@
 </div>
 <!-- End breadcrumb for page -->
 <div class="row wrapper white-bg">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<div class="ibox-tools">
-						<div class="info">
-							<div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">กรุณาปิดระบบการนัดหมายเดิมก่อนเพิ่มข้อมูลกำหนดการนัดหมายใหม่</span></div>
-							<div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">ใน 1 เทอมสามารถเปิดระบบได้ 1 ครั้งเท่านั้น</span></div>
-						</div>
-						<? if ($checkinsert == 'no') { ?>
-							<button type="button" class="btn btn-outline btn-primary" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
-						<? } else { ?>
-							<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" data-target="#insert"><i class="fa fa-plus"></i>&nbsp;&nbsp;เพิ่มข้อมูล</button>
-						<? } ?>
-					</div>
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-content" style="padding: 15px 0 20px;">
+				<div class="info pull-right">
+					<div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">กรุณาปิดระบบการนัดหมายเดิมก่อนเพิ่มข้อมูลกำหนดการนัดหมายใหม่</span></div>
+					<div class="badges alt"><span class="content red"><i class="fa fa-info"></i></i></span><span class="tag">ใน 1 เทอมสามารถเปิดระบบได้ 1 ครั้งเท่านั้น</span></div>
 				</div>
-				<div class="ibox-content">
-					<!-- table ------------------------------------------------------------------------------------------------------->
-					<!-- <div class="table-responsive"> -->
-					<? if (count($listdata) != 0) { ?>
-						<table class="table table-striped table-hover dataTables" width="100%">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>ปีการศึกษา</th>
-									<th>เทอม</th>
-									<th>เพิ่มข้อมูล</th>
-									<th>แก้ไขล่าสุด</th>
-									<th></th>
-									<th>วันที่</th>
-									<th>
-										<center>สถานะ</center>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?PHP foreach ($listdata as $key => $value) { ?>
-									<tr class="gradeX">
-										<td width="5%"><strong><?= "S" . str_pad($value['set_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
-										<td width="15%"><?= $value['set_year'] ?></td>
-										<td width="15%"><?= $value['set_term'] ?></td>
-										<td width="15%">
-											<?= $value['set_create_name']; ?><br />
-											<small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['set_create_date'])); ?></small>
-										</td>
-										<td width="15%">
-											<?= $value['set_lastedit_name']; ?><br />
-											<small class="text-muted"><i class="fa fa-clock-o"></i> <?= date('d/m/Y h:i A', strtotime($value['set_lastedit_date'])); ?></small>
-										</td>
-										<td width="10%">
-											<div class="btn-group" style="width:100%">
-												<button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
-												<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
-													<span class="caret"></span>
-													<span class="sr-only">Toggle Dropdown</span>
-												</button>
-												<ul class="dropdown-menu" style="width:100%">
-													<? if ($value['set_status'] != 0 && $value['set_status'] != 2) { ?>
-														<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_id']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>" "><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
-														<li><a href="<?= site_url('setting/form/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
-													<? } ?>
-													<? if ($value['set_status'] == 1) { ?>
-														<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/opensection/' . $value['set_id']); ?>" data-title="ต้องการเปิดระบบนัดหมาย?"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
-													<? } ?>
-													<? if ($value['set_status'] == 2) { ?>
-														<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/updatesetting/' . $value['set_id']); ?>" data-title="ต้องการปิดระบบนัดหมาย?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดระบบ</a></li>
-													<? } ?>
-													<? if ($value['set_status'] != 2) { ?>
-														<li><a href="#" class="btn-alert" data-url="<?= site_url('setting/delete/' . $value['set_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
-													<? } ?>
-												</ul>
-											</div>
-										</td>
-										<td width="15%">
-											<i class="fa fa-calendar"></i> <?= date('d/m/Y', strtotime($value['set_open'])); ?> - <?= date('d/m/Y', strtotime($value['set_close'])); ?>
-										</td>
-										<td width="10%">
-											<center>
-												<? if ($value['set_status'] == 0) { ?>
-													<div class="badges alt"><span class="content red">ปิดนัดหมาย</span></div>
-													<!-- <span class="badge badge-danger">ปิดนัดหมาย</span> -->
-												<? } elseif ($value['set_status'] == 1) { ?>
-													<div class="badges alt"><span class="content orange">รอเปิดนัดหมาย</span></div>
-													<!-- <span class="badge badge-warning">รอเปิดนัดหมาย</span> -->
-												<? } elseif ($value['set_status'] == 2) { ?>
-													<div class="badges alt"><span class="content green">เปิดนัดหมาย</span></div>
-													<!-- <span class="badge badge-primary">เปิดนัดหมาย</span> -->
-												<? } ?>
-
-											</center>
-										</td>
-									</tr>
-								<?PHP } ?>
-							</tbody>
-							<tfoot>
-								<tr>
-									<th></th>
-									<th class="ftinput">ปีการศึกษา</th>
-									<th class="ftinput">เทอม</th>
-									<th></th>
-									<th></th>
-									<th></th>
-									<th></th>
-									<th></th>
-								</tr>
-							</tfoot>
-						</table>
+				<div class="col-md-4 col-md-offset-7 pull-right" style="padding-left: 0;padding-right: 0;">
+					<!-- ปุ่มเพิ่มข้อมูล -->
+					<? if ($checkinsert == 'no') { ?>
+						<button class="btn btn-outline btn-primary pull-right" disabled><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
 					<? } else { ?>
-						<center>
-							<p >ไม่พบข้อมูล</p>
-						</center>
+						<button class="btn btn-outline btn-primary pull-right" data-toggle="modal" data-target="#insert"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
 					<? } ?>
-					<!-- </div> -->
-					<!-- */table ----------------------------------------------------------------------------------------------------->
+					<!-- ถ่้ามีข้อมูล -->
+					<? if (count($listdata) != 0) { ?>
+						<!-- ค้นหา -->
+						<div class="input-group">
+							<input type="text" placeholder="Search" name="search-input" id="search-input" class="form-control">
+							<span class="input-group-btn">
+								<button type="button" id="search-btn" class="btn btn-default">ค้นหา</button>
+							</span>
+						</div>
+					<? } ?>
 				</div>
+				<!-- ปุ่ม Export -->
+				<div class="col-md-1" style="padding-left: 0;padding-right: 0;">
+					<? if (count($listdata) != 0) { ?>
+						<button class=" btn btn-default btn-block" id="btnexport"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp; Excel</button>
+					<? } ?>
+				</div>
+				<!-- table ------------------------------------------------------------------------------------------------------->
+				<? if (count($listdata) != 0) { ?>
+					<table class="table table-hover table-bordered dataTables-export" width="100%" data-filename="setting-data" data-colexport="1,2,3,4,6,7">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>ปีการศึกษา</th>
+								<th>เทอม</th>
+								<th>เพิ่มข้อมูล</th>
+								<th>แก้ไขล่าสุด</th>
+								<th></th>
+								<th>วันที่เปิดนัด</th>
+								<th>
+									<center>สถานะ</center>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?PHP foreach ($listdata as $key => $value) { ?>
+								<tr class="gradeX">
+									<td width="10%"><strong><?= "S" . str_pad($value['set_id'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+									<td width="10%"><?= $value['set_year'] ?></td>
+									<td width="10%"><?= $value['set_term'] ?></td>
+									<td width="15%">
+										<?= $value['set_create_name']; ?><br />
+										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['set_create_date']); ?> <?= date('h:i A', strtotime($value['set_create_date'])); ?></small>
+									</td>
+									<td width="15%">
+										<?= $value['set_lastedit_name']; ?><br />
+										<small class="text-muted"><i class="fa fa-clock-o"></i> <?= DateThai($value['set_lastedit_date']); ?> <?= date('h:i A', strtotime($value['set_lastedit_date'])); ?></small>
+									</td>
+									<td width="10%">
+										<div class="btn-group" style="width:100%">
+											<button class="btn btn-sm btn-default " type="button" style="width:70%">จัดการ</button>
+											<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:30%;">
+												<span class="caret"></span>
+												<span class="sr-only">Toggle Dropdown</span>
+											</button>
+											<ul class="dropdown-menu" style="width:100%">
+												<? if ($value['set_status'] != 0 && $value['set_status'] != 2) { ?>
+													<li><a href="#" data-toggle="modal" data-target="#U_update" class="update" data-set_id="<?= $value['set_id']; ?>" data-set_year="<?= $value['set_year']; ?>" data-set_term="<?= $value['set_term']; ?>" data-set_open="<?= $value['set_open']; ?>" data-set_close="<?= $value['set_close']; ?>" data-set_option_sat="<?= $value['set_option_sat']; ?>" data-set_option_sun="<?= $value['set_option_sun']; ?>" "><i class=" fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;แก้ไขข้อมูล</a></li>
+													<li><a href="<?= site_url('setting/form/' . $value['set_id']); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;จัดการวันหยุด</a></li>
+												<? } ?>
+												<? if ($value['set_status'] == 1) { ?>
+													<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/opensection/' . $value['set_id']); ?>" data-title="ต้องการเปิดระบบนัดหมาย?"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;เปิดระบบ</a></li>
+												<? } ?>
+												<? if ($value['set_status'] == 2) { ?>
+													<li><a class="btn-alert" href="#" data-url="<?= site_url('setting/updatesetting/' . $value['set_id']); ?>" data-title="ต้องการปิดระบบนัดหมาย?"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;ปิดระบบ</a></li>
+												<? } ?>
+												<? if ($value['set_status'] != 2) { ?>
+													<li><a href="#" class="btn-alert" data-url="<?= site_url('setting/delete/' . $value['set_id']); ?>" data-title="ต้องการลบข้อมูล?"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;ลบข้อมูล</a></li>
+												<? } ?>
+											</ul>
+										</div>
+									</td>
+									<td width="20%">
+										<i class="fa fa-calendar"></i> <?= DateThai($value['set_open']); ?> - <?= DateThai($value['set_close']); ?>
+									</td>
+									<td width="10%">
+										<center>
+											<? if ($value['set_status'] == 0) { ?>
+												<div class="badges alt"><span class="content red">ปิดนัดหมาย</span></div>
+											<? } elseif ($value['set_status'] == 1) { ?>
+												<div class="badges alt"><span class="content orange">รอเปิดนัดหมาย</span></div>
+											<? } elseif ($value['set_status'] == 2) { ?>
+												<div class="badges alt"><span class="content green">เปิดนัดหมาย</span></div>
+											<? } ?>
+										</center>
+									</td>
+								</tr>
+							<?PHP } ?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th class="ftinput">ปีการศึกษา</th>
+								<th class="ftinput">เทอม</th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</tfoot>
+					</table>
+					<!-- */table ----------------------------------------------------------------------------------------------------->
+				<? } else { ?>
+					<div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
+						<hr>
+						<center>
+							<p>ไม่พบข้อมูล</p>
+						</center>
+					</div>
+				<? } ?>
 			</div>
 		</div>
 	</div>
@@ -153,8 +174,8 @@
 						<div class="col-sm-12">
 							<select class="form-control" name="set_term" id="set_term">
 								<option value="">กรุณาเลือกข้อมูล</option>
-								<option value="เทอม 1">เทอม 1</option>
-								<option value="เทอม 2">เทอม 2</option>
+								<option value="เทอม1">เทอม1</option>
+								<option value="เทอม2">เทอม2</option>
 							</select>
 						</div>
 					</div>
@@ -244,8 +265,8 @@
 						<div class="col-sm-12">
 							<select class="form-control set_term" name="set_term" id="set_term">
 								<option value="">กรุณาเลือกข้อมูล</option>
-								<option value="เทอม 1">เทอม 1</option>
-								<option value="เทอม 2">เทอม 2</option>
+								<option value="เทอม1">เทอม1</option>
+								<option value="เทอม2">เทอม2</option>
 							</select>
 						</div>
 					</div>

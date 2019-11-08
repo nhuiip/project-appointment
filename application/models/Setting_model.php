@@ -30,7 +30,10 @@ class Setting_model extends CI_Model
 		$this->db->update("tb_settings", $data);
 		return $data['set_id'];
 	}
-
+	public function deleteData($data = array()){
+		$this->db->delete('tb_settings', array('set_id' => $data['set_id']));
+		$this->db->delete('tb_holiday', array('set_id' => $data['set_id']));
+	}
 	public function CloseData($data = array())
 	{
 		$this->db->where(array('set_id' => $data['set_id']));

@@ -289,11 +289,12 @@ if (isset($listProject) && count($listProject) != 0) {
                     <? if (count($listFile) != 0) { ?>
                         <ul class="list-group">
                             <? foreach ($listFile as $key => $value) {
-                                    $this->db->select('*');
+                                    $this->db->select('use_name, use_email, use_color');
                                     $this->db->from('tb_trace');
                                     $this->db->join('tb_projectfile', 'tb_projectfile.file_id = tb_trace.file_id');
                                     $this->db->join('tb_user', 'tb_user.use_id = tb_trace.use_id');
                                     $this->db->where(array('tb_trace.file_id' => $value['file_id']));
+                                    $this->db->order_by("use_name", "asc");
                                     $query_tag = $this->db->get();
                                     $listtag = $query_tag->result_array();
 
@@ -323,7 +324,7 @@ if (isset($listProject) && count($listProject) != 0) {
                                         <? if (count($listtag) != 0) { ?>
                                             <div class="col-sm-12 tooltip-demo" style="background-color: aliceblue;padding-top: 5px;padding-bottom: 5px;">
                                                 <? foreach ($listtag as $key => $tag) { ?>
-                                                    <span class="label label-success" style="text-transform: uppercase;margin-right:3px" data-toggle="tooltip" data-placement="bottom" title="<?= $tag['use_name']; ?>">
+                                                    <span class="label" style="text-transform: uppercase;margin-right:3px;background-color: <?= $tag['use_color']; ?>;color:#FFF" data-toggle="tooltip" data-placement="bottom" title="<?= $tag['use_name']; ?>">
                                                         <?= substr($tag['use_email'], 0, 1); ?>
                                                     </span>
                                                 <? } ?>

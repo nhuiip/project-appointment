@@ -91,41 +91,95 @@ class Dashboard extends CI_Controller
 	{
 		$condition = array();
 		$condition['fide'] = "project_id";
-		$condition['where'] = array('project_status' => 1);
+		$condition['where'] = array('project_status' => 0);
 		$zero = $this->project->listData($condition);
 
 		$condition = array();
 		$condition['fide'] = "project_id";
-		$condition['where'] = array('project_status' => 2);
+		$condition['where'] = array('project_status' => 1);
 		$one = $this->project->listData($condition);
 
 		$condition = array();
 		$condition['fide'] = "project_id";
-		$condition['where'] = array('project_status' => 3);
+		$condition['where'] = array('project_status' => 2);
 		$two = $this->project->listData($condition);
 
 		$condition = array();
 		$condition['fide'] = "project_id";
-		$condition['where'] = array('project_status' => 4);
+		$condition['where'] = array('project_status' => 3);
 		$tree = $this->project->listData($condition);
 
 		$condition = array();
 		$condition['fide'] = "project_id";
-		$condition['where'] = array('project_status' => 5);
+		$condition['where'] = array('project_status' => 4);
 		$four = $this->project->listData($condition);
 
 		$condition = array();
 		$condition['fide'] = "project_id";
-		$condition['where'] = array('project_status' => 0);
+		$condition['where'] = array('project_status' => 5);
 		$five = $this->project->listData($condition);
 
+		$condition = array();
+		$condition['fide'] = "project_id";
+		$condition['where'] = array('project_status' => 6);
+		$six = $this->project->listData($condition);
+
+		$condition = array();
+		$condition['fide'] = "project_id";
+		$condition['where'] = array('project_status' => 7);
+		$seven = $this->project->listData($condition);
+
+		$condition = array();
+		$condition['fide'] = "project_id";
+		$condition['where'] = array('project_status' => 8);
+		$eight = $this->project->listData($condition);
+
 		$data = array();
-		$data[0] = array(1, count($zero));
-		$data[1] = array(2, count($one));
-		$data[2] = array(3, count($two));
-		$data[3] = array(4, count($tree));
-		$data[4] = array(5, count($four));
-		$data[5] = array(6, count($five));
+		$data[0] = array(
+			'label' => 'ยกเลิกโปรเจค ('.count($zero).')',
+			'backgroundColor' => '#aaa',
+			'data' => [count($zero)],
+		);
+		$data[1] = array(
+			'label' => 'เริ่มต้น ('.count($one).')',			
+			'backgroundColor' => '#bbb',
+			'data' => [count($one)],
+		);
+		$data[2] = array(
+			'label' => 'สอบหัวข้อปริญญานิพนธ์:ผ่าน ('.count($two).')',			
+			'backgroundColor' => '#ccc',
+			'data' => [count($two)],
+		);
+		$data[3] = array(
+			'label' => 'สอบหัวข้อปริญญานิพนธ์:ผ่านแบบมีเงื่อนไข ('.count($tree).')',			
+			'backgroundColor' => '#ddd',
+			'data' => [count($tree)],
+		);
+		$data[4] = array(
+			'label' => 'สอบหัวข้อปริญญานิพนธ์:ตก ('.count($four).')',			
+			'backgroundColor' => '#ddd',
+			'data' => [count($four)],
+		);
+		$data[5] = array(
+			'label' => 'Conference ('.count($five).')',			
+			'backgroundColor' => '#ddd',
+			'data' => [count($five)],
+		);
+		$data[6] = array(
+			'label' => 'สอบป้องกันปริญญานิพนธ์:ผ่าน ('.count($six).')',			
+			'backgroundColor' => '#eee',
+			'data' => [count($six)],
+		);
+		$data[7] = array(
+			'label' => 'สอบป้องกันปริญญานิพนธ์:ผ่านแบบมีเงื่อนไข ('.count($seven).')',			
+			'backgroundColor' => '#eee',
+			'data' => [count($seven)],
+		);
+		$data[8] = array(
+			'label' => 'สอบป้องกันปริญญานิพนธ์:ตก ('.count($eight).')',			
+			'backgroundColor' => '#eee',
+			'data' => [count($eight)],
+		);
 
 		echo json_encode($data);
 	}
@@ -155,16 +209,9 @@ class Dashboard extends CI_Controller
 					'label' => $value['use_name'].' ('.count($listcount).')',
 					'backgroundColor' => $value['use_color'],
 					'data' => [count($listcount)],
-					// 'data' => [rand(50,100)],
 				);
 			}
 		}
-
-		// echo '<pre>';
-		// // print_r($data);
-		// echo json_encode($data);
-		// echo '</pre>';
-
 		echo json_encode($data);
 	}
 }

@@ -326,7 +326,8 @@ $(".btn-checkuserHead").click(function () {
   );
 });
 
-// datatable-export
+//DataTable -----------------------------------------------------------------------------------------------//
+// datatable-export tfoot search
 $(".dataTables-export tfoot th").each(function () {
   var title = $(this).text();
   if ($(this).hasClass("ftinput")) {
@@ -337,7 +338,7 @@ $(".dataTables-export tfoot th").each(function () {
     );
   }
 });
-// DataTable
+// datatable-export
 var exportcol = $(".dataTables-export").attr("data-colexport");
 var filename = $(".dataTables-export").attr("data-filename");
 var table = $(".dataTables-export").DataTable({
@@ -355,15 +356,8 @@ var table = $(".dataTables-export").DataTable({
     infoEmpty: "แสดง 0 ถึง 0 จาก 0 รายการ",
     lengthMenu: "แสดง _MENU_ รายการ"
   },
-  dom: '<"html5buttons"B>lfrtip',
+  dom: 'Brtip',
   buttons: [
-    // {
-    //   extend: "copy",
-    //   title: filename,
-    //   exportOptions: {
-    //     columns: [exportcol]
-    //   }
-    // },
     {
       extend: "excel",
       title: filename,
@@ -382,49 +376,20 @@ table.columns().every(function () {
     }
   });
 });
-
-// datatable-basic
-$(".dataTables tfoot th").each(function () {
-  var titles = $(this).text();
-  if ($(this).hasClass("ftinput")) {
-    $(this).html(
-      '<input type="text" class= "form-control ftsearch" placeholder="ค้นหา ' +
-      titles +
-      '" />'
-    );
-  }
+$(".dt-buttons").hide();
+$(".dataTables_filter").hide();
+// search .dataTables
+$("#search-btn").click(function () {
+  // $('#search-btn').on( 'click', function () {
+  var val = $("#search-input").val();
+  table.search( val ).draw();
 });
-// DataTable
-var tables = $(".dataTables").DataTable({
-  responsive: true,
-  ordering: false,
-  searching: true,
-  language: {
-    sSearch: "ค้นหา",
-    zeroRecords: "ไม่พบข้อมูลที่คุณค้นหา",
-    emptyTable: "ไม่มีข้อมูล",
-    paginate: {
-      next: "ถัดไป",
-      previous: "ย้อนกลับ"
-    },
-    info: "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-    infoEmpty: "แสดง 0 ถึง 0 จาก 0 รายการ",
-    lengthMenu: "แสดง _MENU_ รายการ"
-  },
-  dom: "lfrtip"
+// export excel
+$("#btnexport").click(function () {
+// $('#btnexport').on('click', function () { 
+  table.button( '.buttons-excel' ).trigger();
 });
-
-// Apply the search
-tables.columns().every(function () {
-  var that = this;
-  $("input", this.footer()).on("keyup change", function () {
-    if (that.search() !== this.value) {
-      that.search(this.value).draw();
-    }
-  });
-});
-
-// DataTable end
+// DataTable end --------------------------------------------------------------------------------------------//
 
 $(".btnajax").click(function () {
 
@@ -464,23 +429,6 @@ $(".btnajax").click(function () {
       });
       
     },
-    // error: function(jqXHR, exception) {
-    //   if (jqXHR.status === 0) {
-    //     alert("Not connect.\n Verify Network.");
-    //   } else if (jqXHR.status == 404) {
-    //     alert("Requested page not found. [404]");
-    //   } else if (jqXHR.status == 500) {
-    //     alert("Internal Server Error [500].");
-    //   } else if (exception === "parsererror") {
-    //     alert("Requested JSON parse failed.");
-    //   } else if (exception === "timeout") {
-    //     alert("Time out error.");
-    //   } else if (exception === "abort") {
-    //     alert("Ajax request aborted.");
-    //   } else {
-    //     alert("Uncaught Error.\n" + jqXHR.responseText);
-    //   }
-    // }
   });
 });
 
