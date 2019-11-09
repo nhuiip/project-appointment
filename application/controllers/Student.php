@@ -79,7 +79,12 @@ class Student extends MX_Controller
             die;
         }
 
-        if ($this->tokens->verify('formcrf')) {
+        $condition = array();
+        $condition['fide'] = "std_id";
+        $condition['where'] = array('std_number' => $this->input->post('std_number'));
+        $listemail = $this->student->listData($condition);
+
+        if ($this->tokens->verify('formcrf') && count($listemail) == 0) {
             if ($this->input->post('std_img') != '') {
                 $data = array(
                     'std_img'           => $this->input->post('std_number') . '.png',
